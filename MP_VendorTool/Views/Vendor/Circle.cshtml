@@ -1,0 +1,1859 @@
+﻿@{
+    ViewBag.Title = "Circle";
+}
+@*<h2>@MP_VendorTool.Resource.VendorInfoTT</h2>*@
+<style>
+    .content_vendor {
+        background-image: url('../../image/nen2.jpg');
+        background-color: #f3f3f3; /* Used if the image is unavailable */
+        /*height: 999px;*/ /* You must set a specified height */
+        /*background-position: center;*/ /* Center the image */
+        /*background-repeat: no-repeat;*/ /* Do not repeat the image */
+        background-size: cover;
+    }
+
+    .col-md-3 label {
+        width: 25%;
+    }
+    .nbut {
+        width: 300px;
+        font-weight: initial;
+        margin-top: 20px;
+        height: 45px;
+    }
+
+    .minusbutton {
+        border: none;
+        background: transparent;
+        outline: none;
+        padding: initial;
+    }
+
+    .money {
+        width: 120px;
+        display: inline;
+        font-size: initial;
+        text-align:right;
+    }
+
+    #footer {
+        position: fixed;
+        right: 1rem;
+        bottom: 0px;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        background: rgba(90,92,105,.5);
+        line-height: 46px;
+        display: inline;
+    }
+
+    .italic {
+        font-style: italic;
+    }
+
+    .redtext {
+        color: red;
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 18px;
+    }
+
+    .text_home a {
+        font-size: 18px;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    legend {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 10px;
+        margin-top: 32px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #6f8cb8;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    .label2 {
+        display: block;
+        width: 100%;
+        padding: 0;
+        font-size: 15px;
+        line-height: inherit;
+        color: #555;
+        text-transform: uppercase;
+        color: #6f8cb8;
+        /*text-transform: uppercase;*/
+        border: 0;
+    }
+
+    fieldset {
+        margin-top: 10px;
+    }
+
+    label {
+        font-size: 12px;
+        color: #777575;
+    }
+
+    .from_vender {
+        margin-left: 8px;
+    }
+
+    .from_vender input, .from_vender select {
+        margin-bottom: 8px;
+    }
+
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+    .button_save_1 a {
+        text-align: center;
+        background-color: #868686 !important;
+        border-color: #868686 !important;
+        font-size: 12px;
+        font-weight: bold;
+        padding-top: 8px;
+    }
+
+    #E_Invoice {
+        margin-bottom: 18px !important;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #86868659;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #86868600;
+        border-color: #868686;
+        color: #6f8cb8 !important;
+    }
+
+    .button_action a:hover {
+        background-color: #9e9e9e;
+        color: #f3f3f3 !important;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+    .button_action {
+        margin-top: 44px;
+    }
+
+   .table > thead > tr {
+        background: #c4c4c4;
+    }
+
+   .table > thead > tr > th {
+        color: #636364;
+    }
+    table.tb-inside-6 tr td:hover {
+        background-color: #b1b1b12e !important;
+    }
+    .modal-header {
+        display: none;
+    }
+
+    .modal-footer {
+        border-top: 0px solid #dee2e6 !important;
+        justify-content: center !important;
+        background-color: #285e8d !important;
+    }
+
+    .btn {
+        font-weight: bold;
+        padding: .375rem 3.75rem !important;
+    }
+
+    .modal-body {
+        background-color: #285e8d !important;
+        text-align: center;
+        color: white;
+        border-radius: 20px;
+        padding: 30px 15px;
+    }
+
+    .modal {
+        padding: 0 !important;
+    }
+
+    .modal-dialog {
+        max-width: 60% !important;
+        padding: 20px;
+        margin: 50px 255px;
+    }
+
+    .modal-content {
+        border-radius: 20px !important;
+        height: auto;
+    }
+    .box1 {
+        position:absolute;
+        top:120px;
+        left:635px;
+    }
+    .box2 {
+        position: absolute;
+        top: 120px;
+        left: 800px;
+    }
+    .box3 {
+        position: absolute;
+        top: 261px;
+        left: 878px;
+    }
+    .box4 {
+        position: absolute;
+        top: 402px;
+        left: 800px;
+    }
+    .box5 {
+        position: absolute;
+        top: 402px;
+        left: 635px;
+    }
+</style>
+<div class="wp_vendor">
+    <div class="header_vender" id="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3"><div class="logo"><a href="/Home/Index"><img src="~/image/bibologo.png" /></a></div></div>
+                <div class="col-md-6"><h3 class="header_title" id="header_title">@MP_VendorTool.Resource.VendorInfoTT</h3></div>
+                <div class="col-md-3" style="transform: translate(-6%,20%);"><div class="text_home"><a href="/Home/Index"><i class="fa fa-home" aria-hidden="true"></i> @MP_VendorTool.Resource.textHome_6</a></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="content_vendor">
+        <div class="container" style="min-height:600px;">
+            <div id="step1">
+                <img src="~/image/Circle/Phân luồng.png" width="100%" />
+            </div>
+            <div id="step2" style="min-height:500px;">
+                <div class="row from_vender">
+                    <fieldset style="margin-top:40px;">
+                        <legend>1.Kế hoạch & Ngân sách triển khai các hoạt động thúc đẩy bán hàng</legend>
+                        <label class="label2">CHIẾN DỊCH THÁNG</label>
+
+                        <div class="col-md-12 col-xs-12" style="margin-bottom:15px;">
+
+                            <div class="col-md-3 col-xs-12">
+                                <label>Tháng 1</label>
+                                <button onclick="decrease('txt1',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txt1"></input>
+                                <button onclick="increase('txt1',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <label>Tháng 4</label>
+                                <button onclick="decrease('txt4',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txt4"></input>
+                                <button onclick="increase('txt4',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+
+                            <div class="col-md-3 col-xs-12">
+                                <label>Tháng 7</label>
+                                <button onclick="decrease('txt7',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txt7"></input>
+                                <button onclick="increase('txt7',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <label>Tháng 10</label>
+                                <button onclick="decrease('txt10',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txt10"></input>
+                                <button onclick="increase('txt10',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <label>Tháng 2</label>
+                                <button onclick="decrease('txt2',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txt2"></input>
+                                <button onclick="increase('txt2',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <label>Tháng 5</label>
+                                <button onclick="decrease('txt5',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txt5"></input>
+                                <button onclick="increase('txt5',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+
+                            <div class="col-md-3 col-xs-12">
+                                <label>Tháng 8</label>
+                                <button onclick="decrease('txt8',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txt8"></input>
+                                <button onclick="increase('txt8',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <label>Tháng 11</label>
+                                <button onclick="decrease('txt11',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txt11"></input>
+                                <button onclick="increase('txt11',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <label>Tháng 3</label>
+                                <button onclick="decrease('txt3',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txt3"></input>
+                                <button onclick="increase('txt3',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <label>Tháng 6</label>
+                                <button onclick="decrease('txt6',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txt6"></input>
+                                <button onclick="increase('txt6',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+
+                            <div class="col-md-3 col-xs-12">
+                                <label>Tháng 9</label>
+                                <button onclick="decrease('txt9',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txt9"></input>
+                                <button onclick="increase('txt9',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <label>Tháng 12</label>
+                                <button onclick="decrease('txt12',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txt12"></input>
+                                <button onclick="increase('txt12',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <label class="label2">CHIẾN DỊCH QUÝ</label>
+
+                        <div class="col-md-12 col-xs-12" style="margin-bottom:15px;">
+
+                            <div class="col-md-3 col-xs-12">
+                                <label>Quý 1</label>
+                                <button onclick="decrease('txtq1',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txtq1"></input>
+                                <button onclick="increase('txtq1',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <label>Quý 2</label>
+                                <button onclick="decrease('txtq2',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txtq2"></input>
+                                <button onclick="increase('txtq2',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+
+                            <div class="col-md-3 col-xs-12">
+                                <label>Quý 3</label>
+                                <button onclick="decrease('txtq3',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txtq3"></input>
+                                <button onclick="increase('txtq3',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                                <label>Quý 4</label>
+                                <button onclick="decrease('txtq4',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txtq4"></input>
+                                <button onclick="increase('txtq4',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                        </div>
+                        <hr>
+                        <label class="label2">CHIẾN DỊCH NĂM</label>
+
+                        <div class="col-md-12 col-xs-12" >
+
+                            <div class="col-md-3 col-xs-12">
+                                <label>Năm</label>
+                                <select class="form-control money" id="businessType" style="width: 120px;display: inline;margin-left: 25px;">
+                                    <option value="">2020</option>
+                                    <option value="">2021</option>
+                                    <option value="">2022</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 col-xs-12">
+                            </div>
+
+                            <div class="col-md-3 col-xs-12">
+                                <label>Mức đầu tư</label>
+                                <button onclick="decrease('txtn',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="txtn"></input>
+                                <button onclick="increase('txtn',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+
+
+
+                </div>
+            </div>
+            <div id="step3">
+                <fieldset style="margin-top:20px;">
+                    <legend>2.Kế hoạch & Ngân sách triển khai các hoạt động hợp tác khác </legend>
+                    <label class="label2">2.1.Quảng bá thương hiệu</label>
+                    <div class="col-md-12 col-xs-12">
+
+                        <div class="col-md-4 col-xs-12" style="width:26%">
+                            <label >Tổng ngân sách</label>
+                            <button onclick="decrease('tns0',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="tns0"></input>
+                            <button onclick="increase('tns0',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="businessType" style="width: 70%;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-12">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('mdt01',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="mdt01"></input>
+                            <button onclick="increase('mdt01',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+
+                        <div class="col-md-4 col-xs-12" style="width:26%">
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="businessType" style="width: 70%;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-12">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('mdt02',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="mdt02"></input>
+                            <button onclick="increase('mdt02',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                        <div class="col-md-4 col-xs-12"  style="width:26%">
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="businessType" style="width: 70%;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-12">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('mdt03',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="mdt03"></input>
+                            <button onclick="increase('mdt03',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <label class="label2">2.2.Phát triển khách hàng</label>
+                    <div class="col-md-12 col-xs-12">
+
+                        <div class="col-md-4 col-xs-12" style="width:26%">
+                            <label>Tổng ngân sách</label>
+                            <button onclick="decrease('tns1',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="tns1"></input>
+                            <button onclick="increase('tns1',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="businessType" style="width: 70%;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-12">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('mdt11',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="mdt11"></input>
+                            <button onclick="increase('mdt11',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+
+                        <div class="col-md-4 col-xs-12" style="width:26%">
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="businessType" style="width: 70%;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-12">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('mdt12',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="mdt12"></input>
+                            <button onclick="increase('mdt12',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                        <div class="col-md-4 col-xs-12" style="width:26%">
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="businessType" style="width: 70%;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-12">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('mdt13',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="mdt13"></input>
+                            <button onclick="increase('mdt13',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <label class="label2">2.3.Trách nhiệm xã hội</label>
+                    <div class="col-md-12 col-xs-12">
+
+                        <div class="col-md-4 col-xs-12" style="width:26%">
+                            <label>Tổng ngân sách</label>
+                            <button onclick="decrease('tns2',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="tns2"></input>
+                            <button onclick="increase('tns2',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="businessType" style="width: 70%;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-12">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('mdt21',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="mdt21"></input>
+                            <button onclick="increase('mdt21',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+
+                        <div class="col-md-4 col-xs-12" style="width:26%">
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="businessType" style="width: 70%;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-12">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('mdt22',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="mdt22"></input>
+                            <button onclick="increase('mdt22',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                        <div class="col-md-4 col-xs-12" style="width:26%">
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="businessType" style="width: 70%;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-12">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('mdt23',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="mdt23"></input>
+                            <button onclick="increase('mdt23',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <label class="label2">2.4.Khác</label>
+                    <div class="col-md-12 col-xs-12">
+
+                        <div class="col-md-4 col-xs-12" style="width:26%">
+                            <label>Tổng ngân sách</label>
+                            <button onclick="decrease('tns3',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="tns3"></input>
+                            <button onclick="increase('tns3',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="businessType" style="width: 70%;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-12">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('mdt31',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="mdt31"></input>
+                            <button onclick="increase('mdt31',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+
+                        <div class="col-md-4 col-xs-12" style="width:26%">
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="businessType" style="width: 70%;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-12">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('mdt32',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="mdt32"></input>
+                            <button onclick="increase('mdt32',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                        <div class="col-md-4 col-xs-12" style="width:26%">
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="businessType" style="width: 70%;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-xs-12">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('mdt33',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 120px;display: inline;" type="text" value="0" id="mdt33"></input>
+                            <button onclick="increase('mdt33',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                    </div>
+
+
+                </fieldset>
+            </div>
+            <div id="step4">
+                <label style="font-style: italic;color: #87a5ce;text-align: center;width:100%; margin-top:20px; font-size:13px;">
+                    Hệ thống hỗ trợ Quý đối tác chủ động xây dựng phương án kinh doanh nhằm thúc đẩy hiệu quả hoạt động của nhãn hàng tại hệ thống Bibo Mart
+                </label>
+                <fieldset>
+                    <legend>1. Chi phí tối thiểu </legend>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-4 col-xs-12">
+                            <label>Thương hiệu</label>
+                            <select class="form-control" id="businessType" style="width: 120px;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <label>Số lượng CH kinh doanh áp dụng:</label>
+                            <input class="form-control" style="width: 120px;display: inline;" type="text" value="0"></input>
+                        </div>
+                        <div class="col-md-3 col-xs-12">
+                            <button onclick="" style="color:#6f8cb8; font-weight:bold;">Chọn danh sách CH kinh doanh</button>
+                        </div>
+                    </div>
+                    <hr style="border: none;">
+                    <div class="tab-pane table-responsive" id="tab2">
+                        <table id="tab2_table" class="table table-hover tb-inside-6 tb-f-s-12" cellpadding="0" cellspacing="0">
+                            <thead class="tb-thead">
+                                <tr>
+                                    <th>Thương hiệu</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th width="100px">Hình ảnh sản phẩm</th>
+                                    <th>Mặt TB/SP/CH</th>
+                                    <th>Chi phí tối thiểu</th>
+                                    <th>% GP tối thiểu</th>
+                                    <th>%GP hiện hành</th>
+                                    <th>Hiệu quả KD</th>
+                                    <th style="min-width:150px">Điều chỉnh mức đầu tư</th>
+                                </tr>
+                            </thead>
+                            <tbody style="color: #69696b;">
+                                <tr>
+                                    <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                    <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 1 tuổi)</td>
+                                    <td style="background-color:#fcfcfc;"></td>
+                                    <td style="background-color:#f3f3f3;"><input class="form-control" style="width: 100px;display: inline;" type="text" value="" id="mdt33"></input></td>
+                                    <td style="background-color:#fcfcfc;">1.000.000.000</td>
+                                    <td style="background-color:#f3f3f3;"></td>
+                                    <td style="background-color:#fcfcfc;"></td>
+                                    <td style="background-color:#f3f3f3;"></td>
+                                    <td style="background-color:#fcfcfc;">
+                                        <button onclick="decrease('tt1',10000000)" class="minusbutton">
+                                            <img src="~/image/Circle/minus.png" height="35px" />
+                                        </button>
+                                        <input class="form-control number-separator money" style="width: 125px;display: inline;" type="text" value="0" id="tt1"></input>
+                                        <button onclick="increase('tt1',10000000)" class="minusbutton">
+                                            <img src="~/image/Circle/plus.png" height="35px" />
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                    <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 2 tuổi)</td>
+                                    <td style="background-color:#fcfcfc;"></td>
+                                    <td style="background-color:#f3f3f3;"><input class="form-control" style="width: 100px;display: inline;" type="text" value="" id="mdt33"></input></td>
+                                    <td style="background-color:#fcfcfc;">1.000.000.000</td>
+                                    <td style="background-color:#f3f3f3;"></td>
+                                    <td style="background-color:#fcfcfc;"></td>
+                                    <td style="background-color:#f3f3f3;"></td>
+                                    <td style="background-color:#fcfcfc;">
+                                        <button onclick="decrease('tt2',10000000)" class="minusbutton">
+                                            <img src="~/image/Circle/minus.png" height="35px" />
+                                        </button>
+                                        <input class="form-control number-separator money" style="width: 125px;display: inline;" value="0" type="text" id="tt2"></input>
+                                        <button onclick="increase('tt2',10000000)" class="minusbutton">
+                                            <img src="~/image/Circle/plus.png" height="35px" />
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                    <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 3 tuổi)</td>
+                                    <td style="background-color:#fcfcfc;"></td>
+                                    <td style="background-color:#f3f3f3;"><input class="form-control" style="width: 100px;display: inline;" type="text" value="" id="mdt33"></input></td>
+                                    <td style="background-color:#fcfcfc;">1.000.000.000</td>
+                                    <td style="background-color:#f3f3f3;"></td>
+                                    <td style="background-color:#fcfcfc;"></td>
+                                    <td style="background-color:#f3f3f3;"></td>
+                                    <td style="background-color:#fcfcfc;">
+                                        <button onclick="decrease('tt3',10000000)" class="minusbutton">
+                                            <img src="~/image/Circle/minus.png" height="35px" />
+                                        </button>
+                                        <input class="form-control number-separator money" style="width: 125px;display: inline;" value="0" type="text" id="tt3"></input>
+                                        <button onclick="increase('tt3',10000000)" class="minusbutton">
+                                            <img src="~/image/Circle/plus.png" height="35px" />
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                    <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 4 tuổi)</td>
+                                    <td style="background-color:#fcfcfc;"></td>
+                                    <td style="background-color:#f3f3f3;"><input class="form-control" style="width: 100px;display: inline;" type="text" value="" id="mdt33"></input></tdstyle="background-color:#f3f3f3;">
+                                    <td style="background-color:#fcfcfc;">1.000.000.000</td>
+                                    <td style="background-color:#f3f3f3;"></td>
+                                    <td style="background-color:#fcfcfc;"></td>
+                                    <td style="background-color:#f3f3f3;"></td>
+                                    <td style="background-color:#fcfcfc;">
+                                        <button onclick="decrease('tt4',10000000)" class="minusbutton">
+                                            <img src="~/image/Circle/minus.png" height="35px" />
+                                        </button>
+                                        <input class="form-control number-separator money" style="width: 125px;display: inline;" value="0" type="text" id="tt4"></input>
+                                        <button onclick="increase('tt4',10000000)" class="minusbutton">
+                                            <img src="~/image/Circle/plus.png" height="35px" />
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                    <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 5 tuổi)</td>
+                                    <td style="background-color:#fcfcfc;"></td>
+                                    <td style="background-color:#f3f3f3;"><input class="form-control" style="width: 100px;display: inline;" type="text" value="" id="mdt33"></input></td>
+                                    <td style="background-color:#fcfcfc;">1.000.000.000</td>
+                                    <td style="background-color:#f3f3f3;"></td>
+                                    <td style="background-color:#fcfcfc;"></td>
+                                    <td style="background-color:#f3f3f3;"></td>
+                                    <td style="background-color:#fcfcfc;">
+                                        <button onclick="decrease('tt5',10000000)" class="minusbutton">
+                                            <img src="~/image/Circle/minus.png" height="35px" />
+                                        </button>
+                                        <input class="form-control number-separator money" style="width: 125px;display: inline;" value="0" type="text" id="tt5"></input>
+                                        <button onclick="increase('tt5',10000000)" class="minusbutton">
+                                            <img src="~/image/Circle/plus.png" height="35px" />
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                    <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 6 tuổi)</td>
+                                    <td style="background-color:#fcfcfc;"></td>
+                                    <td style="background-color:#f3f3f3;"><input class="form-control" style="width: 100px;display: inline;" type="text" value="" id="mdt33"></input></td>
+                                    <td style="background-color:#fcfcfc;">1.000.000.000</td>
+                                    <td style="background-color:#f3f3f3;"></td>
+                                    <td style="background-color:#fcfcfc;"></td>
+                                    <td style="background-color:#f3f3f3;"></td>
+                                    <td style="background-color:#fcfcfc;">
+                                        <button onclick="decrease('tt6',10000000)" class="minusbutton">
+                                            <img src="~/image/Circle/minus.png" height="35px" />
+                                        </button>
+                                        <input class="form-control number-separator money" style="width: 125px;display: inline;" value="0" type="text" id="tt6"></input>
+                                        <button onclick="increase('tt6',10000000)" class="minusbutton">
+                                            <img src="~/image/Circle/plus.png" height="35px" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr>
+                    <div class="tab-pane table-responsive" id="tab2">                    
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th style="width:15%;"></th>
+                                        <th style="width:58%;"></th>
+                                        <th style="width:10%;"></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody style="color: #696969;">
+                                    <tr>
+                                        <td>Chi phí tối thiểu YTD</td>
+                                        <td>
+                                            <input class="form-control number-separator money" style="width: 75%;display: inline;" type="text" value="0"></input>
+                                        </td>
+                                        <td rowspan="4">RANKING</td>
+                                        <td rowspan="4">
+                                            <input class="form-control" style="width: 100%;display: inline; height:150px" type="text"></input>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Doanh số bán</td>
+                                        <td>
+                                            <input class="form-control number-separator money" style="width: 75%;display: inline;" type="text" value="0"></input>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lãi gộp</td>
+                                        <td>
+                                            <input class="form-control number-separator money" style="width: 75%;display: inline;" type="text" value="0"></input>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hiệu quả kinh doanh</td>
+                                        <td>
+                                            <input class="form-control number-separator money" style="width: 75%;display: inline;" type="text" value="0"></input>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                </fieldset>
+            </div>
+            <div id="step5">
+                <label style="font-style: italic;color: #87a5ce;text-align: center;width:100%; margin-top:20px; font-size:13px;">
+                    Hệ thống hỗ trợ Quý đối tác chủ động xây dựng phương án kinh doanh nhằm thúc đẩy hiệu quả hoạt động của nhãn hàng tại hệ thống Bibo Mart
+                </label>
+                <fieldset>
+                    <legend>2.Thúc đẩy bán hàng</legend>
+                    <div class="col-md-12 col-xs-12" style="margin-bottom: 20px;">
+                        <div class="col-md-2 col-xs-12">
+                            Thương hiệu áp dụng
+                        </div>
+                        <div class="col-md-3 col-xs-12">
+                            <select class="form-control" id="businessType" style="width: 150px;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-xs-12">
+                            Tổng ngân sách của chiến dịch
+                        </div>
+                        <div style="padding-left:54px;" class="col-md-3 col-xs-12">
+                            <button onclick="decrease('oo1',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 150px;display: inline;" value="0" type="text" id="oo1"></input>
+                            <button onclick="increase('oo1',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+
+                        <div class="col-md-5 col-xs-12">
+                        </div>
+                        <div class="col-md-3 col-xs-12">
+                            Từ ngày
+                            <input type="date"> </input>
+                        </div>
+                        <div class="col-md-3 col-xs-12">
+                            Đến ngày
+                            <input type="date"> </input>
+                        </div>
+                    </div>
+                    <hr style="margin-top:20px !important">
+
+                    <label class="label2"><span style="color:#6f8cb8; font-weight:bold">2.1 Thưởng định hướng:&nbsp;&nbsp;&nbsp;</span><span style="color:grey; font-style:italic; font-size:13px;">(Thưởng định hướng chỉ áp dụng cho các sản phẩm đáp ứng chi phí tối thiểu)</span></label>
+                    <label style="margin-top:10px; margin-bottom:10px;" class="label2"><span style="color:#c72d2d; font-weight:bold;">DANH SÁCH CÁC SẢN PHẨM CHƯA ĐẠT HỆU QUẢ KINH DOANH ĐỂ ÁP DỤNG THƯỞNG ĐỊNH HƯỚNG</span>  </label>
+                    <div class="tab-pane table-responsive" id="tab2">
+                           <table id="tab2_table" class="table  table-hover tb-inside-6 tb-f-s-12" cellpadding="0" cellspacing="0">
+                                <thead class="tb-thead">
+                                    <tr>
+                                        <th style="width:10%;">Thương hiệu</th>
+                                        <th style="width:33%;">Tên sản phẩm</th>
+                                        <th style="width:30%;">Hiệu quả KD</th>
+                                        <th style="width:27%;">Bổ sung mức đầu tư</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="color: #69696b;">
+                                    <tr>
+                                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 1 tuổi)</td>
+                                        <td style="background-color:#fcfcfc;" class="redtext">-30.000.000 so với chi phí tối thiểu</td>
+                                        <td style="background-color:#f3f3f3;" align="center">
+                                            <button onclick="decrease('tt7',10000000)" class="minusbutton">
+                                                <img src="~/image/Circle/minus.png" height="35px" />
+                                            </button>
+                                            <input class="form-control number-separator money" style="width: 50%;display: inline;" value="0" type="text" id="tt7"></input>
+                                            <button onclick="increase('tt7',10000000)" class="minusbutton">
+                                                <img src="~/image/Circle/plus.png" height="35px" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 2 tuổi)</td>
+                                        <td style="background-color:#fcfcfc;" class="redtext">-30.000.000 so với chi phí tối thiểu</td>
+                                        <td style="background-color:#f3f3f3;" align="center">
+                                            <button onclick="decrease('tt8',10000000)" class="minusbutton">
+                                                <img src="~/image/Circle/minus.png" height="35px" />
+                                            </button>
+                                            <input class="form-control number-separator money" style="width: 50%;display: inline;" value="0" type="text" id="tt8"></input>
+                                            <button onclick="increase('tt8',10000000)" class="minusbutton">
+                                                <img src="~/image/Circle/plus.png" height="35px" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 3 tuổi)</td>
+                                        <td style="background-color:#fcfcfc;" class="redtext">-30.000.000 so với chi phí tối thiểu</td>
+                                        <td style="background-color:#f3f3f3;" align="center">
+                                            <button onclick="decrease('tt9',10000000)" class="minusbutton">
+                                                <img src="~/image/Circle/minus.png" height="35px" />
+                                            </button>
+                                            <input class="form-control number-separator money" style="width: 50%;display: inline;" value="0" type="text" id="tt9"></input>
+                                            <button onclick="increase('tt9',10000000)" class="minusbutton">
+                                                <img src="~/image/Circle/plus.png" height="35px" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 4 tuổi)</td>
+                                        <td style="background-color:#fcfcfc;" class="redtext">-30.000.000 so với chi phí tối thiểu</td>
+                                        <td style="background-color:#f3f3f3;" align="center">
+                                            <button onclick="decrease('tt10',10000000)" class="minusbutton">
+                                                <img src="~/image/Circle/minus.png" height="35px" />
+                                            </button>
+                                            <input class="form-control number-separator money" style="width: 50%;display: inline;" value="0" type="text" id="tt10"></input>
+                                            <button onclick="increase('tt10',10000000)" class="minusbutton">
+                                                <img src="~/image/Circle/plus.png" height="35px" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 5 tuổi)</td>
+                                        <td style="background-color:#fcfcfc;" class="redtext">-30.000.000 so với chi phí tối thiểu</td>
+                                        <td style="background-color:#f3f3f3;" align="center">
+                                            <button onclick="decrease('tt11',10000000)" class="minusbutton">
+                                                <img src="~/image/Circle/minus.png" height="35px" />
+                                            </button>
+                                            <input class="form-control number-separator money" style="width: 50%;display: inline;" value="0" type="text" id="tt11"></input>
+                                            <button onclick="increase('tt11',10000000)" class="minusbutton">
+                                                <img src="~/image/Circle/plus.png" height="35px" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 6 tuổi)</td>
+                                        <td style="background-color:#fcfcfc;" class="redtext">-30.000.000 so với chi phí tối thiểu</td>
+                                        <td style="background-color:#f3f3f3;" align="center">
+                                            <button onclick="decrease('tt12',10000000)" class="minusbutton">
+                                                <img src="~/image/Circle/minus.png" height="35px" />
+                                            </button>
+                                            <input class="form-control number-separator money" style="width: 50%;display: inline;" value="0" type="text" id="tt12"></input>
+                                            <button onclick="increase('tt12',10000000)" class="minusbutton">
+                                                <img src="~/image/Circle/plus.png" height="35px" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                            <label class="italic" style="color:#6f8cb8; width:100%">●  Nhân viên toàn hệ thống sẽ nhận được thông báo thúc đẩy bán hàng trong 24h kể từ khi quý đối tác cập nhật mức thưởng định hướng mới </label>
+                            <label class="italic" style="color:#6f8cb8;  width:100%">●  Nhân viên nhận thưởng định hướng/mỗi sản phẩm bán ra ngay sau khi hoàn tất thanh toán</label>
+
+                            <div class="col-md-12">
+
+                                <div class="col-md-4">
+                                </div>
+                                <span>Tổng đầu tư gia tăng hiệu quả</span>
+
+                                <input class="form-control number-separator redtext money " style="width: 120px;display: inline; border:1px solid grey;background-color:#80808000;" type="text" value="50.000.000"></input>
+                                <span style="margin-left:100px">
+                                    Ngân sách còn lại
+                                </span>
+
+                                <input class="form-control number-separator redtext money " style="width: 120px;display: inline; border:1px solid grey;background-color:#80808000;" type="text" value="50.000.000"></input>
+
+
+
+                            </div>
+                </fieldset>
+            </div>
+            <div id="step6">
+                <label style="font-style: italic;color: #9db4d4;text-align: center;width:100%; margin-top:20px; font-size:13px;">
+                    Hệ thống hỗ trợ Quý đối tác chủ động xây dựng phương án kinh doanh nhằm thúc đẩy hiệu quả hoạt động của nhãn hàng tại hệ thống Bibo Mart
+                </label><fieldset>
+    <legend>2.Thúc đẩy bán hàng</legend>
+    <label style="margin-bottom:15px;" class="label2"><span style="color:#6f8cb8; font-weight:bold">2.1 Thưởng định hướng:<span style="font-style:italic;font-size:12px;">(Thưởng định hướng chỉ được áp dụng cho các sản phẩm đáp ứng chi phí tối thiểu)</span></span></label>
+    <div class="tab-pane table-responsive" id="tab2">
+            <table id="tab2_table" class="table  table-hover tb-inside-6 tb-f-s-12" cellpadding="0" cellspacing="0">
+                <thead class="tb-thead">
+                    <tr>
+                        <th style="width:10%;">Thương hiệu</th>
+                        <th style="width:23%;">Tên sản phẩm</th>
+                        <th style="width:20%;">Hiệu quả kinh doanh</th>
+                        <th style="width:17%;">Thưởng/SP</th>
+                        <th style="width:10%;">SL bán D-30</th>
+                        <th style="width:10%;">SL bán dự kiến D+30</th>
+                        <th style="width:10%;">% tăng trưởng</th>
+                    </tr>
+                </thead>
+                <tbody style="color: #69696b;">
+                    <tr>
+                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 1 tuổi)</td>
+                        <td style="background-color:#fcfcfc;" class="redtext">-30.000.000 so với chi phí tối thiểu</td>
+                        <td style="background-color:#f3f3f3;"></td>
+                        <td style="background-color:#fcfcfc;"></td>
+                        <td style="background-color:#f3f3f3;"></td>
+                        <td style="background-color:#fcfcfc;"></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 2 tuổi)</td>
+                        <td style="background-color:#fcfcfc;" class="redtext">-30.000.000 so với chi phí tối thiểu</td>
+                        <td style="background-color:#f3f3f3;"></td>
+                        <td style="background-color:#fcfcfc;"></td>
+                        <td style="background-color:#f3f3f3;"></td>
+                        <td style="background-color:#fcfcfc;"></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 3 tuổi)</td>
+                        <td style="background-color:#fcfcfc;">Đạt hiệu quả</td>
+                        <td style="background-color:#f3f3f3;" align="center">
+                            <button onclick="decrease('tt13',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 65%;display: inline;" type="text" id="tt13"></input>
+                            <button onclick="increase('tt13',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </td>
+                        <td style="background-color:#fcfcfc;"></td>
+                        <td style="background-color:#f3f3f3;"></td>
+                        <td style="background-color:#fcfcfc;"></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 4 tuổi)</td>
+                        <td style="background-color:#fcfcfc;">Đạt hiệu quả</td>
+                        <td style="background-color:#f3f3f3;" align="center">
+                            <button onclick="decrease('tt14',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 65%;display: inline;" type="text" id="tt14"></input>
+                            <button onclick="increase('tt14',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </td>
+                        <td style="background-color:#fcfcfc;"></td>
+                        <td style="background-color:#f3f3f3;"></td>
+                        <td style="background-color:#fcfcfc;"></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 5 tuổi)</td>
+                        <td style="background-color:#fcfcfc;">Đạt hiệu quả</td>
+                        <td style="background-color:#f3f3f3;" align="center">
+                            <button onclick="decrease('tt15',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 65%;display: inline;" type="text" id="tt15"></input>
+                            <button onclick="increase('tt15',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </td>
+                        <td style="background-color:#fcfcfc;"></td>
+                        <td style="background-color:#f3f3f3;"></td>
+                        <td style="background-color:#fcfcfc;"></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 6 tuổi)</td>
+                        <td style="background-color:#fcfcfc;">Đạt hiệu quả</td>
+                        <td style="background-color:#f3f3f3;" align="center">
+                            <button onclick="decrease('tt16',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" style="width: 65%;display: inline;" type="text" id="tt16"></input>
+                            <button onclick="increase('tt16',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </td>
+                        <td style="background-color:#fcfcfc;"></td>
+                        <td style="background-color:#f3f3f3;"></td>
+                        <td style="background-color:#fcfcfc;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            <label class="italic" style="color:#6f8cb8; width:100%">●  Nhân viên toàn hệ thống sẽ nhận được thông báo thúc đẩy bán hàng trong vòng 24h kể từ khi Quý đối tác cập nhật mức thưởng định hướng mới </label>
+            <label class="italic" style="color:#6f8cb8;  width:100%">●  Nhân viên nhận thưởng định hướng/trên mỗi sản phẩm bán ra ngay sau khi Khách hàng hoàn tất thanh toán </label>
+
+            <div class="col-md-12">
+                <div class="col-md-4 col-xs-12">
+                    <span>Tổng ngân sách của chiến dịch</span>
+                    <input class="form-control number-separator money " style="width: 120px;display: inline;background-color: #80808000;border:1px solid grey;" type="text" value="50.000.000"></input>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <span>Tổng đầu tư thưởng định hướng</span>
+                    <input class="form-control number-separator redtext money " style="width: 120px;display: inline;background-color: #80808000;border:1px solid grey;" type="text" value="50.000.000"></input>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <span style="margin-left:100px">
+                        Ngân sách còn lại
+                    </span>
+                    <input class="form-control number-separator redtext money " style="width: 120px;display: inline;background-color: #80808000;border:1px solid grey;" type="text" value="50.000.000"></input>
+                </div>
+
+            </div>
+</fieldset>
+            </div>
+            <div id="step7">
+                <!--<img src="~/image/Circle/Phương án KD 4.png" width="100%" />-->
+                <div style="color:#6890c7; text-transform: uppercase; position:absolute; top:260px; left:265px;" class="title">
+                    <h2 style="font-size:40px;">Gia tăng<br /> trưng bày và hình ảnh</h2>
+                </div>
+                <div class="box1">
+                    <a href="">
+                        <svg height="300" width="300">
+                            <polygon points="70 0, 140 35, 140 120, 70 150, 0 120, 0 35" style="fill:#bea596;" />
+                            <text x="35" y="75" fill="#fff" font-size="20">Leasing</text>
+                            <text x="40" y="100" fill="#fff" font-size="20">Online</text>
+                        </svg>
+                    </a>
+                </div>
+                <div class="box2">
+                    <a href="">
+                        <svg height="300" width="300">
+                            <polygon points="70 0, 140 35, 140 120, 70 150, 0 120, 0 35" style="fill:#d2afa1;" />
+                            <text x="35" y="75" fill="#fff" font-size="20">Leasing</text>
+                            <text x="40" y="100" fill="#fff" font-size="20">Offline</text>
+                        </svg>
+                    </a>
+                </div>
+                <div class="box3">
+                    <a href="">
+                        <svg height="300" width="300">
+                            <polygon points="70 0, 140 35, 140 120, 70 150, 0 120, 0 35" style="fill:#d2afa1;" />
+                            <text x="35" y="75" fill="#fff" font-size="20">Đào tạo</text>
+                            <text x="32" y="100" fill="#fff" font-size="20">Hội thảo</text>
+                        </svg>
+                    </a>
+                </div>
+                <div class="box4">
+                    <a href="">
+                        <svg height="300" width="300">
+                            <polygon points="70 0, 140 35, 140 120, 70 150, 0 120, 0 35" style="fill:#d3b7a7;" />
+                            <text x="40" y="75" fill="#fff" font-size="20">Cổng  </text>
+                            <text x="25" y="100" fill="#fff" font-size="20">thanh toán </text>
+                        </svg>
+                    </a>
+                </div>
+                <div class="box5">
+                    <a href="">
+                        <svg height="300" width="300">
+                            <polygon points="70 0, 140 35, 140 120, 70 150, 0 120, 0 35" style="fill:#d3af9b;" />
+                            <text x="35" y="75" fill="#fff" font-size="20">Chia sẻ</text>
+                            <text x="20" y="100" fill="#fff" font-size="20">Trưng bày</text>
+                        </svg>
+                    </a>
+                </div>
+                <div style="margin-top:495px;" class="col-md-12 col-xs-12">
+                    <div class="col-md-4 col-xs-12">
+                        <span>Tổng ngân sách của chiến dịch</span>
+
+                        <input class="form-control number-separator money " style="width: 120px;display: inline;border:1px solid grey;background-color: #80808000;" type="text" value="50.000.000"></input>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                        <span>Tổng đầu tư thưởng định hướng</span>
+
+                        <input class="form-control number-separator  money " style="width: 120px;display: inline;border:1px solid grey;background-color: #80808000;" type="text" value="50.000.000"></input>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                        <span style="margin-left:100px">
+                            Ngân sách còn lại
+                        </span>
+
+                        <input class="form-control number-separator  money " style="width: 120px;display: inline;border:1px solid grey;background-color: #80808000;" type="text" value="50.000.000"></input>
+                    </div>
+
+                </div>
+            </div>
+            <div id="step8">
+                <fieldset style="margin-top:30px;">
+                    <legend>3.Chăm sóc khách hàng</legend>
+                    <table style="width:100%;color: #757576;">
+                        <tr>
+                            <th style="width:70%"><span style="color:#6f8cb8; font-weight:bold;text-transform: uppercase;">3.1 Tham gia hệ thống chăm sóc khách hàng tự động</span></th>
+                            <th style="width:30%;background: white;     text-align: center;" rowspan="4">
+                                <button onclick="decrease('tt15',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control" style="width: 30%;display: inline; font-style:italic;" type="text" value="Tối thiểu 3%" id="tt15"></input>
+                                <button onclick="increase('tt15',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                                <button class="form" onclick="" style="height:70px; color:#c10c0c;border:0px;text-transform: uppercase;background-color:#e0e2e2;">Xác nhận<br /> tham gia</button>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th><label></label>&ensp;&ensp;&ensp;&ensp;BIBO MART HIỆN TRIỂN KHAI HỆ THỐNG CHĂM SÓC KHÁC HÀNG</label></th>
+
+                        </tr>
+                        <tr>
+                            <th>
+                                <label class="italic" style=" width:100%">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;●&ensp;&ensp;Khách hàng mua các sản phẩm chiến lược sẽ được hoàn 30% vào ví điện tử </label>
+
+                            </th>
+
+                        </tr>
+                        <tr>
+                            <th><label class="italic" style="width:100%">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;●&ensp;&ensp;Khách hàng quy đổi giá trị tích lũy thành quà và các ưu đãi của Bibo Mart cunggf các đối tác liên kết</label></th>
+
+                        </tr>
+                    </table>
+
+                    <span style="color:#6f8cb8; font-weight:bold;text-transform: uppercase;">3.2 Đầu tư duy trì khách hàng</span>
+
+
+
+                    <div class="tab-pane table-responsive" id="tab2">               
+                            <table style="margin-top:10px;" id="tab2_table" class="table  table-hover tb-inside-6 tb-f-s-12" cellpadding="0" cellspacing="0">
+                                <thead class="tb-thead">
+                                    <tr>
+                                        <th style="width:10%;">Thương hiệu</th>
+                                        <th style="width:30%;">Tên sản phẩm</th>
+                                        <th style="width:20%;">Số lượt mua D-30</th>
+                                        <th style="width:20%;">Giá trị Coupon/hóa đơn</th>
+                                        <th style="width:20%;">Số lượt mua áp dụng</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="color:#69696b;">
+                                    <tr>
+                                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 1 tuổi)</td>
+                                        <td style="background-color:#fcfcfc;"></td>
+                                        <td style="background-color:#f3f3f3;">
+                                            <button onclick="decrease('tt131',50000000)" class="minusbutton">
+                                                <img src="~/image/Circle/minus.png" height="35px" />
+                                            </button>
+                                            <input class="form-control number-separator money" style="width: 70%;display: inline;" type="text" id="tt131"></input>
+                                            <button onclick="increase('tt131',50000000)" class="minusbutton">
+                                                <img src="~/image/Circle/plus.png" height="35px" />
+                                            </button>
+                                        </td>
+
+                                        <td style="background-color:#fcfcfc;">
+                                            <input class="form-control number-separator money" style="width: 70%;display: inline;" value="0" type="text" id="tt131"></input>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 2 tuổi)</td>
+                                        <td style="background-color:#fcfcfc;"></td>
+                                        <td style="background-color:#f3f3f3;">
+                                            <button onclick="decrease('tt132',50000000)" class="minusbutton">
+                                                <img src="~/image/Circle/minus.png" height="35px" />
+                                            </button>
+                                            <input class="form-control number-separator money" style="width: 70%;display: inline;" type="text" id="tt132"></input>
+                                            <button onclick="increase('tt132',50000000)" class="minusbutton">
+                                                <img src="~/image/Circle/plus.png" height="35px" />
+                                            </button>
+                                        </td>
+
+                                        <td style="background-color:#fcfcfc;">
+                                            <input class="form-control number-separator money" style="width: 70%;display: inline;" value="0" type="text" id="tt132"></input>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 3 tuổi)</td>
+                                        <td style="background-color:#fcfcfc;"></td>
+                                        <td style="background-color:#f3f3f3;">
+                                            <button onclick="decrease('tt133',50000000)" class="minusbutton">
+                                                <img src="~/image/Circle/minus.png" height="35px" />
+                                            </button>
+                                            <input class="form-control number-separator money" style="width: 70%;display: inline;" type="text" id="tt133"></input>
+                                            <button onclick="increase('tt133',50000000)" class="minusbutton">
+                                                <img src="~/image/Circle/plus.png" height="35px" />
+                                            </button>
+                                        </td>
+
+                                        <td style="background-color:#fcfcfc;">
+                                            <input class="form-control number-separator money" style="width: 70%;display: inline;" value="0" type="text" id="tt133"></input>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 4 tuổi)</td>
+                                        <td style="background-color:#fcfcfc;"></td>
+                                        <td style="background-color:#f3f3f3;">
+                                            <button onclick="decrease('tt134',50000000)" class="minusbutton">
+                                                <img src="~/image/Circle/minus.png" height="35px" />
+                                            </button>
+                                            <input class="form-control number-separator money" style="width: 70%;display: inline;" type="text" id="tt134"></input>
+                                            <button onclick="increase('tt134',50000000)" class="minusbutton">
+                                                <img src="~/image/Circle/plus.png" height="35px" />
+                                            </button>
+                                        </td>
+
+                                        <td style="background-color:#fcfcfc;">
+                                            <input class="form-control number-separator money" style="width: 70%;display: inline;" value="0" type="text" id="tt134"></input>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 5 tuổi)</td>
+                                        <td style="background-color:#fcfcfc;"></td>
+                                        <td style="background-color:#f3f3f3;">
+                                            <button onclick="decrease('tt135',50000000)" class="minusbutton">
+                                                <img src="~/image/Circle/minus.png" height="35px" />
+                                            </button>
+                                            <input class="form-control number-separator money" style="width: 70%;display: inline;" type="text" id="tt135"></input>
+                                            <button onclick="increase('tt135',50000000)" class="minusbutton">
+                                                <img src="~/image/Circle/plus.png" height="35px" />
+                                            </button>
+                                        </td>
+
+                                        <td style="background-color:#fcfcfc;">
+                                            <input class="form-control number-separator money" style="width: 70%;display: inline;" value="0" type="text" id="tt135"></input>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:#fcfcfc;">Enfagrow</td>
+                                        <td style="background-color:#f3f3f3;">Sữa Enfagrow(trên 6 tuổi)</td>
+                                        <td style="background-color:#fcfcfc;"></td>
+                                        <td style="background-color:#f3f3f3;">
+                                            <button onclick="decrease('tt136',50000000)" class="minusbutton">
+                                                <img src="~/image/Circle/minus.png" height="35px" />
+                                            </button>
+                                            <input class="form-control number-separator money" style="width: 70%;display: inline;" type="text" id="tt136"></input>
+                                            <button onclick="increase('tt136',50000000)" class="minusbutton">
+                                                <img src="~/image/Circle/plus.png" height="35px" />
+                                            </button>
+                                        </td>
+
+                                        <td style="background-color:#fcfcfc;">
+                                            <input class="form-control number-separator money" style="width: 70%;display: inline;" value="0" type="text" id="tt13"></input>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                            <hr />
+
+                            <div class="col-md-12">
+                                <div class="col-md-4 col-xs-12">
+                                    <span>Tổng ngân sách của chiến dịch</span>
+
+                                    <input class="form-control number-separator money " style="width: 120px;display: inline;border:1px solid grey;background-color:#80808000; " type="text" value="50.000.000"></input>
+                                </div>
+                                <div class="col-md-4 col-xs-12">
+                                    <span>Tổng đầu tư gia tăng hiệu quả</span>
+
+                                    <input class="form-control number-separator redtext  money " style="width: 120px;display: inline; border:1px solid grey;background-color:#80808000;" type="text" value="50.000.000"></input>
+                                </div>
+                                <div class="col-md-4 col-xs-12">
+                                    <span>
+                                        Ngân sách còn lại
+                                    </span>
+
+                                    <input class="form-control number-separator redtext money " style="width: 120px;display: inline; border:1px solid grey; background-color:#80808000;" type="text" value="50.000.000"></input>
+                                </div>
+
+                            </div>
+                </fieldset>
+            </div>
+            <div id="step9">
+               
+                <a href="/Home/Index"> <img src="~/image/Circle/Popup - Cảm ơn.png" width="75%" /></a>
+            </div>
+
+
+
+            <div class="footer">
+                <div class="col-md-12 col-xs-12">
+                    <div class="col-md-6 col-xs-12">
+                        <button class="nbut" id="bbut" onclick="back()" style="float:left;color:#6f8cb8;position:relative;">Quay lại</button>
+                        <div id="triangle-left">
+                            <div style="border: 22px solid transparent;border-right-color: black;position: absolute;margin: 20px -43px;" class="triangle-left"></div>
+                            <div style="border: 22px solid transparent;border-right-color: #efefef;position: absolute;margin: 20px -42px;" class="triangle-left"></div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <button class="nbut" id="nbut" onclick="next()" style="float:right; color:#6f8cb8;position:relative;">Tiếp Tục</button>
+                        <div id="triangle-right">
+                            <div style="border: 22px solid transparent;border-left-color: black;position: absolute;margin: 20px 524px;" class="triangle-right"></div>
+                            <div style="border: 22px solid transparent;border-left-color: #efefef;position: absolute;margin: 20px 523px;" class="triangle-left"></div>
+                        </div>
+                        
+                    </div>
+                </div>             
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<<<<<<< .mine<div class="modal" id="thank_modal" tabindex="-1" role="dialog">
+    <!--<img src="~/image/Circle/Popup - Cảm ơn.png" width="75%" />-->
+    <button onclick="thanks()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#thank_modal">
+        Click
+    </button>
+    <!-- Modal -->
+    <div class="modal" id="thank_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h1>Trân trọng cảm ơn quý đối tác đã kết nối và trao cơ hội hợp tác cho Bibo Mart!</h1><br>
+                    <span style="font-size: 28px;">Chúng tôi trân trọng cơ hội hợp tác này và sẽ sớm phản hồi trong thời gian sớm nhất.</span><br><br><br>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                </div>
+                <!-- <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- <button><a href="http://localhost:44350/">Đóng</a></button>-->
+
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+=======>>>>>>> .theirs<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script src="~/Scripts/easy-number-separator.js"></script>
+<script type="text/javascript">
+    var jStep;
+    $(function () {
+        jStep = 1;
+        step(jStep);
+    });
+
+    function next() {
+     
+            jStep += 1;
+            if (jStep < 1) jStep = 1;
+            if (jStep > 9) jStep = 9;
+        step(jStep);
+        
+        
+    }
+
+    function back() {
+        jStep -= 1;
+        if (jStep < 1) jStep = 1;
+        if (jStep > 9) jStep = 9;
+        step(jStep);
+    }
+
+    function step(jStep) {
+        switch (jStep) {
+            case 2:
+
+            case 3:
+                $('#header_title').html("KẾ HOẠCH HỢP TÁC");
+                break;
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+                $('#header_title').html("XÂY DỰNG PHƯƠNG ÁN KINH DOANH");
+                break;
+            default:
+                $('#header_title').html("");
+        }
+
+
+        for (let i = 1; i <= 9; i++) {
+            $('#step' + i).hide();
+        }
+        $('#step' + jStep).show();
+        if (jStep > 1) $('#header').show();
+        else $('#header').hide();
+        if (jStep == 9)
+        {
+            $('#header').hide();
+            $('#bbut').hide();
+            $('#nbut').hide(); 
+            $('#triangle-left').hide();
+            $('#triangle-right').hide();
+        }
+    }
+
+    function decrease(control, amount) {
+        var i = parseInt($('#' + control).val().replaceAll('.', ''));
+        if (isNaN(i)) i = 0;
+        $('#' + control).val((i - amount) < 0 ? 0 : (i - amount)).trigger('change');
+    }
+
+    function increase(control, amount) {
+        var i = parseInt($('#' + control).val().replaceAll('.', ''));
+        if (isNaN(i)) i = 0;
+        $('#' + control).val(i + amount).trigger('change');
+    }
+
+    function Save() {
+        //VendorInfo
+        var info_obj = {};
+        info_obj.businessType = $('#businessType').val();
+        info_obj.firmName = $('#firmName').val();
+        info_obj.Address = $('#Address').val();
+        info_obj.phoneNo = $('#phoneNo').val();
+        info_obj.website = $('#website').val();
+        info_obj.email = $('#email').val();
+        info_obj.facebook = $('#facebook').val();
+        info_obj.industryType = $('#industryType').val();
+        info_obj.registrationBusiness = $('#registrationBusiness').val();
+        info_obj.registrationTax = $('#registrationTax').val();
+        info_obj.bankAccount = $('#bankAccount').val();
+        info_obj.atBank = $('#atBank').val();
+        info_obj.E_Invoice = $('#E_Invoice').prop('checked') == false ? 0 : 1;
+        info_obj.ERP_Name = $('#ERP_Name').val(); //readeMulti('ERP_Name');
+
+        console.log(JSON.stringify(info_obj));
+
+        //end VendorInfo
+
+        //Capability
+        var cap_obj = {};
+        cap_obj.registrationTax = $('#registrationTax').val();
+        cap_obj.yearActive = $('#yearActive').val();
+        cap_obj.employeesScale = $('#employeesScale').val();
+        cap_obj.coverageMarket = $('#coverageMarket').val();//readeMulti('coverageMarket');
+        cap_obj.previousRevenue = $('#previousRevenue').val();
+        cap_obj.competencyCore = $('#competencyCore').val(); //readeMulti('competencyCore');
+        cap_obj.customerKey = $('#customerKey').val();
+        cap_obj.warehouseAcreage = $('#warehouseAcreage').val();
+        cap_obj.truckQuantity = $('#truckQuantity').val();
+
+        console.log(JSON.stringify(cap_obj));
+        //End Capability
+
+        //Contact
+        var con_obj = {};
+        con_obj.registrationTax = $('#registrationTax').val();
+        con_obj.BBM_Code = $('#BBM_Code').val();
+        con_obj.representativeName = $('#representativeName').val();
+        con_obj.representativeEmail = $('#representativeEmail').val();
+        con_obj.representativePosition = $('#representativePosition').val();
+        con_obj.representativePhone = $('#representativePhone').val();
+        con_obj.contactName = $('#contactName').val();
+        con_obj.contactEmail = $('#contactEmail').val();
+        con_obj.contactPosition = $('#contactPosition').val();
+        con_obj.contactPhone = $('#contactPhone').val();
+
+        console.log(JSON.stringify(con_obj));
+        //End Capability
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Vendor/registrationTaxExist",
+            data: '{registrationTax:"' + $('#registrationTax').val() + '"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+
+                if (r.code == '0') {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Vendor/addVendor",
+                        data: '{info:' + JSON.stringify(info_obj) + ',cap:' + JSON.stringify(cap_obj) + ',con:' + JSON.stringify(con_obj) + '}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (r1) {
+                            var sub = JSON.parse(r1);
+                            if (sub["code"] == '1') {
+                                window.location.href = '/Product/Create';
+                            } else {
+                                alert("Có lỗi xảy ra thử lại sau!");
+                            }
+                        }
+                    });
+
+                } else {
+                    alert("Mã số thuế đa được đăng ký!");
+                }
+            }
+        });
+    }
+
+    function ReII(strSelID) {
+
+        $('#' + strSelID + '_txt').append('<input type="button" id="btn_' + strSelID + '_del_' + $('#' + strSelID + '').val() + '"  name="' + $('#' + strSelID + '').val() + '-' + $('#' + strSelID + ' option:selected').text() + '" value="' + $('#' + strSelID + ' option:selected').text() + '  &#10006;" onclick="AddSEl(\'' + strSelID + '\',\'' + $('#' + strSelID + '').val() + '\',\'' + $('#' + strSelID + ' option:selected').text() + '\')" class="btn-primary" style="float:left; margin:3px;border-radius: 20px; font-size: 12px !important;"/>')
+
+        var x = document.getElementById(strSelID);
+        x.remove(x.selectedIndex);
+    }
+
+    function AddSEl(strSelID, strId, strVal) {
+
+        var x = document.getElementById(strSelID);
+        var option = document.createElement("option");
+        option.value = strId;
+        option.text = strVal;
+        x.add(option);
+
+        sortSelectOptions('#' + strSelID);
+
+        document.getElementById("btn_" + strSelID + "_del_" + strId).remove();
+    }
+
+    function sortSelectOptions(selectElement) {
+        var options = $(selectElement + " option");
+
+        options.sort(function (a, b) {
+            if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+            else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+            else return 0;
+        });
+
+        $(selectElement).empty().append(options);
+        $(selectElement).val("");
+    }
+
+    function readeMulti(strSelID) {
+        var str_rt = "";
+        var c = document.getElementById(strSelID + "_txt").children;
+        for (i = 0; i < c.length; i++) {
+            if (i == 0) {
+                console.log(c[i].name);
+
+                str_rt += c[i].name;
+            } else {
+                console.log('|' + c[i].name);
+
+                str_rt += '|' + c[i].name;
+            }
+
+        }
+
+        return str_rt;
+    }
+    function thanks() {
+        $('#thank-modal').modal('show')
+    }
+</script>

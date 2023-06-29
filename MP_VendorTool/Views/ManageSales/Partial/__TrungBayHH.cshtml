@@ -1,0 +1,277 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left;  ">
+                    Brand
+                </th>
+                <th scope="col" style="text-align: left;  ">
+                    Mã Hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 300px; max-width: 300px; ">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Hình ảnh
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Giá bán
+                </th>
+                <th scope="col" style="text-align: left;  ">
+                    Stockday
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Số CH kinh doanh
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    GP/M2F
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Xúc tiến
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Trạng thái
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Ngày cập nhật
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Chi tiết
+                </th>
+                <th scope="col" style="text-align: center; ">
+                    Hành động
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model;
+                    {
+                        var i = 0;
+                        foreach (MP_VendorTool.Models.ObjTrungBayNH.QuanLyTrungBayHH_gateway item in dt)
+                        {
+                            <tr style=" height:20px" id="Row_@i">
+                                <td class="text-left">
+                                    @item.Brand_Code - @item.Brand_Name
+                                </td>
+                                <td class="text-left">
+                                    @item.MaHang
+                                </td>
+                                <td class="text-left" width="300px">
+                                    @item.TenHang
+                                </td>
+
+                                <td style="text-align: center; height: 60px; height: 85px ">
+                                    @if (item.Images != null)
+                                    {
+                                        if (item.Images.ToString().Contains("no_selection"))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            <a target="_blank" href="@item.Images" class="thickbox"><img style="height: 60px" src=" @item.Images" class="content"></a>
+                                        }
+                                    }
+                                </td>
+                                <td class="text-right">
+                                    @item.GiabanVAT
+                                </td>
+                                <td class="text-right">
+                                    @item.Stockday
+                                </td>
+                                <td class="text-right" width="120px">
+                                    @item.SoCuaHangKinhDoanh
+                                </td>
+                                <td class="text-right">
+                                    @item.GPM2F
+                                </td>
+                                <td class="text-center">
+                                    @item.XucTien
+                                </td>
+                                <td class="text-center">
+                                    @Html.Raw(item.TrangThai)
+                                </td>
+                                <td class="text-left" width="120px">
+                                    @item.NgayCapNhat
+                                </td>
+                                <td class="text-center" width="120px">
+                                    @{
+                                        if (item.NgayCapNhat!= null)
+                                        {
+                                            <a class="btn_detail btn btn-secondary" onclick="load('@item.MaNCC','@item.MaHang','@item.TenHang','@item.MaAutoCT')" style="color:#fff">Chi tiết</a>
+                                        }
+                                    }
+                                </td>
+                                <td style="text-align: center; width:85px">
+                                    @{
+                                        if (item.IsCheck.ToString() == "0")
+                                        {
+                                            if (item.IsChekXucTien.ToString() == "1")
+                                            {
+                                                <input class="form-check-input" id="_@i" type="checkbox" onchange="clearcheck(@i)" name="check[]" value="@item.MaHang-@item.TenHang-@item.MaNCC">
+                                            }
+                                            else
+                                            {
+                                                <input class="form-check-input" type="checkbox" disabled name="checkNo[]" value="">
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <input class="form-check-input" type="checkbox" disabled name="checkNo[]" value="">
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    function clearcheck(k) {
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                cboxes[i].checked = false;
+            }
+        }
+        $("#_" + k).prop('checked', true);
+    }
+    function load(MaNCC, Mahang, TenHang, MaCT) {
+        Show_Filter_Detail(MaNCC, Mahang);
+        $("#MaHangPopDt").val(Mahang + ' - ' + TenHang);
+        $("#MaCT").val(MaCT);
+        $("#MaNCCDT").val(MaNCC);
+        js_searchbox_Detail();
+        $('#popupMoRongKD_Detail').modal();
+    }
+
+    function js_searchbox_Detail() {
+        debugger;
+        var MaCT = $("#MaCT").val();
+        var MaNCC = $("#MaNCCDT").val();
+
+        var CuaHang = $("#CuaHangD").val();
+        var Mien = $("#MienD").val();
+        var TinhThanh = $("#TinhThanhD").val();
+        $("#tbl_Item_MRKD_Detail tbody").empty();
+        $.ajax({
+            url: '/ManageSales/TrungBayNganhHang_Detail',
+            type: 'POST',
+            data: JSON.stringify({ MaNCC: MaNCC, MaCT: MaCT, CuaHang: CuaHang, Mien: Mien, TinhThanh: TinhThanh }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#tbl_Item_MRKD_Detail tbody").empty();
+                    // $("#tbl_HangTang_Line tbody").empty();
+                    $.each(data, (index, value) => {
+                        $("#tbl_Item_MRKD_Detail tbody").append('<tr><td>' + value.MaCuaHang + ' - ' + value.TenCuaHang + '</td><td style="text-align: right">' + value.SoMatTB + '</td> <td style="text-align: right">' + value.Stockday + '</td><td style="text-align: right">' + value.SoMatTBMoi + '</td> <td style="text-align: right">' + value.TuNgay + '</td><td style="text-align: right">' + value.DenNgay + '</td><td style="text-align: right">' + value.ChiPhi + '</td></tr>');
+                    });
+
+                }
+            }
+        });
+    }
+    function Show_Filter_Detail(MaNCC, Mahang) {
+        $('#CuaHangD').empty();
+        if (MaNCC.length > 0) {
+            $.ajax({
+                url: '/ManageSales/GateWay_TrungBayNganhHang_CuaHang',
+                type: 'POST',
+                data: JSON.stringify({ MaNCC: MaNCC, Mahang: Mahang }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#CuaHangD').empty();
+                        $('#CuaHangD').append('<option value="">-- Chọn cửa hàng --</option>');
+                        for (i in row) {
+                            $('#CuaHangD').append('<option value="' + row[i].Code + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#CuaHangD').selectpicker('refresh');
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+
+            $('#MienD').empty();
+            $.ajax({
+                url: '/ManageSales/GateWay_TrungBayNganhHang_Mien',
+                type: 'POST',
+                data: JSON.stringify({ MaNCC: MaNCC, Mahang: Mahang }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#MienD').empty();
+                        $('#MienD').append('<option value="">-- Chọn vùng miền --</option>');
+                        for (i in row) {
+                            $('#MienD').append('<option value="' + row[i].Name + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#MienD').selectpicker('refresh');
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            $('#TinhThanhD').empty();
+            $.ajax({
+                url: '/ManageSales/GateWay_TrungBayNganhHang_TinhThanh',
+                type: 'POST',
+                data: JSON.stringify({ MaNCC: MaNCC, Mahang: Mahang }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#TinhThanhD').empty();
+                        $('#TinhThanhD').append('<option value="">-- Chọn tỉnh thành --</option>');
+                        for (i in row) {
+                            $('#TinhThanhD').append('<option value="' + row[i].Code + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#TinhThanhD').selectpicker('refresh');
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+

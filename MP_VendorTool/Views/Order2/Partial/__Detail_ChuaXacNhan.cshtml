@@ -1,0 +1,203 @@
+﻿@using System.Data;
+@using MP_VendorTool.Common;
+<div style="clear: both"></div>
+@{
+    if (Model != null)
+    {
+        var dt = Model as DataTable;
+        if (dt.Rows.Count > 0)
+        {
+            <fieldset class="BBoder">
+                <div class="alerts">
+                    <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten1">
+                        <div class="col-md-9">
+                            @{
+                                if (dt.Rows.Count > 0)
+                                {
+                                    <div class="form-group row">
+                                        <div class="col-sm-3">
+                                            <div class="headerName GiaoHangDot">
+                                                Giao hàng đợt @dt.Rows[0]["DotGiao"].ToString()
+                                                <input type="hidden" id="DotGiao_Hientai" name="DotGiao_Hientai" value="@dt.Rows[0]["DotGiao"].ToString()" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div style=" padding-top:10px"> <span style="font-size: 15px;">Hiệu lực đến ngày: </span><strong>@dt.Rows[0]["expDate"]</strong></div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            @*<span>Số lượng giao: </span><strong>1,567</strong>*@
+                                        </div>
+                                        <div class="col-sm-4" style=" text-align:right">
+                                            @* <span class="label label-warning" style=" background: #EFC56E">Đang chờ duyệt</span>*@
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="col-md-3">
+                            <div class="col-xs-1 right" style="margin-top: 9px !important">
+                                <i class="chevron fa "></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear:both; height:20px"></div>
+                    <div class="col-xs-12 collapse in" id="Conten1">
+                        <div style=" height:0px; clear:both"></div>
+                        <div class="FullfromV1">
+                            <table id="tbl_Item" class="table table-striped table-bordered table-hover" cellspacing="0" style=" padding-top:10px;  width:98%; margin:auto">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left">
+                                            <div class="SanPham1">Hình ảnh</div>
+                                        </th>
+                                        <th class="text-left">
+                                            <div class="SanPham1">Tên hàng</div>
+                                        </th>
+                                        <th class="text-left">
+                                            <div class="SanPham1">SL đặt</div>
+                                        </th>
+                                        <th class="text-left">
+                                            <div><span style="float: left; margin-top: 7px; margin-right: 9px;"> Thời gian giao hàng</span> <input style=" width: 170px; float: left; " type="date" class="form-control" name="ThoiGianGiaoHang" id="ThoiGianGiaoHang" value="" min="@DateTime.Today.ToString("yyyy-MM-dd")" /></div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        if (Model != null)
+                                        {
+                                            if (dt.Rows.Count > 0)
+                                            {
+                                                int i = 1;
+                                                foreach (DataRow item in dt.Rows)
+                                                {
+                                                    var Row = "Row_" + item["MaHang"];
+                                                    var Row1 = "Row_" + item["MaHang"] + "_" + i;
+                                                    var MaHang = item["MaHang"];
+                                                    var Row3 = item["MaHang"] + "_" + i;
+
+                                                    <tr id="Row_@i" style="background: #ffff !important ">
+                                                        <td style="text-align:center; vertical-align: initial !important;">
+                                                            <input type="hidden" name="MaHang" id="ItemNo_@i" class="ItemNo" value="@item["MaHang"]" />
+                                                            <a href="@item["linkanh"]" title="" class="thickbox"><img height="100px" src="@item["linkanh"]" alt="" class="content" /></a>
+                                                        </td>
+                                                        <td style="text-align:left; vertical-align: initial !important;">
+                                                            <div>@item["MaHang"] - <span class="MaHang">@item["TenHang"]</span></div>
+                                                        </td>
+                                                        <td style="text-align:center; vertical-align: initial !important;">
+                                                            @item["TotalQuantity"]
+                                                        </td>
+                                                        <td class="text-right" style="width: 50%; ">
+                                                            <table id="Table_Sl_@MaHang" class="table table-bordered tb_detail" style="width: 98%; margin-right: 15px; margin-left: 15px; margin-bottom: 0px; background: #ffff !important">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="tieudeKC">
+                                                                            Ngày sản xuất
+                                                                        </th>
+                                                                        <th class="tieudeKC">
+                                                                            Ngày hết hạn
+                                                                        </th>
+                                                                        <th class="tieudeKC">
+                                                                            Số lượng
+                                                                        </th>
+                                                                        <th style=" width:100px">
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr style=" border: none; background: #ffff !important " id="@Row1">
+                                                                        <td style=" width: 10%; ">
+                                                                            <input class="form-control" type="hidden" id="prePO_ID" name="prePO_ID" value="@item["ID"]">
+                                                                            <input class="form-control" type="date" id="NgaySanXuat" name="NgaySanXuat" value="" max="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                                                        </td>
+                                                                        <td style=" width: 10%; "><input class="form-control" type="date" id="NgayHetHan" name="NgayHetHan" value="" min="@DateTime.Now.ToString("yyyy-MM-dd")"></td>
+                                                                        <td style=" width: 10%; ">
+                                                                            <input class="form-control SoLuong_@item["MaHang"]" onchange="js_CheckThongBao('@item["MaHang"]','@item["TotalQuantity"]','@i')" type="number" id="SoLuong" name="SoLuong" value="@item["TotalQuantity"]" min="0">
+                                                                        </td>
+                                                                        <td style="text-align:center;width: 5%;" class="btn_add"><a class="add" href="javascript:void(0)" onclick="js_add_row('@Row',@i,'@MaHang','@item["TotalQuantity"]','@item["ID"]');"><i class="fa fa-plus" aria-hidden="true"></i></a></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    i++;
+                                                }
+                                            }
+                                        }
+                                    }
+
+
+                                </tbody>
+                            </table>
+
+                            <div style="margin-left: 21px; padding-top: 20px; ">
+                                <a class="btn btn-success" onclick="XacNhanDonHang()" style="background: #F26B2A; color: #fff; border: none !important; padding-right: 44px; padding-left: 40px; ">
+                                    <img src="/image/Add.png" /> Xác nhận
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear:both; height:10px"></div>
+                </div>
+            </fieldset>
+        }
+    }
+}
+<script>
+    function deleteRowi(MaHang, r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("Table_Sl_" + MaHang).deleteRow(ri);
+    }
+
+    function js_add_row(Rows, r, MaHang, SoLuong, ID) {
+        const remainingQuantity = js_CheckThongBao(MaHang, SoLuong);
+        if (remainingQuantity === false) {
+            return;
+        }
+
+        var rr = 1 + r;
+        var Row = Rows + "_" + rr;
+        var chuoi = "";
+
+        var rr2 = rr - 1;
+        var Row2 = Rows + "_" + rr2;
+        $("#" + Row2 + " .btn_add").empty();
+        $("#" + Row2 + " .btn_add").html('<a href="javascript:void(0);" onclick="deleteRowi(\'' + MaHang + '\',this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+        var Rows3 = MaHang + "_" + rr;
+
+        chuoi += '<tr id="' + Row + '">';
+        chuoi += '<td style=" width: 10%; "><input class="form-control" type="hidden" id="prePO_ID" name="prePO_ID" value="' + ID + '"><input class="form-control" type="date" id="NgaySanXuat" name="NgaySanXuat" value="" max="@DateTime.Now.ToString("yyyy-MM-dd")"></td>';
+        chuoi += '<td style=" width: 10%; "><input class="form-control" type="date" id="NgayHetHan" name="NgayHetHan" value="" min="@DateTime.Now.ToString("yyyy-MM-dd")"></td>';
+        if (remainingQuantity > 0) {
+            chuoi += '<td style=" width: 10%; "><input class="form-control SoLuong_' + MaHang + '" type="number" id="SoLuong" onchange="js_CheckThongBao(' + MaHang + ',' + SoLuong + ',' + rr + ')" name="SoLuong" value="' + remainingQuantity + '"  min="0"></td>';
+        } else {
+            chuoi += '<td style=" width: 10%; "><input  class="form-control SoLuong_' + MaHang + '" type="number" id="SoLuong" onchange="js_CheckThongBao(' + MaHang + ',' + SoLuong + ',' + rr + ')" name="SoLuong" value="' + SoLuong + '"  min="0"></td>';
+        }
+        chuoi += '<td style="text-align:center;width: 5%;" class="btn_add"><a class="add" href="javascript:void(0)" onclick="js_add_row(\'' + Rows + '\',' + rr + ',\'' + MaHang + '\',' + SoLuong + ',' + ID + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td></tr > ';
+        $("#Table_Sl_" + MaHang + " tbody").append(chuoi);
+    }
+
+    function js_CheckThongBao(MaHang, SoLuong, r) {
+        debugger;
+        let trs = $("#Table_Sl_" + MaHang + " tbody tr");
+        let sum = 0;
+
+        trs.each((index, tr) => {
+            const inputVal = $('#' + tr.id + ' input[name="SoLuong"]').val().trim();
+            sum += inputVal ? parseInt(inputVal) : 0;
+        });
+
+        if (sum > SoLuong) {
+            var ssll = $("#Row_" + MaHang + "_" + r + " .SoLuong_" + MaHang).val();
+            var TongCo = sum - ssll;
+            $("#Row_" + MaHang + "_" + r + " .SoLuong_" + MaHang).val(SoLuong - TongCo > 0 ? SoLuong - TongCo : '0');
+        }
+
+        if (sum >= SoLuong) {
+            alert('Số lượng sản phẩm không được lớn hơn số lượng đặt');
+            return false;
+        }
+        return SoLuong - sum;
+    }
+  
+</script>
+

@@ -1,0 +1,64 @@
+﻿@using System.Data
+<table id="tbl_Item" class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">
+                NCC
+            </th>
+            <th scope="col">
+                Kỳ công nợ
+            </th>
+            <th scope="col" style="text-align: left; ">
+                Ngày lập
+            </th>
+            <th scope="col" style="text-align: left; width: 200px; max-width: 200px; ">
+                SL bán
+            </th>
+            <th scope="col" style="text-align: left; width: 200px; max-width: 200px; ">
+                Tình trạng
+            </th>
+            <th scope="col" style="text-align: left; width: 100px; max-width: 100px; ">
+                Chi tiết
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        var k = i + "_Row";
+                <tr style=" height:20px">
+                    <td class="text-left" style="width: 400px; max-width: 400px; overflow: hidden; white-space: nowrap " title="@item["MaNCC"] - @item["NCC"]">
+                        @item["MaNCC"] - @item["NCC"]
+                    </td>
+                    <td style="text-align: left; ">
+                        @item["KyTinhCongNo"]
+                    </td>
+                    <td style="text-align: left; ">
+                        @item["NgayLapDeNghi"]
+                    </td>
+                    <td style="text-align: right; width: 200px; max-width: 200px; ">
+                        @item["SLban"]
+                    </td>
+                    <td style="text-align: center; width: 200px; max-width: 200px; ">
+                        @item["TinhTrang"]
+                    </td>
+                    <td style="text-align: center; width: 100px; max-width: 100px; ">
+                        <a style="width: 100px; max-width: 100px; " href="/Report/DebtPurchase_Detail?KyTinhCongNo=@item["KyTinhCongNoView"]&Nam=@item["Nam"]&NCC=@item["MANCC"]" class="btn_detail btn btn-secondary">Chi tiết</a>
+                    </td>
+                </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>

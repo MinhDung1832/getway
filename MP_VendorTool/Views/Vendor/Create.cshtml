@@ -1,0 +1,716 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+@*<h2>@MP_VendorTool.Resource.VendorInfoTT</h2>*@
+
+<style>
+    .logo img {
+        width: 250px;
+    }
+    .form-control {
+        font-size: 11px;
+        color: #59595B;
+        border-radius: 0px;
+        border: 1px solid #d0cbcb;
+        height: 27px;
+    }
+    #btn_Gui {
+        background-color: #868686;
+        color: #fff;
+        padding: 3px 21px;
+        margin-top: 2px;
+        width: 120px;
+        text-align: left;
+    }
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 18px;
+    }
+
+        .text_home a {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    legend {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 20px;
+        margin-top: 32px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #6f8cb8;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    fieldset {
+        margin-top: 80px;
+    }
+
+    label {
+        font-size: 12px;
+        color: #777575;
+    }
+
+    .from_vender {
+        margin-left: 8px;
+    }
+
+        .from_vender input, .from_vender select {
+            margin-bottom: 8px;
+        }
+
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+        .button_save_1 a {
+            text-align: center;
+            background-color: #868686 !important;
+            border-color: #868686 !important;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 8px;
+        }
+
+    #E_Invoice {
+        margin-bottom: 18px !important;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #86868600;
+        border-color: #868686;
+        color: #6f8cb8 !important;
+    }
+
+    .button_action a:hover {
+        background-color: #0F4C81;
+        color: #f3f3f3 !important;
+        border: none;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+    .button_action {
+        margin-top: 44px;
+    }
+
+    .table > thead > tr > th {
+        color: #6f8cb8;
+    }
+
+    .btn-right {
+        background-image: url('../../image/Button/right.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+        .btn-right:hover {
+            background-image: url('../../image/Button/righthover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .btn-left {
+        background-image: url('../../image/Button/left.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+        .btn-left:hover {
+            background-image: url('../../image/Button/lefthover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .btn-center {
+        background-image: url('../../image/Button/center.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+        .btn-center:hover {
+            background-image: url('../../image/Button/centerhover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+</style>
+
+    <div class="content_vendor">
+        <div class="container">
+            <div class="row from_vender">
+                <fieldset>
+                    <legend>THÔNG TIN DOANH NGHIỆP</legend>
+                    <div class="col-md-6">
+
+                        <div class="col-md-4">
+                            <label for="businessType">Loại hình doanh nghiệp</label>
+
+                        </div>
+                        <div class="col-md-8">
+                            <select class="form-control" id="businessType">
+                                @foreach (var i in ViewBag.ls_business)
+                                {
+                                    <option value="@i.Code">@i.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="firmName">Tên doanh nghiệp</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="firmName" name="firmName">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="Address">@MP_VendorTool.Resource.Address</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="Address" name="Address">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="phoneNo">@MP_VendorTool.Resource.phoneNo</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="phoneNo" name="phoneNo">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="website">@MP_VendorTool.Resource.website </label>
+
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" id="website" name="website">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="email">@MP_VendorTool.Resource.email</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="email" name="email">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.facebook</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" id="facebook" name="facebook">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.industryType</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="form-control" id="industryType">
+                                @foreach (var i in ViewBag.ls_industry)
+                                {
+                                    <option value="@i.Code">@i.Name</option>
+                                }
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <label for="registrationBusiness">@MP_VendorTool.Resource.registrationBusiness</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="registrationBusiness" name="registrationBusiness">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="registrationTax">@MP_VendorTool.Resource.registrationTax</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="registrationTax" name="registrationTax">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="bankAccount">@MP_VendorTool.Resource.bankAccount</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="bankAccount" name="bankAccount">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.atBank </label>
+
+                        </div>
+                        <div class="col-md-8">
+                            @*<input class="form-control" type="text" id="atBank" name="atBank">*@
+                            <select class="form-control" id="atBank">
+                                @foreach (var i in ViewBag.ls_bank)
+                                {
+                                    <option value="@i.Code">@i.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="E_Invoice">@MP_VendorTool.Resource.E_Invoice</label>
+
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-check-input notnull" type="checkbox" id="E_Invoice" name="E_Invoice">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.ERP_Name</label>
+
+                        </div>
+                        <div class="col-md-8">
+                            <div id="ERP_Name_txt"></div>
+                            @*<select class="form-control" id="ERP_Name" onchange="ReII('ERP_Name')">*@
+                            <select class="form-control" id="ERP_Name">
+                                <option value="">@MP_VendorTool.Resource.multi_def</option>
+                                @foreach (var i in ViewBag.ls_erp)
+                                {
+                                    <option value="@i.Code">@i.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>@MP_VendorTool.Resource.VendorInfoF2</legend>
+                    <div class="col-md-6">
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.yearActive</label>
+
+                        </div>
+                        <div class="col-md-8">
+                            @*<input class="form-control" type="text" id="yearActive" name="yearActive" onchange="intNumberParse('yearActive')" value="0">*@
+                            <select class="form-control" id="yearActive">
+                                @foreach (var i in ViewBag.ls_yearActive)
+                                {
+                                    <option value="@i.Code">@i.Name</option>
+                                }
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <label for="employeesScale">@MP_VendorTool.Resource.employeesScale</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            @*<select class="form-control" id="employeesScale">
+                            @foreach (var i in ViewBag.ls_employeesScale)
+                            {
+                                <option value="@i.Code">@i.Name</option>
+                            }
+                        </select>*@
+                            <input class="form-control notnull OrderValue" type="text" id="employeesScale" name="employeesScale" value="0">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.coverageMarket</label>
+
+                        </div>
+                        <div class="col-md-8">
+
+                            <div id="coverageMarket_txt"></div>
+                            @*<select class="form-control" id="coverageMarket" onchange="ReII('coverageMarket')">*@
+                            <select class="form-control" id="coverageMarket">
+                                <option value="">@MP_VendorTool.Resource.multi_def</option>
+                                @foreach (var i in ViewBag.ls_coverageMarket)
+                                {
+                                    <option value="@i.Code">@i.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.previousRevenue</label>
+
+                        </div>
+                        <div class="col-md-8">
+                            <select class="form-control" id="previousRevenue">
+                                @foreach (var i in ViewBag.ls_previousRevenue)
+                                {
+                                    <option value="@i.Code">@i.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.competencyCore</label>
+
+                        </div>
+                        <div class="col-md-8">
+                            <div id="competencyCore_txt"></div>
+                            @*<select class="form-control" id="competencyCore" onchange="ReII('competencyCore')">*@
+                            <select class="form-control" id="competencyCore">
+                                <option value="">@MP_VendorTool.Resource.multi_def</option>
+                                @foreach (var i in ViewBag.ls_compe)
+                                {
+                                    <option value="@i.Code">@i.Name</option>
+                                }
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <label for="customerKey">@MP_VendorTool.Resource.customerKey</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="customerKey" name="customerKey">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="warehouseAcreage">@MP_VendorTool.Resource.warehouseAcreage</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull OrderValue" type="text" id="warehouseAcreage" name="warehouseAcreage" value="0">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="truckQuantity">@MP_VendorTool.Resource.truckQuantity</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull OrderValue" type="text" id="truckQuantity" name="truckQuantity" value="0">
+                        </div>
+                    </div>
+                </fieldset>
+                <hr>
+                <fieldset>
+                    <legend>@MP_VendorTool.Resource.VendorInfoF3</legend>
+                    <div class="col-md-6">
+
+                        <div class="col-md-4">
+                            <label for="representativeName">@MP_VendorTool.Resource.representativeName</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="representativeName" name="representativeName">
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <label for="representativeEmail">@MP_VendorTool.Resource.representativeEmail</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" id="representativeEmail" name="representativeEmail">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.representativePosition</label>
+                            <label style="color:red">*</label>
+
+                        </div>
+                        <div class="col-md-8">
+
+                            <select class="form-control" id="representativePosition">
+                                @foreach (var i in ViewBag.ls_position)
+                                {
+                                    <option value="@i.Code">@i.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="representativePhone">@MP_VendorTool.Resource.representativePhone</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="representativePhone" name="representativePhone">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="col-md-4">
+                            <label for="contactName">@MP_VendorTool.Resource.contactName</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="contactName" name="contactName">
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <label for="contactEmail">@MP_VendorTool.Resource.contactEmail</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="contactEmail" name="contactEmail">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.contactPosition</label>
+
+                        </div>
+                        <div class="col-md-8">
+                            <select class="form-control" id="contactPosition">
+                                @foreach (var i in ViewBag.ls_position)
+                                {
+                                    <option value="@i.Code">@i.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="contactPhone">@MP_VendorTool.Resource.contactPhone</label>
+                            <label style="color:red">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control notnull" type="text" id="contactPhone" name="contactPhone">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <p style="color: red; font-style: italic; font-size: smaller; margin-top: 10px; margin-left: 35px;">*: Các trường thông tin bắt buộc phải nhập</p>
+            <div class="row ">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6" style="text-align: right; padding-right: 27px;">
+                    <div style=" padding-top: 32px">
+                        <a href="#" id="btn_Gui" onclick="Save();" class="btn btn-secondary"><i class="far fa-paper-plane"></i> Lưu lại</a>
+                    </div>
+                </div>
+                @*<a href="#" onclick="Save()" style="margin-left:14px" class="form-control btn-right">@MP_VendorTool.Resource.Save_Con </a>*@
+            </div>
+            <div style=" height:20px"></div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="BBM_Code" value="@Session["BBM_Code"]" /> 
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#txtHead').html('THÔNG TIN DOANH NGHIỆP');
+       
+        $('#firmName').val('@Session["uname"]');
+       
+    });
+    function Save() {
+
+        var buttons = document.getElementsByClassName('notnull');
+
+        for (var i = 0; i < buttons.length; i++) {
+            if (buttons[i].value.length == 0) {
+                document.getElementById(buttons[i].id).focus();
+                alert("Các trường có dấu * là bắt buộc phải nhập. Vui lòng kiểm tra lại. Ví dụ: " + buttons[i].labels[0].innerHTML);
+                return;
+            }
+        }
+
+
+
+        //VendorInfo
+        var info_obj = {};
+        info_obj.businessType = $('#businessType').val();
+        info_obj.firmName = $('#firmName').val();
+        info_obj.Address = $('#Address').val();
+        info_obj.phoneNo = $('#phoneNo').val();
+        info_obj.website = $('#website').val();
+        info_obj.email = $('#email').val();
+        info_obj.facebook = $('#facebook').val();
+        info_obj.industryType = $('#industryType').val();
+        info_obj.registrationBusiness = $('#registrationBusiness').val();
+        info_obj.registrationTax = $('#registrationTax').val();
+        info_obj.bankAccount = $('#bankAccount').val();
+        info_obj.atBank = $('#atBank').val();
+        info_obj.E_Invoice = $('#E_Invoice').prop('checked') == false ? 0 : 1;
+        info_obj.ERP_Name = $('#ERP_Name').val(); //readeMulti('ERP_Name');
+
+        console.log(JSON.stringify(info_obj));
+
+        //end VendorInfo
+
+        //Capability
+        var cap_obj = {};
+        cap_obj.registrationTax = $('#registrationTax').val();
+        cap_obj.yearActive = $('#yearActive').val();
+        cap_obj.employeesScale = $('#employeesScale').val();
+        cap_obj.coverageMarket = $('#coverageMarket').val();//readeMulti('coverageMarket');
+        cap_obj.previousRevenue = $('#previousRevenue').val();
+        cap_obj.competencyCore = $('#competencyCore').val(); //readeMulti('competencyCore');
+        cap_obj.customerKey = $('#customerKey').val();
+        cap_obj.warehouseAcreage = $('#warehouseAcreage').val();
+        cap_obj.truckQuantity = $('#truckQuantity').val();
+
+        console.log(JSON.stringify(cap_obj));
+        //End Capability
+
+        //Contact
+        var con_obj = {};
+        con_obj.registrationTax = $('#registrationTax').val();
+        con_obj.BBM_Code = $('#BBM_Code').val();
+        con_obj.representativeName = $('#representativeName').val();
+        con_obj.representativeEmail = $('#representativeEmail').val();
+        con_obj.representativePosition = $('#representativePosition').val();
+        con_obj.representativePhone = $('#representativePhone').val();
+        con_obj.contactName = $('#contactName').val();
+        con_obj.contactEmail = $('#contactEmail').val();
+        con_obj.contactPosition = $('#contactPosition').val();
+        con_obj.contactPhone = $('#contactPhone').val();
+
+        console.log(JSON.stringify(con_obj));
+        //End Capability
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Vendor/registrationTaxExist",
+            data: '{registrationTax:"' + $('#registrationTax').val() + '"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                if (r.code == '0')// kiểm tra trong bảng có chưa , nếu có thì ko cho thêm mới
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Vendor/addVendor",
+                        data: '{info:' + JSON.stringify(info_obj) + ',cap:' + JSON.stringify(cap_obj) + ',con:' + JSON.stringify(con_obj) + '}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (r1) {
+                            var sub = JSON.parse(r1);
+                            if (sub["code"] == '1') {
+                                jAlert('Cập nhật thông tin doang nghiệp thành công', 'Thông báo', (r) => {
+                                    location.reload();
+                                });
+                            } else {
+                                jAlert('Mã số thuế đã được đăng ký !', 'Thông báo');
+                            }
+                        }
+                    });
+
+                } else {
+                    alert("Mã số thuế đã được đăng ký!");
+                }
+            }
+        });
+    }
+
+    function ReII(strSelID) {
+
+        $('#' + strSelID + '_txt').append('<input type="button" id="btn_' + strSelID + '_del_' + $('#' + strSelID + '').val() + '"  name="' + $('#' + strSelID + '').val() + '-' + $('#' + strSelID + ' option:selected').text() + '" value="' + $('#' + strSelID + ' option:selected').text() + '  &#10006;" onclick="AddSEl(\'' + strSelID + '\',\'' + $('#' + strSelID + '').val() + '\',\'' + $('#' + strSelID + ' option:selected').text() + '\')" class="btn-primary" style="float:left; margin:3px;border-radius: 20px; font-size: 12px !important;"/>')
+
+        var x = document.getElementById(strSelID);
+        x.remove(x.selectedIndex);
+    }
+
+    function AddSEl(strSelID, strId, strVal) {
+
+        var x = document.getElementById(strSelID);
+        var option = document.createElement("option");
+        option.value = strId;
+        option.text = strVal;
+        x.add(option);
+
+        sortSelectOptions('#' + strSelID);
+
+        document.getElementById("btn_" + strSelID + "_del_" + strId).remove();
+    }
+
+    function sortSelectOptions(selectElement) {
+        var options = $(selectElement + " option");
+
+        options.sort(function (a, b) {
+            if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+            else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+            else return 0;
+        });
+
+        $(selectElement).empty().append(options);
+        $(selectElement).val("");
+    }
+
+    function readeMulti(strSelID) {
+        var str_rt = "";
+        var c = document.getElementById(strSelID + "_txt").children;
+        for (i = 0; i < c.length; i++) {
+            if (i == 0) {
+                console.log(c[i].name);
+
+                str_rt += c[i].name;
+            } else {
+                console.log('|' + c[i].name);
+
+                str_rt += '|' + c[i].name;
+            }
+
+        }
+
+        return str_rt;
+    }
+</script>

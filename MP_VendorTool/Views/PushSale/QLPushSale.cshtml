@@ -1,0 +1,242 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Quản lý thúc đẩy bán hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="vendorName" class="col-sm-4 col-form-label">Nhà cung cấp</label>
+                                            <div class="col-sm-8">
+                                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                                {
+                                                    <input type="text" class="form-control" id="NhaCC" name="NhaCC" value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                                                    <script>
+                                                        $(function () {
+                                                            js_onchange_NCC_MaHang();
+                                                        });
+                                                    </script>
+                                                }
+                                                else
+                                                {
+                                                    <select id="NhaCC" class="form-control selectpicker" data-live-search="true" onchange="js_onchange_NCC_MaHang(); js_searchbox()">
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            <option value="">--- Chọn NCC ---</option>
+                                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label">Mã hàng /Tên hàng</label>
+                                            <div class="col-sm-8">
+                                                <select id="MaHang" class="form-control selectpicker" data-live-search="true" onchange="js_onchange_barcode(); js_searchbox()">
+                                                    <option value="">--- Chọn mã hàng ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="Ngay" class="col-sm-4 col-form-label">Barcode</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control selectpicker" data-live-search="true" id="Barcode" onchange="js_searchbox()">
+                                                    <option value=""> -- Chọn Barcode --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Trạng thái</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control selectpicker" data-live-search="true" id="TrangThai" onchange="js_searchbox()">
+                                                    <option value=""> -- Chọn trạng thái --</option>
+                                                    <option value="1">Đã duyệt</option>
+                                                    <option value="2">Chưa duyệt</option>
+                                                    <option value="3">Từ chối</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center;">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a href="#" class="btn btn-secondary px-5 btgetw" onclick="js_searchbox()" id="btnGetChecks"><i class="fa fa-search" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tìm kiếm</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="div-content" style=" padding-top: 68px; ">
+                    @Html.Partial("~/Views/PushSale/Partial/__QLPushSale.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#txtHead').html("Quản lý thúc đẩy bán hàng");
+        $('#f_dev').html("");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        js_GetList();
+    });
+    function js_searchbox() {
+        js_GetList();
+    }
+    function js_ReloadTable() {
+        imgrecall();
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[200, 50, 70, 100, -1], [200, 50, 70, 100]],
+            //"order": [[0, "desc"]],
+            //columnDefs: [
+            //    { 'targets': 7, 'orderable': false },
+            //    { 'targets': 8, 'orderable': false },
+            //    { 'targets': 9, 'orderable': false }
+            //],
+            "searching": false,
+            fixedHeader: true,
+            fixedHeader: {
+                headerOffset: 166
+            },
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+        $('img.content').hover(function () {
+            $(this).addClass('transition');
+        }, function () {
+            $(this).removeClass('transition');
+        });
+    }
+    function js_GetList() {
+        debugger;
+        var vendorNo = fomart_split($("#NhaCC").val(), 0);
+        var MaHang = fomart_split($("#MaHang").val(), 0);
+        var Barcode = fomart_split($("#Barcode").val(), 0);
+        var TrangThai = $("#TrangThai").val();
+        js_Loading(true, 1);
+        $.ajax({
+            url: '/PushSale/GetList_QLPushSale',//SP_CTKM_PushSale_HHOA_KGUI
+            type: 'POST',
+            data: JSON.stringify({ vendorNo: vendorNo, MaHang: MaHang, Barcode: Barcode, TrangThai: TrangThai }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_onchange_NCC_MaHang() {
+        var NCC = fomart_split($("#NhaCC").val(), 0);
+        $('#MaHang').empty();
+        if (NCC.length > 0) {
+            // Call MaHang
+            $.ajax({
+                url: '/PushSale/GetList_NCC_Produts',
+                type: 'POST',
+                data: JSON.stringify({ NCC: NCC }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#MaHang').empty();
+                        $('#MaHang').append('<option value="">--Chọn mã hàng--</option>');
+                        for (i in row) {
+                            $('#MaHang').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#MaHang').selectpicker('refresh');
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+    function js_onchange_barcode(r) {
+        let nameProduct = $('#MaHang').val();
+        $('#Barcode').empty();
+
+        var item = nameProduct.split(" - ");
+
+        let NhaCC = $('#NhaCC').val();
+        var arNhaCC = NhaCC.split(" - ");
+        if (nameProduct.length > 0) {
+
+            // Call Barcode
+            $.ajax({
+                url: '/PushSale/GetListBarcode',
+                type: 'POST',
+                data: JSON.stringify({ itemNo: item[0] }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#Barcode').empty();
+                        $('#Barcode').append('<option value="">--Chọn Barcode--</option>');
+                        for (i in row) {
+                            $('#Barcode').append('<option value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#Barcode').selectpicker('refresh');
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+</script>

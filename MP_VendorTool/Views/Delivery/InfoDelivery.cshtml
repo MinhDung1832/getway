@@ -1,0 +1,178 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Thông tin cung ứng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="vendorName" class="col-sm-4 col-form-label">Nhà cung cấp</label>
+                                            <div class="col-sm-8">
+                                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                                {
+                                                    <input type="text" class="form-control" id="VendorCode" name="VendorCode" value="@Session["VendorCode"] - @Session["VendorName"]" disabled style=" padding-left: 7px !important; ">
+                                                }
+                                                else
+                                                {
+                                                    <select id="VendorCode" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox();">
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            <option value="">--- Chọn NCC ---</option>
+                                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label"></label>
+                                            <div class="col-sm-8">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label"></label>
+                                            <div class="col-sm-8">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-4">
+                                    <div class="box_with">
+
+                                        <div class="form-group row">
+                                            <label for="Ngay" class="col-sm-4 col-form-label">Trạng thái</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control selectpicker" id="TrangThai" data-live-search="true" onchange="js_searchbox()">
+                                                    <option value="0">-- Chọn trạng thái -- </option>
+                                                    <option value="2">Chưa tạo</option>
+                                                    <option value="1">Đã tạo</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label"></label>
+                                            <div class="col-sm-8">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center;">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a href="#" onchange="js_searchbox()" class="btn btn-secondary px-5 btgetw" id="btnGetChecks"><i class="fa fa-search" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tìm kiếm</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a id="btntuchoi" onclick="js_saveCheck_href();" class="btn btn-success px-5 rounded-0 btgetw" style=" color:#fff"><i class="fa fa-forward" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i>Tiếp tục </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div id="div-content" style=" padding-top: 73px; ">
+                        @Html.Partial("~/Views/Delivery/Partial/__InfoDelivery.cshtml")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#txtHead').html("Thông tin cung ứng");
+        $('#f_dev').html("Dữ liệu khai báo Trading Term");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        js_GetList();
+    });
+    function js_searchbox() {
+        js_GetList();
+    }
+
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+        $('img.content').hover(function () {
+            $(this).addClass('transition');
+        }, function () {
+            $(this).removeClass('transition');
+        });
+    }
+
+    function js_ReloadTable() {
+        imgrecall();
+        $('#tbl_Item')
+            .DataTable({
+                lengthMenu: [[100, 200, 300, -1], [100, 200, 300, "All"]],
+                fixedHeader: {
+                    headerOffset: 173
+                },
+                 columnDefs: [
+                    { 'targets': 9, 'searchable': false, 'orderable': false },
+                ],
+                autoWidth: true,
+                bAutoWidth: true,
+                "searching": false,
+                responsive: true,
+                "order": [[0, "asc"]]
+            });
+    }
+
+
+    function js_GetList() {
+        var VendorCode = fomart_split($("#VendorCode").val(), 0);
+        var TrangThai = $("#TrangThai").val();
+        $.ajax({
+            url: '/Delivery/GetList_Delivery',//SP_TRADTERM_Info_GiaoHang_Header_Delivery
+            type: 'POST',
+            data: JSON.stringify({ VendorCode: VendorCode, TrangThai: TrangThai }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    @*var itens = '@Session["Delivery_XacNhan"]';
+    const myArray = itens.split(",");
+        for (var i = 0; i < myArray.length; i++) {
+            console.log(myArray[i]);
+        }*@
+      //  console.log("chuoi: " + JSON.stringify({ chuoi }));
+
+
+
+</script>
+
+

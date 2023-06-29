@@ -1,0 +1,165 @@
+﻿@using System.Data
+<div class="form-group row">
+    <label for="HanThanhToanKyNay" class="col-sm-12 col-form-label" style=" font-size:13px; margin-left:2px;"><b>I. Nhập - Xuất - Tồn trong kỳ</b></label>
+</div>
+<table id="tbl_Item" class="table table-bordered tb_detail">
+    <thead>
+        <tr>
+            <th scope="col" style="text-align: left; ">
+                Mã hàng
+            </th>
+            <th scope="col" style="text-align: left; width: 300px; max-width: 300px; overflow: hidden; white-space: nowrap ">
+                Tên hàng
+            </th>
+            <th scope="col" style="text-align: left; ">
+                SL tồn<br />đầu kỳ
+            </th>
+            <th scope="col">
+                SL<br />bán HN
+            </th>
+            <th scope="col" style="text-align: left;">
+                SL<br />bán HCM
+            </th>
+            <th scope="col" style="text-align: left;">
+                SL nhập
+            </th>
+            <th scope="col" style="text-align: left;">
+                Xuất trả
+            </th>
+            <th scope="col" style="text-align: left;">
+                SL tồn <br />cuối kỳ
+            </th>
+            <th scope="col" style="text-align: left;">
+                Đơn giá bán<br />trong kỳ
+            </th>
+            <th scope="col" style="text-align: left;">
+                Thành tiền<br />(+VAT) MB
+            </th>
+            <th scope="col" style="text-align: left;">
+                Thành tiền<br />(+VAT) MN
+            </th>
+            <th scope="col" style="text-align: left; width: 100px; max-width: 100px; overflow: hidden; white-space: nowrap ">
+                Ghi chú
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        <tr style=" height:20px" id="Row_@i">
+                            <td style="text-align: left; ">
+                                <span class="MaHang">@item["MaHang"]</span>
+                            </td>
+                            <td style="text-align: left; width: 300px; max-width: 300px; overflow: hidden; white-space: nowrap " title="@item["MaHang"]">
+                                @item["Tenhang"]
+                            </td>
+                            <td style="text-align: right; ">
+                                @item["Ton_DK"]
+                            </td>
+                            <td style="text-align: right; ">
+                                @item["QuantityMB"]
+                            </td>
+                            <td style="text-align: right; ">
+                                @item["QuantityMN"]
+                            </td>
+                            <td style="text-align: right; ">
+                                @item["Nhap"]
+                            </td>
+                            <td style="text-align: right; ">
+                                @item["XuatTra"]
+                            </td>
+                            <td style="text-align: right; ">
+                                @item["Ton_CK"]
+                            </td>
+                            <td style="text-align: right; ">
+                                @item["Giaban"]
+                            </td>
+                            <td style="text-align: right; ">
+                                @item["AmountMB"]
+                            </td>
+                            <td style="text-align: right; ">
+                                @item["AmountMN"]
+                            </td>
+                            <td style="text-align: left; width: 100px; max-width: 100px; overflow: hidden; white-space: nowrap " title="@item["MaHang"]">
+                                <span class="MaNCC" style=" display:none">@item["MaNCC"]</span>
+                                <span class="Ngayban" style=" display:none">@item["Ngayban"]</span>
+                                <span class="PaymentDate" style=" display:none">@item["PaymentDate"]</span>
+                                <span class="GhiChu"><input type="text" class="form-control GhiChus" name="GhiChu" id="GhiChu" value="@item["GhiChu"]" /></span>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+    <tfoot>
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                <tr style="background: #f3f3f3; " id="ShowBoder">
+                    <td style="text-align: left; font-weight:700" colspan="2">
+                        TỔNG CỘNG
+                    </td>
+                    <td style="text-align: right; font-weight:700">
+                        @dt.Rows[0]["SumTon_DK"]
+                        <div id="SumDoanhSoVAT" style=" display:none">@dt.Rows[0]["SumDoanhSoVAT"].ToString().Replace(",", "")</div>
+                        <div id="MinNgayBan" style=" display:none">@dt.Rows[0]["MinNgayBan"].ToString()</div>
+                        <div id="MaxNgayBan" style=" display:none">@dt.Rows[0]["MaxNgayBan"].ToString()</div>
+                    </td>
+                    <td style="text-align: right; font-weight:700">
+                        @dt.Rows[0]["SumQuantityMB"]
+                    </td>
+                    <td style="text-align: right; font-weight:700">
+                        @dt.Rows[0]["SumQuantityMN"]
+
+                    </td>
+                    <td style="text-align: right; font-weight:700">
+                        @dt.Rows[0]["SumNhap"]
+                    </td>
+                    <td style="text-align: right; font-weight:700">
+                        @dt.Rows[0]["SumXuatTra"]
+                    </td>
+                    <td style="text-align: right; font-weight:700">
+                        @dt.Rows[0]["SumTon_CK"]
+                    </td>
+                    <td style="text-align: right; font-weight:700">
+                        @dt.Rows[0]["SumGiaban"]
+                    </td>
+                    <td style="text-align: right; font-weight:700">
+                        @dt.Rows[0]["SumAmountMB"]
+                        <div id="SumAmountMB" style=" display:none">@dt.Rows[0]["SumAmountMB"].ToString().Replace(",", "")</div>
+
+                    </td>
+                    <td style="text-align: right; font-weight:700">
+                        @dt.Rows[0]["SumAmountMN"]
+                        <div id="SumAmountMN" style=" display:none">@dt.Rows[0]["SumAmountMN"].ToString().Replace(",", "")</div>
+                    </td>
+                    <td class="text-right">
+                    </td>
+                </tr>
+
+                  
+                }
+            }
+        }
+    </tfoot>
+</table>
+<div style="clear:both; height:10px"></div>
+<div class="form-group row">
+    <label for="HanThanhToanKyNay" class="col-sm-12 col-form-label" style=" font-size:13px; margin-left:2px;"><b>II. Thanh toán </b></label>
+</div>
+
+
+

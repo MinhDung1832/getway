@@ -1,0 +1,125 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Mã NCC
+                </th>
+                <th scope="col" style="text-align: left; width: 300px; max-width: 300px; ">
+                    Tên NCC
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Mã Hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 300px; max-width: 300px; ">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Hình ảnh
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Sl hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 300px; max-width: 300px; ">
+                    Tên quà
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    SL Quà
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model;
+                    {
+                        var i = 0;
+                        foreach (MP_VendorTool.Models.CTKM_Product item in dt)
+                        {
+                        <tr style=" height:20px" id="Row_@i">
+                            <td>
+                                @item.MaNCC
+                            </td>
+                            <td style="text-align: left; width: 300px; max-width: 300px; ">
+                                @item.TenNCC
+                            </td>
+                            <td>
+                                <span class="MaSP">@item.MaSP</span>
+                            </td>
+                            <td style="text-align: left; width: 300px; max-width: 300px; ">
+                                <span class="TenSP">@item.TenSP</span>
+                            </td>
+                            <td style="text-align:center">
+                                @if (item.Images.ToString() != "")
+                                {
+                                    if (item.Images.ToString().Contains("no_selection"))
+                                    {
+                                    }
+                                    else
+                                    {
+                                        <a target="_blank" href="@item.Images" class="thickbox"><img style="height: 60px" src=" @item.Images" class="content"></a>
+                                    }
+                                }
+                               
+                                <span class="Images" style="display:none">@item.Images</span>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="text" name="SLHang" id="SLHang" class="form-control SLHang OrderValue" style=" width:120px" value="" />
+                            </td>
+                            <td style="text-align: center; width: 300px; max-width: 300px ">
+                                <select size="4" multiple="multiple" data-live-search="true" class="form-control selectpicker TenQua" style="width: 300px; max-width: 300px " id="TenQua_@i" name="TenQua" data-selected-text-format="count > 2" data-none-selected-text="-- Chọn quà tặng --">
+                                </select>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="text" name="SLQua" id="SLQua" class="form-control SLQua OrderValue" style=" width:120px" value="" />
+                            </td>
+                        </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    //function checkall() {
+    //    var cboxes = document.getElementsByName('check[]');
+    //    for (var i = 0; i < cboxes.length; i++) {
+    //        if ($('#checkall').is(":checked")) {
+    //            cboxes[i].checked = true;
+    //        } else { cboxes[i].checked = false; }
+    //    }
+    //}
+
+
+    //function js_checkNBD_HNgayKetThuc(d) {
+    //    var NgayBatDau = $('#HNgayKetThuc').val();
+    //    var date1 = new Date(NgayBatDau);
+    //    var NBD = date1.getTime();
+    //    var NBDres = NBD.toString().substring(0, 6);
+    //    var today = new Date();
+    //    var now = today.getTime();
+    //    var NBDnow = now.toString().substring(0, 6);
+
+    //    if (NBDres < NBDnow) {
+    //        alert("Vui lòng chọn ngày bắt đầu lớn hơn ngày hiện tại!");
+    //        $('#HNgayKetThuc').val('');
+    //        $('#HNgayKetThuc').css('border', '1px solid #ffa903');
+    //        return;
+    //    }
+    //}
+</script>
+

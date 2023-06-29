@@ -1,0 +1,485 @@
+﻿@{
+    ViewBag.Title = "Vendors - Gateway";
+}
+<script src="/Resources/js/equalheight.js"></script>
+<script type="text/javascript" charset="utf-8">
+    $(window).load(function () {
+        equalheight('.oother');
+    });
+    $(window).resize(function () {
+        equalheight('.oother');
+
+    });
+</script>
+
+<link href="/Resources/css/Home.css" rel="stylesheet" />
+
+
+
+<link rel="stylesheet" href="/Resources/slide/css/default.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="/Resources/slide/css/nivo-slider.css" type="text/css" media="screen" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<link href="/Resources/css/Dashboard.css" rel="stylesheet" />
+
+
+<div class="content-wrapper">
+    <table style="width:100%">
+        <tbody>
+            <tr>
+                <td colspan="2" style="width: 73%">
+                    <div class="">
+                        <div class="ibox-body">
+                            <div class="Mbody">
+                                <div class="ibox-head">
+                                    <div class="ibox-title">Chào mừng bạn quay trở lại với Bibosmart</div>
+                                </div>
+                                <div class="MHome" style=" height: 290px;">
+                                    <div class="banner_1">
+                                        <img src="/image/banner_1.png" style="width: 100%; height: 320px; object-fit: cover; border-radius: 16px; " />
+                                    </div>
+
+                                    <div class="banner_1 Kcach">
+
+                                        <div class="slider-wrapper theme-default">
+                                            <div id="slider" class="nivoSlider">
+                                                <img src="/image/banner-02.png" />
+                                                <img src="/image/banner-03.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ibox col-sm-6 Kcach1 chartsk">
+                                        <div class="ibox-body">
+                                            <div class="Mbody">
+                                                <div class="BBoder_V1 ">
+                                                    <div class="oother">
+                                                        <div class="headerName">
+                                                            <select id="NamDoanhSoThang" class="form-control selectpicker" name="NamDoanhSoThang" onchange="fillNamDoanhSoThang()">
+                                                                @Html.Raw(ViewBag.YearDoanhSoThang)
+                                                            </select>
+                                                        </div>
+                                                        <div class="mota1">Doanh số các tháng</div>
+
+                                                        <div class="Dulieutrong DoanhSoThangNo" style="display:none">Dữ liệu trống</div>
+
+                                                        <div class="DoanhSoThangOk">
+                                                            <canvas id="DoanhSoThang"></canvas>
+                                                            <div style="clear:both; height:10px;"></div>
+                                                            <div class="mota">Cập nhật gần nhất:</div>
+                                                            <div style=" text-align:center; color:#000"> @(DateTime.Now.ToString("dd-MM-yyyyy"))</div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ibox col-sm-6 Kcach1">
+                                        <div class="ibox-body">
+                                            <div class="Mbody">
+                                                <div class="BBoder_V1 ">
+                                                    <div class="oother">
+                                                        <div class="headerName">Doanh số năm</div>
+                                                        <div class="mota1">Tổng doanh số từng năm</div>
+                                                        @{
+                                                            if (ViewBag.data == "0,0")
+                                                            {
+                                                                <div class="Dulieutrong">Dữ liệu trống</div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <canvas id="DoanhSoNam"></canvas>
+                                                                <div style="clear:both; height:10px;"></div>
+                                                                <div class="mota">Cập nhật gần nhất:</div>
+                                                                <div style=" text-align:center; color:#000"> @(DateTime.Now.ToString("dd-MM-yyyyy"))</div>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <script>
+                                                    const ctx = document.getElementById('DoanhSoNam');
+                                                    var myChart = new Chart(ctx, {
+                                                        type: 'bar',
+                                                        data: {
+                                                            labels: [@ViewBag.labels],
+                                                            datasets: [{
+                                                                label: [],
+                                                                data: [@ViewBag.data],
+                                                                backgroundColor: [
+                                                                    'RGB(255,166,122)',
+                                                                    'RGB(255,214,130)',
+                                                                    'RGB(255,166,122)',
+                                                                    'RGB(255,214,130)',
+                                                                    'RGB(255,166,122)',
+                                                                    'RGB(255,214,130)',
+                                                                    'RGB(255,166,122)',
+                                                                    'RGB(255,214,130)',
+                                                                    'RGB(255,166,122)',
+                                                                    'RGB(255,214,130)',
+                                                                    'RGB(255,166,122)',
+                                                                    'RGB(255,214,130)',
+                                                                    'RGB(255,166,122)',
+                                                                    'RGB(255,214,130)',
+                                                                    'RGB(255,166,122)',
+                                                                    'RGB(255,214,130)',
+                                                                    'RGB(255,166,122)',
+                                                                    'RGB(255,214,130)',
+                                                                ],
+                                                                borderWidth: 0,
+                                                                borderDash: [0, 0],
+                                                            }]
+                                                        },
+                                                        options: {
+                                                            legend: {
+                                                                display: false
+                                                            },
+                                                            scales: {
+                                                                xAxes: [{
+                                                                    gridLines: {
+                                                                        display: false
+                                                                    }
+                                                                }],
+                                                                yAxes: [{
+                                                                    ticks: {
+                                                                        beginAtZero: true,
+                                                                        callback: function (value, index, values) {
+                                                                            if (value <= 999999999) {
+                                                                                return (value / 1000000) + ' Tr';
+                                                                            }
+                                                                            else if (value >= 1000000000) {
+                                                                                return (value / 1000000000) + ' Tỷ';
+                                                                            }
+                                                                            else {
+                                                                                return value;
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                    gridLines: {
+                                                                        borderDash: [8, 4],
+                                                                    }
+                                                                }],
+
+                                                            },
+                                                            tooltips: {
+                                                                callbacks: {
+                                                                    label: function (tooltipItem, data) {
+                                                                        var value = tooltipItem.yLabel;
+                                                                        return commaSeparateNumber(value) + ' VNĐ';
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td rowspan="3">
+                    <div class="iboxnew">
+                        <div class="ibox-body">
+                            <div class="Mbody">
+                                <div class="ibox-head">
+                                    <div class="ibox-title">Tin tức</div>
+                                </div>
+                                <div class="MHome" id="Bantin">
+                                    <div class="divitemBT" onclick="opennewtab('https://bibosmart.vn/bibo-mart-van-phong-mang-tieu-chuan-5-sao/')">
+                                        <div class="divitemBTHExtra">
+                                            <img src="~/test/Rectangle 845.png" />
+                                        </div>
+                                        <div class="divitemBTH">
+                                            Choáng trước thiết kế, trẻ trung năng động của văn
+                                            Bibomart
+                                        </div>
+                                        <div class="divitemBTC">
+                                            Bước chân vào văn phòng làm việc Bibo Mart, ta dễ dàng bắt gặp ngay những chậu cây xanh được bố trí khắp văn phòng từ lễ tân, phòng họp, các phòng chức năng hay lối đi hành lang. Những chậu cây xanh, bình hoa nhỏ xinh được bàn tay khéo léo của các Biboers chăm sóc hàng ngày và bày biện trên các kệ gỗ, mặt bàn làm việc.
+                                        </div>
+                                        <div class="mintmine">11 THÁNG TƯ, 2023 </div>
+                                    </div>
+
+                                    <div class="col-sm-12 BoxNew">
+                                        <div class="row" onclick="opennewtab('https://bibosmart.vn/cong-thong-tin-hop-tac-gateway-for-co-development-he-sinh-thai-so-ket-noi-cung-phat-trien/')">
+                                            <div class=" col-sm-3">
+                                                <img src="https://bibosmart.vn/wp-content/uploads/2023/04/Cover-bai-viet-TIN-TUC-01-1-768x431.jpg" />
+                                            </div>
+                                            <div class=" col-sm-8 NoPading">
+                                                <div class="tieudetin">Cổng thông tin hợp tác − gateway for co-development hệ sinh thái số kết nối cùng phát triển</div>
+                                                <div class="giodangbai">11 THÁNG TƯ, 2023</div>
+                                            </div>
+                                        </div>
+                                        <div class="row" onclick="opennewtab('https://bibosmart.vn/bibo-mart-va-bvdk-hong-ngoc-trien-khai-cac-hoat-dong-hop-tac-dong-hanh-cung-cac-ba-me-tren-chang-duong-nuoi-con-khon-lon/')">
+                                            <div class=" col-sm-3">
+                                                <img src="https://bibosmart.vn/wp-content/uploads/2023/04/339107390_580627550699443_605251046545422889_n.jpg" />
+                                            </div>
+                                            <div class=" col-sm-8 NoPading">
+                                                <div class="tieudetin">Bibo mart và bvđk hồng ngọc triển khai các hoạt động hợp tác, đồng hành cùng các ba mẹ trên chặng đường nuôi con khôn lớn.</div>
+                                                <div class="giodangbai">11 THÁNG TƯ, 2023</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div><a class="xemthemnew" href="https://bibosmart.vn/category/tin-tuc/">Xem thêm</a></div>
+
+                                </div>
+
+                                <div class="ibox-head ibox-head_p">
+                                    <div class="ibox-title">Liên hệ</div>
+                                </div>
+                                <div class="MHome" id="Bantin">
+
+                                    <div class="infocompany">
+                                        <div class="row">
+                                            <div class="col-sm-4 row">
+                                                <span class="donvi">Đơn vị:</span>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                Công ty cổ phần Bibomart TM
+                                            </div>
+                                            <div class="bodder"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 row">
+                                                <span class="diachi">Địa chỉ:</span>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                Tầng 10, tòa nhà Handico, số 1 Mễ Trì, Nam Từ Liêm, Hà Nội
+                                            </div>
+                                            <div class="bodder"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 row">
+                                                <span class="dienthoai">Điện thoại:</span>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                (+84) 247 309 1168 nhánh (68462)
+                                            </div>
+                                            <div class="bodder"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 row">
+                                                <span class="email">Email:</span>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                nganhhangBBM@bibomart.net
+                                            </div>
+                                            <div class="bodder"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 row">
+                                                <span class="masothue">Mã số thuế:</span>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                0108024302
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                @*<div class="ibox-head ibox-head_p">
+                                        <div class="ibox-title">Hướng dẫn hỗ trợ</div>
+                                    </div>
+                                    <div class="MHome " id="Bantin">
+                                        <div class="HotroHuongdan">
+                                            <a href="#"><img src="/image/next1.png" /> Làm thể nào để trở thành vendor?</a>
+                                            <a href="#"><img src="/image/next1.png" /> Làm thế nào để đặt hàng?</a>
+                                            <a href="#"> <img src="/image/next1.png" /> Làm thế nào để đặt hàng?</a>
+                                        </div>
+                                    </div>*@
+
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="float-contact">
+    <div class="hotline"><a href="tel:02473091168"><img src="~/image/hotline.png" /></a></div>
+    <div class="chat-zalo"><a target="_blank" href="#"><img src="~/image/chatlive.png" /></a></div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtHead').html("Vendors - Gateway");
+        //  js_getBantin();
+        const labels = [@ViewBag.labels_CacThang];
+        const data = [@ViewBag.data_CacThang];
+       // console.log(labels);
+       // console.log(data);
+        ShowDoanhSoThang(labels, data);
+    });
+
+    function js_getBantin() {
+        $.ajax({
+            type: "POST",
+            url: "/Home/getBantin",
+            data: JSON.stringify({}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $('#Bantin').empty();
+                var str = '';
+                $.each(r, (index, value) => {
+                    var tr =
+                        `<div class="divitemBT" onclick="opennewtab('` + value.Link + `')">
+                <div class="divitemBTHExtra">
+                `+ value.Creator + `
+                </div>
+                <div class="divitemBTH">
+                `+ value.Title + `
+                </div>
+                <div class="divitemBTC">
+                `+ value.Detail + `
+                </div>
+                </div>`;
+                    str += tr;
+                });
+                $("#Bantin").append(str);
+            }
+        });
+    }
+
+    function opennewtab(url) {
+        window.open(url, '_blank');
+    }
+
+    function fillNamDoanhSoThang() {
+        const Nam = $('#NamDoanhSoThang').val();
+        if (Nam !== '') {
+            $.ajax({
+                url: '/Home/fillNamDoanhSoThang',
+                type: 'POST',
+                data: JSON.stringify({ namDs: Nam }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+
+                    //console.log(data.data_CacThang);
+                    if (data.data_CacThang.length > 1) {
+
+                        $('.DoanhSoThangNo').css('display', 'none');
+                        $('.DoanhSoThangOk').css('display', 'block');
+
+                        const labels = data.labels_CacThang.split(',').map(x => parseInt(x.trim()));
+                        const datas = data.data_CacThang.split(',').map(x => parseInt(x.trim()));
+
+                        ShowDoanhSoThang(labels, datas);
+                    } else {
+                        $('.DoanhSoThangNo').css('display', 'block');
+                        $('.DoanhSoThangOk').css('display', 'none');
+                    }
+                }
+            });
+        }
+    }
+
+    function commaSeparateNumber(val) {
+        if (val != "") {
+            while (/(\d+)(\d{3})/.test(val.toString())) {
+                val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+            }
+            return val;
+        }
+        return 0;
+    }
+
+    function ShowDoanhSoThang(labelsData, dataValues) {
+
+        if (labelsData.length > 1) {
+            $('.DoanhSoThangNo').css('display', 'none');
+            $('.DoanhSoThangOk').css('display', 'block');
+        } else {
+            $('.DoanhSoThangNo').css('display', 'block');
+            $('.DoanhSoThangOk').css('display', 'none');
+        }
+
+        var ctx2 = document.getElementById('DoanhSoThang').getContext('2d');
+        var myChart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: labelsData,
+                datasets: [{
+                    label: [],
+                    data: dataValues,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value, index, values) {
+                                return "T" + value;
+                            }
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value, index, values) {
+                                if (value <= 999999999) {
+                                    return (value / 1000000) + ' Tr';
+                                }
+                                else if (value >= 1000000000) {
+                                    return (value / 1000000000) + ' Tỷ';
+                                }
+                                else {
+                                    return value;
+                                }
+                            }
+                        },
+                        gridLines: {
+                            borderDash: [8, 4],
+                        }
+                    }],
+                },
+                tooltips: {
+                    callbacks: {
+                        beforeLabel: function (tooltipItem, data) {
+                            var label = ' ';
+                            return label;
+                        },
+                        label: function (tooltipItem, data) {
+                            var value = tooltipItem.yLabel;
+                            return 'Tháng: ' + data.labels[tooltipItem.index] + ',  Doanh số :' + commaSeparateNumber(value) + ' VNĐ';
+                        }
+                    }
+                }
+            }
+        });
+    }
+</script>
+
+@section scripts{
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/Resources/slide/js/jquery.nivo.slider.pack.js?2012-09-01"></script>
+    <script type="text/javascript">
+        $('#slider').nivoSlider({
+            effect: 'fade',
+            autoplay: true,
+            pauseTime: 2000
+        });
+
+    </script>
+}

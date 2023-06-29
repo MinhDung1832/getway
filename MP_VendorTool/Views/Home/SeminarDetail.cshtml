@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewBag.Title = "SeminarDetail";
+}
+
+
+<style>
+    body {
+        text-align: center;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0px;
+        font-family: helvetica;
+    }
+
+    #wrapper {
+        text-align: center;
+        margin: 0 auto;
+        padding: 0px;
+        width: 995px;
+    }
+
+    #checkbox_div {
+        width: 375px;
+        margin-left: 309px;
+    }
+
+        #checkbox_div p {
+            margin: 5px;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        #checkbox_div li {
+            display: inline-block;
+            margin: 5px;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        #checkbox_div input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
+    #employee_table {
+        color: #FE642E;
+        text-align: center;
+    }
+
+        #employee_table th {
+            border: 1px dashed #FE642E;
+        }
+
+        #employee_table td {
+            min-width: 70px;
+            border: 1px dashed #FE642E;
+        }
+</style>
+
+<div class="wp_vendor">
+    <div class="header_vender">
+        <div class="container">
+        </div>
+    </div>
+    <div class="content_vendor">
+        <div class="container">
+            <div class="row from_vender">
+                <div id="wrapper">
+
+                    <div id="checkbox_div">
+                        <p>Show Hide Column</p>
+
+                        @foreach (var i in ViewBag.ls_pack)
+                        {
+                            <li><input type="checkbox"  value="show" id=@string.Concat(i.packId,"_col") onchange="hide_show_table(this.id);">@i.namePack</li>
+                        }
+                    </div>
+
+                    <table id="employee_table" align="center" cellpadding=10>
+                        <tr>
+                            <th>S.Name</th>
+                            <th>
+                                ĐVT
+                            </th>
+                            @foreach (var i in ViewBag.ls_pack)
+                            {
+                                <th style="display:none" id=@string.Concat(i.packId,"_col_head")>@i.namePack</th>
+                            }
+                        </tr>
+
+
+                        @foreach (var j in ViewBag.ls_hea)
+                        {
+                            <tr>
+                                <td>@j.Name</td>
+                                <td>@j.UoM</td>
+                                @foreach (var i in ViewBag.ls_pack)
+                                {
+                                    <td style="display:none" class=@string.Concat(i.packId,"_col")>
+                                        <label id=@string.Concat(j.headerID,".",i.packId)></label>
+                                    </td>
+                                }
+                            </tr>
+                        }
+
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //$('#I.1.1').html('1111111111111111')
+
+        var gp = @Html.Raw(Json.Encode(ViewBag.ls_sem));
+
+        for (var i = 0; i < gp.length; i++) {
+            console.log(gp[i].headerID + '.' + gp[i].packId);
+            console.log(gp[i].qty);
+
+            document.getElementById(gp[i].headerID + '.' + gp[i].packId).innerHTML = gp[i].qty;
+
+        }
+
+    });
+
+
+    function hide_show_table(col_name) {
+        var checkbox_val = document.getElementById(col_name).value;
+        if (checkbox_val == "hide") {
+            var all_col = document.getElementsByClassName(col_name);
+            for (var i = 0; i < all_col.length; i++) {
+                all_col[i].style.display = "none";
+            }
+            document.getElementById(col_name + "_head").style.display = "none";
+            document.getElementById(col_name).value = "show";
+        }
+
+        else {
+            var all_col = document.getElementsByClassName(col_name);
+            for (var i = 0; i < all_col.length; i++) {
+                all_col[i].style.display = "table-cell";
+            }
+            document.getElementById(col_name + "_head").style.display = "table-cell";
+            document.getElementById(col_name).value = "hide";
+        }
+    }
+
+</script>
+
+
+
+
+

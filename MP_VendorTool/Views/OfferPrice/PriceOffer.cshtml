@@ -1,0 +1,519 @@
+﻿@using MP_VendorTool.Models.Promotion
+@{
+    ViewBag.Title = "Thay đổi giá mua";
+}
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="from_vender frominput">
+                    <fieldset>
+                        <h4>THÔNG TIN CƠ BẢN</h4>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">Nhà cung cấp</label>
+                                    <div class="col-sm-7">
+                                        @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                        {
+                                            <input type="text" class="form-control" id="NhaCC" name="NhaCC" value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                                            <script>
+                                                $(function () {
+                                                    js_onchange_NCC_MaHang();
+                                                });
+                                            </script>
+                                        }
+                                        else
+                                        {
+                                            <select id="NhaCC" class="form-control selectpicker" data-live-search="true" onchange="js_onchange_NCC_MaHang()">
+                                                @if (ViewBag.list_vendor != null)
+                                                {
+                                                    <option value="">--- Chọn NCC ---</option>
+                                                    foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                    {
+                                                        <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                        }
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">Mã hàng <span style=" color:red">(*)</span></label>
+                                    <div class="col-sm-7">
+                                        <select id="MaHang" class="form-control selectpicker" data-live-search="true" onchange="js_onchange_barcode()">
+                                            <option value="">--- Chọn mã hàng ---</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">Barcode</label>
+                                    <div class="col-sm-7">
+                                        <select class="form-control selectpicker" data-live-search="true" id="Barcode">
+                                            <option value=""> -- Chọn Barcode --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">
+                                        Upload pdf
+                                    </label>
+                                    <div class="col-sm-7">
+                                        <div id="wp_thum_img" style=" display:none">
+                                            <input class="form-control" type="hidden" id="imgLink" value="">
+
+                                            <div class="img_src"><img id="thum_img" for="fileUpload" src="" /><p></p></div>
+                                        </div>
+                                        <div class="alert alert-success" id="ShowFilepdf" style=" display:none">
+                                            <a class="alert-link" id="Links" target="_blank"><strong> Vui lòng click vào đây để</strong> Tải file pdf.</a>
+                                        </div>
+
+                                        <input type="file" style="width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;" name="fileUpload" id="fileUpload" class="inputfile">
+                                        <label class="btn btn-info m-r-5" for="fileUpload" style="width: 85%; margin: 10px 0px;"><i class="fa fa-upload" aria-hidden="true"></i> Upload pdf</label>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <h4>Thông tin chi tiết </h4>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">Giá cũ (- VAT)</label>
+                                    <div class="col-sm-7">
+                                        <input class="form-control valueNumber" type="text" id="GiaTruocThayDoi" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">Giá điều chỉnh (- VAT) <span style=" color:red">(*)</span></label>
+                                    <div class="col-sm-7">
+                                        <input class="form-control valueNumber" type="text" id="GiaSauThayDoi" onchange="js_changeGiaSauThayDoiPlus()">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">Giá bán niêm yết khuyến nghị</label>
+                                    <div class="col-sm-7">
+                                        <input class="form-control valueNumber" type="text" id="GiaBanNYKhuyenNghi">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">Giá cũ (+ VAT)</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control valueNumber" type="text" id="GiaTruocThayDoiPlus" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">Giá điều chỉnh (+ VAT) <span style=" color:red">(*)</span></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control valueNumber" type="text" id="GiaSauThayDoiPlus" onchange="js_changeGiaSauThayDoi()">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">% VAT</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control valueNumber" type="text" id="VAT_" value="0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">Ngày thông báo chính thức <span style=" color:red">(*)</span></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" onchange="js_adddate()" id="NgayThongBaoChinhThuc" type="date">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">Ngày hiệu lực</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" id="ToDay" disabled type="date">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="textOrderId" class="col-sm-5 col-form-label">Ngày kết thúc</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" id="FromDay" type="date">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                    <hr>
+
+                    @*Ngày hiệu lực ko dc sửa= ngày thông báo trước+ngày thông báo*@
+                    <div class="col-md-12">
+                        <div style=" padding-top: 10px; float: right; margin-right: 34px;">
+                            @*<a href="#" onclick="fn_save('0')" id="btn_Gui" class="btn btn-primary Luulai"><i class="fa fa-paper-plane"></i> Lưu lại</a>*@
+                            <a href="#" onclick="fn_save('2')" id="btn_Gui" class="btn btn-danger"><i class="fa fa-paper-plane"></i> Gửi duyệt </a>
+                        </div>
+                    </div>
+                    <div class="LuuYs">
+                        <b style="color: #355c96">LƯU Ý</b>: Theo hợp đồng nguyên tắc, nhà cung cấp phải thông báo trước (<span id="NgayHieuLuc_ThoaThuanHD" style="  font-weight:bold">0</span>) ngày về việc thay đổi giá bằng văn bản được ký và đóng dấu hợp lệ.
+                    </div>
+                </div>
+
+                <div style="height:100px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtHead').html("Thay đổi giá mua");
+        $('#f_dev').html("Dữ liệu khai báo Trading Term");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+    });
+
+
+    function js_adddate() {
+        var NgayThongBaoChinhThuc = $("#NgayThongBaoChinhThuc").val();
+        var NgayHieuLuc_ThoaThuanHD = $("#NgayHieuLuc_ThoaThuanHD").html();
+        $.ajax({
+            url: '/OfferPrice/SetNgay',
+            type: 'POST',
+            data: JSON.stringify({ NgayThongBaoChinhThuc: NgayThongBaoChinhThuc, NgayHieuLuc_ThoaThuanHD: NgayHieuLuc_ThoaThuanHD }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                // alert(data.NgayCan);
+                if (data != null) {
+                    $("#ToDay").val(data.NgayCan);
+                    console.log(data.NgayCan);
+                }
+            }
+        });
+
+    }
+    function js_onchange_NCC_MaHang() {
+        var NCC = fomart_split($("#NhaCC").val(), 0);
+        $('#MaHang').empty();
+        if (NCC.length > 0) {
+
+            // Call MaHang
+            $.ajax({
+                url: '/OfferPrice/GetList_NCC_Produts',
+                type: 'POST',
+                data: JSON.stringify({ NCC: NCC }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#MaHang').empty();
+                        $('#MaHang').append('<option value="">--Chọn mã hàng--</option>');
+                        for (i in row) {
+                            $('#MaHang').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#MaHang').selectpicker('refresh');
+                }
+            });
+            //priceChangeDate
+            $.ajax({
+                url: '/OfferPrice/get_NgayHieuLuc_ThoaThuanHD',
+                type: 'POST',
+                data: JSON.stringify({ NCC: NCC, }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    try {
+                        $('#NgayHieuLuc_ThoaThuanHD').html(data[0].Name);
+                    } catch (e) {
+
+                    }
+                }
+            });
+        }
+    }
+    function js_onchange_barcode(r) {
+        $('#GiaSauThayDoi').val('');
+        $('#GiaBanNYKhuyenNghi').val('');
+        $('#GiaSauThayDoiPlus').val('');
+        $('#VAT_').val('');
+        $('#NgayThongBaoChinhThuc').val('');
+        $('#FromDay').val('');
+        $('#ToDay').val('');
+
+        let nameProduct = $('#MaHang').val();
+        $('#Barcode' + r).empty();
+        $('#Barcode' + r).append('<option value="">--Chọn Barcode--</option>');
+        var item = nameProduct.split(" - ");
+
+        let NhaCC = $('#NhaCC').val();
+        var arNhaCC = NhaCC.split(" - ");
+        if (nameProduct.length > 0) {
+
+            // Call Barcode
+            $.ajax({
+                url: '/OfferPrice/GetListBarcode',
+                type: 'POST',
+                data: JSON.stringify({ itemNo: item[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#Barcode').empty();
+                        for (i in row) {
+                            $('#Barcode').append('<option value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#Barcode').selectpicker('refresh');
+                }
+            });
+
+            // Call Giá trước thay đổi trong thỏa thuận hợp đồng tradingtem
+            // So sánh lấy ra sản phẩm , và lấy trong hd gần nhất
+            $('#GiaTruocThayDoi').empty();
+            $.ajax({
+                type: "POST",
+                url: "/OfferPrice/Get_Price_HopDongThoaThuan_DeXuatDoiGia",
+                data: JSON.stringify({ VendorNo: arNhaCC[0], MaHang: item[0] }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                },
+                success: function (data) {
+                    if (data != null) {
+                        $('#GiaTruocThayDoi').val(data.Code);
+                        $('#GiaTruocThayDoiPlus').val(data.GiaTruocThayDoiPlus);
+                        $('#VAT_').val(data.VAT);
+                    }
+                }, error: function () {
+                }
+            });
+        }
+    }
+
+    function fn_save(Status) {
+        if (
+            $('#NhaCC').val().length == 0 ||
+            $('#MaHang').val().length == 0 ||
+            $('#ToDay').val().length == 0 ||
+            $('#GiaSauThayDoi').val().length == 0 ||
+            $('#GiaSauThayDoiPlus').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ.');
+            return;
+        }
+        var MaHang = $('#MaHang').val();
+        var arrMaHang = MaHang.split(' - ');
+        var NhaCC = $('#NhaCC').val();
+        var arrNhaCC = NhaCC.split(' - ');
+
+        var prd = {};
+        prd.MaNCC = arrNhaCC[0];
+        prd.TenNCC = arrNhaCC[1];
+        prd.MaHang = arrMaHang[0];
+        prd.TenHang = arrMaHang[1];
+        prd.Barcode = $('#Barcode').val();
+        prd.Link = $('#imgLink').val();
+        prd.ToDay = $('#ToDay').val();
+        prd.FromDay = $('#FromDay').val();
+        prd.GiaTruocThayDoi = $('#GiaTruocThayDoi').val();
+        prd.GiaSauThayDoi = $('#GiaSauThayDoi').val();
+
+        prd.GiaTruocThayDoiPlus = $('#GiaTruocThayDoiPlus').val();
+        prd.GiaSauThayDoiPlus = $('#GiaSauThayDoiPlus').val();
+        prd.VAT = $('#VAT_').val();
+
+        // thêm mới
+        prd.GiaBanNYKhuyenNghi = $('#GiaBanNYKhuyenNghi').val().replaceAll(",", "");
+        prd.NgayThongBaoChinhThuc = $('#NgayThongBaoChinhThuc').val();
+        prd.NgayHieuLuc_ThoaThuanHD = $('#NgayHieuLuc_ThoaThuanHD').html();
+        prd.Status = Status;
+
+        console.log(JSON.stringify({ prd }));
+        console.log(prd);
+
+        $.ajax({
+            url: '/OfferPrice/Create_OfferPrice',
+            type: 'POST',
+            data: JSON.stringify({ info: prd }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                //  js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data) {
+                    jAlert('Thêm mới thành công', 'Thông báo', (r) => {
+                        $('#imgLink').val('');
+                        $('#ToDay').val('');
+                        $('#FromDay').val('');
+                        $('#GiaTruocThayDoi').val('');
+                        $('#GiaSauThayDoi').val('');
+
+                        $('#GiaTruocThayDoiPlus').val('');
+                        $('#GiaSauThayDoiPlus').val('');
+                        $('#VAT_').val('');
+
+                        $('#GiaBanNYKhuyenNghi').val('');
+                        $('#NgayThongBaoChinhThuc').val('');
+                        // location.reload();
+                    });
+                } else {
+                    jAlert('Có lỗi xảy ra', 'Thông báo');
+                }
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_changeGiaSauThayDoi() {
+        debugger;
+        var GiaSauThayDoiPlus = $('#GiaSauThayDoiPlus').val().replaceAll(",", "").replaceAll(".", "");;
+        var VAT = $('#VAT_').val();
+
+        if (GiaSauThayDoiPlus > 0 && VAT > 0) {
+            var GiaSauThayDoi = parseInt(GiaSauThayDoiPlus) / ((parseInt(VAT) / 100) + 1);
+            $('#GiaSauThayDoi').val(commaSeparateNumber(GiaSauThayDoi.toFixed()));
+        }
+    }
+
+    function js_changeGiaSauThayDoiPlus() {
+        debugger;
+        var GiaSauThayDoi = $('#GiaSauThayDoi').val().replaceAll(",", "").replaceAll(".", "");;
+        var VAT = $('#VAT_').val();
+
+        if (GiaSauThayDoi > 0 && VAT > 0) {
+            var GiaSauThayDoiPlus = parseInt(GiaSauThayDoi) * ((parseInt(VAT) / 100) + 1);
+            $('#GiaSauThayDoiPlus').val(commaSeparateNumber(GiaSauThayDoiPlus.toFixed()));
+            console.log(GiaSauThayDoi);
+            console.log(VAT);
+        }
+    }
+
+
+    jQuery(document).ready(function ($) {
+        $(".valueNumber").on('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+        });
+
+        $(".valueNumber").load('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            if (n.toLocaleString() != 'NaN') {
+                $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+            }
+        });
+    });
+
+    $('body').on('keyup', '.valueNumber', function (e) {
+        var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+        if (n.toLocaleString() != 'NaN') {
+            $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+        }
+    });
+
+    function commaSeparateNumber(val) {
+        while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+        }
+        return val;
+    }
+
+</script>
+
+
+
+<script type="text/javascript">
+    //Upload file
+    $(document).ready(function () {
+        $("#fileUpload").change(function () {
+            debugger;
+            var tb = $('#imgLink').val();
+            if (tb != '') {
+                jConfirm('Bạn muốn thay thế file PDF đã tải lên?', 'Thông báo', function (r) {
+                    if (r) {
+                        var vtrUpload = $("#fileUpload").val().toLowerCase();
+                        var regexVTRUpload = new RegExp("(.*?)\.(pdf)$");//png|jpg|jpeg
+                        if (!(regexVTRUpload.test(vtrUpload))) {
+                            $("#fileUpload").val("");
+                            alert("File không đúng định dạng. Vui lòng kiểm tra lại.");
+                        } else {
+                            UploadFile();
+                        }
+                    }
+                });
+            } else {
+                var vtrUpload = $("#fileUpload").val().toLowerCase();
+                var regexVTRUpload = new RegExp("(.*?)\.(pdf)$");//png|jpg|jpeg
+                if (!(regexVTRUpload.test(vtrUpload))) {
+                    $("#fileUpload").val("");
+                    alert("File không đúng định dạng. Vui lòng kiểm tra lại.");
+                } else {
+                    UploadFile();
+                }
+            }
+        });
+    });
+    //function load(ID, FilePDF) {
+    //    $('#ID').val(ID);
+    //    if (FilePDF.length > 0)
+    //        $('#TaiFile').html("<a id=\"Link\" href=\"" + FilePDF + "\" style=\"color: #fff;width: 100%;margin: 17px 4px;font-size: 12px;background: #e6472e !important;padding: 6px 42px 6px 36px;\" target=\"_blank\">Tải File pdf</a>");
+    //    else
+    //        $('#TaiFile').html("");
+    //    document.getElementById("showFile").click();
+    //}
+    function UploadFile() {
+        var data = new FormData();
+        var files = $("#fileUpload").get(0).files;
+        if (files.length > 0) {
+            data.append("MyImages", files[0]);
+        }
+        data.append("foldername", 'OfferPrice');
+
+        $.ajax({
+            url: "/OfferPrice/UploadFile",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            data: data,
+            async: true,
+            success: function (data) {
+                js_Loading(false, 1);
+                if (data.code == 1) {
+
+                    // img_link = data.link;
+                    $('#imgLink').val(data.link);
+                    $('.img_src p').hide();
+                    $('#thum_img').css({ "width": "100%", "margin-top": "0px", "height": "70px", "object-fit": "contain" });
+                    $('#thum_img').attr("src", data.showfie);
+                    $('#real_img').attr("onclick", "fn_detail('" + data.link + "')");
+                    $("#Links").prop("href", data.link);
+                    $('#ShowFilepdf').show();
+
+                    // $('#TaiFile').html("<a id=\"Link\" href=\"" + data.link + "\" style=\"color: #fff;width: 100%;margin: 17px 4px;font-size: 12px;background: #e6472e !important;padding: 6px 42px 6px 36px;\" target=\"_blank\">Tải File pdf</a>");
+                }
+            },
+            error: function (er) {
+                js_Loading(false, 1);
+                alert("Thiết bị không hỗ trợ up ảnh từ camera. Chọn file từ bộ nhớ thiết bị!");
+            }
+        });
+    }
+</script>

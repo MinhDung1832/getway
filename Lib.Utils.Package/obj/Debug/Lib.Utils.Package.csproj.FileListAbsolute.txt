@@ -1,0 +1,140 @@
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.pdb
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Common.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Dns.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Groupware.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Imap4.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Mail.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Nntp.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\ActiveUp.Net.OpenPGP.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Pop3.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Smtp.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\ActiveUp.Net.WhoIs.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\EPPlus.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\zxing.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\bin\Debug\zxing.presentation.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csprojAssemblyReference.cache
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CoreCompileInputs.cache
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CopyComplete
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.dll
+C:\Users\trinh\OneDrive\Máy tính\BBM_CUSTOMERS\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.pdb
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.pdb
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Common.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Dns.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Groupware.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Imap4.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Mail.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Nntp.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.OpenPGP.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Pop3.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Smtp.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.WhoIs.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\EPPlus.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\zxing.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\bin\Debug\zxing.presentation.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.AssemblyReference.cache
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CoreCompileInputs.cache
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CopyComplete
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.dll
+E:\ngocmanh\codeASP\BBM_MP_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.pdb
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.pdb
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Common.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Dns.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Groupware.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Imap4.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Mail.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Nntp.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.OpenPGP.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Pop3.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Smtp.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.WhoIs.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\EPPlus.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\zxing.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\bin\Debug\zxing.presentation.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.AssemblyReference.cache
+D:\Code\MP_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CoreCompileInputs.cache
+D:\Code\MP_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CopyComplete
+D:\Code\MP_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.dll
+D:\Code\MP_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.pdb
+E:\gateway_new\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.pdb
+E:\gateway_new\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Common.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Dns.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Groupware.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Imap4.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Mail.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Nntp.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\ActiveUp.Net.OpenPGP.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Pop3.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Smtp.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\ActiveUp.Net.WhoIs.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\EPPlus.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\zxing.dll
+E:\gateway_new\Lib.Utils.Package\bin\Debug\zxing.presentation.dll
+E:\gateway_new\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.AssemblyReference.cache
+E:\gateway_new\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CoreCompileInputs.cache
+E:\gateway_new\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CopyComplete
+E:\gateway_new\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.dll
+E:\gateway_new\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.pdb
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.pdb
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Common.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Dns.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Groupware.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Imap4.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Mail.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Nntp.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\ActiveUp.Net.OpenPGP.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Pop3.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Smtp.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\ActiveUp.Net.WhoIs.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\EPPlus.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\zxing.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\bin\Debug\zxing.presentation.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.AssemblyReference.cache
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CoreCompileInputs.cache
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CopyComplete
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.dll
+D:\Code\MP_VendorTool_v3\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.pdb
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.pdb
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Common.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Dns.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Groupware.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Imap4.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Mail.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Nntp.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.OpenPGP.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Pop3.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Smtp.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\ActiveUp.Net.WhoIs.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\EPPlus.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\zxing.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\bin\Debug\zxing.presentation.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.AssemblyReference.cache
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CoreCompileInputs.cache
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CopyComplete
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.dll
+D:\Code_BIBOMART\Gateway_VendorTool\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.pdb
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\Lib.Utils.Package.pdb
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Common.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Dns.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Groupware.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Imap4.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Mail.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Nntp.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\ActiveUp.Net.OpenPGP.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Pop3.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\ActiveUp.Net.Smtp.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\ActiveUp.Net.WhoIs.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\EPPlus.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\zxing.dll
+D:\Vendor_getway\Lib.Utils.Package\bin\Debug\zxing.presentation.dll
+D:\Vendor_getway\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.AssemblyReference.cache
+D:\Vendor_getway\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CoreCompileInputs.cache
+D:\Vendor_getway\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.csproj.CopyComplete
+D:\Vendor_getway\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.dll
+D:\Vendor_getway\Lib.Utils.Package\obj\Debug\Lib.Utils.Package.pdb

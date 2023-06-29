@@ -1,0 +1,475 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+}
+
+<style>
+    .content_vendor {
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 18px;
+    }
+
+        .text_home a {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    legend {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 20px;
+        margin-top: 32px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #6f8cb8;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    fieldset {
+        /*margin-top: 34px;*/
+    }
+
+    label {
+        font-size: 12px;
+        color: #777575;
+    }
+
+    .from_vender {
+        margin-left: 8px;
+    }
+
+        .from_vender input, .from_vender select {
+            margin-bottom: 8px;
+        }
+
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+        .button_save_1 a {
+            text-align: center;
+            background-color: #868686 !important;
+            border-color: #868686 !important;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 8px;
+        }
+
+    #E_Invoice {
+        margin-bottom: 18px !important;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: transparent;
+        border-color: #008888;
+        color: #008888 !important;
+        font-size: 12px;
+    }
+
+        .btn-primary:hover {
+            background-color: #008888;
+            color: #fff !important;
+            border-color: #008888;
+        }
+
+    .button_action a:hover {
+        background-color: #9e9e9e;
+        color: #f3f3f3 !important;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+    .button_action {
+        margin-top: 44px;
+    }
+
+    .table > thead > tr > th {
+        color: #6f8cb8;
+        text-align: left;
+    }
+
+    .table > tbody > tr > td {
+        text-align: left;
+    }
+
+    #wp_thum_img {
+        background-color: #fff;
+        text-align: center;
+        height: 376px;
+    }
+
+    #thum_img {
+        width: 100%;
+        margin-top: 142px;
+        padding-bottom: 10px;
+    }
+
+    .img_src p {
+        font-style: italic;
+        font-size: 12px;
+        color: #868686;
+    }
+
+    .table > thead > tr {
+        background: #C4C4C4;
+    }
+
+        .table > thead > tr > th {
+            color: #59595B;
+            font-size: 12px !important;
+            vertical-align: middle;
+        }
+
+    .table > tbody > tr > td {
+        padding: 2px;
+        color: #59595B !important;
+        font-size: 12px !important;
+        vertical-align: middle;
+    }
+</style>
+<style>
+
+    html {
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
+
+    body {
+        position: relative;
+        background-image: url('../../image/nen2.jpg');
+        background-color: #f3f3f3; /* Used if the image is unavailable */
+        /*height: 999px;*/ /* You must set a specified height */
+        /*background-position: center;*/ /* Center the image */
+        /*background-repeat: no-repeat;*/ /* Do not repeat the image */
+        background-size: cover;
+    }
+
+    .ct {
+        margin: 0 auto;
+        padding-top: 32px;
+    }
+
+    .demo h1 {
+        margin-top: 0;
+    }
+
+    /**
+    * Footer Styles
+    */
+
+    .footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        /* padding: 1rem;*/
+        background-color: #efefef;
+        text-align: center;
+    }
+</style>
+
+@Html.Partial("~/Views/Shared/_header.cshtml")
+<div class="wp_vendor">
+
+    <div class="content_vendor">
+        <div class="container">
+            <div class="row_4 button_action">
+                <div class="col-md-4">
+                    <a href="/Tradingterm/Index?VendorContact_ID=@ViewBag.head.VendorContact_ID" style="color:#00A0B0"><i class="fa fa-caret-left" aria-hidden="true"></i> @MP_VendorTool.Resource.prevPage</a>
+                </div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4" style="text-align:right">
+                    @*@Html.ActionLink("Edit", "Edit", "Tradingterm", new { registrationTax = @ViewBag.head.registrationTax, tradingtermId = ViewBag.head.id }, new { @class = "form-control btn-primary text-center fa fa-caret-right" })*@
+
+                    <a href="/Tradingterm/Edit?registrationTax=@ViewBag.head.registrationTax&tradingtermId=@ViewBag.head.id" style="color:#00A0B0">@MP_VendorTool.Resource.btEdit <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+
+                </div>
+            </div>
+
+            <div class="row from_vender" style="margin-top:10%">
+
+
+
+
+                <div class="row_01">
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.cooperateType</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input readonly="readonly" type="text" class="form-control" value="@ViewBag.head.cooperateName" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.listingQty</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input readonly="readonly" type="text" class="form-control" id="listingQty" onchange="intNumberParse('listingQty')" value="@ViewBag.head.listingQty" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.faceAcreage_total</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input readonly="readonly" type="text" class="form-control" id="faceAcreage_total" onchange="floatNumberParse('faceAcreage_total')" value="@ViewBag.head.faceAcreage_total" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.guaranteeMinimum</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input readonly="readonly" type="text" class="form-control" id="guaranteeMinimum" onchange="floatNumberParse('guaranteeMinimum')" value="@ViewBag.head.guaranteeMinimum" />
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6" style="margin-bottom:20px; margin-top:10px">
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.discount</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input readonly="readonly" type="text" class="form-control" id="discount" onchange="floatNumberParse('discount')" value="@ViewBag.head.discount" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.salesCost</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input readonly="readonly" type="text" class="form-control" id="salesCost" onchange="floatNumberParse('salesCost')" value="@ViewBag.head.salesCost" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.marketingCost</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input readonly="readonly" type="text" class="form-control" id="marketingCost" onchange="floatNumberParse('marketingCost')" value="@ViewBag.head.marketingCost" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.operatingCost</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input readonly="readonly" type="text" class="form-control" id="operatingCost" onchange="floatNumberParse('operatingCost')" value="@ViewBag.head.operatingCost" />
+                        </div>
+                        <div class="col-lg-12" style="text-align:right; margin-top:10px">
+                            <a href="#" class="btn btn-primary" style="border-radius:5px;" data-toggle="modal" data-target="#modalDetails">GP target</a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row_2">
+                    <table id="tbl_tradingItem" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="6%" style="text-align: center;">
+                                    @MP_VendorTool.Resource.textterm_6
+                                </th>
+                                <th scope="col" width="70%" style="text-align: center;text-transform:uppercase;">
+                                    @MP_VendorTool.Resource.name
+                                </th>
+                                <th scope="col" width="12%" style="text-align: center;">
+                                    @MP_VendorTool.Resource.textterm_7
+                                </th>
+                                <th scope="col" width="12%" style="text-align: center;">
+                                    @MP_VendorTool.Resource.textterm_8
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < ViewBag.ls_line.Count; i++)
+                            {
+                                <tr>
+                                    <td class="td_01">
+                                        @(i + 1)
+                                        <input readonly="readonly" type="hidden" value="@ViewBag.ls_line[i].productID" />
+                                    </td>
+                                    <td class="td_02">
+                                        @ViewBag.ls_line[i].productName
+                                    </td>
+                                    <td class="td_01">@ViewBag.ls_line[i].faceQty</td>
+                                    <td class="td_02">@ViewBag.ls_line[i].margin</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <hr />
+                <div class="row_3">
+
+                    <table id="tbl_leadtime" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="text-align: center;">
+                                    @MP_VendorTool.Resource.warehouseDeparture
+                                </th>
+                                <th scope="col" style="text-align: center;">
+                                    @MP_VendorTool.Resource.textterm_10
+                                </th>
+                                <th scope="col" style="text-align: center;">
+                                    Leadtime
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var i in ViewBag.ls_lead)
+                            {
+                                <tr>
+                                    <td>@i.Address</td>
+                                    <td>@i.leadtimeName</td>
+                                    <td>@i.leadtimeValue</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clearfix"></div>
+                <!--<div class="row_4 button_action">
+                <div class="col-md-4">
+                    <a href="/Tradingterm/Index?VendorContact_ID=@ViewBag.head.VendorContact_ID" class="form-control btn-primary"><i class="fa fa-caret-left" aria-hidden="true"></i>@MP_VendorTool.Resource.prevPage</a>
+                </div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4">-->
+                @*@Html.ActionLink("Edit", "Edit", "Tradingterm", new { registrationTax = @ViewBag.head.registrationTax, tradingtermId = ViewBag.head.id }, new { @class = "form-control btn-primary text-center fa fa-caret-right" })*@
+
+                <!--<a href="/Tradingterm/Edit?registrationTax=@ViewBag.head.registrationTax&tradingtermId=@ViewBag.head.id" class="form-control btn-primary">@MP_VendorTool.Resource.btEdit <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="false">
+    <div class="modal-dialog modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @*<h3 style="margin:15px;" class="modal-title" id="exampleModalLongTitle">Chi tiết</h3>*@
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: center;">
+                                Hạng mục
+                            </th>
+
+                            @foreach (var i in ViewBag.ls_Ye)
+                            {
+                                <th scope="col" style="text-align: center;">
+                                    @i
+                                </th>
+                            }
+                            <th scope="col" style="text-align: center;">
+                                Gap
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var j in ViewBag.ls_ty)
+                        {
+                            <tr>
+                                <td>
+                                    @j.TypeName
+                                </td>
+                                @foreach (var k in ViewBag.ls_Ye)
+                                {
+                                    <td style="text-align: right;">
+                                        <label id='@j.TypeCost-@k'></label>
+                                    </td>
+                                }
+                                <td style="text-align: right;">
+                                    <label id='@j.TypeCost-gap'></label>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#header_title').html('@MP_VendorTool.Resource.TradingtermTT');
+
+        $('#cooperateType').val('@ViewBag.head.cooperateType');
+
+        //set line
+        var ls_Gp = @Html.Raw(Json.Encode(ViewBag.ls_GP));
+
+        for (var i = 0; i < ls_Gp.length; i++) {
+            console.log(ls_Gp[i].TypeCost);
+
+            $('#' + ls_Gp[i].TypeCost + '-' + ls_Gp[i].Year).html(ls_Gp[i].value + '%');
+
+        }
+
+        //set Gap
+        //ViewBag.gp
+
+        var gp = @Html.Raw(Json.Encode(ViewBag.gp));
+
+        for (var i = 0; i < gp.length; i++) {
+            console.log(ls_Gp[i].TypeCost);
+
+            $('#' + gp[i].TypeCost + '-gap').html(gp[i].value + '%');
+
+        }
+    });
+
+</script>
+
+

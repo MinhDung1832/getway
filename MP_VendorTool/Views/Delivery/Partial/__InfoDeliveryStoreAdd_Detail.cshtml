@@ -1,0 +1,99 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_ItemStore" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left; width: 150px; max-width: 150px; ">
+                    Nơi giao
+                </th>
+                <th scope="col" style="text-align: left; width: 150px; max-width: 150px; ">
+                    Địa chỉ
+                </th>
+                <th scope="col" style="text-align: left;  ">
+                    Thời gian<br />xuất kho (Ngày)
+                    <br />
+                </th>
+                <th scope="col" style="text-align: left;  ">
+                    Leader time<br /> giao hàng (Ngày)
+                </th>
+                <th scope="col" style="text-align: left; width: 200px; max-width: 200px; ">
+                    Lịch giao hàng
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        var i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            var k = i;
+                            <tr style=" height:20px" id="Row_@i">
+                                <td style="text-align: left; width: 150px; max-width: 150px; " title="@item["TenKho"]">
+                                    <span class="MaKho"> @item["MaKho"]</span> - <span class="TenKho">@item["TenKho"]</span>
+                                </td>
+                                <td style="text-align: left; width: 150px; max-width: 150px;" title="@item["TenKho"]">
+                                    <span class="DiaChi"> @item["DiaChi"]</span>
+                                </td>
+                                <td style="text-align: right; width: 100px; max-width: 100px; ">
+                                    @item["ThoiGianXuatKho"]
+                                </td>
+                                <td style="text-align: right; width: 100px; max-width: 100px; ">
+                                    @item["LeaderTime"]
+                                </td>
+                                <td scope="col" style="text-align: left; width: 200px; max-width: 200px; ">
+                                    <div style=" width: 33%; float: left;">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="GHT2" id="GHT2" disabled class="custom-control" @(item["LichGHT2"].ToString() == "1" ? "checked" : "") />
+                                            <label class="custom-control-label" for="GHT2">T2</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="GHT3" id="GHT3" disabled class="custom-control" @(item["LichGHT3"].ToString() == "1" ? "checked" : "") />
+                                            <label class="custom-control-label" for="GHT3">T3</label>
+                                        </div>
+
+                                    </div>
+                                    <div style=" width: 33%; float: left;">
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="GHT4" id="GHT4" disabled class="custom-control" @(item["LichGHT4"].ToString() == "1" ? "checked" : "") />
+                                            <label class="custom-control-label" for="GHT4">T4</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="GHT5" id="GHT5" disabled class="custom-control" @(item["LichGHT5"].ToString() == "1" ? "checked" : "") />
+                                            <label class="custom-control-label" for="GHT5">T5</label>
+                                        </div>
+                                    </div>
+                                    <div style=" width: 33%; float: left;">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="GHT6" id="GHT6" disabled class="custom-control" @(item["LichGHT6"].ToString() == "1" ? "checked" : "") />
+                                            <label class="custom-control-label" for="GHT6">T6</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="GHT7" id="GHT7" disabled class="custom-control" @(item["LichGHT7"].ToString() == "1" ? "checked" : "") />
+                                            <label class="custom-control-label" for="GHT7">T7</label>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>

@@ -1,0 +1,136 @@
+﻿@using System.Data
+<link href="~/Content/css/thickbox.css" rel="stylesheet" />
+<script src="~/Scripts/thickbox.js"></script>
+
+<table id="tbl_Item" class="table table-bordered tb_detail" style="width:99.5%">
+    <thead>
+        <tr style="background: #f3f3f3; border: none !important;">
+            <td class="text-left" colspan="2" style="border: none !important;">
+                <h4 class="text_title">Mua hàng</h4>
+            </td>
+            <td class="text-right" style="width: 100px; border: none !important;">
+            </td>
+            <td class="text-right" style="width: 80px; border: none !important;">
+            </td>
+            <td class="text-right" style="width: 80px; border: none !important;">
+                <span id="sumsl"></span>
+            </td>
+            <td class="text-center" style="width: 80px; border: none !important;">
+                <input type="hidden" name="TotalNextStep" id="TotalNextStep" />
+            </td>
+        </tr>
+        <tr>
+            <th class="text-left" style="vertical-align: top; width: 100px">
+                Mã hàng
+            </th>
+            <th class="text-left" style="text-align: left; width: 250px; max-width: 250px; overflow: hidden; white-space: nowrap ">
+                Tên hàng
+            </th>
+            <th class="text-left" style="vertical-align: top; width: 100px ">
+                Hình ảnh
+            </th>
+            <th class="text-left" style="vertical-align: top; width: 100px ">
+                Giá bán NTD
+            </th>
+            <th class="text-left" style="vertical-align: top; width: 80px ">
+                SL áp dụng
+            </th>
+            <th class="text-left" style="vertical-align: top; width: 80px">
+                % quà
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                var dt = Model;
+                {
+                    var i = 0;
+                    foreach (MP_VendorTool.Models.Promotion2.GetWay_HHOA_KGUI item in dt)
+                    {
+                        <tr id="row_@i">
+                            <td class="text-center" style=" width: 100px">
+                                <input type="hidden" id="MaHang_@i" name="MaHang" value="@item.MaHang" />
+                                @item.MaHang
+                            </td>
+                            <td class="text-left" style="text-align: left; width: 250px; max-width: 250px; overflow: hidden; white-space: nowrap ">
+                                <input type="hidden" id="TenHang_@i" name="TenHang" value="@item.TenHang" />
+                                @item.TenHang
+                            </td>
+                            <td class="text-center" style=" width: 100px; height:60px">
+                                <input type="hidden" id="HinhAnh_@i" name="HinhAnh" value="@item.HinhAnh" />
+                                <a href="@item.HinhAnh" title="" class="thickbox"><img height="60px" src="@item.HinhAnh" alt="" class="content" /></a>
+                            </td>
+                            <td class="text-right" style="width: 100px;">
+                                <span class="GiaBanNTD">@item.GBNTD</span>
+                                <input id="GiaBanNTD_@i" type="hidden" name="GiaBanNTD" min="0" value="@item.GBNTD" />
+                            </td>
+                            <td class="text-center" style="width: 80px;">
+                                <input id="SLApDung_@i" name="SLApDung" class="form-control" style="width: 100px; max-width: 100px " min="0" value="1" onchange="js_sl_sumsl(@i);js_changeGetItemTang_checked(@i)" type="number" />
+                            </td>
+                            <td class="text-center checkMua" style="width: 80px;">
+                                <input id="PhanTramQua_@i" type="number" class="form-control" min="0" style="width: 100px; max-width: 100px " name="PhanTramQua" onchange="js_sl_sumsl(@i);js_changeGetItemTang_checked(@i)" />
+                                <span style=" display:none"><input class="form-check-input" id="_@i" type="checkbox" name="checkMua[]" value="@item.MaHang"></span>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
+<script>
+    $(function () {
+        $('img.content').hover(function () {
+            $(this).addClass('transition');
+
+        }, function () {
+            $(this).removeClass('transition');
+        });
+    });
+
+    function js_sl_sumsl(r) {
+        debugger;
+        let SoLuong = $('#row_' + r + '  #SLApDung_' + r + '').val();
+        if (parseInt(SoLuong) > 0) {
+            $("#row_" + r + " .checkMua #_" + r + "").prop("checked", true);
+        }
+        else {
+            $("#row_" + r + "  .checkMua  #_" + r + "").prop("checked", false);
+        }
+        let TotalNextStep = 0;
+        let Total = 0;
+        let trs = $("#tbl_Item tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+
+                let ischeck = $("#row_" + r + "  .checkMua  #_" + r + "").length > 0;
+                    //$('#' + tr.id + '  input[name="checkMua[]:checked').length > 0;
+                if (ischeck == true) {
+                    let SLApDung = String($('#' + tr.id + ' input[name="SLApDung"').val()).trim();
+                    let PhanTramQua = String($('#' + tr.id + ' input[name="PhanTramQua"').val()).trim();
+                    let GiaBanNTD = String($('#' + tr.id + ' input[name="GiaBanNTD"').val()).trim().replace(",", "");
+
+                    if (parseInt(SLApDung) > 0 && parseInt(PhanTramQua) > 0) {
+                        TotalNextStep += Math.round(parseInt(SLApDung) * GiaBanNTD * (parseInt(PhanTramQua) / 100));
+                    }
+                    if (parseInt(SLApDung) > 0 && parseInt(GiaBanNTD) > 0) {
+                        Total += parseInt(SLApDung) * GiaBanNTD;
+                    }
+               }
+            });
+        }
+        let TotalAmount = Total.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).replace('₫', "");
+
+        $('#sumsl').html(TotalAmount.trim());
+        $('#TotalNextStep').val(TotalNextStep);
+    }
+
+</script>

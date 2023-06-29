@@ -1,0 +1,282 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        <tr style="background: #ffffff; border-bottom: 1px solid #ddd !important; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #fff !important;">
+                            <th class="text-left" style="border: none !important;"></th>
+                            <th class="text-left" style="border: none !important;"></th>
+                            <th class="text-left" style="border: none !important;"></th>
+                            <th class="text-left" style="border: none !important;"></th>
+                            <th class="text-left" style="border: none !important;"></th>
+                            <th class="text-right" style="border: none !important;">
+
+                            </th>
+                            <th class="text-left" style="border: none !important;">
+                                @dt.Rows[0]["sumSoLuong"]
+                            </th>
+                            <th class="text-left" style="border: none !important;"></th>
+                            <th class="text-left" style="border: none !important;"></th>
+                            <th class="text-left" style="border: none !important;"></th>
+                            <th class="text-left" style="border: none !important;"></th>
+                            <th class="text-left" style="border: none !important;"></th>
+                        </tr>
+                    }
+                }
+            }
+
+            <tr>
+                <th scope="col" style="text-align: left; width: 65px; max-width: 65px; ">
+                    Miền
+                </th>
+                <th scope="col" style="text-align: left; width: 70px; max-width: 70px; ">
+                    Tỉnh thành
+                </th>
+                <th scope="col" style="text-align: left; width: 70px; max-width: 70px; ">
+                    Mã CH/Kho
+                </th>
+                <th scope="col" style="text-align: left; width: 200px; max-width: 200px; ">
+                    Tên CH/Kho
+                </th>
+                <th scope="col" style="text-align: left; width: 55px; max-width: 55px; ">
+                    Mã hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 200px; max-width: 200px; ">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 130px; max-width: 130px; ">
+                    SL trả lại
+                </th>
+                <th scope="col" style="text-align: left; width: 80px; max-width: 80px; ">
+                    Tình trạng
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Ngày hết hạn
+                </th>
+                <th scope="col" style="text-align: left; width: 130px; max-width: 130px; ">
+                    Hạn báo date
+                </th>
+                <th scope="col" style="text-align: center; width: 120px; max-width: 120px; ">
+                    Trạng thái
+                </th>
+                <th scope="col" style="text-align: center; width: 60px; max-width: 60px; ">
+                    Xác nhận
+                    <span style="text-align:center !important"><input type="checkbox" style="text-align: center; width: 100%; " id="checkall" onchange="checkall();"></span>
+                </th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        var i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            var k = i;
+
+                            <tr style=" height:20px" id="Row_@i">
+                                <td style="text-align: left;">
+                                    @item["Mien"]
+
+                                    @*<span id="Show_@i"></span>*@
+                                </td>
+                                <td style="text-align: left;">
+                                    @item["TinhThanh"]
+                                </td>
+                                <td style="text-align: left;">
+                                    @item["MaCH"]
+                                </td>
+                                <td style="text-align: left; width: 200px; max-width: 200px; overflow: hidden; white-space: nowrap " title="@item["KhoTra"]">
+                                    @item["KhoTra"]
+                                </td>
+                                <td style="text-align: left;">
+                                    @item["MaHang"]
+                                </td>
+                                <td style="text-align: left; width: 200px; max-width: 200px; overflow: hidden; white-space: nowrap " title="@item["TenHang"]">
+                                    @item["TenHang"]
+                                </td>
+                                <td style="text-align: right;">
+                                    <span id="SoLuong_@i"> @item["SoLuong"]</span>
+                                </td>
+                                <td style="text-align: left;">
+                                    @item["TinhTrang"].ToString().Replace("All", "")
+                                </td>
+                                <td style="text-align: right;">
+                                    @item["NgayHetHan"]
+                                </td>
+                                <td style="text-align: left; width: 120px; max-width: 120px; overflow: hidden; white-space: nowrap " title="@item["NgayBaoDate"]">
+                                    @item["NgayBaoDate"]
+                                </td>
+                                @*<td style="text-align: right; width: 135px; max-width: 135px; " class="NgayTraHang">
+                                                    <input type="date" name="NgayTraHang" id="NgayTraHang" class="form-control" value="@item["NgayTraHang"]" />
+                                                </td>
+                                               <td style="text-align: right; width: 100px; max-width: 100px; " class="MoTa">
+                                        <textarea type="text" name="MoTa" id="MoTa" class="form-control" style="height: 28px !important ">@item["MotaXN"]</textarea>
+                                    </td>*@
+                                <td style=" text-align:center">
+                                    @Html.Raw(item["TrangThaXN"])
+                                </td>
+                                <td id="CheckID">
+                                    <span id="MaHang_@i" style=" display:none">@item["MaHang"]</span>
+                                    <span id="MaCH_@i" style=" display:none">@item["MaCH"]</span>
+                                    <span id="ID_@i" style=" display:none">@item["ID"]</span>
+                                    <span id="NCC_@i">@item["MaNCC"]</span>
+                                    <span id="TrangThaiXacNhan_@i" style=" display:none">@item["TrangThaiXacNhan"]</span>
+                                    <span id="HisDateRRV_@i" style=" display:none"> @item["HisDateRRV"]</span>
+                                    <span id="ResId_@i" style=" display:none"> @item["ResId"]</span>
+
+                                    @if (item["TrangThaiXacNhan"].ToString() == "1")
+                                    {
+                                        <input class="cb-element" style="width:100% !important" disabled checked name="check1[]" id="_@i" type="checkbox">
+                                    }
+                                    else
+                                    {
+                                        <input class="cb-element" style="width:100% !important" name="check[]" id="_@i" type="checkbox">
+                                    }
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    function checkall() {
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if ($('#checkall').is(":checked")) {
+                cboxes[i].checked = true;
+            } else { cboxes[i].checked = false; }
+        }
+    }
+    function js_saveCheck() {
+        debugger;
+        var cboxes = document.getElementsByName('check[]');
+        var arrCheckbox = [];
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                var po = {};
+                var TrangThaiXacNhan = $('#TrangThaiXacNhan' + cboxes[i].id).html();
+                if (TrangThaiXacNhan.toString().trim() != "1") {
+                    // var Ngay = $('#Row' + cboxes[i].id + ' #NgayTraHang').val();
+                    //if (Ngay == "") {
+                    //    alert("Vui lòng chọn ngày trả hàng.");
+                    //    return;
+                    //}
+                    po.MaHang = $('#MaHang' + cboxes[i].id).html();
+                    po.MaCH = $('#MaCH' + cboxes[i].id).html();
+                    po.ID = $('#ID' + cboxes[i].id).html();
+                    po.NCC = $('#NCC' + cboxes[i].id).html();
+                    po.HisDateRRV = $('#HisDateRRV' + cboxes[i].id).html();
+                    po.SoLuong = $('#SoLuong' + cboxes[i].id).html();
+                    
+                    // po.NgayTraHang = "";// $('#Row' + cboxes[i].id + ' #NgayTraHang').val();
+                    //po.MoTa = "";//$('#Row' + cboxes[i].id + ' #MoTa').val();
+                    arrCheckbox.push(po);
+                }
+            }
+            console.log(arrCheckbox);
+        }
+
+        var ID = [];
+        $('#CheckID input[name="check[]"]:checked').each(function (index, value) {
+            ID.push($(value).val());
+        });
+
+        if (ID == "") {
+            alert("Bạn chưa chọn hành động");
+            return;
+        }
+        console.log(JSON.stringify(arrCheckbox));
+        if (arrCheckbox.length > 0) {
+            $.ajax({
+                url: '/Order/Update_ReturnedGoods',
+                type: 'POST',
+                data: JSON.stringify({ lst: arrCheckbox }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    //console.log(data);
+                    js_GetList();
+                    alert("Xác nhận thành công");
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+    //function SetColor() {
+    //    debugger;
+    //    let trs = $("#tbl_Item tbody tr");
+    //    if (trs.length) {
+    //        trs.each((index, tr) => {
+    //            var row = tr.id.replace("Row_", "");
+    //            let MaHang = String($('#MaHang_' + row).html()).trim();
+
+    //            var Color = $('#Color').val();
+    //            var Color1 = $('#Color1').val();
+
+    //            $('#Color').val(MaHang);
+    //            $('#Show_' + row).html(MaHang + '- ' + Color);
+    //            //alert(MaHang+'- '+ Color);
+
+
+    //            if (MaHang == Color) {
+    //                $('#Color1').val('');
+    //            }
+
+    //            if (Color1.length > 0) {
+    //                $('#Row_' + row).addClass(Color1);
+    //            }
+    //            else {
+    //                if (MaHang == Color) {
+    //                    $('#Row_' + row).addClass('Active');
+    //                }
+    //                else if (MaHang != Color) {
+    //                    $('#Row_' + row).addClass('NoActive');
+    //                    $('#Color1').val('NoActive');
+    //                }
+    //            }
+    //        });
+    //    }
+    //}
+</script>
+@*<style>
+    .Active {
+        background-color: #f5f5f5 !important;
+    }
+
+    .NoActive {
+        background-color: #fff !important;
+    }
+</style>
+<input type="text" name="Color" id="Color" value="100057" />
+<input type="text" name="Color1" id="Color1" value="" />*@

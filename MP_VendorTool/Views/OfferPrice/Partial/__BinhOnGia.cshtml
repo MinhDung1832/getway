@@ -1,0 +1,284 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left; ">
+                    Miền
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Tỉnh
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Mã CH
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Tên CH
+                </th>
+
+                <th scope="col" style="text-align: left; ">
+                    Mã Hàng
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 90px; max-width: 90px; ">
+                    Hình ảnh
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Giá bán
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Ngày KS
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Giá KS
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Địa điểm KS
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Giá gợi ý
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Giá điều chỉnh
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Ngày đề xuất
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Ngày cập nhật
+                </th>
+                <th scope="col" style="text-align: center; width: 100px; max-width: 100px; ">
+                    Hành động<br />
+                    @*<span style="text-align:center !important"><input type="checkbox" style="text-align: center; width: 100%; " id="checkall" onchange="checkall()"></span>*@
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        var i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            var k = i;
+                        <tr style=" height:15px" id="Row_@i">
+                            <td>
+                                @item["TenMien"]
+                            </td>
+                            <td>
+                                @item["TenTinh"]
+                            </td>
+                            <td>
+                                @item["MaCH"]
+                            </td>
+                            <td>
+                                @item["TenCH"]
+                            </td>
+
+                            <td>
+                                <span id="mh_@i">@item["MaHang"]</span>
+                            </td>
+                            <td>
+                                @item["TenHang"]
+                            </td>
+                            <td style="width: 60px;height:60px; text-align:center">
+                                @if (item["Images"].ToString() != "")
+                                {
+                                    if (item["Images"].ToString().Contains("no_selection"))
+                                    {
+                                    }
+                                    else
+                                    {
+                                        <a target="_blank" href="@item["Images"]" class="thickbox"><img style="height: 60px" src=" @item["Images"]" class="content"></a>
+                                    }
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @item["GiaBanAll"]
+                            </td>
+                            <td style="text-align: right">
+                                @item["NgayKS"]
+                            </td>
+                            <td style="text-align: right">
+                                <span style="color:@item["color"]">@item["GiaDoiThu"]</span>
+                            </td>
+                            <td style="text-align: left">
+                                @item["TenDoiThu"]
+                            </td>
+                            <td style="text-align: right">
+                                @item["GiaGoiY"]
+                            </td>
+                            <td style="text-align: left; width: 120px; max-width: 120px;">
+                                <input type="text" name="GiaDieuChinh" id="_@i" class="form-control  GiaDieuChinh OrderValue" onclick="pricechange('_@i')" onchange="ShowPopUp(@i)" placeholder="Nhập giá" />
+                            </td>
+                            <td style="text-align: right">
+                                @item["Ngaydexuat"]
+                            </td>
+                            <td style="text-align: right">
+                                @item["NgayCapNhat"]
+                            </td>
+                            <td id="CheckID" style="text-align: center">
+                                @if (item["IsCheck"].ToString() == "0")
+                                {
+                                    <input class="cb-element Checkbox_@i" style="width:100% !important" name="check[]" id="_@i" type="checkbox" onclick="ShowPopUp(@i)">
+
+                                }
+                                else
+                                {
+                                    <input class="cb-element" disabled style="width:100% !important" name="checkNo" id="_@i" type="checkbox" onclick="ShowPopUp(@i)">
+                                }
+                                <input type="hidden" name="GiaBanAll" id="GiaBanAll" class="form-control" value="@item["GiaBanAll"]" />
+                                <input type="hidden" name="GiaDoiThu" id="GiaDoiThu" class="form-control" value="@item["GiaDoiThu"]" />
+                                <input type="hidden" name="TenDoiThu" id="TenDoiThu" class="form-control" value="@item["TenDoiThu"]" />
+                                <input type="hidden" name="GiaGoiY" id="GiaGoiY" class="form-control" value="@item["GiaDoiThu"]" />
+                                <input type="hidden" name="GiaMuaNet" id="GiaMuaNet" class="form-control" value="@item["GiaMuaNet"]" />
+                                <input type="hidden" name="MaHang" id="MaHang" class="form-control" value="@item["MaHang"]" />
+                                <input type="hidden" name="TenHang" id="TenHang" class="form-control" value="@item["TenHang"]" />
+                                <input type="hidden" name="Images" id="Images" class="form-control" value="@item["Images"]" />
+                            </td>
+                        </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>
+<style>
+    NgayCapNhat input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    function checkall() {
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if ($('#checkall').is(":checked")) {
+                cboxes[i].checked = true;
+            } else { cboxes[i].checked = false; }
+        }
+    }
+    function js_saveCheck() {
+
+
+        var cboxes = document.getElementsByName('check[]');
+        var arrCheckbox = [];
+        var i = 0;
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                var po = {};
+                // alert(cboxes[i].id);
+
+                po.GiaBanAll = $('#Row' + cboxes[i].id + ' #GiaBanAll').val();
+                po.GiaDoiThu = $('#Row' + cboxes[i].id + ' #GiaDoiThu').val();
+                po.TenDoiThu = $('#Row' + cboxes[i].id + ' #TenDoiThu').val();
+                po.GiaGoiY = $('#Row' + cboxes[i].id + ' #GiaGoiY').val();
+                po.GiaMuaNet = $('#Row' + cboxes[i].id + ' #GiaMuaNet').val();
+                po.GiaDieuChinh = $('#Row' + cboxes[i].id + ' input[name="GiaDieuChinh"]').val();
+
+                po.MaHang = $('#Row' + cboxes[i].id + ' #MaHang').val();
+                po.TenHang = $('#Row' + cboxes[i].id + ' #TenHang').val();
+                po.Images = $('#Row' + cboxes[i].id + ' #Images').val();
+                po.NCC = fomart_split($("#NhaCCFull").val(), 0);
+
+                var GiaDieuChinh = $('#Row' + cboxes[i].id + '  input[name="GiaDieuChinh"]').val().replaceAll(',', '');
+                var GiaMuaNet = $('#Row' + cboxes[i].id + ' #GiaMuaNet').val().replaceAll(',', '');
+                var SumPT = (parseInt(GiaDieuChinh) - parseInt(GiaMuaNet)) / parseInt(GiaDieuChinh);
+                po.PhanTramGPMoi = SumPT;
+
+                console.log(po);
+                arrCheckbox.push(po);
+
+                $('#Row_' + i + '  input[name="GiaDieuChinh"]').css('border', '1px solid #d7d7d7');
+                var GiaDieuChinh = $('#Row' + cboxes[i].id + '  input[name="GiaDieuChinh"]').val();
+                if (GiaDieuChinh == '' || GiaDieuChinh == "undefined") {
+                    alert("Vui lòng nhập giá điều chỉnh");
+                    $('#Row' + cboxes[i].id + '  input[name="GiaDieuChinh"]').val('');
+                    $('#Row' + cboxes[i].id + '  input[name="GiaDieuChinh"]').css('border', '1px solid #ffa903');
+                    return;
+                }
+            }
+        }
+        console.log('1');
+        console.log(arrCheckbox);
+
+        var ID = [];
+        $('#CheckID input[name="check[]"]:checked').each(function (index, value) {
+            ID.push($(value).val());
+        });
+
+        if (ID == "") {
+            alert("Bạn chưa chọn hành động");
+            return;
+        }
+        console.log(JSON.stringify(arrCheckbox));
+        if (arrCheckbox.length > 0) {
+            $.ajax({
+                url: '/OfferPrice/Add_BinhOnGia_ThiTruong_Vender_Item',
+                type: 'POST',
+                data: JSON.stringify({ lst: arrCheckbox }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    if (data.code == 0) {
+
+                    } else {
+                        jAlert("Xác nhận thành công");
+                        location.reload();
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+    function ShowPopUp(r) {
+        var GiaDieuChinh = $('#Row_' + r + ' input[name="GiaDieuChinh"]').val().replaceAll(',', '');
+        var GiaMuaNet = $('#Row_' + r + ' #GiaMuaNet').val().replaceAll(',', '');
+        var SumPT = (parseInt(GiaDieuChinh) - parseInt(GiaMuaNet)) / parseInt(GiaDieuChinh);
+        console.log(parseFloat(SumPT));
+        if (parseFloat(SumPT) < parseFloat(5 / 100)) {
+            document.getElementById("_" + r).checked = false;
+            var xx = confirm("GP < 5 % hệ thống sẽ tự động dừng các đơn đặt hàng từ ngày D + 1. Bạn có chắc chắn muốn cài giá mới ?");
+            if (xx == true) {
+                document.getElementById("_" + r).checked = true;
+            }
+        }
+    }
+
+    function pricechange(r) {
+
+        var onles = document.getElementsByName('GiaDieuChinh');
+
+        for (var i = 0; i < onles.length; i++) {
+            if (onles[i].id != r && $('#mh' + onles[i].id).html() == $('#mh' + r).html()) {
+
+                $('#' + onles[i].id).prop('disabled', true);
+                $('#' + onles[i].id).val('');
+                $('#' + onles[i].id).prop('placeholder', "----");
+                $('.Checkbox' + onles[i].id).prop('disabled', true);
+            }
+        }
+    }
+    function currencyFormat(num) {
+        return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+
+
+</script>
+

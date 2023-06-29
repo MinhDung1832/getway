@@ -1,0 +1,22 @@
+[
+	{
+		"code": "prdAccept",
+		"title": "Chấp nhận yêu cầu thay đổi thông tin sản phẩm {{attributeName}}",
+		"content": "<b>Kính gửi: </b> {{vendorName}} (Mã số: {{vendor_bbm_code}})<p>  Vendors - Gateway của Bibo Mart vừa tiếp nhận thông tin cập nhật dữ liệu sản phẩm {{prd_Name}} của Quý đối tác. Vui lòng xác nhận những thay đổi này để thông tin được cập nhật chính thức vào hệ thống:</p><b>{{prd_Name}} </b><p>  Giá Net áp dụng mới: <b>{{prd_Price}}</b></p><p>  Quý đối tác đồng ý thay đổi cần cập nhật hồ sơ liên quan tại <a href=\"{{url_upload}}\">ĐÂY</a> trong vòng 24h kể từ thời điểm nhận email. Quá thời hạn 24h, vui lòng truy cập vào Cổng Kết nối hợp tác <a href=\"gateway.bibomart.net\">gateway.bibomart.net</a> để khai báo lại.</p><p>Danh sách hồ sơ cần cung cấp bản cứng để duyệt thay đổi thông tin sản phẩm gồm:  <ul>    <li> Quyết định điều chỉnh giá bán lẻ sản phẩm {{prd_Name}}</li></ul></p><div style=\"width:50%; float:left;\">    <p>    \t<b>Hotline hỗ trợ:</b>    <p>  <p>    Người nhận: Minh Nguyệt  </p>    <p>    Điện thoại:   </p>  </div><div style=\"width:50%; float:left;\">    <p>      <b>Địa chỉ tiếp nhận hồ sơ:</b>  \t</p>        <p>      Người nhận:   \t</p>      <p>Địa chỉ:</p>  <p>Điện thoại:</p></div>  <p>    Trân trọng !</p><div style=\"text-align:center;padding:15px 0;border-top:2px solid #ebebeb;width:100%;color:#747474;max-width:600px;margin:auto\"><p><span style=\"font-size:10pt;font-family:arial,helvetica,sans-serif;color:#7e8c8d\"><strong style=\"text-transform:uppercase\">Công ty cổ phần Bibo Mart TM</strong></span></p><p><span style=\"font-size:10pt;font-family:arial,helvetica,sans-serif;color:#7e8c8d\">120 Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam</span></p><p><span style=\"font-size:10pt;font-family:arial,helvetica,sans-serif;color:#7e8c8d\">Mã số thuê / Mã số doanh nghiệp: 0108024302. Ngày cấp: 16/10/2017, Sở KHĐTHN</span></p></div>"
+	},
+	{
+		"code":"prdDenied",
+		"title":"Từ chối yêu cầu thay đổi thông tin sản phẩm {{attributeName}}",
+		"content":"<h1>  Dear công ty <b>{{companyName}}</b></h1><p>  Chúng tôi đã nhận được yêu cầu thay đổi thông tin sản phầm {{prdName}} của quý công ty với các thay đổi sau :</p><ul>  <li>Tên sản phẩm : </li>  <li>Giá nhập :  xx.000.00(giá cũ x.000.000đ) từ ngày yyyy-MM-dd</li>  <li>Barcode:123456789</li></ul><p>  Chúng tôi từ chối thay đổi vì lý do sau :<b> {{denied_comment}}</b></p><p>  Mong quý công ty cập nhật các thông tin phù hợp các tiêu chuẩn và gửi lại yêu cầu.</p><h3>  Trân trọng !</h3><div style=\"text-align:center;padding:15px 0;border-top:2px solid #ebebeb;width:100%;color:#747474;max-width:600px;margin:auto\"><p><span style=\"font-size:10pt;font-family:arial,helvetica,sans-serif;color:#7e8c8d\"><strong style=\"text-transform:uppercase\">Công ty cổ phần Bibo Mart TM</strong></span></p><p><span style=\"font-size:10pt;font-family:arial,helvetica,sans-serif;color:#7e8c8d\">120 Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội, Việt Nam</span></p><p><span style=\"font-size:10pt;font-family:arial,helvetica,sans-serif;color:#7e8c8d\">Mã số thuê / Mã số doanh nghiệp: 0108024302. Ngày cấp: 16/10/2017, Sở KHĐTHN</span></p></div>"
+	},
+	{
+		"code":"vendorAccept",
+		"title":"Chấp nhận yêu cầu thay đổi thông tin {{attributeName}}",
+		"content":"",
+	},
+	{
+		"code":"vendorAccept",
+		"title":"Từ chối yêu cầu thay đổi thông tin {{attributeName}}",
+		"content":"",
+	}
+]

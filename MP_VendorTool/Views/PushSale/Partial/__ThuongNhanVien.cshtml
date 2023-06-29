@@ -1,0 +1,103 @@
+﻿@using System.Data
+<table id="tbl_Item" class="table table-bordered tb_detail">
+    <thead>
+        <tr>
+            <th class="text-left" style="width: 88px; max-width: 88px; ">
+                Mã CT
+            </th>
+            <th class="text-left" style="width: 300px; max-width: 300px; ">
+                Tên hàng
+            </th>
+            <th class="text-left" style="width: 130px; max-width: 130px; ">
+                Bonus
+            </th>
+            <th class="text-left" style="width: 130px; max-width: 130px; ">
+                Thời gian <br>từ
+            </th>
+            <th class="text-left" style="width: 130px; max-width: 130px; ">
+                Thời gian <br> đến
+            </th>
+            <th class="text-center" style="width: 130px; max-width: 130px; ">
+                Phạm vi
+            </th>
+            <th class="text-center" style="width: 130px; max-width: 130px; ">
+                Trạng thái
+            </th>
+            <th class="text-center" style="width: 130px; max-width: 130px; ">
+                Chi tiết
+            </th>
+            <th class="text-center" style="width: 130px; max-width: 130px; ">
+                Người duyệt
+            </th>
+            <th class="text-center" style="width: 130px; max-width: 130px; ">
+                Ngày duyệt
+            </th>
+            <th class="text-center" style="width: 88px; max-width: 88px; ">
+                Hành động
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        var k = i + "_Row";
+                        <tr>
+                            <td class="text-left" style="width: 88px; max-width: 88px; ">
+                                @item["ID"]
+                            </td>
+                            <td class="text-left" style="width: 300px; max-width: 300px; ">
+                                @item["TenHang"]
+                            </td>
+                            <td class="text-right" style="width: 130px; max-width: 130px; ">
+                                @item["Bonus"]
+                            </td>
+                            <td class="text-right" style="width: 130px; max-width: 130px; ">
+                                @item["FromDay"]
+                            </td>
+                            <td class="text-right" style="width: 130px; max-width: 130px; ">
+                                @item["ToDay"]
+                            </td>
+                            <td class="text-left" style="width: 130px; max-width: 130px; ">
+                                @item["NamePhamVi"]
+                            </td>
+                            <td class="text-center" style="width: 130px; max-width: 130px; ">
+                                @Html.Raw(item["Status"])
+                            </td>
+                            <td class="text-center" style=" width: 100px; max-width: 100px;">
+                                <a onclick="load('@item["ID"]')" class="btn_detail btn btn-secondary">Chi tiết</a>
+                            </td>
+                            <td class="text-right" style="width: 130px; max-width: 130px; ">
+                                @item["ModifyBy"]
+                            </td>
+                            <td class="text-right" style="width: 130px; max-width: 130px; ">
+                                @item["ModifyDate"]
+                            </td>
+                            <td class="text-center " id="CheckID" style="width: 88px; max-width: 88px; ">
+                                @{
+                                    if (@item["TrangThai"].ToString() != "1")
+                                    {
+                                        <input type="checkbox" name="CheckID" value="@item["ID"]" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" disabled name="CheckID" value="@item["ID"]" />
+                                    }
+                                }
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>

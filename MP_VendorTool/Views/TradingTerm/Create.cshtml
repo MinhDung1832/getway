@@ -1,0 +1,521 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+@*<h2>@MP_VendorTool.Resource.TradingtermTT</h2>*@
+<style>
+
+    .logo img {
+        width: 250px;
+    }
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 18px;
+    }
+
+        .text_home a {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    legend {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 20px;
+        margin-top: 32px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #6f8cb8;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    fieldset {
+        margin-top: 34px;
+    }
+
+    .row_3 {
+        padding: 15px 0px;
+    }
+
+    label {
+        font-size: 12px;
+        color: #777575;
+    }
+
+    .from_vender {
+        margin-left: 8px;
+    }
+
+        .from_vender input, .from_vender select {
+            margin-bottom: 8px;
+        }
+
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+        .button_save_1 a {
+            text-align: center;
+            background-color: #868686 !important;
+            border-color: #868686 !important;
+        }
+
+    #E_Invoice {
+        margin-bottom: 24px;
+    }
+
+    .row_2 {
+        padding: 22px 28px;
+        clear: both;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    #tbl_tradingItem thead {
+        background-color: #868686;
+        color: #fff;
+    }
+
+    #tbl_tradingItem {
+        border: 1px solid #d2cece;
+    }
+
+        #tbl_tradingItem thead tr {
+            font-size: 12px;
+        }
+
+    .row_01 {
+        margin-top: 33px;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+        .button_action a:hover {
+            text-decoration: none;
+        }
+
+    .button_action {
+        margin-top: 30px;
+        padding-left: 13px !important;
+        padding-right: 13px !important;
+    }
+
+    .btn-primary {
+        background-color: #86868600;
+        border-color: #868686;
+        color: #6f8cb8 !important;
+    }
+
+    .fa-caret-left:before {
+        content: "\f0d9";
+        padding-right: 9px;
+    }
+
+    .td_01 {
+        background-color: #fcfcfc;
+        text-align: center;
+    }
+
+    .td_02 {
+        background-color: #f5f5f5;
+    }
+
+    .button_action a:hover {
+        background-color: #9e9e9e;
+        color: #f3f3f3 !important;
+    }
+
+    .row_3 {
+        padding: 15px 28px;
+    }
+
+    #tbl_tradingItem thead, #tbl_leadtime thead {
+        background-color: #c4c4c4;
+        color: #59595B;
+    }
+
+    #tbl_tradingItem, #tbl_leadtime {
+        font-size: 12px;
+        border: 1px solid #d2cece;
+    }
+
+        #tbl_tradingItem thead tr, #tbl_leadtime thead tr {
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+    .bt_action_delete {
+        background-color: #c4c4c4 !important;
+        border: 1px solid #c4c4c4 !important;
+        color: #59595b !important;
+        padding: 3px 6px !important;
+    }
+
+    .bt_action {
+        background-color: #c4c4c4 !important;
+        border: 1px solid #c4c4c4 !important;
+        color: #59595b !important;
+        padding: 3px 6px !important;
+    }
+</style>
+
+
+<div class="wp_vendor">
+    <div class="header_vender">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3"><div class="logo"><a href="/Home/Index"><img src="~/image/bibologo.png" /></a></div></div>
+                <div class="col-md-6"><h3 class="header_title">@MP_VendorTool.Resource.TradingtermTT</h3></div>
+                <div class="col-md-3" style="transform: translate(-6%,20%);"><div class="text_home"><a href="/Home/Index"><i class="fa fa-home" aria-hidden="true"></i> @MP_VendorTool.Resource.textHome_6</a></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="content_vendor">
+        <div class="container">
+            <div class="row from_vender">
+                <div class="row_01">
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.cooperateType</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="form-control" id="cooperateType">
+                                @foreach (var i in ViewBag.ls_cooperate)
+                                {
+                                    <option value="@i.Code">@i.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.listingQty</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="listingQty" onchange="intNumberParse('listingQty')" value="0" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.faceAcreage_total</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="faceAcreage_total" onchange="floatNumberParse('faceAcreage_total')" value="0" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.guaranteeMinimum</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input readonly type="text" class="form-control" id="guaranteeMinimum" onchange="floatNumberParse('guaranteeMinimum')" value="0" />
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.discount</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="discount" onchange="floatNumberParse('discount')" value="0" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.salesCost</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="salesCost" onchange="floatNumberParse('salesCost')" value="0" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.marketingCost</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="marketingCost" onchange="floatNumberParse('marketingCost')" value="0" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>@MP_VendorTool.Resource.operatingCost</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="operatingCost" onchange="floatNumberParse('operatingCost')" value="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row_2">
+                    <table id="tbl_tradingItem" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="text-align: center;">
+                                    @MP_VendorTool.Resource.textterm_6
+                                </th>
+                                <th scope="col" style="text-align: center;">
+                                    @MP_VendorTool.Resource.name
+                                </th>
+                                <th scope="col" style="text-align: center;">
+                                    @MP_VendorTool.Resource.textterm_7
+                                </th>
+                                <th scope="col" style="text-align: center;">
+                                    @MP_VendorTool.Resource.textterm_8
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < ViewBag.ls_prd.Count; i++)
+                            {
+                                <tr>
+                                    <td class="td_01">
+                                        @(i + 1)
+                                        <input type="hidden" value="@ViewBag.ls_prd[i].id" />
+                                    </td>
+                                    <td class="td_02">
+                                        @ViewBag.ls_prd[i].name
+                                    </td>
+                                    <td class="td_01">@ViewBag.ls_prd[i].faceQty</td>
+                                    <td class="td_02">0</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <hr />
+                <div class="row_3">
+
+
+                    <table id="tbl_leadtime" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="text-align: center;">
+                                    @MP_VendorTool.Resource.warehouseDeparture
+                                </th>
+                                <th scope="col" style="text-align: center;">
+                                    @MP_VendorTool.Resource.textterm_10
+                                </th>
+                                <th scope="col" style="text-align: center;">
+                                    Leadtime
+                                </th>
+                                <th scope="col" style="text-align: center;">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control" id="txtAddress" />
+                                </td>
+                                <td>
+                                    <select class="form-control" id="selLeadtime">
+                                        @foreach (var i in ViewBag.ls_leadtime)
+                                        {
+                                            <option value="@i.Code">@i.Name</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="txtLeadtime" onchange="intNumberParse('txtLeadtime')" value="0" />
+                                </td>
+                                <td style="text-align: center;">
+                                    @*<input type="button" class="form-control btn-primary" id="btnAddLeadtime" onclick="addRow()" />*@
+                                    <a href="#" onclick="addRow()" class="btn btn-success bt_action"><i class="fa fa-plus-circle" aria-hidden="true"></i> Thêm</a>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="row_4 button_action">
+                    <div class="col-md-4">
+                        @*@Html.ActionLink(@MP_VendorTool.Resource.prevPage, "Create", "Product", null, new { @class = "form-control btn-primary text-center fa fa-caret-left" })*@
+                        <a href="/Product/Create" class="form-control btn-primary"><i class="fa fa-caret-left" aria-hidden="true"></i> @MP_VendorTool.Resource.prevPage </a>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <a href="#" class="form-control btn-primary" onclick="Save()"><i class="fa fa-floppy-o" aria-hidden="true"></i> @MP_VendorTool.Resource.Save_Con</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="clear:both; height:30px"></div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script type="text/javascript">
+
+    function Save() {
+        //TradingHead
+        var head_obj = {};
+        head_obj.cooperateType = $('#cooperateType').val();
+        head_obj.listingQty = $('#listingQty').val();
+        head_obj.faceAcreage_total = $('#faceAcreage_total').val();
+        head_obj.guaranteeMinimum = $('#guaranteeMinimum').val();
+        head_obj.discount = $('#discount').val();
+        head_obj.salesCost = $('#salesCost').val();
+        head_obj.marketingCost = $('#marketingCost').val();
+        head_obj.operatingCost = $('#operatingCost').val();
+        head_obj.warehouseDeparture = $('#warehouseDeparture').val();
+        head_obj.leadtimeDelivery = $('#leadtimeDelivery').val();
+        head_obj.leadtimeImporting = $('#leadtimeImporting').val();
+        head_obj.leadtimeManufacturing = $('#leadtimeManufacturing').val();
+
+
+        console.log(JSON.stringify(head_obj));
+
+        //end TradingHead
+
+        //TradingLine
+        var arrItem_S = new Array();
+
+        $("#tbl_tradingItem TBODY TR").each(function () {
+
+            var row = $(this);
+            var item_obj = {};
+
+            item_obj.productID = row.find("TD").eq(0).find("input").eq(0).val();
+
+            item_obj.faceQty = row.find("TD").eq(2).html();
+
+            item_obj.margin = row.find("TD").eq(3).html();
+
+            arrItem_S.push(item_obj);
+        });
+
+        console.log(JSON.stringify(arrItem_S));
+        //End TradingLine
+
+
+        //Trading leadtime
+        var arrLeadTime = new Array();
+
+        $("#tbl_leadtime TBODY TR").each(function () {
+
+            var row = $(this);
+            var item_obj = {};
+
+            item_obj.Address = row.find("TD").eq(0).html();
+
+            item_obj.leadtimeType = row.find("TD").eq(1).find("input").eq(0).val();
+
+            item_obj.leadtimeValue = row.find("TD").eq(2).html();
+
+            arrLeadTime.push(item_obj);
+        });
+
+        console.log(JSON.stringify(arrLeadTime));
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Tradingterm/addTradingterm",
+            data: '{head:' + JSON.stringify(head_obj) + ',lines:' + JSON.stringify(arrItem_S) + ',lead:' + JSON.stringify(arrLeadTime) + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r1) {
+
+                if (r1.code == '1') {
+                    window.location.href = '/Tradingterm/Policy?tradingtermId=' + r1.message;
+                } else {
+                    alert("Có lỗi xảy ra thử lại sau!");
+                }
+            }
+        });
+    }
+
+    function addRow() {
+        //Reference the Name and Country TextBoxes.
+        var txtAddress = $('#txtAddress').val();
+        var selLeadtimeCode = $('#selLeadtime').val();
+        var selLeadtimeName = $('#selLeadtime option:selected').text();
+        var txtLeadtime = $('#txtLeadtime').val();
+
+        if (txtAddress.length == 0 || txtLeadtime.length == 0) {
+            alert("Kiểm tra nhập các trường dữ liệu!!!");
+        } else {
+            //Get the reference of the Table's TBODY element.
+            var tBody = $("#tbl_leadtime > TBODY")[0];
+
+            //Add Row.
+            var row = tBody.insertRow(-1);
+
+            //Add Type cell
+            cell = $(row.insertCell(-1));
+            cell.html(txtAddress);
+
+            //Add Type cell
+            cell = $(row.insertCell(-1));
+            cell.html('<p>' + selLeadtimeName + '</p><input type="hidden" value="' + selLeadtimeCode + '"/>');
+
+            //Add Type cell
+            cell = $(row.insertCell(-1));
+            cell.html(txtLeadtime);
+
+            //Add Button cell.
+            cell = $(row.insertCell(-1));
+            //var btnRemove = $("<input />");
+            //btnRemove.attr("class", "btn btn-warning");
+            //btnRemove.attr("type", "button");
+            //btnRemove.attr("onclick", "Remove(this);");
+            //btnRemove.val("Xóa");
+            //cell.append(btnRemove);
+
+
+            cell.append('<p style="text-align:center;"><a href="#"  onclick="Remove(this);" class="btn btn-warning bt_action_delete"><i class="fa fa-trash" aria-hidden="true"></i> Xóa</a></p>');
+
+            //Clear the TextBoxes.
+            $('#txtAddress').val("");
+            $('#txtLeadtime').val("0");
+        }
+    }
+
+    function Remove(button) {
+        //Determine the reference of the Row using the Button.
+        var row = $(button).closest("TR");
+        var name = $("TD", row).eq(0).html();
+        if (confirm("Xóa: " + name + " ?")) {
+            //Get the reference of the Table.
+            var table = $("#tbl_leadtime")[0];
+
+            //Delete the Table row using it's Index.
+            table.deleteRow(row[0].rowIndex);
+        }
+    };
+
+</script>

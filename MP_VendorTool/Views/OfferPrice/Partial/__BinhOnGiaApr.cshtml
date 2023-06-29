@@ -1,0 +1,163 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left; ">
+                    Miền
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Tỉnh
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Mã CH
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Tên CH
+                </th>
+
+                <th scope="col" style="text-align: left; ">
+                    Mã Hàng
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 90px; max-width: 90px; ">
+                    Hình ảnh
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Giá bán
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Ngày KS
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Giá KS
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Địa điểm KS
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Giá gợi ý
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Giá điều chỉnh
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Ngày xác nhận
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Ngày duyệt
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Trạng thái
+                </th>
+
+
+                @*<th scope="col" style="text-align: center; width: 100px; max-width: 100px; ">
+            Hành động<br />
+            <span style="text-align:center !important"><input type="checkbox" style="text-align: center; width: 100%; " id="checkall" onchange="checkall()"></span>
+        </th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        var i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            var k = i;
+                        <tr style=" height:20px" id="Row_@i">
+                            <td>
+                                @item["TenMien"]
+                            </td>
+                            <td>
+                                @item["TenTinh"]
+                            </td>
+                            <td>
+                                @item["MaCH"]
+                            </td>
+                            <td>
+                                @item["TenCH"]
+                            </td>
+
+
+                            <td>
+                                @item["MaHang"]
+                            </td>
+                            <td>
+                                @item["TenHang"]
+                            </td>
+                            <td style="width: 60px;height:60px; text-align:center">
+                                @if (item["Images"].ToString() != "")
+                                {
+                                    if (item["Images"].ToString().Contains("no_selection"))
+                                    {
+                                    }
+                                    else
+                                    {
+                                        <a target="_blank" href="@item["Images"]" class="thickbox"><img style="height: 60px" src=" @item["Images"]" class="content"></a>
+                                    }
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @item["GiaBanAll"]
+                            </td>
+                            <td style="text-align: right">
+                                @item["NgayKS"]
+                            </td>
+                            <td style="text-align: right">
+                                @item["GiaDoiThu"]
+                            </td>
+                            <td style="text-align: left">
+                                @item["TenDoiThu"]
+                            </td>
+                            <td style="text-align: right">
+                                @item["GiaDoiThu"]
+                            </td>
+                            <td style="text-align: right">
+                                @item["GiaDieuChinh"]
+                            </td>
+                            <td style="text-align: right">
+                                @item["Ngaydexuat"]
+                            </td>
+                            <td style="text-align: right">
+                                @item["NgayCapNhat"]
+                            </td>
+                            <td style="text-align: center">
+                                @Html.Raw(item["IsTrangThai"])
+                            </td>
+                        </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>
+<style>
+    NgayCapNhat input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    function checkall() {
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if ($('#checkall').is(":checked")) {
+                cboxes[i].checked = true;
+            } else { cboxes[i].checked = false; }
+        }
+    }
+</script>
+

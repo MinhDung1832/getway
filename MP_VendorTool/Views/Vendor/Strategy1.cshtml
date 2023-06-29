@@ -1,0 +1,614 @@
+﻿@{
+    ViewBag.Title = "Kế hoạch hợp tác";
+}
+
+<style>
+    .btn-right {
+        background-image: url('../../image/Button/right.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+        .btn-right:hover {
+            background-image: url('../../image/Button/righthover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .btn-left {
+        background-image: url('../../image/Button/left.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+        .btn-left:hover {
+            background-image: url('../../image/Button/lefthover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .btn-center {
+        background-image: url('../../image/Button/center.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+        .btn-center:hover {
+            background-image: url('../../image/Button/centerhover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .content_vendor {
+    }
+
+    .col-md-3 label {
+        width: 25%;
+    }
+
+    .nbut {
+        width: 300px;
+        font-weight: initial;
+        margin-top: 20px;
+        height: 38px;
+    }
+
+    .minusbutton {
+        border: none;
+        background: transparent;
+        outline: none;
+        padding: initial;
+    }
+
+    .money {
+        width: 120px;
+        display: inline;
+        text-align: right;
+    }
+
+    #footer {
+        position: fixed;
+        right: 1rem;
+        bottom: 0px;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        background: rgba(90,92,105,.5);
+        line-height: 46px;
+        display: inline;
+    }
+
+    .italic {
+        font-style: italic;
+    }
+
+    .redtext {
+        color: red;
+    }
+
+    legend {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 10px;
+        margin-top: 32px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #658EC6;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    .label2 {
+        display: block;
+        width: 100%;
+        padding: 0;
+        font-size: 15px;
+        line-height: inherit;
+        color: #658EC6;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    fieldset {
+        margin-top: 34px;
+    }
+
+    label {
+        font-size: 12px;
+        color: #59595B;
+    }
+
+    .from_vender {
+        margin-left: 8px;
+    }
+
+        .from_vender input, .from_vender select {
+            margin-bottom: 8px;
+        }
+
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+        .button_save_1 a {
+            text-align: center;
+            background-color: #868686 !important;
+            border-color: #868686 !important;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 8px;
+        }
+
+    #E_Invoice {
+        margin-bottom: 18px !important;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #86868600;
+        border-color: #868686;
+        color: #6f8cb8 !important;
+    }
+
+    .button_action a:hover {
+        background-color: #9e9e9e;
+        color: #f3f3f3 !important;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+    .button_action {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .table > thead > tr {
+        background: gray;
+    }
+
+        .table > thead > tr > th {
+            color: black;
+        }
+</style>
+<style>
+
+    html {
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
+
+    body {
+        position: relative;
+        background-image: url('../../image/nen2.jpg');
+        background-color: #f3f3f3;
+        background-size: cover;
+    }
+
+    .ct {
+        margin: 0 auto;
+        padding-top: 32px;
+    }
+
+    .demo h1 {
+        margin-top: 0;
+    }
+
+    /**
+    * Footer Styles
+    */
+
+    .footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        /* padding: 1rem;*/
+        background-color: #efefef;
+        text-align: center;
+    }
+</style>
+    @Html.Partial("_sidebar")
+<div class="wp_vendor">
+    @Html.Partial("~/Views/Shared/_header.cshtml")
+    <div class="content_vendor">
+        <div class="container" style="min-height:400px;">
+
+            <div id="step1">
+                <div class="row from_vender">
+                    <fieldset>
+                        <legend>1.Kế hoạch & Ngân sách triển khai các hoạt động thúc đẩy bán hàng</legend>
+                        <label class="label2">CHIẾN DỊCH THÁNG</label>
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-3">
+                                <label>Tháng 1</label>
+                                <button onclick="decrease('Thang1',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Thang1"></input>
+                                <button onclick="increase('Thang1',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tháng 4</label>
+                                <button onclick="decrease('Thang4',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Thang4"></input>
+                                <button onclick="increase('Thang4',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Tháng 7</label>
+                                <button onclick="decrease('Thang7',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Thang7"></input>
+                                <button onclick="increase('Thang7',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tháng 10</label>
+                                <button onclick="decrease('Thang10',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Thang10"></input>
+                                <button onclick="increase('Thang10',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tháng 2</label>
+                                <button onclick="decrease('Thang2',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Thang2"></input>
+                                <button onclick="increase('Thang2',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tháng 5</label>
+                                <button onclick="decrease('Thang5',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money" disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Thang5"></input>
+                                <button onclick="increase('Thang5',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Tháng 8</label>
+                                <button onclick="decrease('Thang8',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Thang8"></input>
+                                <button onclick="increase('Thang8',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tháng 11</label>
+                                <button onclick="decrease('Thang11',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Thang11"></input>
+                                <button onclick="increase('Thang11',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tháng 3</label>
+                                <button onclick="decrease('Thang3',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Thang3"></input>
+                                <button onclick="increase('Thang3',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tháng 6</label>
+                                <button onclick="decrease('Thang6',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Thang6"></input>
+                                <button onclick="increase('Thang6',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Tháng 9</label>
+                                <button onclick="decrease('Thang9',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Thang9"></input>
+                                <button onclick="increase('Thang9',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tháng 12</label>
+                                <button onclick="decrease('Thang12',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Thang12"></input>
+                                <button onclick="increase('Thang12',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <label class="label2">CHIẾN DỊCH QUÝ</label>
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-3">
+                                <label>Quý 1</label>
+                                <button onclick="decrease('Quy1',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Quy1"></input>
+                                <button onclick="increase('Quy1',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Quý 2</label>
+                                <button onclick="decrease('Quy2',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Quy2"></input>
+                                <button onclick="increase('Quy2',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Quý 3</label>
+                                <button onclick="decrease('Quy3',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Quy3"></input>
+                                <button onclick="increase('Quy3',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Quý 4</label>
+                                <button onclick="decrease('Quy4',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class="form-control number-separator money " disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Quy4"></input>
+                                <button onclick="increase('Quy4',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+                        </div>
+                        <hr>
+                        <label class="label2">CHIẾN DỊCH NĂM</label>
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-3">
+                                <label>Năm</label>
+                                <select class="form-control money" id="year" onchange="reload()" style="width: 120px;display: inline;margin-left: 25px;">
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Mức đầu tư</label>
+                                <button onclick="decrease('Mucdautu',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/minus.png" height="35px" />
+                                </button>
+                                <input class=" form-control number-separator money" disabled="disabled" style="width: 120px;display: inline;" type="text" value="0" id="Mucdautu"></input>
+                                <button onclick="increase('Mucdautu',50000000)" class="minusbutton">
+                                    <img src="~/image/Circle/plus.png" height="35px" />
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+
+
+
+                </div>
+            </div>
+
+            <div class="row button_action">
+                <div class="col-md-4">
+                    <a onclick="back()" class="form-control btn-left"> @MP_VendorTool.Resource.prevPage </a>
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <a onclick="next()" style="margin-left:14px" class="form-control btn-right">@MP_VendorTool.Resource.Save_Con </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script src="~/Scripts/easy-number-separator.js"></script>
+<script type="text/javascript">
+    var currentKH;
+    var changed = false;
+    $(function () {
+        $('#header_title').html("KẾ HOẠCH HỢP TÁC");
+        $('#st1').addClass("highlight");
+        $('#img1').addClass("icon1active");
+        js_GetKeHoach();
+    });
+
+    function js_GetKeHoach() {
+        var year = $('#year :selected').val();
+        $.ajax({
+            url: '/Vendor/GetKeHoachbyYear',
+            type: 'POST',
+            data: JSON.stringify({ Year: year }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+            },
+            success: function (data) {
+                changed = false;
+                currentKH = data;
+                $('#Thang1').val(currentKH.Thang1).trigger('change');
+                $('#Thang2').val(currentKH.Thang2).trigger('change');
+                $('#Thang3').val(currentKH.Thang3).trigger('change');
+                $('#Thang4').val(currentKH.Thang4).trigger('change');
+                $('#Thang5').val(currentKH.Thang5).trigger('change');
+                $('#Thang6').val(currentKH.Thang6).trigger('change');
+                $('#Thang7').val(currentKH.Thang7).trigger('change');
+                $('#Thang8').val(currentKH.Thang8).trigger('change');
+                $('#Thang9').val(currentKH.Thang9).trigger('change');
+                $('#Thang10').val(currentKH.Thang10).trigger('change');
+                $('#Thang11').val(currentKH.Thang11).trigger('change');
+                $('#Thang12').val(currentKH.Thang12).trigger('change');
+                $('#Quy1').val(currentKH.Quy1).trigger('change');
+                $('#Quy2').val(currentKH.Quy2).trigger('change');
+                $('#Quy3').val(currentKH.Quy3).trigger('change');
+                $('#Quy4').val(currentKH.Quy4).trigger('change');
+                $('#Mucdautu').val(currentKH.Mucdautu).trigger('change');
+            },
+            error: function () {
+
+            }
+        });
+
+    }
+
+    function reload() {
+        save();
+        js_GetKeHoach();
+    }
+
+    function next() {
+        save();
+        window.location.href = "/Vendor/Strategy2"
+    }
+
+    function back() {
+        window.location.href = "/Home/Menu"
+    }
+
+    function getcurrentKH() {
+        currentKH.Thang1 = $('#Thang1').val().replaceAll('.', '');
+        currentKH.Thang2 = $('#Thang2').val().replaceAll('.', '');
+        currentKH.Thang3 = $('#Thang3').val().replaceAll('.', '');
+        currentKH.Thang4 = $('#Thang4').val().replaceAll('.', '');
+        currentKH.Thang5 = $('#Thang5').val().replaceAll('.', '');
+        currentKH.Thang6 = $('#Thang6').val().replaceAll('.', '');
+        currentKH.Thang7 = $('#Thang7').val().replaceAll('.', '');
+        currentKH.Thang8 = $('#Thang8').val().replaceAll('.', '');
+        currentKH.Thang9 = $('#Thang9').val().replaceAll('.', '');
+        currentKH.Thang10 = $('#Thang10').val().replaceAll('.', '');
+        currentKH.Thang11 = $('#Thang11').val().replaceAll('.', '');
+        currentKH.Thang12 = $('#Thang12').val().replaceAll('.', '');
+        currentKH.Quy1 = $('#Quy1').val().replaceAll('.', '');
+        currentKH.Quy2 = $('#Quy2').val().replaceAll('.', '');
+        currentKH.Quy3 = $('#Quy3').val().replaceAll('.', '');
+        currentKH.Quy4 = $('#Quy4').val().replaceAll('.', '');
+        currentKH.Mucdautu = $('#Mucdautu').val().replaceAll('.', '');
+
+    }
+
+    function decrease(control, amount) {
+        var i = parseInt($('#' + control).val().replaceAll('.', ''));
+        if (isNaN(i)) i = 0;
+        $('#' + control).val((i - amount) < 0 ? 0 : (i - amount)).trigger('change');
+        changed = true;
+
+    }
+
+    function increase(control, amount) {
+        var i = parseInt($('#' + control).val().replaceAll('.', ''));
+        if (isNaN(i)) i = 0;
+        $('#' + control).val(i + amount).trigger('change');
+        changed = true;
+    }
+
+    function save() {
+        if (changed) {
+            getcurrentKH();
+            $.ajax({
+                url: '/Vendor/PostKeHoachUpdate',
+                type: 'POST',
+                data: JSON.stringify({ kh: currentKH }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+
+                },
+                error: function () {
+
+                }
+            });
+        }
+    }
+
+</script>

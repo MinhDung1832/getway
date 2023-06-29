@@ -1,0 +1,436 @@
+﻿@{
+    var roleCode = (string)Session["roleCode"];
+}
+<html>
+<body>
+    <nav class="main-menu">
+        @{
+            try
+            {
+                if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                {
+                    //NCC
+                    <ul>
+                        @if (Session["URole"] != null && Session["URole"].ToString().Length > 0)
+                        {
+                            string FullQuyen = Session["URole"].ToString();
+                            if (FullQuyen.Contains("|4|"))
+                            {
+                                <li class="sideicon1 nohover collapsed" data-toggle="collapse" href="#S001" aria-expanded="false" aria-controls="itemfcode">
+                                    <a>
+                                        <div id="img1" class="icondiv" style="background-image: url('../../image/iconvip/S001.png')"></div>
+                                        <span class="nav-text">
+                                            Khai báo thông tin
+                                        </span>
+                                    </a>
+                                </li>
+                                <ul class="collapse border_hover_bottom" id="S001" style="margin-left:12px">
+                                    <li class="lia">
+                                        <a href="/tradingTermVendor/Index">Thỏa thuận thương mại</a>
+                                    </li>
+
+                                    @if (Session["VendorCode"] != "")
+                                    {
+                                        <li class="lia">
+                                            <a href="/Vendor/Detail?MaNCC=@Session["VendorCode"]">Thông tin doanh nghiệp</a>
+                                        </li>
+                                    }
+                                    else // Nếu chưa có thông tin mã số thuế thì cho tạo
+                                    {
+                                        <li class="lia">
+                                            <a href="/Vendor/Create">Thông tin doanh nghiệp</a>
+                                        </li>
+                                    }
+                                    <li class="lia">
+                                        <a href="/Product/index">Danh sách sản phẩm</a>
+                                    </li>
+                                    <li class="lia">
+                                        <a href="/Product/Create">Thông tin sản phẩm</a>
+                                    </li>
+                                </ul>
+                            }
+                            if (FullQuyen.Contains("|1|"))
+                            {
+                                <li class="sideicon1 nohover collapsed" data-toggle="collapse" href="#S002" aria-expanded="false" aria-controls="itemfcode">
+                                    <a>
+                                        <div id="img1" class="icondiv" style="background-image: url('../../image/iconvip/S002.png')"></div>
+                                        <span class="nav-text">
+                                            Quản lý đơn hàng
+                                        </span>
+                                    </a>
+                                </li>
+                                <ul class="collapse border_hover_bottom" id="S002" style="margin-left:12px">
+                                    <li class="lia">
+                                        <a href="/Order/Index">Danh sách đơn hàng</a>
+                                    </li>
+                                    <li class="lia">
+                                        <a href="/Order/ReturnedGoods">Danh sách hàng trả lại</a>
+                                    </li>
+                                </ul>
+                            }
+                            if (FullQuyen.Contains("|3|"))
+                            {
+                                <li class="sideicon1 nohover collapsed" data-toggle="collapse" href="#S004" aria-expanded="false" aria-controls="itemfcode">
+                                    <a href="/Order/Index">
+                                        <div id="img1" class="icondiv" style="background-image: url('../../image/iconvip/S005.png')"></div>
+                                        <span class="nav-text">
+                                            Báo cáo nhà cung
+                                        </span>
+                                    </a>
+                                </li>
+                                <ul class="collapse border_hover_bottom" id="S004" style="margin-left:12px">
+                                    <li class="lia">
+                                        <a href="/Report/DebtDeposit">Báo cáo doanh số ký gửi</a>
+                                    </li>
+                                    <li class="lia">
+                                        <a href="/Report/DebtPurchase">Công nợ hàng mua bán</a>
+                                    </li>
+                                    <li class="lia">
+                                        <a href="/Report/ReportDeposit">Công nợ ký gửi</a>
+                                    </li>
+                                </ul>
+                            }
+                        }
+                    </ul>
+                }
+                else
+                {
+                    if (Session["uid"].ToString() == "B00396")// thành viên này chỉ xem dc mỗi Công nợ (Sơn yêu cầu)
+                    {
+                        <ul>
+                            <li class="sideicon1 nohover collapsed" data-toggle="collapse" href="#S004" aria-expanded="false" aria-controls="itemfcode">
+                                <a href="/Order/Index">
+                                    <div id="img1" class="icondiv" style="background-image: url('../../image/iconvip/S004.png')"></div>
+                                    <span class="nav-text">
+                                        Công nợ
+                                    </span>
+                                </a>
+                            </li>
+                            <ul class="collapse border_hover_bottom" id="S004" style="margin-left:12px">
+                                <li class="lia">
+                                    <a href="/Report/DebtDeposit">Báo cáo doanh số ký gửi</a>
+                                </li>
+                                <li class="lia">
+                                    <a href="/Report/ReportSalesVendor">Báo cáo doanh số NCC</a>
+                                </li>
+
+                            </ul>
+                        </ul>
+                    }
+                    else
+                    {
+                        // thành viên thông thường
+                        <ul>
+                            <li class="sideicon1 nohover collapsed" data-toggle="collapse" href="#S001" aria-expanded="false" aria-controls="itemfcode">
+                                <a>
+                                    <div id="img1" class="icondiv" style="background-image: url('../../image/iconvip/S001.png')"></div>
+                                    <span class="nav-text">
+                                        Khai báo thông tin
+                                    </span>
+                                </a>
+                            </li>
+                            <ul class="collapse border_hover_bottom" id="S001" style="margin-left:12px">
+                                <li class="lia">
+                                    <a href="/tradingTermVendor/Index">Thỏa thuận thương mại</a>
+                                </li>
+                                <li class="lia">
+                                    <a href="/TradingTermVendor/DuyetDamPhanTradingTerm">Duyệt Trading Term</a>
+                                </li>
+
+                                @*<li class="lia">
+                                        <a href="/Vendor/Index">Thông tin doanh nghiệp</a>
+                                    </li>*@
+
+                                @*<li class="lia">
+                                        <a href="/Product/index">Danh sách sản phẩm</a>
+                                    </li>
+                                    <li class="lia">
+                                        <a href="/Product/Create">Thông tin sản phẩm</a>
+                                    </li>*@
+
+                            </ul>
+                            <li class="sideicon1 nohover collapsed" data-toggle="collapse" href="#S002" aria-expanded="false" aria-controls="itemfcode">
+                                <a>
+                                    <div id="img1" class="icondiv" style="background-image: url('../../image/iconvip/S002.png')"></div>
+                                    <span class="nav-text">
+                                        Quản lý đơn hàng
+                                    </span>
+                                </a>
+                            </li>
+                            <ul class="collapse border_hover_bottom" id="S002" style="margin-left:12px">
+                                <li class="lia">
+                                    <a href="/Order/Index">Danh sách đơn hàng</a>
+                                </li>
+                                <li class="lia">
+                                    <a href="/Order/ReturnedGoods">Danh sách hàng trả lại</a>
+                                </li>
+                            </ul>
+
+                            <li class="sideicon1 nohover collapsed" data-toggle="collapse" href="#S007" aria-expanded="false" aria-controls="itemfcode">
+                                <a href="/Order/Index">
+                                    <div id="img1" class="icondiv" style="background-image: url('../../image/iconvip/S0203.png') "></div>
+                                    <span class="nav-text">
+                                        Quản lý giá
+                                    </span>
+                                </a>
+                            </li>
+                            <ul class="collapse border_hover_bottom" id="S007" style="margin-left:12px">
+                                <li class="lia">
+                                    <a href="/OfferPrice/PriceOffer">Đề xuất thay đổi giá bán</a>
+                                </li>
+                                <li class="lia">
+                                    <a href="/OfferPrice/Index">Quản lý thay đổi giá bán</a>
+                                </li>
+                            </ul>
+
+                            <li class="sideicon1 nohover collapsed" data-toggle="collapse" href="#S006" aria-expanded="false" aria-controls="itemfcode">
+                                <a>
+                                    <div id="img1" class="icondiv" style="background-image: url('../../image/iconvip/S002.png')"></div>
+                                    <span class="nav-text">
+                                        Quản lý Push Sale
+                                    </span>
+                                </a>
+                            </li>
+                            <ul class="collapse border_hover_bottom" id="S006" style="margin-left:12px">
+                                <li class="lia">
+                                    <a href="/PushSale/PushSaleNCC">Push Sale nhà cung cấp</a>
+                                </li>
+                                <li class="lia">
+                                    <a href="/PushSale/ThuongNhanVien">Danh sách Push Sale</a>
+                                </li>
+                            </ul>
+                            <li class="sideicon1 nohover collapsed" data-toggle="collapse" href="#S004" aria-expanded="false" aria-controls="itemfcode">
+                                <a href="/Order/Index">
+                                    <div id="img1" class="icondiv" style="background-image: url('../../image/iconvip/S005.png')"></div>
+                                    <span class="nav-text">
+                                        Báo cáo nhà cung
+                                    </span>
+                                </a>
+                            </li>
+                            <ul class="collapse border_hover_bottom" id="S004" style="margin-left:12px">
+                                <li class="lia">
+                                    <a href="/Report/DebtDeposit">Báo cáo doanh số ký gửi</a>
+                                </li>
+
+                                <li class="lia">
+                                    <a href="/Report/CTKM">Báo cáo CTKM</a>
+                                </li>
+                                <li class="lia">
+                                    <a href="/Report/ThuongDinhHuong">Thưởng định hướng mua bán</a>
+                                </li>
+
+                                <li class="lia">
+                                    <a href="/Report/DebtPurchase">Công nợ hàng mua bán</a>
+                                </li>
+                                <li class="lia">
+                                    <a href="/Report/ReportDeposit">Công nợ ký gửi</a>
+                                </li>
+
+                            </ul>
+                        </ul>
+                    }
+                }
+            }
+            catch (Exception)
+            { }
+        }
+    </nav>
+</body>
+</html>
+<style>
+    hr {
+        margin: 10px 0 0 0 !important;
+        border-top: 1px solid #fff;
+        width: 100%;
+    }
+
+    .main-menu .border_hover_bottom {
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 10px;
+    }
+
+    .main-menu .fa-2x {
+        font-size: 2em;
+    }
+
+    .main-menu .fa {
+        position: relative;
+        display: table-cell;
+        width: 60px;
+        height: 40px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 20px;
+    }
+
+    .highlight {
+        color: #fff !important;
+        background: #658ec6;
+    }
+
+    .main-menu:hover, nav.main-menu.expanded {
+        width: fit-content;
+        overflow: visible;
+    }
+
+    .icondiv {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 25px;
+        height: 25px;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .main-menu {
+        background: #fff;
+        border-right: 1px solid #e5e5e5;
+        position: fixed;
+        top: 66px;
+        bottom: 0;
+        height: fit-content;
+        left: 0;
+        width: 42px;
+        overflow: hidden;
+        -webkit-transition: width .05s linear;
+        transition: width .05s linear;
+        -webkit-transform: translateZ(0) scale(1,1);
+        z-index: 1000;
+    }
+
+        .main-menu > ul {
+            margin: 0 0;
+        }
+
+        .main-menu li {
+            position: relative;
+            display: block;
+            width: fit-content;
+            min-width: 250px;
+            padding-top: 5px;
+        }
+
+            .main-menu li > a {
+                position: relative;
+                display: table;
+                border-collapse: collapse;
+                border-spacing: 0;
+                color: #000;
+                font-size: 14px;
+                text-decoration: none;
+                -webkit-transform: translateZ(0) scale(1,1);
+                -webkit-transition: all .1s linear;
+                transition: all .1s linear;
+                height: 20px;
+                font-family: 'system-ui';
+                padding-top: 0px !important;
+                border-bottom: 1px #000000;
+            }
+
+    .lia {
+        position: relative;
+        display: table;
+        border-collapse: collapse;
+        border-spacing: 0;
+        color: #000;
+        font-size: 14px;
+        text-decoration: none;
+        -webkit-transform: translateZ(0) scale(1,1);
+        -webkit-transition: all .1s linear;
+        transition: all .1s linear;
+        height: 20px;
+        font-family: 'system-ui';
+        padding-top: 0px !important;
+        border-bottom: 1px #000000;
+        margin-left: 32px;
+    }
+
+        .lia:hover {
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+    .main-menu .nav-icon {
+        position: relative;
+        display: table-cell;
+        width: 60px;
+        height: 36px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 18px;
+    }
+
+    .main-menu .nav-text {
+        position: relative;
+        display: table-cell;
+        vertical-align: middle;
+        width: 220px;
+        font-family: 'system-ui';
+        color: #0f4c81;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+
+
+
+    .main-menu > ul.logout {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+    }
+
+    .no-touch .scrollable.hover {
+        overflow-y: hidden;
+    }
+
+        .no-touch .scrollable.hover:hover {
+            overflow-y: auto;
+            overflow: visible;
+        }
+
+    .main-menu > a:hover, .main-menu > a, .main-menu > a:focus {
+        text-decoration: none;
+    }
+
+    nav {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+
+        nav ul, nav li {
+            outline: 0;
+            margin: 0;
+            padding: 0;
+        }
+</style>
+
+@{
+    try
+    {
+        string ChangePassword = Request.RawUrl.ToString();
+        if (!ChangePassword.Contains("ChangePassword"))
+        {
+            string bc = Request.Url.Authority + Request.RawUrl.ToString();
+            if (!bc.Contains("localhost"))
+            {
+                if (!bc.Contains("10.80.2.153:9595"))
+                {
+                    // check ngày hết hạn 7 ngày thì bắt đổi mật khẩu
+                    var it = MP_VendorTool.DataAccess.DataAccess.BBM_MP_VendorTool_User_ChangePassword(Session["uid"].ToString());
+                    if (Convert.ToInt32(it[0].Code) >= 7)
+                    {
+                        Response.Redirect("/Account/ChangePassword");
+                    }
+                }
+            }
+        }
+    }
+    catch (Exception)
+    { }
+}

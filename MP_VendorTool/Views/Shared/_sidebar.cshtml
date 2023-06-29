@@ -1,0 +1,326 @@
+﻿
+<nav class="main-menu">
+    <ul>
+        <li>
+            <a id="st1" href="/Product?registrationTax=@ViewBag.ls_info[0].registrationTax&VendorContact_ID=@ViewBag.ls_info[0].VendorContact_ID">
+                <div id="img1" class="icondiv icon1"></div>
+                <span class="nav-text">
+                    Thông tin sản phẩm
+                </span>
+            </a>
+        </li>
+        @if (Session["roleCode"].ToString() != "RA")
+        {
+            if (ViewBag.ls_info[0].registrationTax != "" && ViewBag.ls_info[0].VendorContact_ID != "")
+            {
+                <li>
+                    <a id="st2" href="/Vendor/Detail?registrationTax=@ViewBag.ls_info[0].registrationTax&VendorContact_ID=@ViewBag.ls_info[0].VendorContact_ID">
+                        <div id="img2" class="icondiv icon2"></div>
+                        <span class="nav-text">
+                            Thông tin doanh nghiệp
+                        </span>
+                    </a>
+                </li>
+            }
+            else // Nếu chưa có thông tin mã số thuế thì cho tạo 
+            {
+                <li>
+                    <a id="st2" href="/Vendor/Create">
+                        <div id="img2" class="icondiv icon2"></div>
+                        <span class="nav-text">
+                            Thông tin doanh nghiệp
+                        </span>
+                    </a>
+                </li>
+            }
+        }
+        else
+        {
+            <li>
+                <a id="st3" href="/Vendor/Index">
+                    <div id="img3" class="icondiv icon3"></div>
+                    <span class="nav-text">
+                        Thông tin doanh nghiệp
+                    </span>
+                </a>
+            </li>
+        }
+        <li>
+            <a id="st3" href="/Product/Create">
+                <div id="img3" class="icondiv icon3"></div>
+                <span class="nav-text">
+                    Chào hàng mới
+                </span>
+            </a>
+        </li>
+        <li>
+            <a id="st4" href="/Order/Index">
+                <div id="img4" class="icondiv icon4"></div>
+                <span class="nav-text">
+                    Đơn đặt hàng - Giao hàng
+                </span>
+            </a>
+        </li>
+        <li>
+            <a id="st5" href="/Vendor/Strategy1">
+                <div id="img5" class="icondiv icon5"></div>
+                <span class="nav-text">
+                    Kinh doanh - Marketing
+                </span>
+            </a>
+        </li>
+        <li>
+            <a id="st6" href="#">
+                <div id="img6" class="icondiv icon6"></div>
+                <span class="nav-text">
+                    Công nợ thanh toán
+                </span>
+            </a>
+        </li>
+        @if (Session["roleCode"].ToString() == "R001")
+        {
+            <li>
+                <a id="st7" href="/TradingTermVendor/Detail">
+                    <div id="img7" class="icondiv icon7"></div>
+                    <span class="nav-text">
+                        Thỏa thuận thượng mại
+                    </span>
+                </a>
+            </li>
+        }
+
+        <li>
+            <a id="st7" href="#">
+                <div id="img7" class="icondiv icon8"></div>
+                <span class="nav-text">
+                    Báo cáo
+                </span>
+            </a>
+        </li>
+        <li>
+            <a id="st7" href="#">
+                <div id="img7" class="icondiv icon9"></div>
+                <span class="nav-text">
+                    Nội dung hợp tác
+                </span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<style>
+    .main-menu .fa-2x {
+        font-size: 2em;
+    }
+
+    .main-menu .fa {
+        position: relative;
+        display: table-cell;
+        width: 60px;
+        height: 40px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 20px;
+    }
+
+    .main-menu .highlight {
+        color: #fff !important;
+        background: #658ec6;
+    }
+
+    .main-menu:hover, nav.main-menu.expanded {
+        width: 305px;
+        overflow: visible;
+    }
+
+    .main-menu .icondiv {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 25px;
+        height: 25px;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .main-menu .icon1 {
+        background-image: url('../../image/iconvip/S002.png');
+    }
+
+    .main-menu li:hover a > div.icon1, .icon1active {
+        background-image: url('../../image/iconvip/S002.png');
+    }
+
+    .main-menu .icon2 {
+        background-image: url('../../image/iconvip/S001.png');
+        background-size: contain;
+        opacity: 0.7;
+    }
+
+    .main-menu li:hover a > div.icon2, .icon2active {
+        background-image: url('../../image/iconvip/S001.png');
+    }
+
+    .icon3 {
+        background-image: url('../../image/iconvip/6-3.png');
+        background-size: contain;
+    }
+
+    .main-menu li:hover a > div.icon3, .icon3active {
+        background-image: url('../../image/iconvip/6-3-active.png');
+    }
+
+    .main-menu .icon4 {
+        background-image: url('../../image/iconvip/6-4.png');
+        background-size: contain;
+    }
+
+    .main-menu li:hover a > div.icon4, .icon4active {
+        background-image: url('../../image/iconvip/6-4-active.png');
+    }
+
+    .main-menu .icon5 {
+        background-image: url('../../image/iconvip/6-5.png');
+        background-size: contain;
+    }
+
+    .main-menu li:hover a > div.icon5, .icon5active {
+        background-image: url('../../image/iconvip/6-5-active.png');
+    }
+
+    .icon6 {
+        background-image: url('../../image/iconvip/6-6.png');
+        background-size: contain;
+    }
+
+    .main-menu li:hover a > div.icon6, .icon6active {
+        background-image: url('../../image/iconvip/6-6-active.png');
+    }
+
+    .icon7 {
+        background-image: url('../../image/iconvip/S004.png');
+        background-size: contain;
+    }
+
+    .main-menu li:hover a > div.icon7, .icon7active {
+        background-image: url('../../image/iconvip/S004.png');
+    }
+
+    .icon8 {
+        background-image: url('../../image/iconvip/S005.png');
+        background-size: contain;
+        opacity: 0.7;
+    }
+
+    .main-menu li:hover a > div.icon8, .icon6active {
+        background-image: url('../../image/iconvip/S005.png');
+    }
+
+    .icon9 {
+        background-image: url('../../image/iconvip/S003.png');
+        background-size: contain;
+        opacity: 0.7;
+    }
+
+    .main-menu li:hover a > div.icon9, .icon6active {
+        background-image: url('../../image/iconvip/S003.png');
+    }
+
+    .main-menu {
+        background: #fff;
+        border-right: 1px solid #e5e5e5;
+        position: fixed;
+        top: 66px;
+        bottom: 0;
+        height: 318px;
+        left: 0;
+        width: 45px;
+        overflow: hidden;
+        -webkit-transition: width .05s linear;
+        transition: width .05s linear;
+        -webkit-transform: translateZ(0) scale(1,1);
+        z-index: 1000;
+    }
+
+        .main-menu > ul {
+            margin: 0 0;
+        }
+
+        .main-menu li {
+            position: relative;
+            display: block;
+            width: 305px;
+        }
+
+            .main-menu li > a {
+                position: relative;
+                display: table;
+                border-collapse: collapse;
+                border-spacing: 0;
+                color: #658ec6;
+                font-family: arial;
+                font-size: 14px;
+                text-decoration: none;
+                -webkit-transform: translateZ(0) scale(1,1);
+                -webkit-transition: all .1s linear;
+                transition: all .1s linear;
+            }
+
+        .main-menu .nav-icon {
+            position: relative;
+            display: table-cell;
+            width: 60px;
+            height: 36px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 18px;
+        }
+
+        .main-menu .nav-text {
+            position: relative;
+            display: table-cell;
+            vertical-align: middle;
+            width: 260px;
+            font-family: 'Titillium Web', sans-serif;
+        }
+
+
+
+        .main-menu > ul.logout {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+
+    .no-touch .scrollable.hover {
+        overflow-y: hidden;
+    }
+
+        .no-touch .scrollable.hover:hover {
+            overflow-y: auto;
+            overflow: visible;
+        }
+
+    .main-menu a:hover, .main-menu a:focus {
+        text-decoration: none;
+    }
+
+    nav {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+
+        nav ul, nav li {
+            outline: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-menu li:hover > a, nav.main-menu li.active > a, .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus, .no-touch .dashboard-page nav.dashboard-menu ul li:hover a, .dashboard-page nav.dashboard-menu ul li.active a {
+            color: #fff;
+            background-color: #9e9e9e;
+        }
+</style>

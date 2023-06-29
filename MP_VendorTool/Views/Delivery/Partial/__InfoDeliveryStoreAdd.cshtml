@@ -1,0 +1,308 @@
+﻿@using System.Data
+
+<table id="tbl_ItemStore" class="table table-bordered" style=" width:100%">
+    <thead>
+        <tr>
+            <th scope="col" style="text-align: left; width: 150px; max-width: 150px; ">
+                Nơi giao
+            </th>
+            <th scope="col" style="text-align: left; width: 150px; max-width: 150px; ">
+                Địa chỉ
+            </th>
+            <th scope="col" style="text-align: left;  ">
+                Thời gian<br />xuất kho (Ngày)
+                <br />
+                <input type="number" name="HThoiGianXuatKho" id="HThoiGianXuatKho" class="form-control" onchange="js_check_HThoiGianXuatKho()" />
+            </th>
+            <th scope="col" style="text-align: left;  ">
+                Thời gian<br />giao hàng (Ngày)
+                <br />
+                <input type="number" name="HLeaderTime" id="HLeaderTime" class="form-control" onchange="js_check_HLeaderTimer()" />
+
+            </th>
+            <th scope="col" style="text-align: left; width: 200px; max-width: 200px; ">
+                <div>Lịch giao hàng</div>
+                <div style=" width: 33%; float: left;">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="HGHT2" id="HGHT2" class="custom-control" onchange="js_check_DH_Header('GHT2')" />
+                        <label class="custom-control-label" for="HGHT2">T2</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="HGHT3" id="HGHT3" class="custom-control" onchange="js_check_DH_Header('GHT3')" />
+                        <label class="custom-control-label" for="HGHT3">T3</label>
+                    </div>
+                </div>
+                <div style=" width: 33%; float: left;">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="HGHT4" id="HGHT4" class="custom-control" onchange="js_check_DH_Header('GHT4')" />
+                        <label class="custom-control-label" for="HGHT4">T4</label>
+                    </div>
+
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="HGHT5" id="HGHT5" class="custom-control" onchange="js_check_DH_Header('GHT5')" />
+                        <label class="custom-control-label" for="HGHT5">T5</label>
+                    </div>
+                </div>
+                <div style=" width: 33%; float: left;">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="HGHT6" id="HGHT6" class="custom-control" onchange="js_check_DH_Header('GHT6')" />
+                        <label class="custom-control-label" for="HGHT6">T6</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="HGHT7" id="HGHT7" class="custom-control" onchange="js_check_DH_Header('GHT7')" />
+                        <label class="custom-control-label" for="HGHT7">T7</label>
+                    </div>
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        var k = i;
+                        <tr style=" height:20px" id="Row_@i">
+                            <td style="text-align: left; width: 150px; max-width: 150px; " title="@item["Name"]">
+                                <span class="MaKho"> @item["Code"]</span> - <span class="TenKho">@item["Name"]</span>
+                            </td>
+                            <td style="text-align: left; width: 150px; max-width: 150px;" title="@item["DiaChi"]">
+                                <span class="DiaChi"> @item["DiaChi"]</span>
+                            </td>
+                            <td style="text-align: left; width: 100px; max-width: 100px; ">
+                                <input type="number" disabled name="ThoiGianXuatKho" id="ThoiGianXuatKho" class="form-control ThoiGianXuatKho" value="0" />
+                            </td>
+                            <td style="text-align: left; width: 100px; max-width: 100px; ">
+                                <input type="number" name="LeaderTime" id="LeaderTime" class="form-control LeaderTime" value="0" />
+                            </td>
+
+                            <td style="text-align: left; width: 200px; max-width: 200px; ">
+                                <div style=" width: 33%; float: left;">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="GHT2" id="GHT2" class="custom-control GHT2" value="" />
+                                        <label class="custom-control-label" for="GHT2">T2</label>
+                                    </div>
+
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="GHT3" id="GHT3" class="custom-control GHT3" value="" />
+                                        <label class="custom-control-label" for="GHT3">T3</label>
+                                    </div>
+                                </div>
+                                <div style=" width: 33%; float: left;">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="GHT4" id="GHT4" class="custom-control GHT4" value="" />
+                                        <label class="custom-control-label" for="GHT4">T4</label>
+                                    </div>
+
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="GHT5" id="GHT5" class="custom-control GHT5" value="" />
+                                        <label class="custom-control-label" for="GHT5">T5</label>
+                                    </div>
+                                </div>
+                                <div style=" width: 33% ; float:left;">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="GHT6" id="GHT6" class="custom-control GHT6" value="" />
+                                        <label class="custom-control-label" for="GHT6">T6</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="GHT7" id="GHT7" class="custom-control GHT7" value="" />
+                                        <label class="custom-control-label" for="GHT7">T7</label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
+
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    function checkall() {
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if ($('#checkall').is(":checked")) {
+                cboxes[i].checked = true;
+            } else { cboxes[i].checked = false; }
+        }
+    }
+
+    var SourceStore = [];
+    function js_saveCheck_add() {
+        debugger;
+        // lấy danh sách sản phẩn bên tay trái
+        var cboxes = document.getElementsByName('check[]');
+        var SourceSanPham = [];
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                var po = {};
+                po.MaHang = $('#MaHang' + cboxes[i].id).html().trim();
+                po.TenHang = $('#TenHang' + cboxes[i].id).html().trim();
+                po.NCC = $('#NCC' + cboxes[i].id).html().trim();
+                SourceSanPham.push(po);
+            }
+            //  console.log(SourceSanPham);
+        }
+        var ID = [];
+        $('#CheckID input[name="check[]"]:checked').each(function (index, value) {
+            ID.push($(value).val());
+        });
+
+        if (ID == "") {
+            alert("Vui lòng chọn sản phẩm");
+            return;
+        }
+
+        console.log(JSON.stringify(SourceSanPham));
+
+        if (SourceSanPham.length > 0) {
+            getTable_Store();
+
+            var obj = {};
+            obj.SourceSanPham = JSON.stringify(SourceSanPham);
+            obj.SourceStore = JSON.stringify(SourceStore);
+
+            console.log(JSON.stringify(SourceSanPham));
+            console.log(JSON.stringify(SourceStore));
+            console.log(JSON.stringify(obj));
+
+
+
+            var ThoiGianXuatKho = $("#HThoiGianXuatKho").val();
+            if (ThoiGianXuatKho != "") {
+                $.ajax({
+                    url: '/Delivery/Save_Delivery_Store_Producst',
+                    type: 'POST',
+                    data: JSON.stringify(obj),
+                    enctype: 'multipart/form-data',
+                    contentType: 'application/json, charset=utf-8',
+                    beforeSend: function () {
+                        js_Loading(true, 1);
+                    },
+                    success: function (data) {
+                        js_Loading(true, 1);
+                        if (data.RespId == 0) {
+                            jAlert(data.RespMsg, 'Thông báo', (r) => {
+                                window.location.href = '/Delivery/InfoDelivery';
+                            });
+                        } else {
+                            jAlert(data.RespMsg, 'Thông báo');
+                        }
+                        js_Loading(false, 1);
+                    }
+                });
+            } else {
+                alert('Vui lòng điền thời gian xuất kho');
+            }
+        }
+    }
+    function getTable_Store() {
+        SourceStore = [];
+        let trs = $("#tbl_ItemStore tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+
+                let MaKho = String($('#' + tr.id + ' .MaKho').html()).trim();
+                let TenKho = String($('#' + tr.id + ' .TenKho').html()).trim();
+                let DiaChi = String($('#' + tr.id + ' .DiaChi').html()).trim();
+
+                let ThoiGianXuatKho = String($('#' + tr.id + ' input[name="ThoiGianXuatKho"]').val()).trim();
+                let LeaderTime = String($('#' + tr.id + ' input[name="LeaderTime"]').val()).trim();
+
+                let LichGHT2 = 0;
+                let CheckGHT2 = $('#' + tr.id + ' input[name="GHT2"]:checked').length > 0;
+                if (CheckGHT2 == true) {
+                    LichGHT2 = 1;
+                }
+
+                let LichGHT3 = 0;
+                let CheckGHT3 = $('#' + tr.id + ' input[name="GHT3"]:checked').length > 0;
+                if (CheckGHT3 == true) {
+                    LichGHT3 = 1;
+                }
+
+                let LichGHT4 = 0;
+                let CheckGHT4 = $('#' + tr.id + ' input[name="GHT4"]:checked').length > 0;
+                if (CheckGHT4 == true) {
+                    LichGHT4 = 1;
+                }
+
+                let LichGHT5 = 0;
+                let CheckGHT5 = $('#' + tr.id + ' input[name="GHT5"]:checked').length > 0;
+                if (CheckGHT5 == true) {
+                    LichGHT5 = 1;
+                }
+
+                let LichGHT6 = 0;
+                let CheckGHT6 = $('#' + tr.id + ' input[name="GHT6"]:checked').length > 0;
+                if (CheckGHT6 == true) {
+                    LichGHT6 = 1;
+                }
+
+                let LichGHT7 = 0;
+                let CheckGHT7 = $('#' + tr.id + ' input[name="GHT7"]:checked').length > 0;
+                if (CheckGHT7 == true) {
+                    LichGHT7 = 1;
+                }
+
+                if (MaKho.length > 0) {
+                    SourceStore.push({
+                        "MaKho": MaKho,
+                        "TenKho": TenKho,
+                        "DiaChi": DiaChi,
+                        "ThoiGianXuatKho": ThoiGianXuatKho,
+                        "LeaderTime": LeaderTime,
+
+                        "LichGHT2": LichGHT2,
+                        "LichGHT3": LichGHT3,
+                        "LichGHT4": LichGHT4,
+                        "LichGHT5": LichGHT5,
+                        "LichGHT6": LichGHT6,
+                        "LichGHT7": LichGHT7,
+
+
+                    });
+                }
+            });
+        }
+    }
+
+    function js_check_DH_Header(r) {
+        let rd = $('input[name="H' + r + '"]:checked').length > 0;
+        if (rd == true) {
+            $("." + r + "").prop("checked", true);
+        } else {
+            $("." + r + "").prop("checked", false);
+        }
+    }
+    function js_check_HLeaderTimer() {
+        var dr = $("#HLeaderTime").val();
+        $(".LeaderTime").val(dr);
+    }
+    function js_Drop_trangthai() {
+        var dr = $("#HTrangThai").val();
+        $(".TrangThai").val(dr);
+    }
+    function js_check_HThoiGianXuatKho() {
+        var dr = $("#HThoiGianXuatKho").val();
+        $(".ThoiGianXuatKho").val(dr);
+    }
+
+</script>
+

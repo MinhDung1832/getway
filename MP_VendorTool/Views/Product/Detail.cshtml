@@ -1,0 +1,1486 @@
+﻿@using MP_VendorTool.Models.Order
+@using MP_VendorTool.Common;
+@using Newtonsoft.Json;
+@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Chi tiết chào hàng";
+}
+
+<style>
+    .modal-dialog {
+        max-width: 480px !important;
+    }
+
+    .BBoder {
+        padding-bottom: 14px !important;
+    }
+
+    .form-group {
+        margin-bottom: 0px;
+    }
+
+    .FrDetail b {
+        font-weight: 510;
+        font-size: 16px;
+        border: 1px solid #e3e3e3;
+        width: 94%;
+        padding: 3px;
+    }
+
+    .hoanthanh {
+        justify-content: center;
+        align-items: center;
+        padding: 8px 32px 8px 32px;
+        width: 153px;
+        height: 40px;
+        background: #D2151E;
+        border-radius: 8px;
+        color: #fff !important;
+    }
+
+    .NameV2 label {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.15px;
+        color: rgba(0, 0, 0, 0.87);
+        margin-top: 13px;
+    }
+
+    .hoathanhguiFile {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #e0e0e0;
+        border-radius: 8px;
+        color: #000 !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+    }
+
+    .DuyetguiFile {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #558B2F;
+        border-radius: 8px;
+        color: #fff !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+    }
+
+    .DuyetguiFileV2 {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #FFFFFF;
+        border-radius: 8px;
+        color: rgba(0, 0, 0, 0.6) !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.6);
+    }
+
+    .MauDaDuocDuyet {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #FFFFFF;
+        border-radius: 8px;
+        color: #558B2F99 !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+        border: 1px solid #558B2F99;
+    }
+
+    .TuChoiguiFile {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #FFFFFF;
+        border-radius: 8px;
+        color: #D2151E99 !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+        border: 1px solid #D2151E99;
+    }
+
+    /*    .hoanthanh {
+            justify-content: center;
+            align-items: center;
+            padding: 8px 28px 8px 20px;
+            width: 153px;
+            height: 40px;
+            background: #D2151E;
+            border-radius: 8px;
+            color: #fff;
+        }
+    */
+
+    body.fixed-layout .content-wrapper, body.fixed-navbar .content-wrapper {
+        padding-top: 46px;
+    }
+
+    .FrDetail b {
+        font-weight: 510;
+        font-size: 16px;
+    }
+
+    .labelChoDuyet {
+        background-color: #f2c970;
+        margin: 105px;
+        padding-top: 3px;
+        display: inline;
+        padding: 0.2em 0.6em 0.3em;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        color: #000;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25em;
+    }
+
+    .labelDaDuyet {
+        background-color: #a3c08f;
+        margin: 105px;
+        padding-top: 3px;
+        display: inline;
+        padding: 0.2em 0.6em 0.3em;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        color: #000;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25em;
+    }
+
+    .dropup .dropdown-menu, .navbar-fixed-bottom .dropdown .dropdown-menu {
+        margin-bottom: 2px;
+    }
+
+    .col-md-8.box_sizeProduct {
+        padding-left: 19px;
+        padding-right: 17px;
+    }
+
+    i.fa.fa-trash {
+        font-size: 17px;
+        padding-top: 5px;
+    }
+
+    .ibox-head {
+        padding: 0px 0px !important;
+        margin-bottom: 28px !important;
+    }
+
+    .container {
+        margin-left: 0px;
+    }
+
+    .form-control {
+        font-size: 12px !important;
+        margin-bottom: 4px;
+    }
+
+    .dropdown.bootstrap-select.form-control {
+        font-size: 12px !important;
+        margin-bottom: 4px;
+    }
+
+    img.MultipleImg {
+        float: left;
+        width: 47%;
+        margin: 4px;
+        height: 130px;
+        border: 1px solid #d7d7d7;
+    }
+
+    .dropdown.bootstrap-select.form-control.bs3 {
+        margin-bottom: 6px;
+    }
+
+    img.MultipleImgFull {
+        width: 100%;
+    }
+
+    .btn_add .add i {
+        font-size: 18px;
+        color: #337ab7;
+        padding-top: 4px;
+    }
+
+
+    #wp_thum_img {
+        background-color: #fff;
+        text-align: center;
+    }
+
+    #img_src img {
+        width: 52px;
+        height: 52px;
+        border-radius: 5px;
+        margin-right: 7px;
+    }
+
+    .img_src p {
+        font-size: 14px;
+        color: #000;
+    }
+
+    div#img_src {
+        margin-left: 11px;
+    }
+
+    #btn_Guis {
+        background-color: #868686;
+        color: #fff;
+        padding: 7px 38px;
+        margin-top: 2px;
+        text-align: left;
+    }
+
+    .box_sizeProduct .form-group {
+        padding-left: 0px;
+        padding-right: 3px;
+    }
+
+    .chiadeu {
+        width: 33%;
+        display: inline-block;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .Themmoi:hover {
+        background-color: #0f4c81 !important;
+        color: #e9e8e6 !important;
+    }
+
+    .col-md-8.box_sizeProduct .form-group {
+        margin-bottom: 0px;
+    }
+
+    .modal {
+        top: 20%;
+    }
+
+    .page-content {
+        padding-top: 2px;
+    }
+
+    .khoangcach {
+        margin-top: 10px;
+    }
+
+    a#guiduyet:hover {
+        color: #fff;
+    }
+
+    .panel-heading .chevron:after {
+        content: "\f078";
+    }
+
+    .panel-heading.collapsed .chevron:after {
+        content: "\f054";
+    }
+
+    .col-xs-1.right {
+        float: right;
+        margin-right: 34px;
+        margin-top: -17px;
+    }
+
+    .images img {
+        border-radius: 5px;
+        border: 1px solid #d7d7d7;
+        width: 99px;
+        margin: 9px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .images {
+        margin-left: 6px;
+        margin-top: 8px;
+    }
+
+    body {
+        font-size: 13px !important;
+    }
+
+    .BoderEdit {
+        border-radius: 6px;
+        /*background: #ededed;*/
+        color: #000;
+        padding: 6px;
+        margin-bottom: 5px;
+        padding-left: 15px;
+        width: 82% !important;
+        padding-top: 6px !important;
+        font-size: 12px !important;
+    }
+</style>
+
+<div class="content-wrapper FrDetail">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            @*<div class="ViewtabNew" style="margin-left: 0px !important">
+                    <button class="btn tabbt btntab" onclick="window.location = '/Product/ProInfo'" style="margin-left: 9px;">Tất cả</button>
+                    <button class="btn tabbt btn-danger " onclick="window.location = '/Product/Create'" >Chào hàng mới</button>
+                    <button class="btn tabbt btntab" onclick="window.location = '/Product/ProUpdate'">Thông tin sản phẩm</button>
+                </div>*@
+        </div>
+    </div>
+
+    <div style="clear: both"></div>
+    <fieldset class="BBoder">
+        <div class="alerts">
+            <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten1">
+                <div class="col-md-9">
+                    <div class="headerName">
+                        NCC: @ViewBag.prd_info.VendorName
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-xs-1 right" style="margin-top: 9px !important">
+                        @{
+                            if (ViewBag.prd_info.Status == "1")
+                            {
+                                <span class="label label-success" style="margin-right: 25px;">Đã duyệt</span>
+                            }
+                            if (ViewBag.prd_info.Status == "2")
+                            {
+                                <span class="label label-danger" style="margin-right: 25px;">Chờ duyệt</span>
+                            }
+                            if (ViewBag.prd_info.Status == "3")
+                            {
+                                <span class="label label-warning" style="margin-right: 25px;">Từ chối</span>
+                            }
+                        }
+                        <i class="chevron fa "></i>
+                    </div>
+                </div>
+                @*<div class="contens">
+                        Khai báo đầy đủ thông tin hàng
+                    </div>*@
+
+            </div>
+            <div style="clear:both; height:20px"></div>
+            <div class="col-xs-12 collapse in" id="Conten1">
+                <div style=" height:0px; clear:both"></div>
+                <div class="FullfromV1">
+                    <div class="col-md-6">
+                        <div class="form-horizontal">
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Barcode</label>
+                                    <div class="col-sm-9">
+                                        <b>@ViewBag.prd_info.Barcode</b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Tên hàng</label>
+                                    <div class="col-sm-9">
+                                        <b>@ViewBag.prd_info.TenSanPham</b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Thương hiệu</label>
+                                    <div class="col-sm-9">
+                                        <b>@ViewBag.prd_info.ThuongHieuName</b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Xuất xứ</label>
+                                    <div class="col-sm-9">
+                                        <b>@ViewBag.prd_info.XuatXuName</b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Giá bán</label>
+                                    <div class="col-sm-9">
+                                        <b>@ViewBag.prd_info.GiaBanNiemYet</b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Đơn vị tính</label>
+                                    <div class="col-sm-9">
+                                        <b>@ViewBag.prd_info.DonViTinhName</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Link sản phẩm</label>
+                                <div class="col-sm-9">
+                                    <b><a target="_blank" href="@ViewBag.prd_info.LinkSanPham">@ViewBag.prd_info.LinkSanPham</a></b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Mô tả phẩm</label>
+                                <div class="col-sm-9">
+                                    <b>@ViewBag.prd_info.MoTaSanPham</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <div style=" height: 4px; clear: both"></div>
+    <fieldset class="BBoder">
+        <div class="alerts">
+            <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten2">
+                <div class="col-md-12">
+                    <div class="headerName">
+                        Hình ảnh sản phẩm
+                    </div>
+                    <div class="col-xs-1 right">
+                        <i class="chevron fa "></i>
+                    </div>
+                </div>
+
+            </div>
+            <div style="clear:both"></div>
+            <div class="col-xs-12 collapse in" id="Conten2">
+
+                <div style=" height:0px; clear:both"></div>
+                <div class="Fullfrom">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="images">
+                                @Html.Raw(ViewBag.Viewprodetail)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+
+    @*<div style=" height: 4px; clear: both"></div>
+        <fieldset class="BBoderV1">
+            <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten22">
+                <div class="col-md-12">
+                    <div class="headerName">
+                        Thông tin chi tiết
+                    </div>
+                    <div class="col-xs-1 right">
+                        <i class="chevron fa "></i>
+                    </div>
+                </div>
+                <div class="contens">
+                    Những thông tin mô tả sản phẩm
+                </div>
+
+            </div>
+            <div style=" height:10px; clear:both"></div>
+            <div class="col-xs-12 collapse in" id="Conten22">
+                <div class="FullfromV1">
+                    <div class="col-md-6">
+                        <div class="form-horizontal">
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Giá bán</label>
+                                    <div class="col-sm-9">
+                                        <b>@ViewBag.prd_info.GiaBanNiemYet</b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Đơn vị tính</label>
+                                    <div class="col-sm-9">
+                                        <b>@ViewBag.prd_info.DonViTinhName</b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Trọng lượng</label>
+                                    <div class="col-sm-9">
+                                        <b>@ViewBag.prd_info.TrongLuong (g)</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-horizontal">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Kích thước (Thùng)</label>
+                                <div class="col-sm-9" style="height: 35px; margin-left: 0px; ">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4" style="padding: 0px;">
+                                            <b class="BoderEdit"> Dài: @ViewBag.prd_info.KichThuocDai (cm) </b>
+                                        </div>
+                                        <div class="form-group col-md-4" style="padding: 0px;">
+                                            <b class="BoderEdit"> Rộng: @ViewBag.prd_info.KichThuocRong (cm) </b>
+                                        </div>
+                                        <div class="form-group col-md-4" style="padding: 0px;">
+                                            <b class="BoderEdit"> Cao: @ViewBag.prd_info.KichThuocCao (cm) </b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Kích thước (cm) </label>
+                                <div class="col-sm-9" style="height: 35px; margin-left: 0px; ">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4" style="padding: 0px;">
+                                            <b class="BoderEdit"> Dài: @ViewBag.prd_info.KichThuocDaiCm (cm) </b>
+                                        </div>
+                                        <div class="form-group col-md-4" style="padding: 0px;">
+                                            <b class="BoderEdit"> Rộng: @ViewBag.prd_info.KichThuocRongCm (cm) </b>
+                                        </div>
+                                        <div class="form-group col-md-4" style="padding: 0px;">
+                                            <b class="BoderEdit"> Cao: @ViewBag.prd_info.KichThuocCaoCm (cm) </b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Quy cách đóng gói </label>
+                                <div class="col-sm-9" style="margin-left: 0px; ">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4" style="padding: 0px;">
+                                            <b class="BoderEdit"> Đơn vị: @ViewBag.prd_info.QuyCachDGSanPhamName </b>
+                                            <b class="BoderEdit"> Số lượng: @ViewBag.prd_info.QuyCachDGSanPham </b>
+                                        </div>
+                                        <div class="form-group col-md-4" style="padding: 0px;">
+                                            <b class="BoderEdit"> Đơn vị: @ViewBag.prd_info.QuyCachDGSanPhamLocName </b>
+                                            <b class="BoderEdit"> Số lượng: @ViewBag.prd_info.QuyCachDGSanPhamLoc</b>
+                                        </div>
+                                        <div class="form-group col-md-4" style="padding: 0px;">
+                                            <b class="BoderEdit"> Đơn vị: @ViewBag.prd_info.QuyCachDGSanPhamThungName </b>
+                                            <b class="BoderEdit"> Số lượng: @ViewBag.prd_info.QuyCachDGSanPhamThung</b>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style=" height: 22px; clear: both"></div>
+                </div>
+            </div>
+        </fieldset>
+
+        <div style=" height: 4px; clear: both"></div>*@
+
+
+    @if (ViewBag.list_QuyCach_DongGoi != null)
+    {
+        <div style=" height: 4px; clear: both"></div>
+        <fieldset class="BBoder" style="padding-bottom:10px">
+            <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten3">
+                <div class="col-md-12">
+                    <div class="headerName">
+                        Quy cách đóng gói
+                    </div>
+                    <div class="col-xs-1 right">
+                        <i class="chevron fa "></i>
+                    </div>
+                </div>
+                <div class="contens">
+                    Những thông tin mô tả sản phẩm
+                </div>
+
+            </div>
+            <div style=" height:0px; clear:both"></div>
+            <div class="col-xs-12 collapse in" id="Conten3">
+                <div class="Fullfrom">
+                    <div style=" height:5px; clear:both"></div>
+                    <table id="tbl_itemQuyCachDongGoi" class="table table-bordered tb_detail" style="width: 98%; margin-right: 15px; margin-left: 15px; margin-bottom: 0px;">
+                        <thead>
+                            <tr>
+                                <th class="tieudeKC">
+                                    Đơn vị tính
+                                </th>
+                                <th class="tieudeKC">
+                                    Số lượng
+                                </th>
+                                <th class="tieudeKC">
+                                    Trọng lượng (gam)
+                                </th>
+                                <th class="tieudeKC">
+                                    Kích thước dài (cm)
+                                </th>
+                                <th class="tieudeKC">
+                                    Kích thước rộng (cm)
+                                </th>
+                                <th class="tieudeKC">
+                                    Kích thước cao (cm)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (ViewBag.list_QuyCach_DongGoi != null)
+                            {
+                                var le_i = 0;
+                                foreach (ProductAllTool.Models.Product.Get_Products_Vender_QuyCach box in (List<ProductAllTool.Models.Product.Get_Products_Vender_QuyCach>)ViewBag.list_QuyCach_DongGoi)
+                                {
+                                    {
+                                        le_i++;
+                                        <tr id="row_dg_@le_i">
+                                            <td>
+                                                @box.DonViTinhName
+                                            </td>
+                                            <td>@box.SoLuong.ToString().Replace(",", ".")</td>
+                                            <td>@box.TrongLuong.ToString().Replace(",", ".")</td>
+
+                                            <td>@box.KichThuocDai.ToString().Replace(",", ".")</td>
+                                            <td>@box.KichThuocRong.ToString().Replace(",", ".")</td>
+                                            <td>@box.KichThuocCao.ToString().Replace(",", ".")</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                    <div style=" height:5px; clear:both"></div>
+                </div>
+            </div>
+        </fieldset>
+    }
+
+    @{
+        if (ViewBag.prd_info.IsCheckPhanLoaiHHoa == "1")
+        {
+            <div style=" height: 4px; clear: both"></div>
+            <fieldset class="BBoder">
+                <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten5">
+                    <div class="col-md-12">
+                        <div class="headerName">
+                            Phân loại hàng hoá
+                        </div>
+                        <div class="col-xs-1 right">
+                            <i class="chevron fa "></i>
+                        </div>
+                    </div>
+
+
+                    <div class="contens">
+                        Thông tin được bổ sung từ P.Mua hàng
+                    </div>
+                </div>
+                <div style=" height:20px; clear:both"></div>
+                <div class="col-xs-12 collapse in" id="Conten5">
+                    <div class="FullfromV1">
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Funtion</label>
+                                        <div class="col-sm-9">
+                                            <b>@ViewBag.prd_info.FunctionName</b>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Division ERP</label>
+                                        <div class="col-sm-9">
+                                            <b>@ViewBag.prd_info.DivisionERPName</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">HH/KG</label>
+                                        <div class="col-sm-9">
+                                            <b>@ViewBag.prd_info.HHKG</b>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Division 18</label>
+                                        <div class="col-sm-9">
+                                            <b>@ViewBag.prd_info.DivisionName</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style=" height: 4px; clear: both"></div>
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Category ERP</label>
+                                    <div class="col-sm-9">
+                                        <b>@ViewBag.prd_info.CategoryERPName</b>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Group ERP</label>
+                                    <div class="col-sm-9">
+                                        <b>@ViewBag.prd_info.GroupERPName</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Category 18</label>
+                                        <div class="col-sm-9">
+                                            <b>@ViewBag.prd_info.CategoryName</b>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Group 18</label>
+                                        <div class="col-sm-9">
+                                            <b>@ViewBag.prd_info.GroupName</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style=" height: 0px; clear: both"></div>
+
+                    </div>
+                </div>
+            </fieldset>
+        }
+    }
+
+    @{
+        if (ViewBag.ls_SizeColor != null)
+        {
+            <div style=" height: 4px; clear: both"></div>
+            <fieldset class="BBoder">
+                <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten4">
+                    <div class="col-md-12">
+                        <div class="headerName">
+                            Thông tin size màu
+                        </div>
+                        <div class="col-xs-1 right">
+                            <i class="chevron fa "></i>
+                        </div>
+                    </div>
+                    <div class="contens">
+                        Đảm bảo thông tin chính xác
+                    </div>
+
+                </div>
+                <div style=" height:0px; clear:both"></div>
+                <div class="col-xs-12 collapse in" id="Conten4">
+                    <div class="Fullfrom">
+                        <div style=" height:5px; clear:both"></div>
+                        <table id="tbl_itemColor" class="table table-bordered tb_detail" style="width: 98%;margin: auto;">
+                            <thead>
+                                <tr style=" height:40px;">
+                                    <th class="tieudeKC">
+                                        Size
+                                    </th>
+                                    <th class="tieudeKC">
+                                        Màu
+                                    </th>
+                                    <th class="tieudeKC">
+                                        Barcode
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.ls_SizeColor != null)
+                                {
+                                    foreach (MP_VendorTool.Models.Product.Products_Vender_Size_Color box in (List<MP_VendorTool.Models.Product.Products_Vender_Size_Color>)ViewBag.ls_SizeColor)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @box.NameSize
+                                            </td>
+                                            <td>
+                                                @box.NameMau
+                                            </td>
+                                            <td>@box.Barcode</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        <div style=" height:5px; clear:both"></div>
+                    </div>
+                </div>
+            </fieldset>
+        }
+    }
+
+
+    @{
+       // if (ViewBag.prd_info.Status == "5")
+        {
+            if (ViewBag.prd_info.IsCheckMauThu != "0")
+            {
+                <div style=" height: 4px; clear: both"></div>
+                <fieldset class="BBoder" style=" padding-top: 10px;">
+                    <div class="col-md-7" style=" margin: 0px; padding: 0px; ">
+                        <div class="col-md-12">
+                            <div class="headerName">
+                                Hoàn thành gửi mẫu
+                            </div>
+                        </div>
+                        <div class="contens">
+                            @if (ViewBag.prd_info.IsCheckMauThu == "TuChoiDuyet")
+                            {
+                                <div style="color:red">Mẫu thử của bạn chưa phù hợp, vui lòng gửi lại mẫu thử!!!</div>
+                            }
+                            else
+                            {
+                                <div> Bạn đã gửi mẫu thử đến địa chỉ công ty?</div>
+                            }
+                        </div>
+
+                    </div>
+                    <div class="col-md-5">
+                        <div style="float:right;margin-right: 30px;">
+                            @if (ViewBag.prd_info.IsCheckMauThu == "YeuCauGuiMau")
+                            {
+                                <a id="guiduyet" onclick="ViewFileModal()" class="hoathanhguiFile">Chi tiết yêu cầu</a>
+                                <a id="guiduyet" onclick="SendFile_XacNhanDaGuiMau()" class="DuyetguiFile">Xác nhận đã gửi mẫu</a>
+                            }
+                            @if (ViewBag.prd_info.IsCheckMauThu == "XacNhanDaGuiMau")
+                            {
+                                <a id="guiduyet" onclick="ViewFileModal()" class="hoathanhguiFile">Chi tiết yêu cầu</a>
+                                <a id="guiduyet" onclick="MauDangChoDuyet()" class="DuyetguiFileV2">Mẫu đang chờ duyệt</a>
+                            }
+                            @if (ViewBag.prd_info.IsCheckMauThu == "DuyetMau")
+                            {
+                                <a id="guiduyet" onclick="ViewFileModal()" class="hoathanhguiFile">Chi tiết yêu cầu</a>
+                                <a id="guiduyet" onclick="ViewDuyetMau_modal()" class="MauDaDuocDuyet">Mẫu đã được duyệt</a>
+                            }
+                            @if (ViewBag.prd_info.IsCheckMauThu == "TuChoiDuyet")
+                            {
+                                <a id="guiduyet" onclick="ViewFileModal()" class="hoathanhguiFile">Chi tiết yêu cầu</a>
+                                <a id="guiduyet" onclick="ViewMauBiTuChoi_modal()" class="TuChoiguiFile">Mẫu bị từ chối</a>
+                            }
+
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        }
+    }
+
+    @{
+       // if (ViewBag.prd_info.Status == "7")
+        {
+            if (ViewBag.prd_info.IsCheckMauThu == "DuyetMau" && ViewBag.prd_info.IsCheckChinhSach == "1")
+            {
+                <div style=" height: 4px; clear: both"></div>
+                <fieldset class="BBoder">
+                    <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten7">
+                        <div class="col-md-12">
+                            <div class="headerName">
+                                Thông tin chính sách
+                            </div>
+                            <div class="col-xs-1 right">
+                                <i class="chevron fa "></i>
+                            </div>
+                        </div>
+                        <div class="contens">
+                            Đảm bảo thông tin chính xác
+                        </div>
+                    </div>
+                    <div style=" height:10px; clear:both"></div>
+                    <div class="col-xs-12 collapse in" id="Conten7">
+                        <div class="FullfromV1 ">
+                            <div class="col-md-6">
+                                <div class="form-horizontal">
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Giá mua (-VAT)</label>
+                                            <div class="col-sm-9">
+                                                <b>@ViewBag.prd_info.GiaMuaTruVat</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Line Discount(%)</label>
+                                            <div class="col-sm-9">
+                                                <b>@ViewBag.prd_info.LineDiscount</b>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-horizontal">
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">VAT (%)</label>
+                                            <div class="col-sm-9">
+                                                <b>@ViewBag.prd_info.PTVAT</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Giá mua (+VAT)</label>
+                                            <div class="col-sm-9">
+                                                <b>@ViewBag.prd_info.GiaMuaCongVAT</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style=" height:4px; clear:both"></div>
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        }
+    }
+
+    @{
+       // if (ViewBag.prd_info.Status == "1")
+        {
+            if (ViewBag.prd_info.IsCheckMauThu == "DuyetMau" && ViewBag.prd_info.IsCheckChinhSach == "1")
+            {
+                <div style=" height: 4px; clear: both"></div>
+                <fieldset class="BBoder">
+                    <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten8">
+                        <div class="col-md-12">
+                            <div class="headerName">
+                                Thông tin giao hàng
+                            </div>
+                            <div class="col-xs-1 right">
+                                <i class="chevron fa "></i>
+                            </div>
+                        </div>
+                        <div class="contens">
+                            Đảm bảo thông tin chính xác
+                        </div>
+                    </div>
+                    <div style=" height:10px; clear:both"></div>
+                    <div class="col-xs-12 collapse in" id="Conten8">
+                        <div class="FullfromV1">
+                            <div class="col-md-6">
+                                <div class="form-horizontal">
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">SL tồn hiện có</label>
+                                            <div class="col-sm-9">
+                                                <b>@ViewBag.prd_info.SLTonHienCo</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Kho xuất hàng</label>
+                                            <div class="col-sm-9">
+                                                <b>@ViewBag.prd_info.KhoXuatHang</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-horizontal">
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Thời gian giao hàng</label>
+                                            <div class="col-sm-9">
+                                                <b>@ViewBag.prd_info.ThoiGianGiaoHang</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">SL đặt tối thiểu</label>
+                                            <div class="col-sm-9">
+                                                <b>@ViewBag.prd_info.SLToiThieu</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div style=" height: 30px; clear: both"></div>
+            }
+        }
+    }
+
+    @{
+        //if (ViewBag.prd_info.Status == "7")
+        {
+            if (ViewBag.prd_info.IsCheckMauThu == "DuyetMau" && ViewBag.prd_info.IsCheckChinhSach == "0")
+            {
+                <div style=" height: 4px; clear: both"></div>
+                <fieldset class="BBoder">
+                    <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten7">
+                        <div class="col-md-12">
+                            <div class="headerName">
+                                Thông tin chính sách
+                            </div>
+                            <div class="col-xs-1 right">
+                                <i class="chevron fa "></i>
+                            </div>
+                        </div>
+                        <div class="contens">
+                            Đảm bảo thông tin chính xác
+                        </div>
+                    </div>
+                    <div style=" height:0px; clear:both"></div>
+                    <div class="col-xs-12 collapse in" id="Conten7">
+                        <div class="FullfromV1">
+                            <div class="col-md-6">
+                                <div class="form-horizontal">
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Giá mua (-VAT)</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control notnull OrderValue" onchange="ShowTruVAT()" type="text" id="GiaMuaTruVat" name="GiaMuaTruVat" placeholder="Nhập giá" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Line Discount(%)</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control notnull OrderValue" type="text" id="LineDiscount" name="LineDiscount" placeholder="Line Discount" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-horizontal">
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">VAT (%)</label>
+                                            <div class="col-sm-9">
+                                                <select id="PTVAT" class="form-control" onchange="ShowVAT()">
+                                                    <option value="VAT-GS00">0 %</option>
+                                                    <option value="VAT-GS05">5 %</option>
+                                                    <option value="VAT-GS8">8 %</option>
+                                                    <option value="VAT-GS10">10 %</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Giá mua (+VAT)</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control notnull OrderValue" onchange="ShowCongVAT()" type="text" id="GiaMuaCongVAT" name="GiaMuaCongVAT" placeholder="Nhập giá" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        }
+    }
+
+    @{
+       // if (ViewBag.prd_info.Status == "7")
+        {
+            if (ViewBag.prd_info.IsCheckMauThu == "DuyetMau" && ViewBag.prd_info.IsCheckChinhSach == "0")
+            {
+                <div style=" height: 4px; clear: both"></div>
+                <fieldset class="BBoder">
+                    <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten8">
+                        <div class="col-md-12">
+                            <div class="headerName">
+                                Thông tin giao hàng
+                            </div>
+                            <div class="col-xs-1 right">
+                                <i class="chevron fa "></i>
+                            </div>
+                        </div>
+                        <div class="contens">
+                            Đảm bảo thông tin chính xác
+                        </div>
+                    </div>
+                    <div style=" height:0px; clear:both"></div>
+                    <div class="col-xs-12 collapse in" id="Conten8">
+                        <div class="FullfromV1">
+                            <div class="col-md-6">
+                                <div class="form-horizontal">
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">SL tồn hiện có</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control notnull OrderValue" type="text" id="SLTonHienCo" name="SLTonHienCo" placeholder="Nhập số lượng" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Kho xuất hàng</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control notnull" type="text" id="KhoXuatHang" name="KhoXuatHang" placeholder="Nhập địa chỉ xuất" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-horizontal">
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Thời gian giao hàng</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control notnull" type="text" id="ThoiGianGiaoHang" name="ThoiGianGiaoHang" placeholder="Nhập thời gian" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">SL đặt tối thiểu</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control notnull OrderValue" type="text" id="SLToiThieu" name="SLToiThieu" placeholder="Nhập số lượng" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </fieldset>
+                <div style=" height: 10px; clear: both"></div>
+                <a id="guiduyet" onclick="fnSave_ChinhSach_GiaoHang()" class="hoanthanh"><img src="~/Resources/images/ichoanthanh.png" style=" width: 16px; " /> Hoàn thành</a>
+                <div style=" height: 30px; clear: both"></div>
+            }
+        }
+    }
+    <div style=" height: 20px; clear: both"></div>
+</div>
+
+<input type="hidden" name="ID" id="ID" value="@ViewBag.prd_info.ID" />
+<input type="hidden" name="VendorNo" id="VendorNo" value="@ViewBag.prd_info.VendorCode" />
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtHead').html("Chi tiết chào hàng");
+    });
+
+    function js_showmodal() {
+        // $('#Detail_modal').modal('hide');
+        $('#DetailMoTa_modal').modal('show');
+    }
+
+    function ViewFileModal() {
+        $('#XemYC_modal').modal('show');
+    }
+
+    function ViewDuyetMau_modal() {
+        $('#SentFileDuyetMau_modal').modal('show');
+    }
+
+    function ViewMauBiTuChoi_modal() {
+        $('#ViewMauBiTuChoi_modal').modal('show');
+    }
+
+    function SendFile_XacNhanDaGuiMau() {
+        var IDProducst = $('#ID').val();
+        var VendorNo = $('#VendorNo').val();
+        $.ajax({
+            url: '/Product/Email_DaXacNhan_SendFile',
+            type: 'POST',
+            data: JSON.stringify({ IDProducst: IDProducst, VendorNo: VendorNo }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data.result == "1") {
+                    js_Loading(false, 1);
+                    $.toast({
+                        heading: 'Thông báo',
+                        text: 'Đã xác nhận thành công gửi mẫu.',
+                        showHideTransition: 'fade',
+                        icon: 'success'
+                    })
+                    setTimeout(function () {
+                        location.reload(true);
+                    }, 2000);
+
+
+                } else {
+                    js_Loading(false, 1);
+                    jAlert("Có lỗi xảy ra." + data.result);
+                }
+            },
+            error: function (err) {
+                js_Loading(false, 1);
+
+            }
+        });
+    }
+
+    function ShowTruVAT() {
+        var Price = $("#GiaMuaTruVat").val();
+        var VAT = $("#PTVAT").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Product/Get_VAT_TruVAT",
+            data: JSON.stringify({ code: VAT, Price: Price }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (data) {
+                if (data != null) {
+                    $("#GiaMuaCongVAT").val(data[0].Name);
+                    console.log("GiaMuaCongVAT: " + data[0].Name);
+                }
+            }, error: function () {
+            }
+        });
+    }
+
+    function ShowVAT() {
+        $("#GiaMuaCongVAT").val('');
+        $("#GiaMuaTruVat").val('');
+    }
+
+    function ShowCongVAT() {
+        var VAT = $("#PTVAT").val();
+        var Price = $("#GiaMuaCongVAT").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Product/Get_VAT_CongVAT",
+            data: JSON.stringify({ code: VAT, Price: Price }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (data) {
+                if (data != null) {
+                    $("#GiaMuaTruVat").val(data[0].Name);
+                    console.log("GiaMuaTruVat: " + data[0].Name);
+                }
+            }, error: function () {
+            }
+        });
+    }
+
+    // Save Thông tin chính sách, Thông tin giao hàng
+    function fnSave_ChinhSach_GiaoHang() {
+        debugger;
+        if (
+            $('#GiaMuaTruVat').val().length == 0 ||
+            $('#LineDiscount').val().length == 0 ||
+            $('#PTVAT').val().length == 0 ||
+            $('#GiaMuaCongVAT').val().length == 0 ||
+            // $('#GiaBanNiemYet').val().length == 0 ||
+
+            $('#SLTonHienCo').val().length == 0 ||
+            $('#KhoXuatHang').val().length == 0 ||
+            $('#ThoiGianGiaoHang').val().length == 0 ||
+            $('#SLToiThieu').val().length == 0
+        ) {
+            $('#Detail_modal').modal('hide');
+            $.toast({
+                heading: 'Thông báo',
+                text: 'Vui lòng nhập các trường đầy đủ.',
+                showHideTransition: 'fade',
+                icon: 'warning'
+            })
+            return false;
+        }
+        var po = {};
+        po.ID = $('#ID').val();
+
+        po.GiaMuaTruVat = $('#GiaMuaTruVat').val();
+        po.LineDiscount = $('#LineDiscount').val();
+        po.PTVAT = $('#PTVAT').val();
+        po.GiaMuaCongVAT = $('#GiaMuaCongVAT').val();
+        // po.GiaBanNiemYet = $('#GiaBanNiemYet').val();
+
+        po.SLTonHienCo = $('#SLTonHienCo').val();
+        po.KhoXuatHang = $('#KhoXuatHang').val();
+        po.ThoiGianGiaoHang = $('#ThoiGianGiaoHang').val();
+        po.SLToiThieu = $('#SLToiThieu').val();
+        console.log(JSON.stringify(po));
+
+        $.ajax({
+            type: "POST",
+            url: "/Product/addProduct_ChinhSach_GiaoHang",
+            data: JSON.stringify({ it: po }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r1) {
+                if (r1.RespId == '0') {
+                    $('#Detail_modal').modal('show');
+
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    alert("Có lỗi xảy ra thử lại sau!");
+                }
+            }
+        });
+    }
+
+    function MauDangChoDuyet() {
+        $.toast({
+            heading: 'Thông báo',
+            text: 'Mẫu đang được chờ phê duyệt. Vui lòng chờ được duyệt.',
+            showHideTransition: 'fade',
+            icon: 'error'
+        })
+    }
+
+</script>
+
+<div class="modal" tabindex="-1" role="dialog" id="Detail_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="border-radius: 9px;">
+            <div class="modal-body">
+                <p style=" text-align:center"><img src="~/Resources/images/ic_success1.png" /></p>
+                <p style="font-family: 'SF Pro'; font-style: normal; font-weight: 590; font-size: 20px; line-height: 24px; text-align: center; letter-spacing: 0.15px; color: #558B2F;">Cập nhật thành công!!!</p>
+                <p style="font-style: normal; font-size: 15px; line-height: 24px; text-align: center; color: rgba(0, 0, 0, 0.6);">
+                    Cập nhật thông tin chính sách và thông tin giao hàng của bạn đã được hệ thống ghi nhận,<br />
+                    Cần thêm thông tin vui lòng liên hệ P.Mua hàng.
+                </p>
+                <p style=" height: 1px; border-bottom: 1px solid #d7d7d7; width: 300px; margin: auto;"></p>
+                <p style="font-family: 'SF Pro'; font-style: normal; font-weight: 400; font-size: 16px; line-height: 24px;  text-align: center;  color: rgba(0, 0, 0, 0.6); padding-top:20px">
+                    Hotline: <b style="font-size:16px;color: #000;">024 7309 1168</b><br />
+                    Line: 88889
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="DetailMoTa_modal" style="left: -101px !important">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="border-radius: 9px; width: 800px;">
+            <div class="modal-body">
+                <div style="clear:both; height:10px;"></div>
+                <div class="col-sm-9" style=" margin: 0px; padding: 0px; ">
+                    <p style="font-family: 'SF Pro'; font-style: normal; font-weight: 590; font-size: 20px; line-height: 9px; text-align: left; letter-spacing: 0.15px; color: #000;">Mô tả</p>
+                </div>
+                <div class="col-sm-3">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div style="clear:both; height:15px;"></div>
+                <p style="font-style: normal; font-size: 16px; line-height: 24px; color: rgba(0, 0, 0, 0.6) ">
+                    @Html.Raw(ViewBag.prd_info.MoTaSanPham)
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="XemYC_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="border-radius: 9px;">
+            <div class="modal-body">
+                @Html.Raw(ViewBag.SentFile)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="SentFileDuyetMau_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="border-radius: 9px;">
+            <div class="modal-body">
+                @Html.Raw(ViewBag.SentFileDuyetMau)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="ViewMauBiTuChoi_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="border-radius: 9px;">
+            <div class="modal-body">
+                @Html.Raw(ViewBag.SentFileTuChoiMau)
+            </div>
+        </div>
+    </div>
+</div>

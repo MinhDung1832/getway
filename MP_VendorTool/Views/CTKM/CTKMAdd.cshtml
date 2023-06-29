@@ -1,0 +1,378 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Tạo chương trình khuyến mãi mua";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+
+                <div style=" margin-left: 10px">
+                    <div class="col-md-4 ">
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Nhà cung cấp</label>
+                            <div class="col-sm-9">
+                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                {
+                                    <input type="text" class="form-control" id="NhaCC" name="NhaCC" value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                                }
+                                else
+                                {
+                                    <select id="NhaCC" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox()">
+                                        @if (ViewBag.list_vendor != null)
+                                        {
+                                            <option value="">--- Chọn NCC ---</option>
+                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                            {
+                                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Mã CTKM</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="MaCTKM" name="MaCTKM" disabled value="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Tên CTKM</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="TenCTKM" name="TenCTKM" value="" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 ">
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Từ ngày</label>
+                            <div class="col-sm-9">
+                                <input type="date" id="TuNgay" name="TuNgay" value="" class="form-control" onchange="Check_date()">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Đến ngày</label>
+                            <div class="col-sm-9">
+                                <input type="date" id="DenNgay" name="DenNgay" value="" class="form-control" onchange="js_checkNBD(); Check_date();">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 ">
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9">
+                                <a id="btntuchoi" onclick="Save_CTKM();" class="btn btn-success px-5 rounded-0 btgetw" style=" color:#fff"><i class="fa fa-save" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Gửi duyệt</a>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9">
+                                <a href="/CTKM/Index" class="btn btn-info px-5 rounded-0 btgetw"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Quay lại</a>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div style="height: 10px; clear: both; "></div>
+                    <div id="div-content" style=" padding-top: 0px; ">
+                        @Html.Partial("~/Views/CTKM/Partial/__CTKMAdd.cshtml")
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#txtHead').html("Tạo chương trình khuyến mãi mua");
+        $('#f_dev').html("");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        js_CreateCodeChienDich();
+        js_GetList();
+    });
+
+    function js_CreateCodeChienDich() {
+        $.ajax({
+            url: '/CTKM/Get_Code_CTKM',
+            type: 'POST',
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data.length > 0) {
+                    $("#MaCTKM").val(data[0].Code);
+                }
+            }
+        });
+    }
+
+    function GetList_Item_CTKM() {
+        debugger;
+        var VendorCode = fomart_split($("#NhaCC").val(), 0);
+        let trs = $("#tbl_Item tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+
+                var row = tr.id.replace("Row_", "");
+                if (VendorCode.length > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/CTKM/Get_List_Item_CTKM",
+                        data: JSON.stringify({ VendorCode: VendorCode }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function () {
+                        },
+                        success: function (r) {
+                            $('#TenQua_' + row).empty();
+                            $('#TenQua_' + row).append('<option value="" disabled>-- Chọn quà tặng --</option>');
+                            if (r != null) {
+                                for (i in r) {
+                                    $('#TenQua_' + row).append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                                }
+                            }
+                            //console.log(r[i].Code);
+                            $('#TenQua_' + row).selectpicker('refresh');
+                        }, error: function () {
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    function js_searchbox() {
+        js_GetList();
+    }
+
+    function js_ReloadTable() {
+        GetList_Item_CTKM();
+        imgrecall();
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[200, 50, 70, 100, -1], [200, 50, 70, 100]],
+            //"order": [[0, "desc"]],
+            columnDefs: [
+                { 'targets': 3, 'orderable': false },
+                { 'targets': 4, 'orderable': false },
+                { 'targets': 5, 'orderable': false },
+            ],
+            "searching": false,
+            fixedHeader: true,
+            //fixedHeader: {
+            //    headerOffset: 184
+            //},
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+        $('img.content').hover(function () {
+            $(this).addClass('transition');
+        }, function () {
+            $(this).removeClass('transition');
+        });
+    }
+
+    function js_GetList() {
+        var VendorCode = fomart_split($("#NhaCC").val(), 0);
+        if (VendorCode.length > 0) {
+            js_Loading(true, 1);
+            $.ajax({
+                url: '/CTKM/GetList_CTKMAdd',//SP_CTKM_MuaHang_HHOA_KGUI
+                type: 'POST',
+                data: JSON.stringify({ VendorCode: VendorCode }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    $("#div-content").find('tbody').empty();
+                    $('#div-content').html(data);
+                    js_ReloadTable();
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+    function getTable_Header() {
+        SourceHeader = [];
+        var MaCTKM = $('#MaCTKM').val();
+        var TenCTKM = $('#TenCTKM').val();
+        var NhaCC = $('#NhaCC').val();
+        var TuNgay = $('#TuNgay').val();
+        var DenNgay = $('#DenNgay').val();
+
+        if (MaCTKM.length > 0 && MaCTKM.length > 0 && NhaCC.length > 0 && TuNgay.length > 0 && DenNgay.length > 0) {
+            SourceHeader.push({
+                "MaCTKM": MaCTKM,
+                "TenCTKM": TenCTKM,
+                "MaNCC": fomart_split($("#NhaCC").val(), 0),
+                "TenNCC": fomart_split($("#NhaCC").val(), 1),
+                "TuNgay": TuNgay,
+                "DenNgay": DenNgay,
+            });
+        }
+    }
+
+    function getTable_Line() {
+        SourceLine = [];
+        let trs = $("#tbl_Item tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let MaNCC = fomart_split($("#NhaCC").val(), 0);
+                let TenNCC = fomart_split($("#NhaCC").val(), 1);
+                let MaCT = $('#MaCTKM').val();
+
+                let MaHang = String($('#' + tr.id + ' .MaSP').html()).trim();
+                let TenHang = String($('#' + tr.id + ' .TenSP').html()).trim();
+                let HinhAnh = String($('#' + tr.id + ' .Images').html()).trim();
+
+                let SLHang = String($('#' + tr.id + ' input[name="SLHang"]').val()).trim();
+
+                let MaQua = String($('#' + tr.id + ' .TenQua option:selected').toArray().map(item => item.value).join());
+                let TenQua = String($('#' + tr.id + ' .TenQua option:selected').toArray().map(item => item.text).join());
+
+                let SLQua = String($('#' + tr.id + '  input[name="SLQua"]').val()).trim();
+
+                if (MaHang.length > 0 && TenHang.length > 0 && SLHang.length > 0 && MaQua.length > 0 && SLQua.length > 0) {
+                    SourceLine.push({
+                        "MaNCC": MaNCC,
+                        "TenNCC": TenNCC,
+                        "MaCT": MaCT,
+                        "MaHang": MaHang,
+                        "TenHang": TenHang,
+                        "HinhAnh": HinhAnh,
+
+                        "SLHang": SLHang,
+                        "MaQua": MaQua,
+                        "TenQua": TenQua,
+                        "SLQua": SLQua,
+                    });
+                }
+            });
+        }
+    }
+
+    function Save_CTKM() {
+        debugger;
+        // Kiểm tra xem mã đã tồn tại chưa, Sét lại nếu đã tồn tại
+        js_CreateCodeChienDich();
+        if ($('#NhaCC').val().length == 0)
+            $('#NhaCC').css('border', '1px solid #ffa903');
+        if ($('#MaCTKM').val().length == 0)
+            $('#MaCTKM').css('border', '1px solid #ffa903');
+        if ($('#TenCTKM').val().length == 0)
+            $('#TenCTKM').css('border', '1px solid #ffa903');
+        if ($('#TuNgay').val().length == 0)
+            $('#TuNgay').css('border', '1px solid #ffa903');
+        if ($('#DenNgay').val().length == 0)
+            $('#DenNgay').css('border', '1px solid #ffa903');
+        if (
+            $('#NhaCC').val().length == 0 ||
+            $('#MaCTKM').val().length == 0 ||
+            $('#TenCTKM').val().length == 0 ||
+            $('#TuNgay').val().length == 0 ||
+            $('#DenNgay').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ.');
+            return;
+        }
+
+
+        debugger;
+
+        getTable_Header();
+        getTable_Line();
+
+        var obj = {};
+        obj.SourceHeader = JSON.stringify(SourceHeader);
+        obj.SourceLine = JSON.stringify(SourceLine);
+
+        console.log(JSON.stringify(SourceHeader));
+        console.log(JSON.stringify(SourceLine));
+        console.log(JSON.stringify(obj));
+
+        if (SourceHeader.length > 0 && SourceLine.length > 0) {
+            $.ajax({
+                url: '/CTKM/Save_CTKM',
+                type: 'POST',
+                data: JSON.stringify(obj),
+                enctype: 'multipart/form-data',
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    if (data.RespId == 0) {
+                        jAlert(data.RespMsg, 'Thông báo', (r) => {
+                            window.location.href = '/CTKM';
+                        });
+                    } else {
+                        jAlert(data.RespMsg, 'Thông báo');
+                    }
+                    js_Loading(false, 1);
+                }
+            });
+        } else {
+            alert('Vui lòng nhập quà tặng');
+            return;
+        }
+    }
+
+    function js_checkNBD() {
+        var NgayBatDau = $('#DenNgay').val();
+        var date1 = new Date(NgayBatDau);
+        var NBD = date1.getTime();
+        var NBDres = NBD.toString().substring(0, 6);
+        var today = new Date();
+        var now = today.getTime();
+        var NBDnow = now.toString().substring(0, 6);
+
+        if (NBDres < NBDnow) {
+            alert("Vui lòng chọn ngày bắt đầu lớn hơn ngày hiện tại!");
+            $('#DenNgay').val('');
+            $('#DenNgay').css('border', '1px solid #ffa903');
+            return;
+        }
+    }
+    function Check_date() {
+        var NgayBatDau = $('#TuNgay').val();
+        var NgayKetThuc = $('#DenNgay').val();
+
+        if (NgayBatDau != '' && NgayBatDau != 'undefined' && NgayKetThuc != '' && NgayKetThuc != 'undefined')
+            if (NgayBatDau > NgayKetThuc) {
+                alert("Ngày bắt đầu không thể lớn hơn ngày kết thúc. Vui lòng nhập lại !");
+                $('#TuNgay').val('');
+                $('#DenNgay').val('');
+                return;
+            }
+    }
+
+</script>

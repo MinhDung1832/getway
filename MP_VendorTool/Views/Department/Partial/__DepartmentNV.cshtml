@@ -1,0 +1,135 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 200px; max-width: 200px; ">
+                    Họ và tên
+                </th>
+                <th scope="col" style="width: 120px; max-width: 120px; ">
+                    Hình ảnh
+                </th>
+                <th scope="col" style="width: 120px; max-width: 120px;">
+                    SĐT
+                </th>
+                <th scope="col" style="width: 150px; max-width: 150px; ">
+                    Email
+                </th>
+                <th scope="col" style="width: 200px; max-width: 200px; ">
+                    Chức danh
+                </th>
+                <th scope="col" style="width: 200px; max-width: 200px; ">
+                    Vai trò
+                </th>
+                <th scope="col" style="width: 150px; max-width: 150px; ">
+                    Trạng thái
+                </th>
+                <th scope="col" style="width: 120px; max-width: 120px; ">
+                    Tình trạng
+                </th>
+                <th scope="col" style="width: 120px; max-width: 120px; ">
+                    Ngày tạo
+                </th>
+                <th scope="col" style="width: 120px; max-width: 120px; ">
+                    Ngày duyệt
+                </th>
+                <th scope="col" style="width: 120px; max-width: 120px; ">
+                    Chỉnh sửa
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        var i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            var k = i;
+                            <tr style=" height:20px" id="Row_@i">
+                                <td style="text-align: left; width: 200px; max-width: 200px; overflow: hidden; white-space: nowrap ">
+                                    @item["NguoiDaiDien"]
+                                </td>
+                                <td style="text-align: center; width: 120px; max-width: 120px;">
+                                    <a href="@item["AnhDaiDien"]" title="" class="thickbox"><img height="60px" src="@item["AnhDaiDien"]" alt="" class="content" /></a>
+                                </td>
+                                <td style="text-align: right; width: 120px; max-width: 120px; overflow: hidden; white-space: nowrap ">
+                                    @item["SoDienThoai"]
+                                </td>
+                                <td style="text-align: left; width: 150px; max-width: 150px; overflow: hidden; white-space: nowrap ">
+                                    @item["Email"]
+                                </td>
+                                <td style="text-align: left; width: 200px; max-width: 200px;  overflow: hidden; white-space: nowrap ">
+                                    @item["TenChucDanh"]
+                                </td>
+                                <td style="text-align: left; width: 200px; max-width: 200px; overflow: hidden; white-space: nowrap ">
+                                    <span title="@Html.Raw(item["TenPhongBan"])">@Html.Raw(item["TenPhongBan"])</span>
+                                </td>
+                                <td style="text-align: center; width: 150px; max-width: 150px; ">
+                                    @Html.Raw(item["Status"])
+                                </td>
+                                <td style="text-align: center; width: 120px; max-width: 120px; ">
+                                    @{
+                                        if (item["StatusNCC"].ToString() == "Active")
+                                        {
+                                            <a href="#" class="ChangeStatusNCC active action-link-button" data-id="@item["ID"]">@Html.Raw(item["StatusNCCNew"])</a>
+                                        }
+                                        else
+                                        {
+                                            <span>@Html.Raw(item["StatusNCCNew"])</span>
+                                        }
+                                    }
+
+                                    <span style="display:none">@Html.Raw(item["StatusNCC"])</span>
+                                </td>
+                                <td style="text-align: right; width: 120px; max-width: 120px; ">
+                                    @item["CreateDate"]
+                                </td>
+                                <td style="text-align: right; width: 120px; max-width: 120px; ">
+                                    @item["ModifyDate"]
+                                </td>
+                                <td style="text-align: center; width: 120px; max-width: 120px; ">
+                                    <a class="btn_detail btn btn-secondary" onclick="load('@item["ID"]')" style="color: #fff; padding: 4px; font-size: 12px;">Chỉnh sửa</a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    $('.ChangeStatusNCC').off('click').on('click', function (e) {
+        var btn = $(this);
+        var id = btn.data('id');
+        jConfirm('Bạn chắc chắn có muốn khóa tài khoản này ?', 'Thông báo', function (r) {
+            if (r) {
+                e.preventDefault();
+                $.ajax({
+                    url: "/Department/ChangeStatusNCC",
+                    data: { id: id },
+                    dataType: "json",
+                    type: "POST",
+                    success: function (response) {
+                        js_GetList();
+                    }
+                });
+            }
+        });
+    });
+</script>

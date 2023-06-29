@@ -1,0 +1,345 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Quản lý hàng tặng hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="vendorName" class="col-sm-4 col-form-label">Nhà cung cấp</label>
+                                            <div class="col-sm-8">
+                                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                                {
+                                                    <input type="text" class="form-control" id="NhaCC" name="NhaCC" value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                                                }
+                                                else
+                                                {
+                                                    <select id="NhaCC" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox()">
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            <option value="">--- Chọn NCC ---</option>
+                                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label">Tên CTKM</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="TenCTKM" name="TenCTKM" onchange="js_searchbox()">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="Ngay" class="col-sm-4 col-form-label">Ngày tạo</label>
+                                            <div class="col-sm-8">
+                                                <input type="date" class="form-control" id="NgayTao" name="NgayTao" onchange="js_searchbox()">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Trạng thái </label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control selectpicker" data-live-search="true" id="TrangThai" onchange="js_searchbox()">
+                                                    <option value=""> -- Chọn trạng thái --</option>
+                                                    <option value="DaDuyet">Đã duyệt</option>
+                                                    <option value="GuiDuyet">Gửi duyệt</option>
+                                                    <option value="TuChoi">Từ chối</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center;">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a onclick="js_searchbox()" class="btn btn-secondary px-5 btgetw" id="btnGetChecks" style=" color:#fff"><i class="fa fa-search" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tìm kiếm</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a id="btntuchoi" onclick="js_saveCheck();" class="btn btn-danger px-5 rounded-0 btgetw" style=" color:#fff"><i class="fa fa-trash-o" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Xóa bỏ</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="div-content" style=" padding-top: 83px; ">
+                    @Html.Partial("~/Views/Promotion2/Partial/__ComboKhuyenMaiApr.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-text {
+        display: inline-table;
+        margin-top: 0.25rem;
+        width: 98% !important;
+    }
+
+    #tbl_ItemTang_length {
+        position: absolute;
+        bottom: -7px;
+        left: 206px;
+    }
+</style>
+
+<div class="modal" id="popupPushSalesTang" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 50% !important; max-width: 50% !important; border-radius: 0; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Chi tiết Combo khuyến mại</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" style=" width: 100%; margin: 10px;">
+                <div class="box_ItemOrder">
+                    <div class="col-md-6 ">
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Mã CTKM</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="MaCT" name="MaCT" disabled value="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Tên CT</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="TenCT" name="TenCT" disabled value="" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Từ ngày</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="TuNgay" name="TuNgay" disabled class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Đến ngày</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="DenNgay" name="DenNgay" disabled class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div style=" clear:both"></div>
+                    <div class="row">
+                        <h3 class="title_09">Hàng mua</h3>
+                        <table id="tbl_HangMua_Line" class="form-text table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Mã hàng
+                                    </th>
+                                    <th>
+                                        Tên hàng
+                                    </th>
+                                    <th>
+                                        Hình ảnh
+                                    </th>
+                                    <th>
+                                        Giá bán NTD
+                                    </th>
+                                    <th>
+                                        Sl áp dụng
+                                    </th>
+                                    <th>
+                                        % Quà
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <h3 class="title_09">Hàng tặng</h3>
+                        <table id="tbl_HangTang_Line" class="form-text table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Mã hàng
+                                    </th>
+                                    <th>
+                                        Tên hàng
+                                    </th>
+                                    <th>
+                                        Hình ảnh
+                                    </th>
+                                    <th>
+                                        Giá quà
+                                    </th>
+                                    <th>
+                                        SL áp dụng
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('#txtHead').html("Quản lý hàng tặng hàng");
+        $('#f_dev').html("");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        js_GetList();
+    });
+    function js_searchbox() {
+        js_GetList();
+    }
+    function js_ReloadTable() {
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[200, 50, 70, 100, -1], [200, 50, 70, 100]],
+            //"order": [[0, "desc"]],
+            //columnDefs: [
+            //    { 'targets': 4, 'orderable': false },
+            //    { 'targets': 5, 'orderable': false },
+            //    { 'targets': 6, 'orderable': false },
+            //    { 'targets': 7, 'orderable': false },
+            //    { 'targets': 8, 'orderable': false },
+            //    { 'targets': 9, 'orderable': false },
+            //    { 'targets': 13, 'orderable': false }
+            //],
+            "searching": false,
+            fixedHeader: true,
+            fixedHeader: {
+                headerOffset: 184
+            },
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+    function js_GetList() {
+        debugger;
+        var VendorCode = fomart_split($("#NhaCC").val(), 0);
+        var TenCT = $("#TenCTKM").val();
+        var TrangThai = $("#TrangThai").val();
+        var NgayTao = $("#NgayTao").val();
+
+        js_Loading(true, 1);
+        $.ajax({
+            url: '/Promotion2/GetList_ComboKhuyenMaiApr',//ComboKhuyenMai_Header_Detail
+            type: 'POST',
+            data: JSON.stringify({ TenCT: TenCT, VendorCode: VendorCode, TrangThai: TrangThai, NgayTao: NgayTao }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_showpopup(MaCTKM, VendorCode, TenCT, TuNgay, DenNgay) {
+        debugger;
+        $('#MaCT').val(MaCTKM);
+        $('#TenCT').val(TenCT);
+        $('#TuNgay').val(TuNgay);
+        $('#DenNgay').val(DenNgay);
+
+        $.ajax({
+            url: '/Promotion2/ComboKhuyenMai_MuaHang_Detail',
+            type: 'POST',
+            data: JSON.stringify({ MaCTKM: MaCTKM, VendorCode: VendorCode }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#tbl_HangMua_Line tbody").empty();
+                    // $("#tbl_HangTang_Line tbody").empty();
+                    $.each(data, (index, value) => {
+                        $('#pushSalesId').html(value.MaCT);
+                        $("#tbl_HangMua_Line tbody").append('<tr><td>' + value.MaHang + '</td><td>' + value.TenHang + '</td> <td>' + value.HinhAnh + '</td> <td>' + value.GiaBanNTD + '</td><td style="">' + value.SoLuongApDung + '</td><td style="">' + value.PhanTramQua + '</td></tr>');
+                    });
+
+                }
+            }
+        });
+
+        $.ajax({
+            url: '/Promotion2/ComboKhuyenMai_TangHang_Detail',
+            type: 'POST',
+            data: JSON.stringify({ MaCTKM: MaCTKM, VendorCode: VendorCode }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#tbl_HangTang_Line tbody").empty();
+                    $.each(data, (index, value) => {
+                        $("#tbl_HangTang_Line tbody").append('<tr><td>' + value.MaHang + '</td><td>' + value.TenHang + '</td><td>' + value.HinhAnh + '</td><td style="">' + value.GiaQua + '</td><td style="">' + value.SoLuongApDung + '</td></tr>');
+                    });
+
+                }
+            }
+        });
+
+        $('#popupPushSalesTang').modal();
+    }
+    function js_saveCheck() {
+        var ID = [];
+        var ID = [];
+        $('#CheckID input[name="check[]"]:checked').each(function (index, value) {
+            ID.push($(value).val());
+        });
+
+        if (ID == "") {
+            alert("Bạn chưa chọn hành động");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: '/Promotion2/ComboKhuyenMai_Delete',
+            data: JSON.stringify({ ID: ID }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (rt) {
+                alert("Xóa thành công");
+                js_GetList();
+            }
+        });
+    }
+
+
+</script>

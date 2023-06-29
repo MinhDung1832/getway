@@ -1,0 +1,478 @@
+﻿
+@{
+    ViewBag.Title = "Khai báo thông tin người dùng";
+}
+<style>
+    .form-control {
+        height: 28px;
+    }
+
+    .btn-right {
+        background-image: url('../../image/Button/right.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+        .btn-right:hover {
+            background-image: url('../../image/Button/righthover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .btn-left {
+        background-image: url('../../image/Button/left.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+        .btn-left:hover {
+            background-image: url('../../image/Button/lefthover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .form-control[disabled] {
+        background: #f7f7f7 !important;
+    }
+
+    #btn_Gui {
+        background-color: #868686;
+        color: #fff;
+        padding: 3px 21px;
+        margin-top: 2px;
+        width: 120px;
+        text-align: left;
+    }
+
+    .content_vendor {
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .btn-success {
+        color: #fff;
+        background-color: #cccccc;
+        border: none;
+    }
+
+        .btn-success:hover, .btn-success:active, .btn-success:focus, .btn-success:active:focus, .btn-success:active:hover {
+            color: #fff;
+            background-color: #cccccc;
+            border: none;
+        }
+
+
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .img_src {
+        padding: 10px 10px 43px;
+    }
+
+    .thum_img {
+        height: 355px;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 18px;
+    }
+
+        .text_home a {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    fieldset h4 {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #355c96;
+        text-transform: uppercase;
+        border: 0;
+        padding-left: 10px;
+    }
+
+    fieldset {
+        margin-top: 34px;
+    }
+
+    label {
+        font-size: 12px;
+        color: #777575;
+    }
+
+    .from_vender {
+        margin-left: 8px;
+    }
+
+        .from_vender input, .from_vender select {
+            margin-bottom: 8px;
+        }
+
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+        .button_save_1 a {
+            text-align: center;
+            background-color: #868686 !important;
+            border-color: #868686 !important;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 8px;
+        }
+
+    #E_Invoice {
+        margin-bottom: 18px !important;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #86868600;
+        border-color: #868686;
+        color: #6f8cb8 !important;
+    }
+
+    .button_action a:hover {
+        background-color: #008888;
+        color: #fff !important;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+    .button_action {
+        margin-top: 44px;
+    }
+
+    .table > thead > tr > th {
+        color: #6f8cb8;
+    }
+
+    #wp_thum_img {
+        background-color: #fff;
+        text-align: center;
+    }
+
+    /*  .frominput .form-control {
+        height: 25px !important;
+        width: 428px !important;
+        max-width: 428px !important;
+    }*/
+
+    .dropdown.bootstrap-select.form-control {
+        padding: 0px;
+        margin: 0px;
+        background: none;
+        width: 100%;
+        max-width: 100%;
+        padding-left: 0px !important;
+        border: none !important;
+    }
+
+    .col-sm-8 .btn {
+        height: 26px;
+        line-height: 11px
+    }
+
+    button.btn.dropdown-toggle.btn-default {
+        padding: 3px 9px 4px 4px !important
+    }
+
+    .dropdown.bootstrap-select.form-control.bs3 {
+        padding-bottom: 1px;
+    }
+
+    .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+        overflow: hidden;
+        height: 17px;
+        padding: 0px;
+        font-size: 12px;
+        color: #59595B;
+        margin-left: 8px;
+    }
+
+    .col-sm-9 .btn {
+        height: 27px;
+        line-height: 13px;
+    }
+</style>
+
+<style>
+    .content_home {
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .header_top {
+        margin-top: 52px;
+    }
+
+    .menu_login li {
+        list-style: none;
+        float: left;
+        padding-right: 16px;
+    }
+
+        .menu_login li a {
+            color: #fff;
+            font-size: 14px;
+        }
+
+    .menu_login {
+        float: right;
+    }
+
+    .box_01 {
+        border-left: 7px double #545151;
+        margin-top: 373px;
+        margin-left: 17px;
+    }
+
+        .box_01 p {
+            text-transform: uppercase;
+            font-size: 42px;
+            color: #ffffff;
+            padding-left: 23px;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+    .box_2 {
+        color: #eae6e6;
+        margin-top: 55px;
+        margin-left: 17px;
+    }
+
+    .menu_footer ul li {
+        list-style: none;
+        float: left;
+        padding-right: 10px;
+    }
+
+        .menu_footer ul li a {
+            color: #eae6e6;
+            font-size: 14px;
+        }
+
+    .menu_footer ul {
+        width: 500px;
+        margin: 0 auto;
+        margin-top: 35px;
+    }
+
+        .menu_footer ul li span {
+            padding-left: 10px;
+        }
+
+    .menu_login li a:hover {
+        text-decoration: none;
+    }
+
+    .box_2 ul li {
+        list-style: none;
+        font-size: 14px;
+        font-style: italic;
+    }
+
+    .box_2 p {
+        font-size: 14px;
+        font-style: italic;
+    }
+
+    .box_2 ul {
+        margin-left: -25px;
+    }
+
+    .button_start {
+        float: right;
+        margin-top: 83px;
+    }
+
+        .button_start a {
+            background-color: #e9e8e7;
+            padding: 15px 44px;
+            color: #969696;
+            font-size: 14px;
+        }
+
+            .button_start a:hover {
+                text-decoration: none;
+            }
+
+    .wrap-login100 {
+        width: 45%;
+        margin: 0 auto;
+        padding: 53px 60px 53px;
+        margin-top: 133px;
+        margin-bottom: 164px;
+        border-radius: 10px;
+        border: 1px solid #dedede;
+    }
+
+        .wrap-login100 h3 {
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #1d1d1d;
+            font-size: 27px;
+            margin-bottom: 42px;
+        }
+
+    .text_change_pass a {
+        color: #fff;
+        padding: 11px;
+        display: block;
+        font-style: italic;
+        font-size: 13px;
+    }
+
+    #myForm label {
+        color: #1d1d1d;
+        font-size: 15px;
+    }
+
+    .bt_login {
+        text-align: center;
+    }
+
+        .bt_login input {
+            background-color: #868686;
+            border: 1px solid #eae6e6;
+            color: #fff;
+            padding: 8px 67px;
+            text-transform: uppercase;
+            margin-top: 19px;
+        }
+
+    .text_change_pass {
+        text-align: center;
+    }
+</style>
+@Html.Partial("~/Views/Shared/_sidebar_3.cshtml")
+<div class="header_vender_1">
+    @Html.Partial("~/Views/Shared/_header_home.cshtml")
+</div>
+
+<div class="content_home">
+    <div class="container">
+        <div class="row">
+            <div class="limiter">
+                <div class="container-login100">
+                    <div class="wrap-login100">
+                        <h3>Khai báo thông tin người dùng</h3>
+                        <form class="login100-form validate-form" method="POST" id="myForm">
+                            @if (Session["errif"] != null)
+                            {
+                                <p style="color:red">@Session["errif"].ToString()</p>
+                            }
+                            <p style="color:red" id="ThongBao"></p>
+                            @Html.AntiForgeryToken()
+                            <div class="form-group" data-validate="Bạn chưa nhập mật khẩu">
+                                <label for="old">Chọn phòng ban</label>
+                                <select class="form-control" id="Type" name="Type">
+                                    <option value="">-- Chọn phòng ban --</option>
+                                    <option value="KT">P. Kế toán</option>
+                                    <option value="CU">P. Cung ứng</option>
+                                    <option value="MKT">P. Marketing</option>
+                                </select>
+                            </div>
+                            <div class="form-group" data-validate="Mật khẩu">
+                                <label for="newpa">Mật khẩu</label>
+                                <input class="form-control" type="password" id="password" name="password" value="@ViewBag.password">
+                            </div>
+                            <div class="form-group" data-validate="Nhập lại mật khẩu">
+                                <label for="re_newpa">Nhập lại mật khẩu</label>
+                                <input class="form-control" type="password" id="passwordNew" name="passwordNew" value="@ViewBag.passwordNew">
+                            </div>
+                            <div class="bt_login">
+                                <input style="width: 25%" type="submit" onclick="fn_save()" class="login100-form-btn" value="Lưu lại" />
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (ViewBag.Type != "")
+{
+    <script>$('#Type').val('@ViewBag.Type')</script>
+}
+
+
+@*<script>
+    function fn_save() {
+        if (
+            $('#Type').val().length == 0 ||
+            $('#password').val().length == 0
+        ) {
+            $("#ThongBao").html("Vui lòng nhập các trường đầy đủ.");
+            return;
+        }
+        var password = $('#password').val();
+        var passwordNew = $('#passwordNew').val();
+        if (password != passwordNew) {
+            $("#ThongBao").html("Mật khẩu mới không trùng nhau!.");
+            return;
+        }
+        if (newpa.Length <= 8) {
+            $("#ThongBao").html("Mật khẩu bao gồm 8 ký tự!");
+            return;
+        }
+    }
+</script>*@

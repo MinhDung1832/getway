@@ -1,0 +1,194 @@
+﻿@using System.Data;
+@using MP_VendorTool.Common;
+@using MP_VendorTool.Models.Order2
+
+<style>
+    .FullfromV1 {
+        width: 99.5%;
+        margin: auto;
+    }
+    .XacNhanthoigian {
+        background: #f8f8f8;
+        margin-top: 10px;
+        float: left;
+        width: 99%;
+        border-radius: 5px;
+        padding-left: 9px;
+        margin-left: 9px;
+    }
+
+    img.content {
+        border-radius: 3px !important;
+        height: 100px !important;
+    }
+
+    .tongsl {
+        color: #F26B2A
+    }
+
+    .ChuY {
+        background: #f8f8f8;
+        padding: 21px;
+        float: left;
+        width: 98%;
+        margin-right: 18px;
+        margin-left: 18px;
+        margin-bottom: 18px;
+        border-radius: 5px;
+    }
+
+    .infoChuY {
+        font-style: italic;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+        color: #464444;
+    }
+
+    .XacNhanLaiXe {
+        background: #FFD682;
+        padding: 13px;
+        float: left;
+        width: 99%;
+        margin-right: 9px;
+        margin-left: 9px;
+        margin-bottom: 0px;
+        border-radius: 5px;
+        margin-top: 14px;
+    }
+
+    .XacNhanLaiXe_info {
+        background: #f8f8f8;
+        padding: 13px;
+        float: left;
+        width: 99%;
+        margin-right: 9px;
+        margin-left: 9px;
+        margin-bottom: 0px;
+        border-radius: 5px;
+        margin-top: 7px;
+    }
+
+    .ThongTinXe label {
+        color: rgba(0, 0, 0, 0.6) !important
+    }
+
+    .GioGiao {
+        padding-top: 7px;
+        font-size: 22px;
+    }
+
+        .GioGiao .HMS {
+            background: #000;
+            padding: 6px;
+            color: #fff;
+            font-size: 17px;
+            margin: 1px;
+            border-radius: 3px;
+            font-family: 'SF-Pro-Text-Regular',sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 24px;
+            letter-spacing: 0.15px;
+            text-shadow: 0 0 2px #fff;
+        }
+
+        .GioGiao .HMS1 {
+            padding: 6px;
+            color: #000;
+            font-size: 17px;
+            margin: 1px;
+            border-radius: 3px;
+            font-family: 'SF-Pro-Text-Regular',sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 24px;
+            letter-spacing: 0.15px;
+        }
+
+    .header1 {
+        font-family: 'SF-Pro-Text-Regular',sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.15px;
+        color: #000000;
+        padding-top: 6px;
+    }
+
+    .infoxe {
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .SanPham {
+        font-weight: bold;
+        font-size: 16px;
+    }
+</style>
+
+<div class="FullfromV1">
+    <table id="tbl_Item" class="table table-striped table-bordered table-hover" cellspacing="0" style=" padding-top:10px;  width:98%; margin:auto">
+        <thead>
+            <tr>
+                <th class="text-left">
+                    <div class="SanPham">Mã Hàng</div>
+                </th>
+                <th class="text-left">
+                    <div class="SanPham">Tên hàng</div>
+                </th>
+                <th class="text-left">
+                    <div class="SanPham">Hình ảnh</div>
+                </th>
+                <th class="text-left">
+                    <div class="SanPham">Hạn sử dụng</div>
+                </th>
+                <th class="text-left">
+                    <div class="SanPham">Số lượng đặt</div>
+                </th>
+                <th class="text-left">
+                    <div class="SanPham">SL xác nhận</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        int i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                        <tr id="Row_@i" style="background: #ffff !important">
+                            <td style="text-align: left; ">
+                                @item["MaHang"]
+                            </td>
+                            <td style=" text-align:left;">
+                                @item["TenHang"]
+                            </td>
+                            <td style="text-align:center;">
+                                <a href="@item["linkanh"]" title="" class="thickbox"><img style="height: 60px !important" src="@item["linkanh"]" alt="" class="content" /></a>
+                            </td>
+                            <td style=" text-align: left;">
+                                @item["HanSD"]
+                            </td>
+                            <td style="text-align: left; ">
+                                @item["Quantity"]
+                            </td>
+                            <td style="text-align: left; ">
+                                @item["SLXacNhan"]
+                            </td>
+                        </tr>
+                        }
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@*Lỗi khi update lái xe bên app bibosop (Trả hàng NCC) thì thông tin xe bên app vendor và web lại bị thay đổi thông tin tài xế..*@

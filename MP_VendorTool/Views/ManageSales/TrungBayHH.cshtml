@@ -1,0 +1,678 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Quản lý trưng bày ngành hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="vendorName" class="col-sm-4 col-form-label">Nhà cung cấp</label>
+                                            <div class="col-sm-8">
+                                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                                {
+                                                    <input type="text" class="form-control" id="NhaCCFull" name="NhaCCFull" value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                                                    <input type="hidden" class="form-control" id="NhaCC" name="NhaCC" value="@Session["VendorCode"]" disabled>
+                                                }
+                                                else
+                                                {
+                                                    <input type="hidden" class="form-control" id="NhaCCFull" name="NhaCCFull" disabled>
+                                                    <select id="NhaCC" class="form-control selectpicker" data-live-search="true" onchange="ShowNCCFull(); js_onchange_NCC_MaHang(); js_searchbox()">
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            <option value="">--- Chọn NCC ---</option>
+                                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label">Mã hàng</label>
+                                            <div class="col-sm-8">
+                                                <select id="MaHang" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox()">
+                                                    <option value="">--- Chọn mã hàng ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="Ngay" class="col-sm-4 col-form-label">Trạng thái</label>
+                                            <div class="col-sm-8">
+                                                <select id="TrangThai" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox()">
+                                                    <option value=""> -- Chọn trạng thái -- </option>
+                                                    <option value="NEW">Gửi duyệt</option>
+                                                    <option value="APPROVED">Đã duyệt</option>
+                                                    <option value="REJECT">Từ chối</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Hiệu quả</label>
+                                            <div class="col-sm-8">
+                                                <select id="XucTien" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox()">
+                                                    <option value=""> -- Chọn đánh giá -- </option>
+                                                    <option value="1">Mở rộng</option>
+                                                    <option value="0">Thu hẹp</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center;">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a href="#" class="btn btn-secondary px-5 btgetw" onclick="js_searchbox()"><i class="fa fa-search" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tìm kiếm</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a href="#" class="btn btn-secondary px-5 btgetw" onclick="js_nextPage()"><i class="fa fa-newspaper-o" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Mở rộng KD</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="div-content" style=" padding-top: 83px; ">
+                    @Html.Partial("~/Views/ManageSales/Partial/__TrungBayHH.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .form-text {
+        display: inline-table;
+        margin-top: 0.25rem;
+        width: 98% !important;
+    }
+
+    #tbl_ItemTang_length {
+        position: absolute;
+        bottom: -7px;
+        left: 206px;
+    }
+
+    div#tbl_Item_MRKD_length {
+        display: none
+    }
+
+    div#tbl_Item_MRKD_paginate {
+        display: none
+    }
+</style>
+
+<div class="modal" id="popupMoRongKD" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 60% !important; max-width: 60% !important; border-radius: 0; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Mở rộng kinh doanh</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" style=" width: 100%; margin: 10px;">
+                <div class="box_ItemOrder">
+                    <div class="autofixx" style="">
+                        <div class="col-md-6 ">
+                            <div class="form-group row">
+                                <label for="MaCTKM" class="col-sm-3 col-form-label">Mã hàng</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="MaHangPop" name="MaHangPop" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="MaCTKM" class="col-sm-3 col-form-label">Cửa hàng</label>
+                                <div class="col-sm-9">
+                                    <select id="CuaHang" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox_P()">
+                                        <option value="">--- Chọn của hàng ---</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="form-group row">
+                                <label for="MaCTKM" class="col-sm-3 col-form-label">Miền</label>
+                                <div class="col-sm-9">
+                                    <select id="Mien" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox_P()">
+                                        <option value=""> -- Chọn vùng miền -- </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="MaCTKM" class="col-sm-3 col-form-label">Tỉnh thành</label>
+                                <div class="col-sm-9">
+                                    <select id="TinhThanh" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox_P()">
+                                        <option value=""> -- Chọn tỉnh thành -- </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style=" clear:both"></div>
+                    <div class="row">
+                        <div id="div-content_MRKD" style="width: 98%; ">
+                            @Html.Partial("~/Views/ManageSales/Partial/__MoRongKD.cshtml")
+                        </div>
+                    </div>
+                    <div style="margin:10px">
+                        <div style="text-align: center;">
+                            <a class="form-control btn btn-info" onclick="js_saveCheck()" style="width:100px; margin-top:10px; color:#fff">
+                                Lưu lại
+                            </a>
+                            <a data-dismiss="modal" class="form-control btn btn-info" style="width: 100px; margin-top: 10px; color: #fff; background:#b1b1b1 ">
+                                <i class="fa fa-times" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i>Đóng
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="popupMoRongKD_Detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 60% !important; max-width: 60% !important; border-radius: 0; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Chi tiết mở rộng kinh doanh</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" style=" width: 100%; margin: 10px;">
+                <div class="box_ItemOrder">
+                    <div class="autofixx" style="">
+                        <div class="col-md-6 ">
+                            <div class="form-group row">
+                                <label for="MaCTKM" class="col-sm-3 col-form-label">Mã hàng</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="MaHangPopDt" name="MaHangPopDt" disabled>
+                                    <input type="hidden" id="MaCT" name="MaCT" value="" />
+                                    <input type="hidden" id="MaNCCDT" name="MaNCCDT" value="" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="MaCTKM" class="col-sm-3 col-form-label">Cửa hàng</label>
+                                <div class="col-sm-9">
+                                    <select id="CuaHangD" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox_Detail()">
+                                        <option value="">--- Chọn của hàng ---</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="form-group row">
+                                <label for="MaCTKM" class="col-sm-3 col-form-label">Miền</label>
+                                <div class="col-sm-9">
+                                    <select id="MienD" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox_Detail()">
+                                        <option value=""> -- Chọn vùng miền -- </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="MaCTKM" class="col-sm-3 col-form-label">Tỉnh thành</label>
+                                <div class="col-sm-9">
+                                    <select id="TinhThanhD" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox_Detail()">
+                                        <option value=""> -- Chọn tỉnh thành -- </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style=" clear:both"></div>
+                    <div class="row">
+                        <div id="" style="width: 98%; ">
+                            <table id="tbl_Item_MRKD_Detail" class="table table-bordered" style=" width:100%">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="text-align: left;  ">
+                                            Cửa hàng
+                                        </th>
+                                        <th scope="col" style="text-align: left;  ">
+                                            Số mặt TB
+                                        </th>
+                                        <th scope="col" style="text-align: left; ">
+                                            Stockday
+                                        </th>
+                                        <th scope="col" style="text-align: left; ">
+                                            Số mặt TB mới
+                                        </th>
+                                        <th scope="col" style="text-align: left; ">
+                                            Từ ngày
+                                        </th>
+                                        <th scope="col" style="text-align: left; ">
+                                            Đến ngày
+                                        </th>
+                                        <th scope="col" style="text-align: left; ">
+                                            Chi phí
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="margin:10px">
+                        <div style="text-align: center;">
+                            <a data-dismiss="modal" class="form-control btn btn-info" style="width: 100px; margin-top: 10px; color: #fff; background:#b1b1b1 ">
+                                <i class="fa fa-times" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i>Đóng
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#txtHead').html("Quản lý trưng bày ngành hàng");
+        $('#f_dev').html("");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        js_GetList();
+        js_onchange_NCC_MaHang();
+
+    });
+    function js_searchbox() {
+        js_GetList();
+    }
+    function ShowNCCFull() {
+        $("#NhaCCFull").val($('#NhaCC').find(":selected").text())
+    }
+    function js_ReloadTable() {
+        imgrecall();
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[200, 50, 70, 100, -1], [200, 50, 70, 100]],
+            //"order": [[0, "desc"]],
+            //columnDefs: [
+            //    { 'targets': 7, 'orderable': false },
+            //    { 'targets': 8, 'orderable': false },
+            //    { 'targets': 9, 'orderable': false }
+            //],
+            "searching": false,
+            fixedHeader: true,
+            fixedHeader: {
+                headerOffset: 184
+            },
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+        $('img.content').hover(function () {
+            $(this).addClass('transition');
+        }, function () {
+            $(this).removeClass('transition');
+        });
+    }
+    function js_GetList() {
+        var vendorNo = fomart_split($("#NhaCCFull").val(), 0);
+        var MaHang = fomart_split($("#MaHang").val(), 0);
+        var TrangThai = $("#TrangThai").val();
+        var XucTien = $("#XucTien").val();
+        js_Loading(true, 1);
+        $.ajax({
+            url: '/ManageSales/GetList_TrungBayHH',//
+            type: 'POST',
+            data: JSON.stringify({ vendorNo: vendorNo, MaHang: MaHang, TrangThai: TrangThai, XucTien: XucTien }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_onchange_NCC_MaHang() {
+        var NCC = fomart_split($("#NhaCCFull").val(), 0);
+        $('#MaHang').empty();
+        if (NCC.length > 0) {
+            // Call MaHang
+            $.ajax({
+                url: '/ManageSales/GetList_NCC_Produts',
+                type: 'POST',
+                data: JSON.stringify({ NCC: NCC }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#MaHang').empty();
+                        $('#MaHang').append('<option value="">--Chọn mã hàng--</option>');
+                        for (i in row) {
+                            $('#MaHang').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#MaHang').selectpicker('refresh');
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+
+
+    function js_nextPage() {
+        var cboxes = document.getElementsByName('check[]');
+        var len = cboxes.length;
+        var arrCheckbox = [];
+        var strCheckbox = '';
+        for (var i = 0; i < len; i++) {
+            if (cboxes[i].checked) {
+                arrCheckbox.push(cboxes[i].value);
+                strCheckbox += cboxes[i].value;
+            }
+        }
+        console.log(strCheckbox);
+        var Mahang = fomart_split1(strCheckbox, 0);
+        var Tenhang = fomart_split1(strCheckbox, 1);
+        var MaNCC = fomart_split1(strCheckbox, 2);
+        if (arrCheckbox.length > 0) {
+            $('#MaHangPop').val(Mahang + ' - ' + Tenhang);
+            js_showpopup(Mahang, MaNCC);
+        } else {
+            alert("Bạn phải chọn mã hàng");
+        }
+    }
+    function fomart_split1(input, number) {
+        try {
+            var value = input;
+            if (value != null && !value.length < 1) {
+                return value.split("-")[number];
+            } else {
+                return "";
+            }
+        } catch (e) {
+
+        }
+    }
+    function js_searchbox_P() {
+
+        var MaNCC = fomart_split($("#NhaCCFull").val(), 0);
+        var Mahang = fomart_split($("#MaHangPop").val(), 0);
+        var CuaHang = $("#CuaHang").val();
+        var CuaHang = $("#CuaHang").val();
+        var TinhThanh = $("#TinhThanh").val();
+        var Mien = $("#Mien").val();
+        js_Loading(true, 1);
+        $.ajax({
+            url: '/ManageSales/GetList_MoRongTrungBayHH',//QuanLyTrungBayHH_gateway_MoRongKD
+            type: 'POST',
+            data: JSON.stringify({ MaNCC: MaNCC, MaHang: Mahang, CuaHang: CuaHang, TinhThanh: TinhThanh, Mien: Mien }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content_MRKD").find('tbody').empty();
+                $('#div-content_MRKD').html(data);
+                js_ReloadTable_MRKD();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+    function js_showpopup(Mahang, MaNCC) {
+
+        Show_Filter(MaNCC, Mahang);
+        js_searchbox_P();
+        $('#popupMoRongKD').modal();
+    }
+    function js_ReloadTable_MRKD() {
+        imgrecall();
+        $('#tbl_Item_MRKD').DataTable({
+            lengthMenu: [[100000, 50, 70, 100, -1], [100000, 50, 70, 100]],
+            //"order": [[0, "desc"]],
+            columnDefs: [
+                { 'targets': 3, 'orderable': false },
+                { 'targets': 4, 'orderable': false },
+                { 'targets': 5, 'orderable': false },
+            ],
+            "searching": false,
+            fixedHeader: false,
+            //fixedHeader: {
+            //    headerOffset: 185
+            //},
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+    function Show_Filter(MaNCC, Mahang) {
+        $('#CuaHang').empty();
+        if (MaNCC.length > 0) {
+            $.ajax({
+                url: '/ManageSales/GateWay_TrungBayNganhHang_CuaHang',
+                type: 'POST',
+                data: JSON.stringify({ MaNCC: MaNCC, Mahang: Mahang }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#CuaHang').empty();
+                        $('#CuaHang').append('<option value="">-- Chọn cửa hàng --</option>');
+                        for (i in row) {
+                            $('#CuaHang').append('<option value="' + row[i].Code + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#CuaHang').selectpicker('refresh');
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+
+            $('#Mien').empty();
+            $.ajax({
+                url: '/ManageSales/GateWay_TrungBayNganhHang_Mien',
+                type: 'POST',
+                data: JSON.stringify({ MaNCC: MaNCC, Mahang: Mahang }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#Mien').empty();
+                        $('#Mien').append('<option value="">-- Chọn vùng miền --</option>');
+                        for (i in row) {
+                            $('#Mien').append('<option value="' + row[i].Name + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#Mien').selectpicker('refresh');
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            $('#TinhThanh').empty();
+            $.ajax({
+                url: '/ManageSales/GateWay_TrungBayNganhHang_TinhThanh',
+                type: 'POST',
+                data: JSON.stringify({ MaNCC: MaNCC, Mahang: Mahang }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#TinhThanh').empty();
+                        $('#TinhThanh').append('<option value="">-- Chọn tỉnh thành --</option>');
+                        for (i in row) {
+                            $('#TinhThanh').append('<option value="' + row[i].Code + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#TinhThanh').selectpicker('refresh');
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+    function js_saveCheck() {
+
+        var cboxes = document.getElementsByName('checkMR[]');
+        var arrCheckbox = [];
+        var i = 0;
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                var po = {};
+                // alert(cboxes[i].id);
+                var r = cboxes[i].id.replaceAll("Row_", "");
+
+              //  console.log(r + '**' + cboxes[i].id);
+                po.MaNCC = fomart_split($("#NhaCCFull").val(), 0);
+                po.TenNCC = fomart_split($("#NhaCCFull").val(), 1);
+
+                po.MaHang = fomart_split($("#MaHangPop").val(), 0);
+                po.TenHang = fomart_split($("#MaHangPop").val(), 1);
+                po.MaCuaHang = $('#Row' + cboxes[i].id + ' #MaCH' + r).html();
+                po.TenCuaHang = $('#Row' + cboxes[i].id + ' #TenCH' + r).html();
+                po.SoMatTB = $('#Row' + cboxes[i].id + ' #SoMatTB' + r).html();
+                po.Stockday = $('#Row' + cboxes[i].id + ' #Stockday' + r).html();
+                po.SoMatTBMoi = $('#Row' + cboxes[i].id + ' #SoMatTBMoi').val();
+                po.TuNgay = $('#Row' + cboxes[i].id + ' #TuNgay').val();
+                po.DenNgay = $('#Row' + cboxes[i].id + ' #DenNgay').val();
+                po.ChiPhi = $('#Row' + cboxes[i].id + ' #ChiPhi' + r).html();
+
+                po.VungMien = $('#Row' + cboxes[i].id + ' #Mien' + r).html();
+                po.TinhThanh = $('#Row' + cboxes[i].id + ' #MaTinhCode' + r).html();
+
+                console.log(po);
+                arrCheckbox.push(po);
+
+                $('#Row_' + i + ' #TuNgay').css('border', '1px solid #d7d7d7');
+                $('#Row_' + i + ' #DenNgay').css('border', '1px solid #d7d7d7');
+
+                var NgayBatDau = $('#Row' + cboxes[i].id + ' #TuNgay').val();
+                var NgayKetThuc = $('#Row' + cboxes[i].id + ' #DenNgay').val();
+                if (NgayBatDau > NgayKetThuc) {
+                    alert("Ngày bắt đầu không thể lớn hơn ngày kết thúc. Vui lòng nhập lại !");
+                    $('#Row' + cboxes[i].id + ' #TuNgay').val('');
+                    $('#Row' + cboxes[i].id + ' #DenNgay').val('');
+                    return;
+                }
+                if (NgayBatDau == '' || NgayBatDau == "undefined") {
+                    alert("Vui lòng nhập ngày bắt đầu!");
+                    $('#Row' + cboxes[i].id + ' #TuNgay').val('');
+                    $('#Row' + cboxes[i].id + ' #TuNgay').css('border', '1px solid #ffa903');
+                    return;
+                }
+                if (NgayKetThuc == '' || NgayKetThuc == "undefined") {
+                    alert("Vui lòng nhập ngày kết thúc!");
+                    $('#Row' + cboxes[i].id + ' #DenNgay').val('');
+                    $('#Row' + cboxes[i].id + ' #DenNgay').css('border', '1px solid #ffa903');
+                    return;
+                }
+            }
+        }
+        console.log('1');
+        console.log(arrCheckbox);
+
+
+        debugger;
+        var ID = [];
+        $('.checkMR input[name="checkMR[]"]:checked').each(function (index, value) {
+            ID.push($(value).val());
+        });
+
+        if (ID == "") {
+            alert("Vui lòng điền vào các ô trước khi lưu.");
+            return;
+        }
+        console.log(JSON.stringify(arrCheckbox));
+        if (arrCheckbox.length > 0) {
+
+            $.ajax({
+                url: '/ManageSales/Create_TrungBayNgangHang_MoRong',
+                type: 'POST',
+                data: JSON.stringify({ lst: arrCheckbox }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    if (data.code == 0) {
+                        alert("Vui lòng chọn ngày bắt đầu lớn hơn ngày hiện tại!.");
+                    } else {
+                        jAlert("Xác nhận thành công");
+                        js_searchbox();
+                        $("#popupMoRongKD .close").click();
+                        $('#popupMoRongKD').modal('hide');
+                       // location.reload();
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+</script>

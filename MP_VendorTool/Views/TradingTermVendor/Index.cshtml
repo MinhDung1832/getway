@@ -1,0 +1,330 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@using MP_VendorTool.Models.TradingTermVendor
+@{
+    ViewBag.Title = "Quản lý Trading Term";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var today = DateTime.Now.ToString(Constants.SQLDateFormat);
+}
+<style>
+    button.btn.dropdown-toggle.btn-default {
+        padding: 5px !important;
+    }
+</style>
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="vendorName" class="col-sm-4 col-form-label">Nguồn nhập</label>
+                                            <div class="col-sm-8" ondblclick="$('#NguonNhap').val(); js_GetList();">
+                                                <select id="NguonNhap" class="form-control selectpicker" data-live-search="true" onchange="js_GetList();">
+                                                    <option value="">--- Chọn nguồn nhập ---</option>
+                                                    @foreach (objCombox box in (List<objCombox>)ViewBag.list_NguonNhap)
+                                                    {
+                                                        <option value="@box.Code">@box.Name</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label">Nhà cung cấp</label>
+                                            <div class="col-sm-8" ondblclick="$('#VendorNo').val(); js_GetList();">
+                                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                                {
+                                                    <input type="search" disabled class="form-control" value="@Session["VendorCode"] - @Session["VendorName"]" id="VendorNo" name="VendorNo" onclick="js_GetList();" placeholder="Mã NCC">
+                                                }
+                                                else
+                                                {
+                                                    <select class="form-control selectpicker" id="VendorNo" data-live-search="true" onchange="js_GetList();">
+                                                        <option value="">-- Chọn NCC --</option>
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            foreach (objCombox box in (List<objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label">Tình trạng hợp đồng</label>
+                                            <div class="col-sm-8" ondblclick="$('#textStatus').val(); js_GetList();">
+                                                <select class="form-control selectpicker" data-live-search="true" id="textStatus" onchange="js_GetList();">
+                                                    <option value="">--Chọn tình trạng hợp đồng --</option>
+                                                    <option value="4">Chưa có HĐ</option>
+                                                    <option value="2">Gửi duyệt</option>
+                                                    <option value="1">Đã duyệt</option>
+                                                    <option value="3">Từ chối</option>
+                                                    <option value="5">OB</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="Ngay" class="col-sm-4 col-form-label">Số hợp đồng</label>
+                                            <div class="col-sm-8" ondblclick="$('#SoHopDong').val(); js_GetList();">
+                                                <select id="SoHopDong" class="form-control selectpicker" data-live-search="true" onchange="js_GetList();">
+                                                    <option value="">--- Chọn số hợp đồng ---</option>
+                                                    @foreach (objCombox box in (List<objCombox>)ViewBag.list_SoHD)
+                                                    {
+                                                        <option value="@box.Code">@box.Code</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Số phụ lục</label>
+                                            <div class="col-sm-8">
+                                                <select id="ContractNo" class="form-control selectpicker" data-live-search="true" onchange="js_GetList();">
+                                                    <option value="">--- Chọn số phụ lục ---</option>
+                                                    @foreach (objCombox box in (List<objCombox>)ViewBag.list_Contract)
+                                                    {
+                                                        <option value="@box.Code">@box.Code</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label">Loại hình hợp tác</label>
+                                            <div class="col-sm-8" ondblclick="$('#textStatus').val(); js_GetList();">
+                                                <select id="LoaiHoptac" class="form-control selectpicker" data-live-search="true" onchange="js_GetList();">
+                                                    <option value="">--- Chọn  loại hợp tác ---</option>
+                                                    <option value="HHOA">Mua bán</option>
+                                                    <option value="KGUI">Ký gửi</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center;">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 Hanhdongfill">
+                                            <select class="form-control selectpicker" data-live-search="true" id="HanhDong" style="max-width: 150px; width: 150px; text-align-last: center;">
+                                                <option value="">-- Chọn hành động --</option>
+                                                <option value="1">Thêm mới</option>
+                                                @*<option value="2">Gửi duyệt</option>*@
+                                                @*<option value="7">Dừng HĐ</option>
+                        <option value="4">Xóa bỏ</option>
+                        <option value="5">Copy</option>*@
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a id="btntuchoi" onclick="HanhDongsave();" class="btn btn-success px-5 rounded-0 btgetw" style=" color:#fff"><i class="fa fa-forward" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tiếp</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="div-content" style=" padding-top: 124px; ">
+                    @Html.Partial("~/Views/TradingTermVendor/Partial/__Index.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    div#UpFile {
+        padding-bottom: 24px;
+    }
+
+    input[type="date"]::-webkit-inner-spin-button,
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        -webkit-appearance: none;
+        margin: 0px !important;
+    }
+
+    input[type="date"] {
+        /*width:110px;*/
+    }
+
+    a.btn_detail.btn.btn-secondary {
+        color: #fff;
+    }
+
+    .Hanhdong .dropdown.bootstrap-select.form-control.bs3 {
+        width: 150px;
+    }
+
+    /* .col-12.stretch-card.pl-0.pr-0 {
+        width: 85%;
+        margin: auto;
+    }*/
+
+    .Hanhdongfill .dropdown.bootstrap-select.form-control {
+        width: 200px
+    }
+</style>
+
+<hr />
+
+
+<script>
+    $(function () {
+        $('#txtHead').html("Quản lý trading term");
+        js_GetList();
+    });
+
+
+    function HanhDongsave() {
+        //Kiểu 1
+        var LoaiHinhHopTac = "";
+        var ContractNo = "";
+        var VendorNo = "";
+        var cboxes = document.getElementsByName('CheckID');
+        var i = 0;
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                LoaiHinhHopTac = $('#LoaiHinhHopTac' + cboxes[i].id).html();
+                ContractNo = $('#ContractNo' + cboxes[i].id).html();
+                VendorNo = $('#VendorNo' + cboxes[i].id).html();
+            }
+        }
+        var ID = [];
+        var HanhDong = $("#HanhDong").val();
+        if (HanhDong == "1") {
+            if (LoaiHinhHopTac != "" || VendorNo != "") {
+                window.open('/TradingTermVendor/Create?Type=' + LoaiHinhHopTac + '&VendorNo=' + VendorNo + '', '_blank');
+                return;
+                //window.location.href = '/TradingTermVendor/Create?Type=' + LoaiHinhHopTac + '&VendorNo=' + VendorNo + '&TinhTrang=' + TinhTrang;
+                //return;
+            } else {
+                alert("Vui lòng chọn hành động");
+                return;
+            }
+        }
+        $("input:checked").each(function (index, value) {
+            ID.push($(value).val());
+        });
+        if (ID == "") {
+            alert("Bạn chưa chọn hành động");
+            return;
+        }
+        if (HanhDong == "") {
+            alert("Bạn chưa chọn trạng thái");
+            return;
+        }
+        if (HanhDong == "4") {
+            jConfirm('Bạn chắc chắn muốn xóa ?', '', function (r) {
+                if (r) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/TradingTermVendor/Delete_ContractNo',
+                        data: JSON.stringify({ ID: ID }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (rt) {
+                            if (rt.code == 0) {
+                                js_GetList();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        else if (HanhDong == "5") {
+            // alert('/TradingTermVendor/copy?id=' + ID);
+            window.open('/TradingTermVendor/copy?id=' + ID + '', '_blank');
+            // window.location.href = '/TradingTermVendor/copy?id=' + ID;
+            return;
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: '/TradingTermVendor/Update_Status_TradingTermVendor_Chang_Send',
+                data: JSON.stringify({ ID: ID, HanhDong: HanhDong }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (rt) {
+                    if (rt.code == 0) {
+                        js_GetList();
+                    }
+                }
+            });
+        }
+    }
+   
+    function js_ReloadTable() {
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[50, 50, 70, 100, -1], [50, 50, 70, 100]],
+            //columnDefs: [
+            //    //{ 'targets': 0, 'searchable': false, 'orderable': false },
+            //    //{ 'targets': 2, 'searchable': false, 'orderable': false },
+            //    //{ 'targets': 3, 'searchable': false, 'orderable': false },
+            //    //{ 'targets': 4, 'searchable': false, 'orderable': false },
+            //    { 'targets': 5, 'searchable': false, 'orderable': false },
+            //    { 'targets': 6, 'searchable': false, 'orderable': false },
+            //    { 'targets': 7, 'searchable': false, 'orderable': false }
+            //],
+            pageLength: -1,
+            "searching": false,
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+            //, fixedHeader: {
+            //    headerOffset: 191
+            //}
+        });
+    }
+
+    function js_GetList() {
+        //VendorName
+        var ContractNo = $("#ContractNo").val();
+        // var arrContractNo = ContractNo.split(' - ');
+        var Status = $("#textStatus option:selected").val();
+        var VendorNo = $("#VendorNo").val();
+        var NguonNhap = $("#NguonNhap").val();
+        // var arrvendorName = vendorName.split(" - ");
+        var arrVendorNo = VendorNo.split(" - ");
+        // console.log(arrvendorName[0]);
+
+        var LoaiHoptac = $("#LoaiHoptac").val();
+        var SoHopDong = $("#SoHopDong").val();
+
+        if (VendorNo != "")
+        {
+            $.ajax({
+                url: '/TradingTermVendor/GetListContractNo',//SP_TRADTERM_GET_LIST_CONTRACT_ACM
+                type: 'POST',
+                data: JSON.stringify({ ContractNo: ContractNo, Status: Status, vendorNo: arrVendorNo[0], NguonNhap: NguonNhap, LoaiHoptac: LoaiHoptac, SoHopDong: SoHopDong }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    $('#div-content').html(data);
+                    js_ReloadTable();
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(true, 1);
+                }
+            });
+        }
+    }
+</script>
+

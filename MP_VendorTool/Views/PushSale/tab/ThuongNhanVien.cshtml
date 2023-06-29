@@ -1,0 +1,236 @@
+﻿@using MP_VendorTool.Models.Order
+
+@*<div class="col-md-12">
+        <div style="margin-top: 10px; padding-bottom: 29px; padding-top: 20px ">
+            <a href="#" class="btn_MacDinh btn_setup"><i class="fa fa-recycle" aria-hidden="true"></i> Mặc định</a>
+            <a href="#" class="btn_TuyChinh btn_setup"><i class="fa fa-recycle" aria-hidden="true"></i> Tùy chỉnh</a>
+        </div>
+    </div>*@
+
+
+<div class="col-md-12">
+    <div style=" padding-bottom: 20px; padding-top: 15px ">
+    </div>
+</div>
+<div class="frominput ShowInPut" style="pointer-events: none; opacity: 0.6; ">
+    <div class="col-md-6">
+        <div class="form-group row">
+            <label for="Div" class="col-sm-3 col-form-label">Div</label>
+            <div class="col-sm-9">
+                <select id="Div" class="form-control selectpicker" data-live-search="true" onchange="getBrandNCCdatalist();">
+                    <option value="">-- Chọn Div --</option>
+                    @if (ViewBag.listDiv != null)
+                    {
+                        foreach (objCombox box in (List<objCombox>)ViewBag.listDiv)
+                        {
+                            <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Brand" class="col-sm-3 col-form-label">Brand</label>
+            <div class="col-sm-9">
+                <select id="Brand" class="form-control selectpicker" data-live-search="true" onchange="getProdatalist();">
+                    <option value="">-- Chọn mã Brand NCC --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="MaHang" class="col-sm-3 col-form-label">Mã hàng</label>
+            <div class="col-sm-9">
+                <select id="MaHang" class="form-control selectpicker" data-live-search="true">
+                    <option value="">-- Chọn mã hàng --</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group row">
+            <label for="Bonus" class="col-sm-3 col-form-label">Bonus</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control OrderValue" id="Bonus" name="Bonus" placeholder="-- NCC tự set giá trị Bonus cho từng sp --">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ThoiGian" class="col-sm-3 col-form-label">Thời gian từ</label>
+            <div class="col-sm-9">
+                <table width="612px">
+                    <tr>
+                        <td style="width: 10% !important;"> <input type="date" class="form-control" id="TuNgay" name="TuNgay" style=" width: 170px !important;max-width:170px !important "></td>
+                        <td style="width: 1% !important; text-align:center"> <label for="ThoiGian" class="col-form-label" style="margin-left:-297px;">Đến</label></td>
+                        <td style="width: 10% !important;"> <input type="date" class="form-control" id="DenNgay" name="DenNgay" style="width: 170px !important;max-width:170px !important; margin-left:-114px"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="PhamVi" class="col-sm-3 col-form-label">Phạm vi</label>
+            <div class="col-sm-9">
+                <select id="PhamVi" class="form-control selectpicker" data-live-search="true">
+                    <option value="">-- Chọn phạm vi --</option>
+                    @if (ViewBag.list_datalist_PhamVi != null)
+                    {
+                        foreach (objCombox box in (List<objCombox>)ViewBag.list_datalist_PhamVi)
+                        {
+                            <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12  ShowInPut" style="pointer-events: none; opacity: 0.6; " >
+    <div style=" padding-top: 32px">
+        <a href="#" id="btn_Gui" onclick="fn_save_tnv();" class="btn btn-secondary"><i class="far fa-paper-plane"></i> Lưu lại</a>
+    </div>
+</div>
+<div style=" clear:both; height:20px"></div>
+<script>
+    function fn_save_tnv() {
+        if (
+            $('#Div').val().length == 0 ||
+            $('#Brand').val().length == 0 ||
+            $('#MaHang').val().length == 0 ||
+            $('#Bonus').val().length == 0 ||
+            $('#TuNgay').val().length == 0 ||
+            $('#DenNgay').val().length == 0 ||
+            $('#PhamVi').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ.');
+            return;
+        }
+        var NhaCC = $('#NhaCC').val();
+        var arrNhaCC = NhaCC.split(' - ');
+
+        var Div = $('#Div').val();
+        var arrDiv = Div.split(' - ');
+
+        var Brand = $('#Brand').val();
+        var arrBrand = Brand.split(' - ');
+
+        var MaHang = $('#MaHang').val();
+        var arrMaHang = MaHang.split(' - ');
+
+        var PhamVi = $('#PhamVi').val();
+        var arrPhamVi = PhamVi.split(' - ');
+
+        var prd = {};
+        prd.MaNCC = arrNhaCC[0];
+        prd.TenNCC = arrNhaCC[1];
+        prd.CodeDiv = arrDiv[0];
+        prd.NameDiv = arrDiv[1];
+        prd.CodeBrand = arrBrand[0];
+        prd.NameBrand = arrBrand[1];
+        prd.MaHang = arrMaHang[0];
+        prd.TenHang = arrMaHang[1];
+        prd.Bonus = $('#Bonus').val();
+        prd.FromDay = $('#TuNgay').val();
+        prd.ToDay = $('#DenNgay').val();
+        prd.CodePhamVi = arrPhamVi[0];
+        prd.NamePhamVi = arrPhamVi[1];
+
+        console.log(JSON.stringify({ prd }));
+        console.log(prd);
+
+        // Call Save PushSale Header set ID
+        fn_save_Invest_Header();
+
+        $.ajax({
+            url: '/PushSale/Create_PushSale_NCC_ThuongNhanVien',
+            type: 'POST',
+            data: JSON.stringify({ info: prd }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                //  js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data) {
+                    jAlert('Thêm mới thành công', 'Thông báo', (r) => {
+                        location.reload();
+                    });
+
+                } else {
+                    jAlert('Có lỗi xảy ra', 'Thông báo');
+                }
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function getBrandNCCdatalist() {
+        var div = $("#Div").val();
+        var arrdiv = div.split(" - ");
+
+        var NhaCC = $('#NhaCC').val();
+        var arrNhaCC = NhaCC.split(' - ');
+
+        $("#Brand").val('');
+        $('#Brand').selectpicker().empty();
+        option = document.createElement('option');
+        option.text = '--Chọn BrandNCC--';
+        option.value = '';
+        $('#Brand').selectpicker().append(option);
+
+        $.ajax({
+            url: '/PushSale/getBrandNCCDatalist',
+            type: 'POST',
+            data: JSON.stringify({
+                Div: arrdiv[0],
+                MaNCC: arrNhaCC[0]
+            }),
+
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                $.each(data, (index, value) => {
+                    option = document.createElement('option');
+                    option.text = value.Code + ' - ' + value.Name;
+                    option.value = value.Code + ' - ' + value.Name;
+                    $('#Brand').selectpicker().append(option);
+                });
+                $('#Brand').selectpicker('refresh');
+            }
+        });
+
+    }
+
+    function getProdatalist() {
+        var brand = $("#Brand").val();
+        var arrbrand = brand.split(" - ");
+
+        var VendorCode = $("#NhaCC").val();
+        var ArrVendorCode = VendorCode.split(' - ');
+
+        $("#MaHang").val('');
+        $('#MaHang').selectpicker().empty();
+        option = document.createElement('option');
+        option.text = '-- Chọn mã hàng --';
+        option.value = '';
+        $('#MaHang').selectpicker().append(option);
+
+        $.ajax({
+            url: '/PushSale/sp_Pushsale_Brand_NCC_get',
+            type: 'POST',
+            data: JSON.stringify({
+                Brand: arrbrand[0], VendorCode: ArrVendorCode[0]
+            }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                $.each(data, (index, value) => {
+                    option = document.createElement('option');
+                    option.text = value.Code + ' - ' + value.Name;
+                    option.value = value.Code + ' - ' + value.Name;
+                    $('#MaHang').selectpicker().append(option);
+                });
+                $('#MaHang').selectpicker('refresh');
+            }
+        });
+
+    }
+</script>

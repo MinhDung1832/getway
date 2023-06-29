@@ -1,0 +1,1093 @@
+﻿@using MP_VendorTool.Common;
+@using MP_VendorTool.Models.Order;
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .notification h3 {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .notification p {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 15px;
+        color: red;
+    }
+
+    .notification ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 15px;
+        margin-left: 15px;
+    }
+
+    .notification li {
+        margin-bottom: 5px;
+    }
+
+    .notification a {
+        color: #721c24;
+        text-decoration: underline;
+    }
+    .SanPham1 {
+        padding-bottom: 8px;
+        width: 80px;
+    }
+
+    .modal-dialog {
+        max-width: 480px !important;
+    }
+
+    .DotGiao {
+        margin-left: -10px;
+    }
+
+    .BBoder {
+        padding-bottom: 14px !important;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .BBoder {
+        padding-bottom: 14px !important;
+    }
+
+    .form-group {
+        margin-bottom: 0px;
+    }
+
+    .hoanthanh {
+        justify-content: center;
+        align-items: center;
+        padding: 8px 32px 8px 32px;
+        width: 153px;
+        height: 40px;
+        background: #D2151E;
+        border-radius: 8px;
+        color: #fff !important;
+    }
+
+    .NameV2 label {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.15px;
+        color: rgba(0, 0, 0, 0.87);
+        margin-top: 13px;
+    }
+
+    .hoathanhguiFile {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #e0e0e0;
+        border-radius: 8px;
+        color: #000 !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+    }
+
+    .DuyetguiFile {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #558B2F;
+        border-radius: 8px;
+        color: #fff !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+    }
+
+    .DuyetguiFileV2 {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #FFFFFF;
+        border-radius: 8px;
+        color: rgba(0, 0, 0, 0.6) !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.6);
+    }
+
+    .MauDaDuocDuyet {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #FFFFFF;
+        border-radius: 8px;
+        color: #558B2F99 !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+        border: 1px solid #558B2F99;
+    }
+
+    .TuChoiguiFile {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #FFFFFF;
+        border-radius: 8px;
+        color: #D2151E99 !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+        border: 1px solid #D2151E99;
+    }
+
+    .FullfromV1 b {
+        float: none !important;
+    }
+
+    body.fixed-layout .content-wrapper, body.fixed-navbar .content-wrapper {
+        padding-top: 46px;
+    }
+
+    .FrDetail b {
+        font-weight: 510;
+        font-size: 16px;
+    }
+
+    .labelChoDuyet {
+        background-color: #f2c970;
+        margin: 105px;
+        padding-top: 3px;
+        display: inline;
+        padding: 0.2em 0.6em 0.3em;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        color: #000;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25em;
+    }
+
+    .labelDaDuyet {
+        background-color: #a3c08f;
+        margin: 105px;
+        padding-top: 3px;
+        display: inline;
+        padding: 0.2em 0.6em 0.3em;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        color: #000;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25em;
+    }
+
+    .dropup .dropdown-menu, .navbar-fixed-bottom .dropdown .dropdown-menu {
+        margin-bottom: 2px;
+    }
+
+    .col-md-8.box_sizeProduct {
+        padding-left: 19px;
+        padding-right: 17px;
+    }
+
+    i.fa.fa-trash {
+        font-size: 17px;
+        padding-top: 5px;
+    }
+
+    .ibox-head {
+        padding: 0px 0px !important;
+        margin-bottom: 28px !important;
+    }
+
+    .container {
+        margin-left: 0px;
+    }
+
+    .form-control {
+        font-size: 12px !important;
+        margin-bottom: 4px;
+    }
+
+    .dropdown.bootstrap-select.form-control {
+        font-size: 12px !important;
+        margin-bottom: 4px;
+    }
+
+    img.MultipleImg {
+        float: left;
+        width: 47%;
+        margin: 4px;
+        height: 130px;
+        border: 1px solid #d7d7d7;
+    }
+
+    .dropdown.bootstrap-select.form-control.bs3 {
+        margin-bottom: 6px;
+    }
+
+    img.MultipleImgFull {
+        width: 100%;
+    }
+
+    .btn_add .add i {
+        font-size: 18px;
+        color: #337ab7;
+        padding-top: 4px;
+    }
+
+
+    #wp_thum_img {
+        background-color: #fff;
+        text-align: center;
+    }
+
+    #img_src img {
+        width: 52px;
+        height: 52px;
+        border-radius: 5px;
+        margin-right: 7px;
+    }
+
+    .img_src p {
+        font-size: 14px;
+        color: #000;
+    }
+
+    div#img_src {
+        margin-left: 11px;
+    }
+
+    #btn_Guis {
+        background-color: #868686;
+        color: #fff;
+        padding: 7px 38px;
+        margin-top: 2px;
+        text-align: left;
+    }
+
+    .box_sizeProduct .form-group {
+        padding-left: 0px;
+        padding-right: 3px;
+    }
+
+    .chiadeu {
+        width: 33%;
+        display: inline-block;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .Themmoi:hover {
+        background-color: #0f4c81 !important;
+        color: #e9e8e6 !important;
+    }
+
+    .col-md-8.box_sizeProduct .form-group {
+        margin-bottom: 0px;
+    }
+
+    .modal {
+        top: 20%;
+    }
+
+    .page-content {
+        padding-top: 2px;
+    }
+
+    .khoangcach {
+        margin-top: 10px;
+    }
+
+    a#guiduyet:hover {
+        color: #fff;
+    }
+
+    .panel-heading .chevron:after {
+        content: "\f078";
+    }
+
+    .panel-heading.collapsed .chevron:after {
+        content: "\f054";
+    }
+
+    .col-xs-1.right {
+        float: right;
+        margin-right: 34px;
+        margin-top: -17px;
+    }
+
+    .images img {
+        border-radius: 5px;
+        border: 1px solid #d7d7d7;
+        width: 99px;
+        margin: 9px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .images {
+        margin-left: 6px;
+        margin-top: 8px;
+    }
+
+    body {
+        font-size: 13px !important;
+    }
+
+    .BoderEdit {
+        border-radius: 6px;
+        /*background: #ededed;*/
+        color: #000;
+        padding: 6px;
+        margin-bottom: 5px;
+        padding-left: 15px;
+        width: 82% !important;
+        padding-top: 6px !important;
+        font-size: 12px !important;
+    }
+
+    .BBoder strong {
+        font-weight: 600;
+        font-size: 14px;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+<link href="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet" />
+
+<script>
+    $(function () {
+        var timepicker = new TimePicker(['DeXuatGioGiao'], {
+            lang: 'en',
+            theme: 'dark'
+        });
+        timepicker.on('change', function (evt) {
+            var texthour = '';
+
+            switch (evt.hour) {
+                case '0':
+                    texthour = "00";
+                    break;
+                case '1':
+                    texthour = "01";
+                    break;
+                case '2':
+                    texthour = "02";
+                    break;
+                case '3':
+                    texthour = "03";
+                    break;
+                case '4':
+                    texthour = "04";
+                    break;
+                case '5':
+                    texthour = "05";
+                    break;
+                case '6':
+                    texthour = "06";
+                    break;
+                case '7':
+                    texthour = "07";
+                    break;
+                case '8':
+                    texthour = "08";
+                    break;
+                case '9':
+                    texthour = "09";
+                    break;
+                default:
+                    texthour = evt.hour;
+            }
+
+            var value = (texthour || '00') + ':' + (evt.minute || '00');
+            evt.element.value = value;
+
+        });
+
+    });
+</script>
+<div class="content-wrapper FrDetail">
+    <div style="clear: both; height:20px;"></div>
+    <div><a href="/Order2/Purchase"><img src="/image/ArrowLeft.png" /></a></div>
+    <div style="clear: both; height:20px;"></div>
+    <fieldset class="BBoder">
+        <div class="DotGiao">
+            <div class="col-md-12">
+                <div class="headerName">
+                    <div class="col-sm-8">
+                        ĐƠN HÀNG @ViewBag.info.PoNo
+                        <p style="font-style: italic; font-weight: 400; font-size: 15px; line-height: 19px; color: rgba(0, 0, 0, 0.87); padding-top: 5px; ">Hiệu lực đến ngày:  @ViewBag.info.expDate</p>
+                    </div>
+                    <div class="col-sm-4" style=" text-align:right">
+                        <span style=" margin-right: 52px; "> @Html.Raw(ViewBag.info.Trangthai)</span>
+                    </div>
+                </div>
+            </div>
+            <div style="clear: both; height: 7px"></div>
+            <div class="col-xs-12">
+                <div style=" height:0px; clear:both"></div>
+                <div class="FullfromV1">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="form-horizontal">
+                                <div class="form-group ">
+                                    <div class="col-sm-4">
+                                        <span style="font-size: 15px;">Nơi nhận: </span><strong>@ViewBag.info.KhoNhan</strong>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span style="font-size: 15px;">Số lượng đặt: </span><strong class="tongsl">@ViewBag.info.TotalQuantity</strong>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span style="font-size: 15px;">Số lượng xác nhận: </span><strong class="tongsl">@ViewBag.info.TotalSoLuongXacNhan</strong>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span style="font-size: 15px;">Giá trị đơn: </span><strong class="tongsl">@ViewBag.info.TotalAmount đ</strong>
+                                    </div>
+                                    <div class="col-sm-4" style=" text-align:right">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <div style=" padding-top:0px;  width:100%; margin:auto">
+        <div id="div-content_DaXacNhan">
+            @Html.Partial("~/Views/Order2/Partial/__Detail_DaXacNhan.cshtml")
+        </div>
+    </div>
+
+    <div style=" padding-top: 10px; width: 100%; margin: auto">
+        <div id="div-content_ChuaXacNhan">
+            @Html.Partial("~/Views/Order2/Partial/__Detail_ChuaXacNhan.cshtml")
+        </div>
+    </div>
+</div>
+<input type="hidden" name="MaNCC" id="MaNCC" value="@ViewBag.info.MaNCC" />
+<input type="hidden" name="TenNCC" id="TenNCC" value="@ViewBag.info.MaNCC - @ViewBag.info.TenNCC" />
+<input type="hidden" name="PoNo" id="PoNo" value="@ViewBag.info.PoNo" />
+<input type="hidden" name="ID" id="ID" value="@ViewBag.info.ID" />
+<input type="hidden" name="TotalQuantity" id="TotalQuantity" value="@ViewBag.info.TotalQuantity1" />
+<input type="hidden" name="TotalSoLuongXacNhan" id="TotalSoLuongXacNhan" value="@ViewBag.info.TotalSoLuongXacNhan1" />
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtHead').html("Chi tiết đơn hàng");
+        // var url = new URL(window.location);
+        // if (url.searchParams.get("PoNo")) $("#PoNo").val(url.searchParams.get("PoNo"));
+
+        js_Detail_ChuaXacNhan();
+        js_Detail_DaXacNhan();
+
+    });
+    function js_Detail_DaXacNhan() {
+        var MaNCC = $("#MaNCC").val();
+        var ID = $("#ID").val();
+        $.ajax({
+            url: '/Order2/GetList_Purchase_Detail_DaXacNhan',//Web_SUPPLIER_2023_get_donhang_daxacnhangiao
+            type: 'POST',
+            data: JSON.stringify({ ID: ID, MaNCC: MaNCC }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content_DaXacNhan").find('tbody').empty();
+                $('#div-content_DaXacNhan').html(data);
+                imgrecall();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_Detail_ChuaXacNhan() {
+        var MaNCC = $("#MaNCC").val();
+        var ID = $("#ID").val();
+        $.ajax({
+            url: '/Order2/GetList_Purchase_Detail_ChuaXacNhan',//Web_SUPPLIER_2023_get_chitietdonhang
+            type: 'POST',
+            data: JSON.stringify({ ID: ID, MaNCC: MaNCC }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content_ChuaXacNhan").find('tbody').empty();
+                $('#div-content_ChuaXacNhan').html(data);
+                imgrecall();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+
+        //$('img.content').hover(function () {
+        //    $(this).addClass('transition');
+
+        //}, function () {
+        //    $(this).removeClass('transition');
+        //});
+    }
+
+
+    var SourceOrder = [];
+    var SourceLine = [];
+    function getTableDataDetail() {
+        SourceOrder = [];
+        var ThoiGianGiaoHang = $('#ThoiGianGiaoHang').val();
+        var ID = $('#ID').val().trim();
+        if (ThoiGianGiaoHang.length > 0 || ID.length > 0) {
+            SourceOrder.push({
+                "prePO_ID": ID,
+                "ngayXN_GiaoHang": ThoiGianGiaoHang,
+            });
+        }
+    }
+
+    function getTable_Line() {
+        debugger;
+        SourceLine = [];
+        let trs = $("#tbl_Item tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let x = tr.id.replace("Row_", "");
+                var Mahang = $('#ItemNo_' + x).val();
+                if (Mahang != null) {
+                    // console.log(Mahang);
+                    let trs2 = $("#Table_Sl_" + Mahang + " tbody tr");
+                    trs2.each((index, trs2) => {
+                        let NgayHetHan = String($('#' + trs2.id + ' input[name="NgayHetHan"]').val()).trim();
+                        let NgaySanXuat = String($('#' + trs2.id + ' input[name="NgaySanXuat"]').val()).trim();// chưa có
+                        let SoLuong = $('#' + trs2.id + ' #SoLuong').val().trim();
+                        let prePO_ID = $('#' + trs2.id + ' input[name="prePO_ID"]').val().trim();
+                        //console.log(NgayHetHan);
+                        if (SoLuong == "0") {
+                            alert('Vui lòng nhập số lượng.');
+                            return;
+                        }
+                        if (NgayHetHan.length > 0 && NgaySanXuat.length > 0 && SoLuong.length > 0 && prePO_ID.length > 0) {
+                            SourceLine.push({
+                                "prePO_ID": prePO_ID,
+                                "quantity": SoLuong,
+                                "hanSD": NgayHetHan,
+                                "NgaySanXuat": NgaySanXuat,
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        console.log(JSON.stringify(SourceLine));
+    }
+
+    function SumSlXacNhan_getTable_Line() {
+        let Sum = 0;
+        const trs = $("#tbl_Item tbody tr");
+        if (trs.length) {
+            $.each(trs, (index, tr) => {
+                const x = tr.id.replace("Row_", "");
+                const Mahang = $('#ItemNo_' + x).val();
+                if (Mahang != null) {
+                    const trs2 = $("#Table_Sl_" + Mahang + " tbody tr");
+                    $.each(trs2, (index2, trs2) => {
+
+                        let NgayHetHan = String($('#' + trs2.id + ' input[name="NgayHetHan"]').val()).trim();
+                        let NgaySanXuat = String($('#' + trs2.id + ' input[name="NgaySanXuat"]').val()).trim();// chưa có
+                        let SoLuong = $('#' + trs2.id + ' #SoLuong').val().trim();
+                        let prePO_ID = $('#' + trs2.id + ' input[name="prePO_ID"]').val().trim();
+                        if (NgayHetHan.length > 0 && NgaySanXuat.length > 0 && SoLuong.length > 0 && prePO_ID.length > 0) {
+                            if (SoLuong.length > 0) {
+                                Sum += parseInt(SoLuong);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        $('#SumSlXacNhan').val(Sum);
+        console.log(JSON.stringify(Sum));
+    }
+
+
+    function XacNhanDonHang() {
+        SumSlXacNhan_getTable_Line();
+        if (
+            $('#ThoiGianGiaoHang').val().length == 0
+        ) {
+            alert('Vui lòng nhập thời gian giao hàng.');
+            return;
+        }
+        getTableDataDetail();
+        getTable_Line();
+        var VendorCode = $('#MaNCC').val();
+
+        var obj = {};
+        obj.Header = JSON.stringify(SourceOrder);
+        obj.Line = JSON.stringify(SourceLine);
+
+        console.log(JSON.stringify({ obj }));
+
+        var TotalQuantity = parseInt($('#TotalQuantity').val()) - parseInt($('#TotalSoLuongXacNhan').val());
+        var SumSlXacNhan = $('#SumSlXacNhan').val();
+        var PoNo = $('#PoNo').val();
+        // var SumSlXacNhan = $('#TotalSoLuongXacNhan').val();
+        var DotGiao_Hientai = $('#DotGiao_Hientai').val();
+        var SumDotGiao = parseInt(DotGiao_Hientai) + 1;
+        var SumAll = TotalQuantity - SumSlXacNhan;
+
+        var title = ""
+        //title += "<div class='notification'>";
+        //title += "    <p>Tổng số lượng đặt " + TotalQuantity + " sản phẩm. Trong đó, số lượng sản phẩm được giao trong đợt " + DotGiao_Hientai + " là " + SumSlXacNhan + " sản phẩm. <br />";
+        //title += "    Tuy nhiên, hiện vẫn còn " + SumAll + " sản phẩm mà thông tin chưa được khai báo đầy đủ.Vì vậy, bạn có hai lựa chọn:</p> ";
+        //title += "    <ul>";
+        //title += "        <li>1: Cập nhật thông tin cho sản phẩm này và giao nó cùng với " + SumAll + " sản phẩm kia trong đợt " + DotGiao_Hientai + ".</li>";
+        //title += "        <li>2: Giữ nguyên thông tin của sản phẩm này và giao nó vào đợt " + SumDotGiao + ".</li>";
+        //title += "    </ul>";
+        //title += "</div>";
+
+        title += "<div class='Header_popup'>Xác nhận đơn hàng</div>";
+        title += "Đơn hàng <b>" + PoNo + "</b> gồm <b>" + SumSlXacNhan + " sản phẩm</b> sẽ được giao vào đợt " + DotGiao_Hientai + "<br />";
+        title += "Còn lại <b>" + SumAll + " sản phẩm</b> chưa khai báo đủ thông tin sẽ được giao vào đợt " + SumDotGiao + "<br />";
+
+        debugger;
+        // var title = "Tổng Sl đặt " + TotalQuantity + " SP, tổng SL giao đợt 1 = " + SumSlXacNhan + " SP, còn " + SumAll + " SP chưa khai báo đầy đủ thông tin, Bạn có muốn cập nhật thông tin để giao 2 sản phẩm này vào đợt 1, hay muốn tách " + SumAll +" SP giao sau vào đợt 2";
+        $('.htmlshow').html('');
+
+        if (SourceOrder.length > 0 && SourceLine.length > 0) {
+            if (SumSlXacNhan < TotalQuantity) {
+                //jConfirm(title, 'THÔNG BÁO', function (r) {
+                //    if (r) {
+                //        js_XacNhanDonHang_SL(obj, VendorCode);
+                //    }
+                //});
+                $('.htmlshow').html(title);
+                $('#ThongBao_SL_modal').modal('show');
+
+            } else {
+                js_XacNhanDonHang_SL(obj, VendorCode);
+            }
+        }
+        else {
+            jAlert('Vui lòng điền đầy đủ thông tin vào các ô để xác nhận đơn hàng.', 'Thông báo');
+        }
+    }
+    function XacNhanAll() {
+        if (
+            $('#ThoiGianGiaoHang').val().length == 0
+        ) {
+            alert('Vui lòng nhập thời gian giao hàng.');
+            return;
+        }
+        getTableDataDetail();
+        getTable_Line();
+        var VendorCode = $('#MaNCC').val();
+
+        var obj = {};
+        obj.Header = JSON.stringify(SourceOrder);
+        obj.Line = JSON.stringify(SourceLine);
+
+        console.log(JSON.stringify({ obj }));
+        js_XacNhanDonHang_SL(obj, VendorCode);
+    }
+    function js_XacNhanDonHang_SL(obj, VendorCode) {
+        debugger;
+        $.ajax({
+            url: '/Order2/Save_XacNhanDonHang',
+            type: 'POST',
+            data: JSON.stringify({ obj: obj, VendorCode: VendorCode }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                if (data.RespId == 0) {
+                    jAlert(data.RespMsg, 'Thông báo', (r) => {
+                        location.reload();
+                        //alert('Xác nhận thành công.');
+                    });
+                } else {
+                    jAlert(data.RespMsg, 'Thông báo', (r) => {
+                        location.reload();
+                    });
+                }
+            }
+        });
+    }
+</script>
+
+<input type="hidden" name="SetID" id="SetID" value="0" />
+<input type="hidden" name="SetDotGiao" id="SetDotGiao" value="0" />
+<input type="hidden" name="SumSlXacNhan" id="SumSlXacNhan" value="0" />
+<script>
+    function js_TuChoi(r, DotGiao) {
+        $('#LyDo').val('');
+        $('#SoDienThoai').val('');
+
+        $('#DeXuatGioGiao').val('');
+        $('#DeXuatNgayGiao').val('');
+
+        $('#SetID').val(r);
+        $('#SetDotGiao').val(DotGiao);
+        $('#TuChoi_modal').modal('show');
+    }
+    function fn_save_TuChoi() {
+        debugger;
+        if (
+            $('#LyDo').val().length == 0 ||
+            $('#SoDienThoai').val().length == 0 ||
+            $('#DeXuatGioGiao').val().length == 0 ||
+            $('#DeXuatNgayGiao').val().length == 0 ||
+            $('#SetID').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ');
+            $('#PopUp_modal').modal('show');
+            return;
+        }
+        var SetID = $('#SetID').val();
+        var DotGiao = $('#SetDotGiao').val();
+        var LyDo = $('#LyDo').val();
+        var SoDienThoai = $('#SoDienThoai').val();
+        var PoNo = $('#PoNo').val();
+        var DeXuatNgayGiao = $('#DeXuatNgayGiao').val();
+        var DeXuatGioGiao = $('#DeXuatGioGiao').val();
+
+        jConfirm('Bạn chắc chắn muốn điều chỉnh thông tin giao ?', 'THÔNG BÁO', function (r) {
+            if (r) {
+                $.ajax({
+                    url: '/Order2/Save_TuChoiXacNhan',
+                    type: 'POST',
+                    data: JSON.stringify({ SetID: SetID, LyDo: LyDo, SoDienThoai: SoDienThoai, DeXuatGioGiao: DeXuatGioGiao, DeXuatNgayGiao: DeXuatNgayGiao }),
+                    contentType: 'application/json, charset=utf-8',
+                    beforeSend: function () {
+                        js_Loading(true, 1);
+                    },
+                    success: function (data) {
+                        if (data == 1) {
+                            jAlert("Đơn hàng '" + PoNo + "' (giao đợt '" + DotGiao + "') đã được hệ thống ghi nhận.", 'Điều chỉnh đơn hàng', (r) => {
+                                location.reload();
+                            });
+
+                            $('#TuChoi_modal').modal('hide');
+
+                            // js_GetList();
+                            js_Loading(false, 1);
+                        } else {
+                            alert("Có lỗi xảy ra.");
+                        }
+                    },
+                    error: function () {
+                        js_Loading(false, 1);
+                    }
+                });
+            }
+        });
+    }
+    function js_XacNhanDonHang(r, DotGiao) {
+        $('#SetID').val(r);
+        var PoNo = $('#PoNo').val();
+        var SetID = $('#SetID').val();
+
+        $.ajax({
+            url: '/Order2/Save_XacNhan_DonHang',
+            type: 'POST',
+            data: JSON.stringify({ SetID: SetID }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data == 1) {
+                    jAlert("Đơn hàng '" + PoNo + "' (giao đợt '" + DotGiao + "') đã được hệ thống ghi nhận.", 'Tiếp  nhận lịch giao hàng thành công', (r) => {
+                        location.reload();
+                    });
+                    js_Loading(false, 1);
+                } else {
+                    alert("Có lỗi xảy ra.");
+                }
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+</script>
+<div class="modal" id="TuChoi_modal">
+    <div class="modal-dialog" role="document" style="width: 550px !important; border-radius: 0; max-width: 550px !important;">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style="font-size:18px;display: contents; text-transform:uppercase">Điều chỉnh giao hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="row from_vender frominput">
+                <fieldset>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label>Lý do</label>
+                        </div>
+                        <div class="col-md-9">
+                            <textarea name="LyDo" id="LyDo" style="width: 100%; max-width: 100%; height: 100px; border: 1px solid #d7d7d7; padding: 10px; " placeholder="Vui lòng điền lý do và đề xuất giờ giao mới."></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label>Ngày giao</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="date" name="DeXuatNgayGiao" id="DeXuatNgayGiao" placeholder="Ngày giao" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label>Giờ giao</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" name="DeXuatGioGiao" id="DeXuatGioGiao" placeholder="Giờ giao" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label>Số điện thoại</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" name="SoDienThoai" id="SoDienThoai" placeholder="Số điện thoại" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                </fieldset>
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-9">
+                        <div style=" clear:both; height:10px"></div>
+                        <a href="#" onclick="fn_save_TuChoi()" id="btn_Gui" class="btn btn-success px-5 rounded-0 btgetw" style="color:#fff"><i class="fa fa-save"></i> Lưu & đóng</a>
+                        <div style=" height: 10px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function js_ThonTinXe(r, DotGiao) {
+        $('#SetID').val(r);
+        $('#SetDotGiao').val(DotGiao);
+
+        $('#BienSoXe').val('');
+        $('#TenTaiXe').val('');
+        $('#SoDienThoai_LX').val('');
+        $('#CCCD').val('');
+        $('#ThongTinXe_modal').modal('show');
+    }
+    function fn_save_ThongTinXe() {
+        debugger;
+        if (
+            $('#BienSoXe').val().length == 0 ||
+            $('#TenTaiXe').val().length == 0 ||
+            $('#SoDienThoai_LX').val().length == 0 ||
+            $('#DonViXe').val().length == 0 ||
+            $('#CCCD').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ');
+            // $('#ThongTinXe_modal').modal('show');
+            return;
+        }
+        var DonViXe = $('#DonViXe').val();
+        var TenTaiXe = $('#TenTaiXe').val();
+        var SoDienThoai = $('#SoDienThoai_LX').val();
+        var BienSoXe = $('#BienSoXe').val();
+        var CCCD = $('#CCCD').val();
+
+        var SetID = $('#SetID').val();
+        var DotGiao = $('#SetDotGiao').val();
+        var PoNo = $('#PoNo').val();
+        var TenNCC = $('#TenNCC').val();
+
+        $.ajax({
+            url: '/Order2/Save_XacNhan_ThongTinLaiXe',
+            type: 'POST',
+            data: JSON.stringify({ SetID: SetID, DonViXe: DonViXe, TenTaiXe: TenTaiXe, SoDienThoai: SoDienThoai, BienSoXe: BienSoXe, CCCD: CCCD, TenNCC: TenNCC, PoNo: PoNo, DotGiao: DotGiao }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data == 1) {
+                    jAlert("Đơn hàng '" + PoNo + "' (giao đợt '" + DotGiao + "') đã được hệ thống ghi nhận.", 'Xác nhận thành công', (r) => {
+                        location.reload();
+                    });
+                    $('#ThongTinXe_modal').modal('hide');
+                    js_Loading(false, 1);
+                } else {
+                    alert("Có lỗi xảy ra.");
+                }
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+</script>
+
+<div class="modal" id="ThongTinXe_modal">
+    <div class="modal-dialog" role="document" style="width:700px; border-radius:0; ">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style="font-size:18px;display: contents; text-transform:uppercase">Cập nhật thông tin xe</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="row from_vender frominput">
+                <fieldset>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label> ĐV giao hàng</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select id="DonViXe" class="form-control selectpicker" data-live-search="true">
+                                @if (ViewBag.list_DonViGiao != null)
+                                {
+                                    <option value="">--- Chọn đơn vị xe ---</option>
+                                    foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_DonViGiao)
+                                    {
+                                        <option value="@box.Code">@box.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label> Biển số xe</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" name="BienSoXe" id="BienSoXe" placeholder="Biển số xe" class="form-control" />
+                        </div>
+                    </div><div class="col-md-12" style=" height:7px;"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label> Tên tài xế</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" name="TenTaiXe" id="TenTaiXe" placeholder="Tên tài xế" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label>CCCD</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" name="CCCD" id="CCCD" placeholder="CCCD" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label>Số điện thoại</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" name="SoDienThoai_LX" id="SoDienThoai_LX" placeholder="Số điện thoại" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                </fieldset>
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-9">
+                        <div style=" clear:both; height:10px"></div>
+                        <a href="#" onclick="fn_save_ThongTinXe()" id="btn_Gui" class="btn btn-success px-5 rounded-0 btgetw" style="color:#fff"><i class="fa fa-save"></i> Lưu & đóng</a>
+                        <div style=" height: 10px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="ThongBao_SL_modal">
+    <div class="modal-dialog" role="document" style="width: 510px !important;border-radius:0;max-width: 510px !important;">
+        <div class="modal-content modalxn">
+            <div class="row ">
+                <div class="htmlshow"></div>
+                <div class="bottom_xacnhan">
+                    <a class="btn btn-success" onclick="XacNhanAll()" style="background: #F21F26; color: #fff; border: none !important; height: 42px; width: 173px; padding-top: 11px; font-style: normal; font-weight: 500; font-size: 15px;">
+                        Xác nhận
+                    </a>
+                    <a class="btn btn-success" data-dismiss="modal" aria-label="Close" style="background: #0099FF; color: #fff; border: none !important; height: 42px; width: 173px; padding-top: 11px; font-style: normal; font-weight: 500; font-size: 15px;">
+                        Cập nhận đơn
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modalxn {
+        border-radius: 7px !important;
+        padding: 28px;
+    }
+
+    .bottom_xacnhan {
+        float: right;
+        text-align: right;
+        padding-left: 124px;
+        padding-bottom: 0px;
+    }
+
+    .htmlshow {
+        padding: 15px;
+    }
+</style>

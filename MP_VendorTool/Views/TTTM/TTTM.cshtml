@@ -1,0 +1,845 @@
+﻿@using ProductAllTool.Models.Order
+@using ProductAllTool.Common;
+@using Newtonsoft.Json;
+@{
+    ViewBag.Title = "Ca làm việc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+    var list_LoaiThuong = serializer.Serialize(ViewBag.list_LoaiThuong);
+    var list_DKDSTarget = serializer.Serialize(ViewBag.list_DKDSTarget);
+    var list_DKDSTinhThuong = serializer.Serialize(ViewBag.list_DKDSTinhThuong);
+    var list_NDDauTu = serializer.Serialize(ViewBag.list_NDDauTu);
+}
+<style>
+
+    .filter-option-inner-inner {
+        font-size: 12px;
+    }
+
+    .btn-info {
+        background-color: #f3f3f3 !important;
+        color: #333;
+        border: 1px solid #d5d5d5;
+    }
+
+    .btn {
+        border-radius: 0px;
+        padding: 4px 12px;
+    }
+
+    #modalDetails .form-control {
+        height: 30px !important;
+        font-size: 12px !important;
+    }
+
+    .bootstrap-select.show-tick .dropdown-menu .selected span.check-mark {
+        left: 6px !important;
+        right: unset !important;
+    }
+
+    .box_kichthuoc input {
+        margin-bottom: 3px;
+    }
+
+    .title_05 h3 {
+        font-size: 19px;
+        text-transform: uppercase;
+        margin-top: 7px;
+        margin-bottom: 1px;
+    }
+
+    .modal-footer {
+        padding: 15px 0px !important;
+    }
+
+    input, select, textarea {
+        max-width: 100% !important;
+    }
+
+    .multiselect {
+        width: 181px;
+        line-height: 13px;
+        border-radius: 0px;
+        background-color: #fff;
+    }
+
+    .form-check-inline {
+        display: inline-block;
+    }
+
+    .box_option_thung {
+        margin-top: 9px;
+    }
+
+    .row_1 {
+        width: 93%;
+        margin: 0 auto;
+    }
+
+    .bootstrap-select.form-control-sm .dropdown-toggle {
+        padding: 5px !important;
+    }
+
+    #tbl_Item_length {
+        bottom: 0px;
+        position: absolute;
+        display: none;
+    }
+
+    #tbl_Item_paginate {
+        float: right;
+    }
+
+    .dropdown-menu {
+        /*left: 0px !important;*/
+        right: 0px !important;
+        margin-top: 0px;
+    }
+
+    table.dataTable tfoot td {
+        padding: 3px 2px 1px 18px !important;
+        border-top: 1px solid #111;
+    }
+
+    #div-content {
+        margin-top: 140px;
+    }
+
+    .box_foot {
+        font-size: 12px;
+    }
+
+    .dropdown-toggle {
+        z-index: unset !important;
+    }
+
+    .btn_ver_m2 {
+        width: 148px !important;
+        background-color: #5f7e98 !important;
+        color: #fff;
+        padding: 5px 5px !important;
+        border: none;
+        font-weight: 600;
+        border-radius: 4px !important;
+    }
+
+    .btn_ver {
+        background-color: #5f7e98 !important;
+        color: #fff;
+        font-size: 12px !important;
+        border: none;
+        font-weight: 600;
+    }
+
+    .bootstrap-select .form-control {
+        width: 320px;
+        max-width: 320px;
+    }
+
+    input[type="radio"], input[type="checkbox"] {
+        margin: 4px 21px 0;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        border-top-right-radius: 14px;
+    }
+
+        .tab button {
+            background-color: inherit;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 7px 0px;
+            transition: 0.3s;
+            font-size: 13px;
+            border-top-right-radius: 14px;
+            width: 19%;
+        }
+
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            .tab button.active {
+                background-color: #5f7e98;
+                color: #ffffff;
+                font-weight: 500;
+            }
+
+    .tabcontent {
+        padding: 10px 0px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    .half_cols {
+        width: 50%
+    }
+
+    .txtinfo {
+        font-size: 13px
+    }
+
+    .half_col {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    ._jw-tpk-container {
+        right: 15px;
+        top: 967px;
+    }
+</style>
+<div class="" style="display:block;height:1200px; margin-top:50px">
+    <div class="col-md-12" style="width:50%;display:flex;">
+        <div class="col-md-1" style="width:20%;padding:0px">
+            <label>Mã nhà cung cấp</label>
+        </div>
+        <div class="col-md-1" style="width:30%;padding:0px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="text" name="MaNCC" id="MaNCC" value="" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-12" style="width:50%;display:flex;">
+
+        <div class="col-md-1" style="width:20%;padding:0px">
+            <label>Số hợp đồng</label>
+        </div>
+        <div class="col-md-1" style="width:30%;padding:0px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="text" name="SoHopDong" id="SoHopDong" value="" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-12" style="width:50%;display:flex;">
+        <div class="col-md-1" style="width:20%;padding:0px">
+            <label>Tên nhà cung cấp</label>
+        </div>
+        <div class="col-md-1" style="width:30%;padding:0px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="text" name="TenNCC" id="TenNCC" value="" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-12" style="width:50%;display:flex;">
+        <div class="col-md-1" style="width:25%;padding:0px">
+            <label>Hiệu lực từ</label>
+        </div>
+        <div class="col-md-1" style="width:50%;padding:0px 50px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="date" name="FromDateHD" value="" id="FromDateHD" class="form-control" />
+        </div>
+        <div class="col-md-1" style="width:0%;padding-left: 50px" ondblclick="$('#NCC').val('').trigger('change');">
+            <label>Đến</label>
+        </div>
+        <div class="col-md-1" style="width:50%;padding:0px 35px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="date" name="ToDateHD" value="" id="ToDateHD" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-12" style="width:50%;display:flex;">
+        <div class="col-md-1" style="width:20%;padding:0px">
+            <label>Tình trạng</label>
+        </div>
+        <div class="col-md-1" style="width:30%;padding:0px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="text" name="TinhTrang" value="" id="TinhTrang" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-12" style="width:50%;display:flex;">
+
+        <div class="col-md-1" style="width:20%;padding:0px">
+            <label>Số phụ lục</label>
+        </div>
+        <div class="col-md-1" style="width:30%;padding:0px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="text" name="SoPhuLuc" id="SoPhuLuc" value="" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-12" style="width:50%;display:flex;">
+        <div class="col-md-1" style="width:20%;padding:0px">
+            <label>Đại diện BBM</label>
+        </div>
+        <div class="col-md-1" style="width:30%;padding:0px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="text" name="TenDDBBM" value="" id="TenDDBBM" class="form-control" />
+        </div>
+        <div class="col-md-1" style="width:30%;padding:0px 10px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="text" name="DaiDienBBM" value="" id="DaiDienBBM" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-12" style="width:50%;display:flex;">
+        <div class="col-md-1" style="width:25%;padding:0px">
+            <label>Hiệu lực từ</label>
+        </div>
+        <div class="col-md-1" style="width:50%;padding:0px 50px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="date" name="FromDatePL" value="" id="FromDatePL" class="form-control" />
+        </div>
+        <div class="col-md-1" style="width:0%;padding-left: 50px" ondblclick="$('#NCC').val('').trigger('change');">
+            <label>Đến</label>
+        </div>
+        <div class="col-md-1" style="width:50%;padding:0px 35px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="date" name="ToDatePL" value="" id="ToDatePL" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-12" style="width:50%;display:flex;">
+        <div class="col-md-1" style="width:20%;padding:0px">
+            <label>Đại diện đối tác</label>
+        </div>
+        <div class="col-md-1" style="width:30%;padding:0px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="text" name="TenDDDoiTac" value="" id="TenDDDoiTac" class="form-control" />
+        </div>
+        <div class="col-md-1" style="width:30%;padding:0px 10px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="text" name="DaiDienDoiTac" value="" id="DaiDienDoiTac" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-12" style="width:50%;display:flex;">
+        <div class="col-md-1" style="width:30%;padding:0px">
+            <label>Tự động gia hạn HĐ</label>
+        </div>
+        <div class="col-md-1" style="width:50%;padding:0px 50px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="checkbox" name="name" value="" />
+        </div>
+        <div class="col-md-1" style="width:35%;padding-left: 50px" ondblclick="$('#NCC').val('').trigger('change');">
+            <label>Tự động gia hạn PL</label>
+        </div>
+        <div class="col-md-1" style="width:50%;padding:0px 35px" ondblclick="$('#NCC').val('').trigger('change');">
+            <input type="checkbox" name="name" value="" />
+        </div>
+    </div>
+    <hr />
+    <span>DANH MUC SAN PHAM</span>
+    <div class="col-md-12" id="div-content-dmsp" style="margin-top:20px">
+        @Html.Partial("~/Views/TTTM/tabs/__DanhMucSP.cshtml")
+    </div>
+    <br />
+    <span>DIEU KHOAN THUONG MAI</span>
+    <div class="col-md-12" style="margin-top: 50px">
+        <div class="tab box_loaihinh" id="content_LoaiHinh" style=" height: 35px; width: 100%">
+            <button class="tablinks active Tab01" onclick="ActiveTab('Tab01')">Mua bán</button>
+            <button class="tablinks Tab02" onclick="ActiveTab('Tab02')">Ký gửi</button>
+            <button class="tablinks Tab03" onclick="ActiveTab('Tab03')">Thuê kệ</button>
+        </div>
+        <div class="tab-content">
+            <div class="tabcontent conten01" id="tab1" style="display:none" >
+                @Html.Partial("~/Views/TTTM/tabs/__MuaBan.cshtml")
+            </div>
+            <div class="tabcontent conten02" id="tab2" style="display:none">
+                @Html.Partial("~/Views/TTTM/tabs/__KyGui.cshtml")
+            </div>
+            <div class="tabcontent conten03" id="tab3" style="display:none">
+                @Html.Partial("~/Views/TTTM/tabs/__KeThue.cshtml")
+            </div>
+        </div>
+    </div>
+    <div class="btn_save" style="float: right; display: flex;">
+        <input name="submit" class="btn_export btn btn-info btn_ver" onclick="js_accept();" type="submit" value="Lưu và kết thúc" style="border: none; margin-right: 10px; margin-top: 10px;">
+    </div>
+</div>
+<input type="text" name="Type" id="Type" value="@ViewBag.Type"/>
+<script type="text/javascript">
+    var list_LoaiThuong = @Html.Raw(list_LoaiThuong);
+    var list_DKDSTarget = @Html.Raw(list_DKDSTarget);
+    var list_DKDSTinhThuong = @Html.Raw(list_DKDSTinhThuong);
+    var list_NDDauTu = @Html.Raw(list_NDDauTu);
+    $(function () {
+        js_GetListDMSP();
+    });
+    function ActiveTab(r) {
+        if (r == "Tab01") {
+            $('.conten02').hide();
+            $('.conten03').hide();
+            $('.conten01').show();
+
+            $('.Tab02').removeClass("active");
+            $('.Tab03').removeClass("active");
+
+            $('.conten01').removeClass("active");
+            $('.Tab01').addClass("active");
+        }
+        else if (r == "Tab02") {
+            $('.conten01').hide();
+            $('.conten03').hide();
+            $('.conten02').show();
+
+            $('.Tab01').removeClass("active");
+            $('.Tab03').removeClass("active");
+
+            $('.conten02').removeClass("active");
+            $('.Tab02').addClass("active");
+
+        }
+        else if (r == "Tab03") {
+            $('.conten01').hide();
+            $('.conten02').hide();
+            $('.conten03').show();
+
+            $('.Tab01').removeClass("active");
+            $('.Tab02').removeClass("active");
+
+            $('.conten03').removeClass("active");
+            $('.Tab03').addClass("active");
+
+        }
+    }
+
+    function js_ReloadTableDMSP() {
+        $('#tbl_Item_DMSP')
+            .DataTable({
+                "pageLength": 10,
+                columnDefs: [],
+                "orderClasses": false,
+                "deferRender": true,
+
+                autoWidth: false,
+                bAutoWidth: false,
+                "searching": false,
+                responsive: false,
+                order: [],
+                "language": {
+                    "emptyTable": "Không có dữ liệu !"
+                }
+            });
+    }
+    function js_GetListDMSP() {
+        window.scrollTo(0, 0);
+
+        $.ajax({
+            url: '/TTTM/getDMSP',
+            type: 'POST',
+            data: JSON.stringify({}),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                //js_Loading(true, 1);
+            },
+            success: function (data) {
+                $('#div-content-dmsp').html(data);
+                js_ReloadTableDMSP();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+    function fomart_split(input, number) {
+        try {
+            var value = input;
+            if (value != null && !value.length < 1) {
+                return value.split(" - ")[number];
+            } else {
+                return "";
+            }
+        } catch (e) { }
+    }
+
+    function js_accept() {
+        //Tab Mua ban
+        SourceLineThuong = [];
+        let trs = $("#table_thuong tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+
+                var i = "#table_thuong #" + i;
+                let LoaiThuongCode = String($('#' + tr.id + ' select[name="LoaiThuong"]').val()).trim();
+                //console.log(LoaiThuongCode);
+                var LoaiThuong = String($('#table_thuong #' + tr.id + ' select[name="LoaiThuong"] option:selected').text()).trim();
+                //console.log(LoaiThuong);
+
+                let MucDSTu = String($('#' + tr.id + ' input[name="MucDSTu"]').val()).trim();
+                let MucDSDen = String($('#' + tr.id + ' input[name="MucDSDen"]').val()).trim();
+
+                let DKDSCode = String($('#' + tr.id  + ' select[name="DKDSTarget"]').val()).trim();
+                var DKDSTarget = String($('#table_thuong #' + tr.id + ' select[name="DKDSTarget"] option:selected').text()).trim();
+                //console.log(DKDSTarget);
+
+                let DKDSTTCode = String($('#' + tr.id  + ' select[name="DKDSTinhThuong"]').val()).trim();
+                var DKDSTinhThuong = String($('#table_thuong #' + tr.id + ' select[name="DKDSTinhThuong"] option:selected').text()).trim();
+                //console.log(DKDSTinhThuong);
+
+                let PTThuong = String($('#' + tr.id + ' input[name="PTThuong"]').val()).trim();
+                let GiaTriThuong = String($('#' + tr.id + ' input[name="GTThuong"]').val()).trim();
+                let GhiChu = String($('#' + tr.id + ' input[name="GhiChu"]').val()).trim();
+                if (LoaiThuongCode.length > 0 || DKDSCode.length > 0 || MucDSTu.length > 0 || MucDSDen.length > 0 || DKDSTTCode.length > 0 || PTThuong.length > 0 || GiaTriThuong.length > 0 || GhiChu.length > 0) {
+                    SourceLineThuong.push({
+                        "LoaiThuongCode": LoaiThuongCode,
+                        "LoaiThuong": LoaiThuong,
+                        "MucDSTu": MucDSTu,
+                        "MucDSDen": MucDSDen,
+                        "DKDSCode": DKDSCode,
+                        "DKDSTarget": DKDSTarget,
+                        "DKDSTTCode": DKDSTTCode,
+                        "DKDSTinhThuong": DKDSTinhThuong,
+                        "PTThuong": PTThuong,
+                        "GiaTriThuong": GiaTriThuong,
+                        "GhiChu": GhiChu,
+                        'type': 'MUABAN'
+                    });
+                }
+            });
+        }
+
+        
+        let trs4 = $("#table_thuong_ky tbody tr");
+        if (trs4.length) {
+            trs4.each((index, tr) => {
+
+                let LoaiThuongCode = String($('#' + tr.id + ' select[name="LoaiThuongKy"]').val()).trim();
+                //console.log(LoaiThuongCode);
+                var LoaiThuong = String($('#table_thuong_ky #' + tr.id + ' select[name="LoaiThuongKy"] option:selected').text()).trim();
+                //console.log(LoaiThuong);
+
+                let MucDSTu = String($('#' + tr.id + ' input[name="MucDSTuKy"]').val()).trim();
+                let MucDSDen = String($('#' + tr.id + ' input[name="MucDSDenKy"]').val()).trim();
+
+                let DKDSCode = String($('#' + tr.id + ' select[name="DKDSTargetKy"]').val()).trim();
+                var DKDSTarget = String($('#table_thuong_ky #' + tr.id + ' select[name="DKDSTargetKy"] option:selected').text()).trim();
+                //console.log(DKDSTarget);
+
+                let DKDSTTCode = String($('#' + tr.id + ' select[name="DKDSTinhThuongKy"]').val()).trim();
+                var DKDSTinhThuong = String($('#table_thuong_ky #' + tr.id + ' select[name="DKDSTinhThuongKy"] option:selected').text()).trim();
+                //console.log(DKDSTinhThuong);
+
+                let PTThuong = String($('#' + tr.id + ' input[name="PTThuongKy"]').val()).trim();
+                let GiaTriThuong = String($('#' + tr.id + ' input[name="GTThuongKy"]').val()).trim();
+                let GhiChu = String($('#' + tr.id + ' input[name="GhiChuKy"]').val()).trim();
+                if (LoaiThuongCode.length > 0 || DKDSCode.length > 0 || MucDSTu.length > 0 || MucDSDen.length > 0 || DKDSTTCode.length > 0 || PTThuong.length > 0 || GiaTriThuong.length > 0 || GhiChu.length > 0) {
+                    SourceLineThuong.push({
+                        "LoaiThuongCode": LoaiThuongCode,
+                        "LoaiThuong": LoaiThuong,
+                        "MucDSTu": MucDSTu,
+                        "MucDSDen": MucDSDen,
+                        "DKDSCode": DKDSCode,
+                        "DKDSTarget": DKDSTarget,
+                        "DKDSTTCode": DKDSTTCode,
+                        "DKDSTinhThuong": DKDSTinhThuong,
+                        "PTThuong": PTThuong,
+                        "GiaTriThuong": GiaTriThuong,
+                        "GhiChu": GhiChu,
+                        'type': 'KYGUI'
+                    });
+                }
+            });
+        }
+
+        let trs8 = $("#table_thuong_ke tbody tr");
+        if (trs8.length) {
+            trs8.each((index, tr) => {
+
+                var i = "#table_thuong_ke #" + i;
+                let LoaiThuongCode = String($('#' + tr.id + ' select[name="LoaiThuongKe"]').val()).trim();
+                //console.log(LoaiThuongCode);
+                var LoaiThuong = String($('#table_thuong_ke #' + tr.id + ' select[name="LoaiThuongKe"] option:selected').text()).trim();
+                //console.log(LoaiThuong);
+
+                let MucDSTu = String($('#' + tr.id + ' input[name="MucDSTuKe"]').val()).trim();
+                let MucDSDen = String($('#' + tr.id + ' input[name="MucDSDenKe"]').val()).trim();
+
+                let DKDSCode = String($('#' + tr.id + ' select[name="DKDSTargetKe"]').val()).trim();
+                var DKDSTarget = String($('#table_thuong_ke #' + tr.id + ' select[name="DKDSTargetKe"] option:selected').text()).trim();
+                //console.log(DKDSTarget);
+
+                let DKDSTTCode = String($('#' + tr.id + ' select[name="DKDSTinhThuongKe"]').val()).trim();
+                var DKDSTinhThuong = String($('#table_thuong_ke #' + tr.id + ' select[name="DKDSTinhThuongKe"] option:selected').text()).trim();
+                //console.log(DKDSTinhThuong);
+
+                let PTThuong = String($('#' + tr.id + ' input[name="PTThuongKe"]').val()).trim();
+                let GiaTriThuong = String($('#' + tr.id + ' input[name="GTThuongKe"]').val()).trim();
+                let GhiChu = String($('#' + tr.id + ' input[name="GhiChuKe"]').val()).trim();
+                if (LoaiThuongCode.length > 0 || DKDSCode.length > 0 || MucDSTu.length > 0 || MucDSDen.length > 0 || DKDSTTCode.length > 0 || PTThuong.length > 0 || GiaTriThuong.length > 0 || GhiChu.length > 0) {
+                    SourceLineThuong.push({
+                        "LoaiThuongCode": LoaiThuongCode,
+                        "LoaiThuong": LoaiThuong,
+                        "MucDSTu": MucDSTu,
+                        "MucDSDen": MucDSDen,
+                        "DKDSCode": DKDSCode,
+                        "DKDSTarget": DKDSTarget,
+                        "DKDSTTCode": DKDSTTCode,
+                        "DKDSTinhThuong": DKDSTinhThuong,
+                        "PTThuong": PTThuong,
+                        "GiaTriThuong": GiaTriThuong,
+                        "GhiChu": GhiChu,
+                        'type': 'KETHUE'
+                    });
+                }
+            });
+        }
+
+        console.log(JSON.stringify(SourceLineThuong));
+        //TRADE
+        SourceLineTrade = [];
+        let trs1 = $("#table_trade tbody tr");
+        if (trs1.length) {
+            trs1.each((index, tr) => {
+
+                let NDCode = String($('#' + tr.id + ' select[name="NDDauTu"]').val()).trim();
+                var NDDauTu = String($('#table_trade #' + tr.id + ' select[name="NDDauTu"] option:selected').text()).trim();
+
+                let PTDauTu = String($('#' + tr.id + ' input[name="PTDauTu"]').val()).trim();
+                let GiaTriDT = String($('#' + tr.id + ' input[name="GTDauTu"]').val()).trim();
+                let DieuKien = String($('#' + tr.id + ' input[name="DieuKien"]').val()).trim();
+
+                let DKDoanhSoCode = String($('#' + tr.id + ' select[name="DKDSTarget"]').val()).trim();
+                var DKDoanhSo = String($('#table_trade #' + tr.id + ' select[name="DKDSTarget"] option:selected').text()).trim();
+
+                if (NDCode.length > 0 || PTDauTu.length > 0 || GiaTriDT.length > 0 || DieuKien.length > 0 || DKDoanhSoCode.length > 0 ) {
+                    SourceLineTrade.push({
+                        "NDCode": NDCode,
+                        "NDDauTu": NDDauTu,
+                        "PTDauTu": PTDauTu,
+                        "GiaTriDT": GiaTriDT,
+                        "DieuKien": DieuKien,
+                        "DKDoanhSoCode": DKDoanhSoCode,
+                        "DKDoanhSo": DKDoanhSo,
+                        'type': 'MUABAN'
+                    });
+                }
+            });
+        }
+
+        let trs5 = $("#table_trade_ky tbody tr");
+        if (trs5.length) {
+            trs5.each((index, tr) => {
+
+                let NDCode = String($('#' + tr.id + ' select[name="NDDauTuKy"]').val()).trim();
+                var NDDauTu = String($('#table_trade_ky #' + tr.id + ' select[name="NDDauTuKy"] option:selected').text()).trim();
+
+                let PTDauTu = String($('#' + tr.id + ' input[name="PTDauTuKy"]').val()).trim();
+                let GiaTriDT = String($('#' + tr.id + ' input[name="GTDauTuKy"]').val()).trim();
+                let DieuKien = String($('#' + tr.id + ' input[name="DieuKienKy"]').val()).trim();
+
+                let DKDoanhSoCode = String($('#' + tr.id + ' select[name="DKDSTargetKy"]').val()).trim();
+                var DKDoanhSo = String($('#table_trade_ky #' + tr.id + ' select[name="DKDSTargetKy"] option:selected').text()).trim();
+
+                if (NDCode.length > 0 || PTDauTu.length > 0 || GiaTriDT.length > 0 || DieuKien.length > 0 || DKDoanhSoCode.length > 0) {
+                    SourceLineTrade.push({
+                        "NDCode": NDCode,
+                        "NDDauTu": NDDauTu,
+                        "PTDauTu": PTDauTu,
+                        "GiaTriDT": GiaTriDT,
+                        "DieuKien": DieuKien,
+                        "DKDoanhSoCode": DKDoanhSoCode,
+                        "DKDoanhSo": DKDoanhSo,
+                        'type':'KYGUI'
+                    });
+                }
+            });
+        }
+
+        let trs9 = $("#table_trade_ke tbody tr");
+        if (trs9.length) {
+            trs9.each((index, tr) => {
+
+                let NDCode = String($('#' + tr.id + ' select[name="NDDauTuKe"]').val()).trim();
+                var NDDauTu = String($('#table_trade_ke #' + tr.id + ' select[name="NDDauTuKe"] option:selected').text()).trim();
+
+                let PTDauTu = String($('#' + tr.id + ' input[name="PTDauTuKe"]').val()).trim();
+                let GiaTriDT = String($('#' + tr.id + ' input[name="GTDauTuKe"]').val()).trim();
+                let DieuKien = String($('#' + tr.id + ' input[name="DieuKienKe"]').val()).trim();
+
+                let DKDoanhSoCode = String($('#' + tr.id + ' select[name="DKDSTargetKe"]').val()).trim();
+                var DKDoanhSo = String($('#table_trade_ke #' + tr.id + ' select[name="DKDSTargetKe"] option:selected').text()).trim();
+
+                if (NDCode.length > 0 || PTDauTu.length > 0 || GiaTriDT.length > 0 || DieuKien.length > 0 || DKDoanhSoCode.length > 0) {
+                    SourceLineTrade.push({
+                        "NDCode": NDCode,
+                        "NDDauTu": NDDauTu,
+                        "PTDauTu": PTDauTu,
+                        "GiaTriDT": GiaTriDT,
+                        "DieuKien": DieuKien,
+                        "DKDoanhSoCode": DKDoanhSoCode,
+                        "DKDoanhSo": DKDoanhSo,
+                        'type': 'KETHUE'
+                    });
+                }
+            });
+        }
+
+        console.log(JSON.stringify(SourceLineTrade));
+
+        //CHIET KHAU
+        SourceLineCK = [];
+        let trs2 = $("#table_chietkhau tbody tr");
+        if (trs2.length != 0) {
+            trs2.each((index, tr) => {
+
+                let LoaiCK = String($('#table_chietkhau #' + tr.id + ' select[name="typeDiscount"] option:selected').text()).trim();
+                let HinhThucTT = String($('#table_chietkhau #' + tr.id + ' select[name="HinhThucThanhToan"] option:selected').text()).trim();
+                let GiaTriCK = String($('#' + tr.id + ' input[name="discountAmount"]').val()).trim();
+                let PTCK = String($('#' + tr.id + ' input[name="percent_Discount"]').val()).trim();
+                let GiaTriDHTD = String($('#' + tr.id + ' input[name="OrderValue"]').val()).trim();
+                if (GiaTriCK.length > 0 || PTCK.length > 0 || GiaTriDHTD.length > 0 ) {
+                    SourceLineCK.push({
+                        "LoaiCK": LoaiCK,
+                        "HinhThucTT": HinhThucTT,
+                        "GiaTriCK": GiaTriCK,
+                        "PTCK": PTCK,
+                        "GiaTriDHTD": GiaTriDHTD,
+                        'type': 'MUABAN'
+                    });
+                }
+            });
+        }
+
+        let trs6 = $("#table_chietkhau_ky tbody tr");
+        if (trs6.length != 0) {
+            trs6.each((index, tr) => {
+
+                let LoaiCK = String($('#table_chietkhau_ky #' + tr.id + ' select[name="typeDiscountKy"] option:selected').text()).trim();
+                let HinhThucTT = String($('#table_chietkhau_ky #' + tr.id + ' select[name="HinhThucThanhToanKy"] option:selected').text()).trim();
+                let GiaTriCK = String($('#' + tr.id + ' input[name="discountAmountKy"]').val()).trim();
+                let PTCK = String($('#' + tr.id + ' input[name="percent_DiscountKy"]').val()).trim();
+                let GiaTriDHTD = String($('#' + tr.id + ' input[name="OrderValueKy"]').val()).trim();
+                if (GiaTriCK.length > 0 || PTCK.length > 0 || GiaTriDHTD.length > 0) {
+                    SourceLineCK.push({
+                        "LoaiCK": LoaiCK,
+                        "HinhThucTT": HinhThucTT,
+                        "GiaTriCK": GiaTriCK,
+                        "PTCK": PTCK,
+                        "GiaTriDHTD": GiaTriDHTD,
+                        'type': 'KYGUI'
+                    });
+                }
+            });
+        }
+
+        let trs10 = $("#table_chietkhau_ke tbody tr");
+        if (trs10.length != 0) {
+            trs10.each((index, tr) => {
+
+                let LoaiCK = String($('#table_chietkhau_ke #' + tr.id + ' select[name="typeDiscountKe"] option:selected').text()).trim();
+                let HinhThucTT = String($('#table_chietkhau_ke #' + tr.id + ' select[name="HinhThucThanhToanKe"] option:selected').text()).trim();
+                let GiaTriCK = String($('#' + tr.id + ' input[name="discountAmountKe"]').val()).trim();
+                let PTCK = String($('#' + tr.id + ' input[name="percent_DiscountKe"]').val()).trim();
+                let GiaTriDHTD = String($('#' + tr.id + ' input[name="OrderValueKe"]').val()).trim();
+                if (GiaTriCK.length > 0 || PTCK.length > 0 || GiaTriDHTD.length > 0) {
+                    SourceLineCK.push({
+                        "LoaiCK": LoaiCK,
+                        "HinhThucTT": HinhThucTT,
+                        "GiaTriCK": GiaTriCK,
+                        "PTCK": PTCK,
+                        "GiaTriDHTD": GiaTriDHTD,
+                        'type': 'KETHUE'
+                    });
+                }
+            });
+        }
+        console.log(JSON.stringify(SourceLineCK));
+
+        //HTH
+        SourceLineHTH = [];
+        let trs3 = $("#table_hangtang tbody tr");
+        if (trs3.length != 0) {
+            trs3.each((index, tr) => {
+                let SLMua = String($('#' + tr.id + ' input[name="quantityBuy"]').val()).trim();
+                let SlTang = String($('#' + tr.id + ' input[name="orderQuantity"]').val()).trim();
+                if (SLMua.length > 0 || SlTang.length > 0 ) {
+                    SourceLineHTH.push({
+                        "SLMua": SLMua,
+                        "SlTang": SlTang,
+                        'type': 'MUABAN'
+                    });
+                }
+            });
+        }
+
+        let trs7 = $("#table_hangtang_ky tbody tr");
+        if (trs7.length != 0) {
+            trs7.each((index, tr) => {
+                let SLMua = String($('#' + tr.id + ' input[name="quantityBuyKy"]').val()).trim();
+                let SlTang = String($('#' + tr.id + ' input[name="orderQuantityKy"]').val()).trim();
+                if (SLMua.length > 0 || SlTang.length > 0) {
+                    SourceLineHTH.push({
+                        "SLMua": SLMua,
+                        "SlTang": SlTang,
+                        'type': 'KYGUI'
+                    });
+                }
+            });
+        }
+
+        let trs11 = $("#table_hangtang_ke tbody tr");
+        if (trs11.length != 0) {
+            trs11.each((index, tr) => {
+                let SLMua = String($('#' + tr.id + ' input[name="quantityBuyKe"]').val()).trim();
+                let SlTang = String($('#' + tr.id + ' input[name="orderQuantityKe"]').val()).trim();
+                if (SLMua.length > 0 || SlTang.length > 0) {
+                    SourceLineHTH.push({
+                        "SLMua": SLMua,
+                        "SlTang": SlTang,
+                        'type': 'KETHUE'
+                    });
+                }
+            });
+        }
+        console.log(JSON.stringify(SourceLineHTH));
+
+        //Thoa Thuan
+        var ThoaThuan = [];
+        var lst = {};
+        lst.MaNCC = $('#MaNCC').val().trim();
+        lst.SoHopDong = $('#SoHopDong').val().trim();
+        lst.TenNCC = $('#TenNCC').val().trim();
+        lst.FromDateHD = $('#FromDateHD').val().trim();
+        lst.ToDateHD = $('#ToDateHD').val().trim();
+        lst.TinhTrang = $('#TinhTrang').val().trim();
+        lst.SoPhuLuc = $('#SoPhuLuc').val().trim();
+        lst.TenDDBBM = $('#TenDDBBM').val().trim();
+        lst.DaiDienBBM = $('#DaiDienBBM').val().trim();
+        lst.FromDatePL = $('#FromDatePL').val().trim();
+        lst.ToDatePL = $('#ToDatePL').val().trim();
+        lst.TenDDDoiTac = $('#TenDDDoiTac').val().trim();
+        lst.DaiDienDoiTac = $('#DaiDienDoiTac').val().trim();
+        console.log(lst);
+        ThoaThuan.push(lst);
+
+        //DMSP
+     
+        var cboxes = document.getElementsByName('check1[]');
+        var i = 0;
+        var DMSP = [];
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                var lst1 = {};
+                lst1.MaHang = $('#row' + cboxes[i].id + ' #MaHang').html().trim();
+                lst1.TenHang = $('#row' + cboxes[i].id + ' #TenHang').html().trim();
+                lst1.VAT = $('#row' + cboxes[i].id + ' #VAT').html().trim();
+                lst1.GiaADCK = $('#row' + cboxes[i].id + ' #GiaADCK').val().trim();
+                lst1.PTCK = $('#row' + cboxes[i].id + ' #PTCK').val().trim();
+                lst1.GiaSauCK = $('#row' + cboxes[i].id + ' #GiaSauCK').html().trim();
+                lst1.ThuongDH = $('#row' + cboxes[i].id + ' #ThuongDH').val().trim();
+                lst1.RangeReview = $('#row' + cboxes[i].id + ' #RangeReview').html().trim();
+                DMSP.push(lst1);
+                console.log(lst1);
+            }
+        }
+        var obj = {};
+        obj.ThoaThuan = JSON.stringify(ThoaThuan);
+        obj.DMSP = JSON.stringify(DMSP);
+        obj.SourceLineThuong = JSON.stringify(SourceLineThuong);
+        obj.SourceLineTrade = JSON.stringify(SourceLineTrade);
+        obj.SourceLineCK = JSON.stringify(SourceLineCK);
+        obj.SourceLineHTH = JSON.stringify(SourceLineHTH);
+        console.log(obj);
+        $.ajax({
+            url: '/TTTM/SaveTTTM',
+            type: 'POST',
+            data: JSON.stringify({ obj }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+
+                if (data.RespId == 0) {
+                    jAlert(data.RespMsg, 'Thông báo', (r) => {
+                        location.reload();
+                    });
+                } else {
+                    jAlert(data.RespMsg, 'Thông báo');
+                }
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+
+        });
+    }
+</script>

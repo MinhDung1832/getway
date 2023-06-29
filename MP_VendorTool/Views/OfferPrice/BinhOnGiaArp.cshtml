@@ -1,0 +1,216 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Quản lý bình ổn giá thị trường";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="vendorName" class="col-sm-4 col-form-label">Nhà cung cấp</label>
+                                            <div class="col-sm-8">
+                                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                                {
+                                                    <input type="text" class="form-control" id="NhaCC" name="NhaCC" value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                                                    <script>
+                                                        $(function () {
+                                                            js_onchange_NCC_MaHang();
+                                                        });
+                                                    </script>
+                                                }
+                                                else
+                                                {
+                                                    <select id="NhaCC" class="form-control selectpicker" data-live-search="true" onchange="js_onchange_NCC_MaHang(); js_searchbox()">
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            <option value="">--- Chọn NCC ---</option>
+                                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label">Mã hàng /Tên hàng</label>
+                                            <div class="col-sm-8">
+                                                <select id="MaHang" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox()">
+                                                    <option value="">--- Chọn mã hàng ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="Ngay" class="col-sm-4 col-form-label">Ngày cập nhật</label>
+                                            <div class="col-sm-8">
+                                                <input type="date" name="NgayCapNhat" id="NgayCapNhat" class="form-control" value="" onchange="js_searchbox()">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Trạng thái</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control selectpicker" data-live-search="true" id="TrangThai" onchange="js_searchbox()">
+                                                    <option value=""> -- Chọn trạng thái --</option>
+                                                    <option value="1">Đã duyệt</option>
+                                                    <option value="0">Gửi duyệt</option>
+                                                    <option value="2">Từ chối</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center;">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a href="#" class="btn btn-secondary px-5 btgetw" id="btnGetChecks" onclick="js_searchbox()"><i class="fa fa-search" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tìm kiếm</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="div-content" style=" padding-top: 55px; ">
+                    @Html.Partial("~/Views/OfferPrice/Partial/__BinhOnGiaApr.cshtml")
+                </div>
+
+                <div style=" height:10px"></div>
+                <div style=" line-height:22px">
+                    <div> <b>Lưu ý:</b></div>
+                    - Bibo Mart hiện đang áp dụng hệ thống kiểm soát và điều chỉnh giá tự động để đảm bảo uy tín và quyền lợi cho Khách hàng.<br />
+                    - Vui lòng kiểm tra thông tin thị trường và duyệt giá trước 15h30 hàng ngày.<br />
+                    - Sau 15h30, hệ thống tự động tính toán và cập nhật giá mới trên các kênh, đồng thời tự động gửi thông báo cho tất cả Khách hàng.<br />
+                    - Nếu GP < 5%, không đảm bảo hiệu quả kinh doanh, hệ thống sẽ tự động dừng các đơn đặt hàng từ ngày D+1.<br />
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#txtHead').html("Quản lý bình ổn giá thị trường");
+        $('#f_dev').html("");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        js_GetList();
+    });
+    function js_searchbox() {
+        js_GetList();
+    }
+    function js_ReloadTable() {
+        imgrecall();
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[200, 50, 70, 100, -1], [200, 50, 70, 100]],
+            //"order": [[0, "desc"]],
+            //columnDefs: [
+            //    { 'targets': 4, 'orderable': false },
+            //    { 'targets': 5, 'orderable': false },
+            //    { 'targets': 6, 'orderable': false },
+            //    { 'targets': 7, 'orderable': false },
+            //    { 'targets': 8, 'orderable': false },
+            //    { 'targets': 9, 'orderable': false }
+            //],
+            "searching": false,
+            fixedHeader: true,
+            fixedHeader: {
+                headerOffset: 156
+            },
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+        $('img.content').hover(function () {
+            $(this).addClass('transition');
+        }, function () {
+            $(this).removeClass('transition');
+        });
+    }
+    function js_GetList() {
+        debugger;
+        var NhaCC = fomart_split($("#NhaCC").val(), 0);
+        var MaHang = fomart_split($("#MaHang").val(), 0);
+        var NgayCapNhat = $("#NgayCapNhat").val();
+        var TrangThai = $("#TrangThai").val();
+        $.ajax({
+            url: '/OfferPrice/Getway_BinhOnGia_ThiTruong_Arp',//Getway_BinhOnGia_ThiTruong_Arp
+            type: 'POST',
+            data: JSON.stringify({ NhaCC: NhaCC, MaHang: MaHang, NgayCapNhat: NgayCapNhat, TrangThai: TrangThai}),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_onchange_NCC_MaHang() {
+        var NCC = fomart_split($("#NhaCC").val(), 0);
+        $('#MaHang').empty();
+        if (NCC.length > 0) {
+            // Call MaHang
+            $.ajax({
+                url: '/OfferPrice/GetList_NCC_Produts_BinhOnGia',
+                type: 'POST',
+                data: JSON.stringify({ NCC: NCC }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#MaHang').empty();
+                        $('#MaHang').append('<option value="">--Chọn mã hàng--</option>');
+                        for (i in row) {
+                            $('#MaHang').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#MaHang').selectpicker('refresh');
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,122 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left;  ">
+                    Mã Hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 200px; max-width: 200px; ">
+                    Tên hàng
+                </th>
+                @*<th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                        Hình ảnh
+                    </th>*@
+                <th scope="col" style="text-align: left; ">
+                    Giá
+                </th>
+                <th scope="col" style="text-align: left;  ">
+                    Stockday
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    % GP
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    SL KH<br />ngừng mua
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    SL KH <br /> mới
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    L4L <br /> SL
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    LSL <br />DT
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    LSL <br />GP
+                </th>
+                <th scope="col" style="text-align: center; ">
+                    Hành động
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        var i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            var k = i;
+                            <tr style=" height:20px" id="Row_@i">
+                                <td class="text-left" width="100px">
+                                    @item["Mahang"]
+                                </td>
+                                <td class="text-left" width="300px">
+                                    @item["TenHang"]
+                                </td>
+                                <td class="text-right" width="100px">
+                                    @item["giabans"]
+                                </td>
+                                <td class="text-right" width="100px">
+                                    @item["StockDay"]
+                                </td>
+                                <td class="text-right" width="100px">
+                                    @item["pGP"]
+                                </td>
+                                <td class="text-right" width="100px">
+                                    @item["countsalesLostLoyalty"]
+                                </td>
+                                <td class="text-right" width="100px">
+                                    @item["countsalesTangKHMoi"]
+                                </td>
+                                <td class="text-right" width="100px">
+                                    <span style="color:@item["colorL4LSL"]"> @item["L4LSL"]</span>
+                                </td>
+                                <td class="text-right" width="100px">
+                                    <span style="color:@item["colorL4LDT"]"> @item["L4LDT"]</span>
+                                </td>
+                                <td class="text-right" width="100px">
+                                    <span style="color:@item["colorL4LGP"]"> @item["L4LGP"]</span>
+                                </td>
+                                <td style="text-align: center; width:85px">
+                                    <input class="form-check-input" id="_@i" type="checkbox" onchange="clearcheck(@i)" name="check[]" value="@item["Mahang"] - @item["MaNCCTradingTerm"]">
+                                    <span id="ncc_@i" style=" display:none">@item["MaNCCTradingTerm"]</span>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    function clearcheck(k) {
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                cboxes[i].checked = false;
+            }
+        }
+        $("#_" + k).prop('checked', true);
+    }
+</script>
+
+
+

@@ -1,0 +1,100 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Mã Hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 400px; max-width: 400px; ">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Hình ảnh
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Barcode
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Giá bán
+                </th>
+                <th scope="col" style="text-align: left; width: 150px; max-width: 150px; ">
+                    Giá mới
+                </th>
+                <th scope="col" style="text-align: left; width: 150px; max-width: 150px; ">
+                    Ngày bắt đầu
+                </th>
+                <th scope="col" style="text-align: left; width: 150px; max-width: 150px; ">
+                    Ngày kết thúc
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Trạng thái
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model;
+                    {
+                        var i = 0;
+                        foreach (MP_VendorTool.Models.PriceSell.Obj_PriceSell_GetAll_Ar item in dt)
+                        {
+                                var k = i;
+                                <tr style=" height:20px" id="Row_@i">
+                                    <td>
+                                        @item.MaSP
+                                    </td>
+                                    <td>
+                                        @item.TenSP
+                                    </td>
+                                    <td style="text-align:center">
+                                        @if (item.Images != null)
+                                        {
+                                            if (item.Images.ToString().Contains("no_selection"))
+                                            {
+                                            }
+                                            else
+                                            {
+                                                <a target="_blank" href="@item.Images" class="thickbox"><img style="height: 60px" src=" @item.Images" class="content"></a>
+                                            }
+                                        }
+                                    </td>
+                                    <td style="text-align: left">
+                                        @item.Barcode
+                                    </td>
+                                    <td style="text-align:right">
+                                        @item.Price
+                                    </td>
+                                    <td style="text-align: right">
+                                        @item.PriceNew
+                                    </td>
+                                    <td style="text-align: right">
+                                        @item.NgayBatDau
+                                    </td>
+                                    <td style="text-align: right">
+                                        @item.NgayKetThuc
+                                    </td>
+                                    <td style="text-align:center">
+                                        @Html.Raw(item.TrangThai)
+                                    </td>
+                                </tr>
+                                    i++;
+                                }
+                        }
+                    }
+                }
+            </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+

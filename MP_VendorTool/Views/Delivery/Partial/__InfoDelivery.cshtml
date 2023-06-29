@@ -1,0 +1,238 @@
+﻿@using System.Data
+
+<table id="tbl_Item" class="table table-bordered" style=" width:100%">
+    <thead>
+        <tr>
+            <th scope="col">
+                Mã hàng
+            </th>
+            <th scope="col">
+                Tên hàng
+            </th>
+            <th scope="col">
+                Hình ảnh
+            </th>
+            <th scope="col">
+                MOQ
+            </th>
+            <th scope="col">
+                MOQ trên thùng
+            </th>
+            <th scope="col">
+                Chi tiết
+            </th>
+            <th scope="col">
+                Trạng thái
+            </th>
+            <th scope="col">
+                Ngày tạo
+            </th>
+            <th scope="col">
+                Ngày thay đổi
+            </th>
+            <th scope="col" style="text-align: center; width: 120px; max-width: 120px; ">
+                Hành động
+                <span style="text-align:center !important"><input type="checkbox" style="text-align: center; width: 100%; " id="checkall" onchange="checkall();js_saveCheck()"></span>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        var k = i;
+                <tr style=" height:20px" id="Row_@i">
+                    <td>
+                        @item["MaHang"]
+                    </td>
+                    <td style="text-align: left; width: 200px; max-width: 200px; overflow: hidden; white-space: nowrap " title="@item["TenHang"]">
+                        @item["TenHang"]
+                    </td>
+                    <td style="text-align: center; width: 120px; max-width: 120px; ">
+                        <a href="@item["Images"]" title="" class="thickbox"><img height="60px" src="@item["Images"]" alt="" class="content" /></a>
+                    </td>
+                    <td style="text-align: left; width: 150px; max-width: 150px; ">
+                        <input type="number" name="Moq" id="Moq" onchange="SaveMOQ('@i','@item["MaHang"]','@item["TenHang"]','@item["NCC"]')" class="form-control Moq" value="@item["Moq"]" />
+                    </td>
+                    <td style="text-align: left; width: 150px; max-width: 150px; ">
+                        <input type="number" name="MoqThung" id="MoqThung" onchange="SaveMOQ('@i','@item["MaHang"]','@item["TenHang"]','@item["NCC"]')" class="form-control MoqThung" value="@item["MoqThung"]" />
+                    </td>
+                    <td style="text-align: center; ">
+                        @if (item["isTinhTrang"].ToString() == "1")
+                        {
+                            <a  target="_blank" href="/Delivery/StoreDetail?id=@item["IDHeader"]" class="btn btn-primary btn-xs" style="background:#@item["BackColor"]; color:#fff; border:none">Chi tiết</a>
+                        }
+                    </td>
+                    <td style="text-align: center; ">
+                        @Html.Raw(item["TinhTrang"])
+                    </td>
+                    <td style="text-align: right; ">
+                        @item["CreatedDate"]
+                    </td>
+                    <td style="text-align: right; ">
+                        @item["ModifiedDate"]
+                    </td>
+
+                    <td id="CheckID">
+                        <span id="MaHang_@i" style=" display:none">@item["MaHang"]</span>
+                        <span id="TenHang_@i" style=" display:none">@item["TenHang"]</span>
+                        <span id="NCC_@i" style=" display:none">@item["NCC"]</span>
+                        @*@if (item["isTinhTrang"].ToString() == "1")
+            {
+                <input class="cb-element" style="width:100% !important" disabled checked name="check1[]" id="_@i" type="checkbox">
+            }
+            else
+            {
+                <input class="cb-element" style="width:100% !important" name="check[]" id="_@i" type="checkbox">
+            }*@
+                        @if (item["Moq"].ToString() != "" && item["MoqThung"].ToString() != "")
+                        {
+                            if (item["isTinhTrang"].ToString() != "1")
+                            {
+                                <input class="cb-element" style="width:100% !important" name="check[]" id="_@i" value="@item["MaHang"]" onclick="js_saveCheck()" type="checkbox">
+                            }
+                        }
+
+
+                    </td>
+                </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    function checkall() {
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if ($('#checkall').is(":checked")) {
+                cboxes[i].checked = true;
+            } else { cboxes[i].checked = false; }
+        }
+    }
+
+    function SaveMOQ(i, MaHang, TenHang, NCC) {
+        debugger;
+        var Moq = $('#Row_' + i + ' #Moq').val();
+        var MoqThung = $('#Row_' + i + ' #MoqThung').val();
+
+        if (Moq != "" && MoqThung != "" && Moq != "undefined" && MoqThung != "undefined") {
+            $('#Row_' + i + ' #Moq').css('border', '1px solid #d7d7d7');
+            $('#Row_' + i + ' #MoqThung').css('border', '1px solid #d7d7d7');
+
+            $.ajax({
+                url: '/Delivery/Update_Header_Delivery',
+                type: 'POST',
+                data: JSON.stringify({ MaHang: MaHang, TenHang: TenHang, NCC: NCC, Moq: Moq, MoqThung: MoqThung }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    //console.log(data);
+                    // alert("Xác nhận thành công");
+                    js_GetList();
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+        else {
+            if (Moq != "" && Moq != "undefined") {
+                if (MoqThung == "" || MoqThung == "undefined") {
+                    $('#Row_' + i + ' #MoqThung').css('border', '1px solid #ffa903');
+                }
+            }
+            if (MoqThung != "" && MoqThung != "undefined") {
+                if (Moq != "" || Moq != "undefined") {
+                    $('#Row_' + i + ' #Moq').css('border', '1px solid #ffa903');
+                }
+            }
+        }
+    }
+
+    //function js_Check_MOQ(i) {
+    //    debugger;
+    //    var Moq = $('#Row_' + i + ' #Moq').val();
+    //    var MoqThung = $('#Row_' + i + ' #MoqThung').val();
+
+    //    if ( if (MoqThung != "" && MoqThung != "undefined" && Moq != "" && Moq != "undefined") {
+    //        js_saveCheck();
+    //    }
+    //    if (Moq != "" && Moq != "undefined") {
+    //        if (MoqThung == "" || MoqThung == "undefined") {
+    //            $('#Row_' + i + ' #MoqThung').css('border', '1px solid #ffa903');
+    //        }
+    //    }
+    //    if (MoqThung != "" && MoqThung != "undefined") {
+    //        if (Moq != "" || Moq != "undefined") {
+    //            $('#Row_' + i + ' #Moq').css('border', '1px solid #ffa903');
+    //        }
+    //    }
+    //    $("#_" + i).prop("checked", false);
+    //    alert('Vui lòng điền MOQ trước khi chọn checkbox');
+    //    return;
+    //}
+    var CheckId = "0";
+    function js_saveCheck() {
+
+        var ID = "0";
+        $('#CheckID input[name="check[]"]:checked').each(function (index, value) {
+            ID += "," + $(value).val();
+            CheckId = 1;
+        });
+        if (ID == "") {
+            alert("Bạn chưa chọn hành động");
+            return;
+        }
+        console.log(ID);
+        var VendorCode = fomart_split($("#VendorCode").val(), 0);
+        if (ID.length > 0) {
+            $.ajax({
+                url: '/Delivery/Update_Header_Delivery_XacNhan',
+                type: 'POST',
+                data: JSON.stringify({ ID: ID, VendorCode: VendorCode }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    if (data.code == "0") {
+
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+    function js_saveCheck_href() {
+        if (CheckId == "1") {
+            window.location.href = '/Delivery/DeliveryStore';
+        } else {
+            alert("Bạn chưa chọn hành động");
+        }
+    }
+</script>
+

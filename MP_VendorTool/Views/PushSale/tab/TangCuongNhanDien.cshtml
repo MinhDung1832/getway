@@ -1,0 +1,180 @@
+﻿@using MP_VendorTool.Models.Order
+
+<div class="frominput  ShowInPut" style="pointer-events: none; opacity: 0.6; ">
+    <div style="height: 10px; clear: both; "></div>
+    <div class="col-md-9  ShowInPut" style="pointer-events: none; opacity: 0.6; ">
+        <table class="table table-bordered" id="table_TCND">
+            <thead>
+                <tr>
+                    <td style=" width: 18%; border: 1px solid #f3f3f3; ">
+                    </td>
+                    <td style=" width: 10%; border: 1px solid #f3f3f3;">
+                    </td>
+                    <td style=" width: 10%; border: 1px solid #f3f3f3; ">
+                    </td>
+                    <td style=" width: 8%; border: 1px solid #f3f3f3;">
+                    </td>
+                    <td style=" width: 14%; border: 1px solid #f3f3f3; ">
+                    </td>
+                    <td style=" width: 14%; border: 1px solid #f3f3f3; ">
+                    </td>
+                    <td style=" width: 10%; border: 1px solid #f3f3f3;  text-align:right">
+                        <div id="SumTong"></div>
+                    </td>
+                    <td style=" width: 10%; border: 1px solid #f3f3f3; ">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="col">Hạng mục</th>
+                    <th scope="col">Đơn vị</th>
+                    <th scope="col">Đơn giá</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Áp dụng từ<br /> ngày</th>
+                    <th scope="col">Áp dụng đến<br> ngày</th>
+                    <th scope="col">Thành tiền</th>
+                    <th scope="col" style="text-align: center ">Thêm</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="col-md-12 ShowInPut" style="pointer-events: none; opacity: 0.6; ">
+    <div style=" padding-top: 32px">
+        <a href="#" id="btn_Gui" onclick="fn_save_TCND();" class="btn btn-secondary"><i class="far fa-paper-plane"></i> Lưu lại</a>
+    </div>
+</div>
+<div style=" clear:both; height:20px"></div>
+<script>
+    var TCND = 0;
+    Source_TCND = [];
+    $(function () {
+        js_add_TCND();
+    });
+    function js_add_TCND(r) {
+        TCND++;
+        var chuoi = "";
+        var TTC = TCND - 1;
+        $("#row_" + TTC + " .btn_add").empty();
+        $("#row_" + TTC + " .btn_add").html('<a href="javascript:void(0);" onclick="deleteRow(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+        chuoi += '<tr id="row_' + TCND + '">';
+        chuoi += '<td style=" width: 18%; "><input style="width:100% !important" type="text" name="HangMuc" class="form-control " /></td>';
+        chuoi += '<td style=" width: 10%; "><input style="width:100% !important" type="text" name="DonVi" class="form-control " /></td>';
+        chuoi += '<td style=" width: 10%; "><input style="width:100% !important ; text-align:right"  onchange="js_Sum(' + TCND + ')" type="text" name="DonGia" class="form-control OrderValue" /></td>';
+        chuoi += '<td style=" width: 8%; "><input style="width:100% !important ; text-align:right"  onchange="js_Sum(' + TCND + ')" type="text" name="SoLuong" value="1" class="form-control OrderValue" /></td>';
+        chuoi += '<td style=" width: 14%; "><input style="width:100% !important" type="date" name="FromDayTCND" class="form-control " /></td>';
+        chuoi += '<td style=" width: 14%; "><input style="width:100% !important" type="date" name="ToDayTCND" class="form-control " /></td>';
+        chuoi += '<td style=" width: 10%; "><input style="width:100% !important ; text-align:right" type="text" name="ThanhTien" disabled class="form-control OrderValue" /></td>';
+        chuoi += '<td style="text-align:center;width:3%; " class="btn_add"><a href="javascript:void(0)" onclick="js_add_TCND(' + TCND + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td></tr>';
+        $("#table_TCND tbody").append(chuoi);
+    }
+    function deleteRow(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("table_TCND").deleteRow(ri);
+    }
+    function js_Sum(r) {
+        debugger;
+        let DonGia = $('#row_' + r + ' input[name="DonGia"]').val().trim().replaceAll(",", "");
+        let SoLuong = $('#row_' + r + ' input[name="SoLuong"]').val().trim().replaceAll(",", "");
+        if (DonGia <= 0) {
+            DonGia = 0;
+        }
+        if (SoLuong <= 0) {
+            SoLuong = 0;
+        }
+        var price = parseInt(DonGia) * parseInt(SoLuong);
+        $('#row_' + r + ' input[name="ThanhTien"]').val(commaSeparateNumber(price).replaceAll(".", ","));
+
+        GetData_SumZ();
+    }
+    function GetData_SumZ() {
+        debugger;
+        let SumTong = 0;
+        let trs = $("#table_TCND tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let ThanhTien = String($('#' + tr.id + '  input[name="ThanhTien"]').val().replaceAll(",", "").replaceAll(".", "")).trim();
+                if (ThanhTien.length > 0) {
+                    SumTong += parseInt(ThanhTien);
+                }
+            });
+        }
+        $('#SumTong').html(commaSeparateNumber(SumTong));
+    }
+
+    function commaSeparateNumber(val) {
+        while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');
+        }
+        return val;
+    }
+
+    function GetData_TangCuongNhanDien() {
+        Source_TCND = [];
+        let trs = $("#table_TCND tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+
+                var NhaCC = $('#NhaCC').val();
+                var arrNhaCC = NhaCC.split(' - ');
+
+                let HangMuc = String($('#' + tr.id + '  input[name="HangMuc"]').val()).trim();
+                let DonVi = String($('#' + tr.id + '  input[name="DonVi"]').val()).trim();
+                let DonGia = String($('#' + tr.id + '  input[name="DonGia"]').val().replaceAll(",", "").replaceAll(".", "")).trim();
+                let SoLuong = String($('#' + tr.id + '  input[name="SoLuong"]').val().replaceAll(",", "").replaceAll(".", "")).trim();
+                let FromDay = String($('#' + tr.id + '  input[name="FromDayTCND"]').val()).trim();
+                let ToDay = String($('#' + tr.id + '  input[name="ToDayTCND"]').val()).trim();
+                let ThanhTien = String($('#' + tr.id + '  input[name="ThanhTien"]').val().replaceAll(",", "").replaceAll(".", "")).trim();
+
+                if (HangMuc.length > 0 && DonVi[0].length > 0 && DonGia.length > 0 && SoLuong.length > 0 && ThanhTien.length > 0) {
+                    Source_TCND.push({
+                        "MaNCC": arrNhaCC[0],
+                        "TenNCC": arrNhaCC[1],
+                        "HangMuc": HangMuc,
+                        "DonVi": DonVi,
+                        "DonGia": DonGia,
+                        "SoLuong": SoLuong,
+                        "FromDay": FromDay,
+                        "ToDay": ToDay,
+                        "ThanhTien": ThanhTien
+                    });
+                }
+            });
+        }
+    }
+    function fn_save_TCND() {
+        GetData_TangCuongNhanDien();
+        console.log(JSON.stringify({ Source_TCND }));
+        console.log(Source_TCND);
+
+        // Call Save PushSale Header set ID
+        fn_save_Invest_Header();
+
+        $.ajax({
+            url: '/PushSale/Create_PushSale_NCC_TangCuongNhanDien',
+            type: 'POST',
+            data: JSON.stringify({ info: Source_TCND }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                //  js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data) {
+                    jAlert('Thêm mới thành công', 'Thông báo', (r) => {
+                        location.reload();
+                    });
+
+                } else {
+                    jAlert('Có lỗi xảy ra', 'Thông báo');
+                }
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+</script>

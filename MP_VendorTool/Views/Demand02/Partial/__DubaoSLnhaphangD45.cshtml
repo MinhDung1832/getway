@@ -1,0 +1,78 @@
+﻿@using System.Data
+<table id="tbl_Item" class="table table-bordered tb_detail">
+    <thead>
+        <tr>
+            <th class="text-left" style="width: 88px; max-width: 88px; ">
+                Nhà cung cấp
+            </th>
+            <th class="text-left" style="width: 88px; max-width: 88px; ">
+                Mã Hàng
+            </th>
+            <th class="text-left" style="width: 300px; max-width: 300px; ">
+                Tên hàng
+            </th>
+            <th class="text-left" style="width: 130px; max-width: 130px; ">
+                SL dự báo
+            </th>
+            <th class="text-left" style="width: 130px; max-width: 130px; ">
+                Ngày cập nhật
+            </th>
+            <th class="text-left" style="width: 130px; max-width: 130px; ">
+                Giá (-VAT)
+            </th>
+            <th class="text-left" style="width: 130px; max-width: 130px; ">
+                VAT
+            </th>
+            <th class="text-left" style="width: 130px; max-width: 130px; ">
+                Giá (+VAT)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+        <tr id="row_@i" onclick="js_detail('@item["vendor"]','@item["MaHang"]','@item["TenHang"]','@item["VAT"]','@item["Price"]','@item["PriceVAT"]','@item["isUpdate"]' );">
+            <td class="text-left" style="width: 88px; max-width: 88px; ">
+                @item["vendor"]
+            </td>
+            <td class="text-left" style="width: 88px; max-width: 88px; ">
+                @item["MaHang"]
+            </td>
+            <td class="text-left" style="width: 300px; max-width: 300px; overflow: hidden; white-space: nowrap " title="@item["TenHang"]">
+                @item["TenHang"]
+            </td>
+            <td class="text-right" style="width: 130px; max-width: 130px; ">
+                @item["SLD"]
+            </td>
+
+            <td class="text-right" style="width: 130px; max-width: 130px; ">
+                <span style="color:@item["Color"]">@item["Lastupdate"]</span>
+            </td>
+            <td class="text-right" style="width: 130px; max-width: 130px; ">
+                @item["Price"]
+            </td>
+            <td class="text-right" style="width: 130px; max-width: 130px; ">
+                @item["VAT"]
+            </td>
+            <td class="text-right" style="width: 130px; max-width: 130px; ">
+                @item["PriceVAT"]
+            </td>
+
+        </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
+

@@ -1,0 +1,331 @@
+﻿@using MP_VendorTool.Common;
+@using MP_VendorTool.Models.Order;
+@{
+    ViewBag.Title = "Tạo mới yêu cầu - Thu hồi hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .headerName {
+        margin-left: 13px;
+    }
+
+    .FrDetail label {
+        margin-bottom: 8px;
+    }
+
+    .oother {
+        min-height: 841px;
+    }
+
+    #tbl_Item_info {
+        display: none
+    }
+
+    #tbl_Item_length {
+        display: none
+    }
+
+
+    .paging_simple_numbers {
+        display: none
+    }
+
+    .scrollbar {
+        float: left;
+        height: 650px;
+        width: 100%;
+        overflow-y: scroll;
+        margin-bottom: 25px;
+        margin-top: 25px;
+    }
+
+    #wrapper {
+        text-align: center;
+        margin: auto;
+    }
+
+    #style-1::-webkit-scrollbar,
+    #style-2::-webkit-scrollbar {
+        width: 12px;
+        background-color: #F5F5F5;
+    }
+
+    #style-4::-webkit-scrollbar,
+    #style-5::-webkit-scrollbar,
+    #style-6::-webkit-scrollbar,
+    #style-7::-webkit-scrollbar,
+    #style-8::-webkit-scrollbar,
+    #style-9::-webkit-scrollbar,
+    #style-10::-webkit-scrollbar,
+    #style-11::-webkit-scrollbar {
+        width: 10px;
+        background-color: #F5F5F5;
+    }
+
+    /**  STYLE 11 */
+    #style-11::-webkit-scrollbar-track {
+        border-radius: 10px;
+        background: rgba(0,0,0,0.1);
+        border: 1px solid #ccc;
+    }
+
+    #style-11::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: linear-gradient(left, #fff, #e4e4e4);
+        border: 1px solid #aaa;
+    }
+
+        #style-11::-webkit-scrollbar-thumb:hover {
+            background: #fff;
+        }
+
+        #style-11::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(left, #22ADD4, #1E98BA);
+        }
+</style>
+<div class="content-wrapper FrDetail">
+    <div style="clear: both; height: 10px;"></div>
+    <div><a href="/Refund/ProductRecall"><img src="/image/ArrowLeft.png" /></a></div>
+    <div style="clear: both; height:20px;"></div>
+    <div class="row">
+        <div class="col-md-6 ">
+            <fieldset class="BBoder oother">
+                <div class="col-md-12">
+                    <div class="headerName">
+                        <div>Thông tin đơn</div>
+                        <span style="font-style: italic; font-weight: 400; font-size: 15px; line-height: 19px; color: rgba(0, 0, 0, 0.87); padding-top: 5px; "> Vui lòng cập nhật đầy đủ thông tin </span>
+                    </div>
+                    <div style=" height:20px;"></div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <label>Lý do hoàn hàng</label>
+                    </div>
+                    <div class="col-md-12">
+                        <select class="form-control selectpicker" data-live-search="true" id="LyDo">
+                            <option value="">---Chọn lý do hoàn hàng---</option>
+                            @if (ViewBag.TrangThai != null)
+                            {
+                                foreach (objCombox box in (List<objCombox>)ViewBag.TrangThai)
+                                {
+                                    <option value="@box.Code">@box.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <label>Ghi chú</label>
+                    </div>
+                    <div class="col-md-12">
+                        <textarea name="GhiChu" id="GhiChu" style="width: 100%; max-width: 100%; height: 100px; border: 1px solid #d7d7d7; padding: 10px; " placeholder="Ghi chú"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12" style=" height:12px;"></div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                    </div>
+                    <div class="col-md-12">
+                        <a href="#" onclick="fn_save()" id="btn_Gui" class="btn btn-success px-5 rounded-0 btgetw" style="color: #fff; width: auto; padding-left: 15px !important; padding-right: 15px !important;"><i class="fa fa-save"></i> Tạo yêu cầu</a>
+                    </div>
+                </div>
+                <div class="col-md-12" style=" height:7px;"></div>
+            </fieldset>
+        </div>
+        <div class="col-md-6 row">
+            <fieldset class="BBoder " style="">
+                <div class="col-md-12">
+                    <div class="headerName">
+                        <div>Danh sách sản phẩm</div>
+                        <span style="font-style: italic; font-weight: 400; font-size: 15px; line-height: 19px; color: rgba(0, 0, 0, 0.87); padding-top: 5px; "> Vui lòng chọn sản phẩm cần tạo yêu cầu </span>
+                    </div>
+                    <div style=" height:20px;"></div>
+                </div>
+                <div class="">
+                    <div class="col-md-6">
+                        <label for="textMien" class="col-sm-4 col-form-label" style="margin-top: 1px;">Tìm sản phẩm</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="TenSanPham" id="TenSanPham" placeholder="Tìm tên sản phẩm" class="form-control" oninput="js_searchbox();">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="textMien" class="col-sm-4 col-form-label" style="margin-top: 1px;">Nhóm hàng</label>
+                        <div class="col-sm-8">
+                            <select class="form-control selectpicker" data-live-search="true" id="NhomHang" onchange="js_searchbox();">
+                                <option value="">---Chọn nhóm hàng---</option>
+                                @if (ViewBag.function != null)
+                                {
+                                    foreach (objCombox box in (List<objCombox>)ViewBag.function)
+                                    {
+                                        <option value="@box.Code">@box.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="scrollbar" id="style-11">
+                        <div id="div-content" style="padding-top: 0px; ">
+                            @Html.Partial("~/Views/Refund/Partial/__CreateRequest.cshtml")
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div style="clear: both; height: 7px"></div>
+</div>
+
+<input type="hidden" name="NhaCC" id="NhaCC" value="@ViewBag.NCC" />
+
+
+<script type="text/javascript">
+    $(function () {
+        js_GetListOrder();
+        $('#txtHead').html("Tạo mới yêu cầu - Thu hồi hàng");
+    });
+    function js_searchbox() {
+        js_GetListOrder();
+    }
+    function js_ReloadTable() {
+        imgrecall();
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[-1, 70, 100, -1], [-1, 70, 100]],
+            "searching": false,
+            columnDefs: [
+                { 'targets': 4, 'searchable': false, 'orderable': false },
+            ],
+
+            autoWidth: false,
+            fixedHeader: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            },
+        });
+    }
+    function js_GetListOrder() {
+        var Name = $("#TenSanPham").val();
+        var Function = $("#NhomHang").val();
+        var NhaCC = fomart_split($("#NhaCC").val(), 0);
+
+        $.ajax({
+            url: '/Refund/GetList_Search_CreateRequest',//Web_REFUND_2023_Get_List_Search
+            type: 'POST',
+            data: JSON.stringify({ Name: Name, Function: Function, NhaCC: NhaCC }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+    jQuery(document).bind("keyup keydown", function (e) {
+        if (e.ctrlKey && e.keyCode == 80) {
+            return false;
+        }
+    });
+
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+
+        //$('img.content').hover(function () {
+        //    $(this).addClass('transition');
+
+        //}, function () {
+        //    $(this).removeClass('transition');
+        //});
+    }
+</script>
+
+<script>
+    var SourceHeader = [];
+    var SourceLine = [];
+    function fn_save() {
+        debugger;
+        if (
+            $('#LyDo').val().length == 0 ||
+            $('#GhiChu').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ');
+            return;
+        }
+
+        var LyDo = $('#LyDo').val();
+        var GhiChu = $('#GhiChu').val();
+        var VendorNo = $('#NhaCC').val();
+
+        if (LyDo == "") {
+            alert('Vui lòng nhập các trường đầy đủ');
+            return;
+        }
+      
+        getTable_Line();
+        console.log(JSON.stringify(SourceLine));
+        if (SourceLine.length < 0) {
+            alert('Vui lòng nhập các trường đầy đủ');
+            return;
+        }
+
+        if (SourceLine.length > 0) {
+            $.ajax({
+                url: '/Refund/Save_CreateRequest_Producst',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, LyDo: LyDo, GhiChu: GhiChu, obj: JSON.stringify(SourceLine) }),
+                enctype: 'multipart/form-data',
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    js_Loading(true, 1);
+                    if (data.RespId == 0) {
+                        jAlert(data.RespMsg, 'Thông báo', (r) => {
+                            window.location.href = '/Refund/ProductRecall';
+                        });
+                    } else {
+                        jAlert(data.RespMsg, 'Thông báo');
+                    }
+                    js_Loading(false, 1);
+                }
+            });
+        } else {
+            alert('Vui lòng chọn sản phẩm');
+        }
+    }
+
+    function getTable_Line() {
+        SourceLine = [];
+        let trs = $("#tbl_Item tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+
+                let MaHang = String($('#' + tr.id + ' .MaHang').html()).trim();
+                let HanSuDung = String($('#' + tr.id + ' input[name="HanSuDung"]').val()).trim();
+                let SoLuong = String($('#' + tr.id + ' input[name="SoLuong"]').val()).trim();
+
+                let Check = $('#' + tr.id + ' input[name="IsCheck"]:checked').length > 0;
+                if (Check == true) {
+                    if (MaHang.length > 0 && HanSuDung.length > 0 && SoLuong.length > 0) {
+                        SourceLine.push({
+                            "MaHang": MaHang,
+                            "HanSuDung": HanSuDung,
+                            "SoLuong": SoLuong,
+                        });
+                    }
+                }
+
+            });
+        }
+    }
+
+</script>

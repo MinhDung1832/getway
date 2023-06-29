@@ -1,0 +1,28 @@
+﻿.content_home{font-family:'system-ui'}
+.box_01{border-left:7px double #545151;margin-top:373px;margin-left:17px}
+.box_01 p{text-transform:uppercase;font-size:42px;color:#fff;padding-left:23px;margin-top:0!important;margin-bottom:0!important}
+.box_2{color:#eae6e6;margin-top:55px;margin-left:17px}
+#myForm input{font-size:12px!important;font-weight:400!important}
+.box_2 ul li{list-style:none;font-size:14px;font-style:italic}
+.box_2 p{font-size:14px;font-style:italic}
+.box_2 ul{margin-left:-25px}
+.button_start{float:right;margin-top:83px}
+.button_start a{background-color:#e9e8e7;padding:15px 44px;color:#969696;font-size:14px}
+.button_start a:hover{text-decoration:none}
+.wrap-login100{width:73%;margin:0 auto;padding:0 60px 53px;margin-top:183px;margin-bottom:230px}
+.wrap-login100 h3{text-align:center;text-transform:uppercase;font-weight:700;color:#fff;margin-bottom:81px;font-weight:lighter;font-family:'system-ui';font-weight:700;font-size:60px!important;font-weight:600;letter-spacing:-2px}
+.text_change_pass a{color:#fff;padding:11px;display:block;font-style:italic;font-size:13px}
+#myForm label{color:#fff;font-size:15px}
+#myForm .bt_login{text-align:center;width:67%;margin:0 auto}
+.form-control{height:25px!important}
+.bt_login input{background-color:#fff0;border:1px solid #eae6e6;color:#fff;padding:3px;text-transform:uppercase;margin-top:10px}
+.text_change_pass{text-align:center}
+html{height:100%;box-sizing:border-box}
+*,:before,:after{box-sizing:inherit}
+body{position:relative;min-height:100%;background-image:url(../../image/bg01.png);background-color:#828383;height:657px;background-position:center;background-repeat:no-repeat;background-size:contain}
+.ct{margin:0 auto;padding-top:32px;width:94%}
+#myForm{width:449px;margin:0 auto}
+#logo_login{text-align:center;padding-top:46px}
+#logo_login img{width:251px}
+.menu_footer ul{width:595px!important;margin:0 auto}
+

@@ -1,0 +1,289 @@
+﻿@using MP_VendorTool.Models.Order
+@using MP_VendorTool.Common;
+@{
+    ViewBag.Title = "Demand forecasting 02";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .content_search .form-control {
+        height: 34px !important;
+    }
+</style>
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="vendorName" class="col-sm-4 col-form-label">Nhà cung cấp</label>
+                                            <div class="col-sm-8">
+                                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                                {
+                                                    <input type="text" class="form-control" id="NhaCC" name="NhaCC" value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                                                }
+                                                else
+                                                {
+                                                    <select id="NhaCC" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox()">
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            <option value="">--- Chọn NCC ---</option>
+                                                            foreach (objCombox box in (List<objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="Ngay" class="col-sm-4 col-form-label">Tên sản phẩm</label>
+                                            <div class="col-sm-8" ondblclick="$('#MaHang').val('').trigger('change');">
+                                                <input type="text" class="form-control" id="MaHang" name="MaHang" list="VendorPro_datalist" onchange="js_searchbox();" placeholder="Tên sản phẩm">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center;">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a href="#" class="btn btn-secondary px-5 btgetw" id="btnGetChecks" onclick="js_searchbox()"><i class="fa fa-search" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tìm kiếm</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="div-content" style=" padding-top: 29px; ">
+                    @Html.Partial("~/Views/Po/Partial/__DemandCasting.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtHead').html('Demand forecasting 02');
+        js_GetList();
+    });
+
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+        $('img.content').hover(function () {
+            $(this).addClass('transition');
+        }, function () {
+            $(this).removeClass('transition');
+        });
+    }
+
+    function js_searchbox() {
+        js_GetList();
+    }
+
+    function js_ReloadTable() {
+        imgrecall();
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[50, 70, 100, 300, 400, 500, 1000, -1], [50, 70, 100, 300, 400, 500, 1000]],
+            //columnDefs: [
+            //    { 'targets': 6, 'searchable': false, 'orderable': false }
+            //],
+            "searching": false,
+            autoWidth: false,
+            pageLength: -1,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            },
+            "pageLength": 50,
+            fixedHeader: {
+                headerOffset: 114
+            }
+        });
+    }
+
+    function js_GetList() {
+        var MaHang = $("#MaHang").val();
+        var MaNCC = fomart_split($("#NhaCC").val(), 0);
+
+        if (MaNCC.length > 0) {
+            $.ajax({
+                url: '/Po/GetListDemandCastingItem',
+                type: 'POST',
+                data: JSON.stringify({
+                    MaNCC: MaNCC, MaHang: MaHang
+                }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    $("#div-content").find('tbody').empty();
+                    $('#div-content').html(data);
+                    js_ReloadTable();
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+
+<script>
+    function js_detail(MaHang, Name, MaNCC) {
+        $('#Product_modal').modal('show');
+        $('#MaHangs').html(MaHang);
+        $('#TenHangs').html(Name);
+        $('#MaNCCs').html(MaNCC);
+    }
+    function js_save() {
+        debugger;
+        var GiaUuDai = $('#GiaUuDai').val().replaceAll(',', '');
+        var SLTonKho = $('#SLTonKho').val().replaceAll(',', '');
+
+        var NgaySanXuat = $('#NgaySanXuat').val();
+        var NgayHetHan = $('#NgayHetHan').val();
+
+        var MaHang = $('#MaHangs').html();
+        var TenHang = $('#TenHangs').html();
+        var MaNCC = $('#MaNCCs').html();
+
+        if (GiaUuDai == '' || TenHang == '' || MaHang == '' || MaNCC == '' || NgaySanXuat == '' || NgayHetHan == '' || SLTonKho == '0') {
+            jAlert('Giá không hợp lệ. Vui lòng kiểm tra lại.');
+            return;
+        }
+        $.ajax({
+            url: '/Po/DemandItem_tonkho_giauudai_ncc',
+            type: 'POST',
+            data: JSON.stringify({ MaNCC: MaNCC, MaHang: MaHang, Giauudai: GiaUuDai, SLtonkho: SLTonKho, NgaySanXuat: NgaySanXuat, NgayHetHan: NgayHetHan}),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+            },
+            success: function (data) {
+                if (data.result == '1') {
+                    jAlert("Thành công");
+                    $('#Product_modal').modal('hide');
+                    js_GetList();
+                }
+                else {
+                    jAlert("Có lỗi xảy ra, vui lòng kiểm tra lại.");
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+</script>
+
+
+<div class="modal"  tabindex="-1" role="dialog" id="Product_modal">
+    <div class="modal-dialog" role="document" style="width:1000px; border-radius:0; ">
+        <div class="modal-content fromm">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style="font-size:18px;display: contents;">CẬP NHẬT THÔNG TIN GIÁ VÀ SỐ LƯỢNG</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-window-close" style="margin-top:5px"></i>
+                </button>
+            </div>
+            <div>
+                <div class="col-md-12 " style=" margin-top: 8px; ">
+                    <div class="col-md-4">
+                        <label><b>Mã hàng</b></label>
+                    </div>
+                    <div class="col-md-8">
+                        <div id="MaHangs"></div>
+                    </div>
+                </div>
+                <div class="col-md-12 " style=" margin-top: 8px; ">
+                    <div class="col-md-4">
+                        <label><b>Tên hàng</b></label>
+                    </div>
+                    <div class="col-md-8">
+                        <div id="TenHangs"></div>
+                        <div id="MaNCCs" style=" display:none"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 " style=" margin-top: 15px; ">
+                <div class="col-md-8">
+                    <label style=" ">
+                        <b>CẬP NHẬT THÔNG TIN GIÁ VÀ SỐ LƯỢNG</b>
+                    </label>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+            <table style="width: 100%; padding-top: 10px; display: block;">
+                <tr>
+                    <td style="padding-left: 2vh;line-height: 25px;">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label style=" "><b>Giá ưu đãi</b><span style="color:red">*</span>  </label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" id="GiaUuDai" placeholder="Nhập giá ưu đãi" class="form-control  OrderValue" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label style=" "><b>SL tồn kho</b><span style="color:red">*</span>  </label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" id="SLTonKho" placeholder="Nhập SL tồn kho" class="form-control  OrderValue" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label style=" "><b>Ngày sản xuất</b><span style="color:red">*</span>  </label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="date" id="NgaySanXuat"  class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label style=" "><b>Ngày hết hạn</b><span style="color:red">*</span>  </label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="date" id="NgayHetHan"  class="form-control" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="clear:both"></div>
+            <div style=" clear:both; height:10px"></div>
+            <div style="text-align:right; margin:15px">
+                <a href="#" id="btn_savetong" onclick="js_save()" class="form-control btn btn-info" style="width:88px; color:#fff"><i class="fa fa-save" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i>Lưu </a>
+                <a href="#" data-dismiss="modal" class="form-control btn btn-info" style="width: 88px; color: #fff"><i class="fa fa-times" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i>Đóng </a>
+            </div>
+            <div style="clear:both; height:10px"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .fromm .form-control {
+        margin-bottom: 5px;
+    }
+</style>

@@ -1,0 +1,271 @@
+﻿@media screen and (min-width:768px) and (max-width:1000px) {
+}
+
+@media screen and (min-width:640px) and (max-width:767px) {
+}
+
+@media screen and (min-width:480px) and (max-width:639px) {
+}
+
+@media screen and (min-width:1px) and (max-width:479px) {
+}
+
+@media screen and (min-width:1px) and (max-width:1000px) {
+    img {
+        border: medium none;
+        height: auto;
+        line-height: normal;
+        margin: 0;
+        max-width: 100% !important;
+        padding: 0;
+        vertical-align: middle;
+        width: auto;
+        transition: all 0.2s ease-in;
+    }
+
+    body {
+        width: 100%;
+    }
+
+    * {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .bglogin .Vendors {
+        font-size: 43px;
+        padding-top: 21px;
+    }
+
+    #logo_login {
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .wrap-login100 {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 0px 0px;
+        margin-top: 60px;
+        padding-bottom: 134px;
+    }
+
+    .controllg {
+        display: inline-block;
+        width: 73%;
+        height: 28px;
+    }
+
+    form#myForm {
+        width: 100%;
+        margin: auto;
+    }
+
+    .wrap-login100 {
+        text-align: center;
+    }
+
+    input.loginbtn {
+        margin-top: 16px;
+    }
+
+    .menu_footer ul li a {
+        line-height: 26px;
+    }
+
+    #txtHead {
+        font-size: 9px;
+    }
+
+    .PriceOffercs {
+        width: 95% !important;
+        max-width: 95% !important;
+        border-radius: 0;
+    }
+
+    #txtHead {
+        font-size: 15px;
+    }
+
+    .btgetw {
+        width: 100%;
+    }
+
+    #tbl_Item .badge, #tbl_Item .label {
+        padding: 3px 6px;
+        line-height: inherit;
+        font-size: 11px;
+        font-weight: 600;
+        color: #fff;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        display: inline-block;
+        width: 130px;
+    }
+
+    .TimKiem {
+        width: 100%;
+        margin: auto;
+    }
+
+    .LuuY {
+        display: inline-block;
+        padding-top: 18px;
+    }
+
+    a.btn.btn-secondary.btn_search.XacNhanDonHangTraLai {
+        width: 100%;
+    }
+
+    .Mconten {
+        height: auto;
+    }
+
+    body.fixed-navbar.has-animation .MSologan {
+        width: 92% !important;
+    }
+
+    .Mimages {
+        top: 1px;
+        float: right;
+        text-align: right;
+    }
+
+    body.fixed-navbar.has-animation .Mtext {
+        font-family: 'SF-Pro-Text-Regular';
+        top: 21px;
+        font-size: 10px;
+    }
+
+    .ihead .ibox-title {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .conmanyinffo {
+        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .AutoFix {
+        position: absolute;
+        padding-bottom: 7px;
+        padding-top: 13px;
+        top: 0px;
+        z-index: 1;
+        background: #ffffff;
+        width: 100%;
+        border-top: none;
+        margin-left: 0px;
+        padding-left: 0px;
+    }
+
+    .Registermodal {
+        top: 25%;
+    }
+
+    .Registerdia {
+        width: 370px;
+        border-radius: 0;
+    }
+
+    .LoaiHinhHH a {
+        text-align: -webkit-center;
+        width: 94%;
+        display: block;
+        background: #2562f0;
+        margin: 10px;
+        padding: 10px;
+        font-size: 17px;
+        color: #fff;
+        border-radius: 34px;
+    }
+
+    #showPassword {
+        float: inherit !important;
+    }
+}
+
+
+@media screen and (min-width:1900px) and (max-width:2000px) {
+    body.fixed-navbar.has-animation .MSologan {
+        width: 18%;
+        height: 163px;
+    }
+
+    body.fixed-navbar.has-animation.sidebar-mini .MSologan {
+        width: 18%;
+        height: 163px;
+    }
+}
+
+@media screen and (min-width:2150px) and (max-width:3050px ) {
+    .AutoFixV3 {
+        width: 98%;
+    }
+}
+
+@media screen and (min-width:3051px) and (max-width:9000px ) {
+    .AutoFixV3 {
+        width: 99%;
+    }
+}
+
+@media screen and (min-width:1200px) and (max-width:1499px ) {
+    .AutoFixV2 {
+        width: 95%;
+    }
+        .AutoFixV2 .fromsearch {
+            background: #ffffff;
+            width: 87%;
+        }
+    .AutoFix .fromsearch {
+        background: #ffffff;
+        width: 88%;
+    }
+}
+
+@media screen and (min-width:1500px) and (max-width:2000px ) {
+    .AutoFixV2 {
+        width: 96.6%;
+    }
+
+        .AutoFixV2 .fromsearch {
+            background: #ffffff;
+            width: 87%;
+        }
+    .AutoFix .fromsearch {
+        background: #ffffff;
+        width: 92%;
+    }
+}
+
+@media screen and (min-width:2001px) and (max-width:3050px ) {
+    .AutoFixV2 {
+        width: 98%;
+    }
+        .AutoFixV2 .fromsearch {
+            background: #ffffff;
+            width: 91%;
+        }
+        .AutoFix .fromsearch {
+            background: #ffffff;
+            width: 90%;
+        }
+}
+
+@media screen and (min-width:3051px) and (max-width:9000px ) {
+    .AutoFixV2 {
+        width: 99%;
+    }
+        .AutoFixV2 .fromsearch {
+            background: #ffffff;
+            width: 90%;
+        }
+        .AutoFix .fromsearch {
+            background: #ffffff;
+            width: 90%;
+        }
+}
+

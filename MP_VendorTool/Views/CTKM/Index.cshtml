@@ -1,0 +1,303 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Quản lý CTKM mua";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+
+                <div class="content_search">
+                    <div class="AutoFix">
+
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="vendorName" class="col-sm-4 col-form-label">Nhà cung cấp</label>
+                                            <div class="col-sm-8">
+                                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                                {
+                                                    <input type="text" class="form-control" id="NhaCC" name="NhaCC" value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                                                }
+                                                else
+                                                {
+                                                    <select id="NhaCC" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox()">
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            <option value="">--- Chọn NCC ---</option>
+                                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label">Mã CT</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="MaCTKM" name="MaCTKM" value="" class="form-control" onchange="js_searchbox()">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label"></label>
+                                            <div class="col-sm-8">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="Ngay" class="col-sm-4 col-form-label">Từ ngày</label>
+                                            <div class="col-sm-8">
+                                                <input type="date" id="TuNgay" name="TuNgay" value="" class="form-control" onchange="js_searchbox()">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Đến ngày</label>
+                                            <div class="col-sm-8">
+                                                <input type="date" id="DenNgay" name="DenNgay" value="" class="form-control" onchange="js_searchbox();">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Trạng thái</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control selectpicker" data-live-search="true" id="TrangThai" onchange="js_searchbox()">
+                                                    <option value=""> -- Chọn trạng thái --</option>
+                                                    <option value="1">Đã duyệt</option>
+                                                    <option value="0">Chưa duyệt</option>
+                                                    <option value="2">Từ chối</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center;">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 Hanhdongfill">
+                                            <select class="form-control selectpicker" data-live-search="true" id="HanhDong">
+                                                <option value=""> -- Chọn hành động --</option>
+                                                <option value="1">Thêm mới</option>
+                                                <option value="2">Xóa</option>
+                                            </select>
+                                            @*<a href="#" class="btn btn-secondary px-5 btgetw" id="btnGetChecks" onchange="js_searchbox()"><i class="fa fa-search" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tìm kiếm</a>*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            @*<a href="/CTKM/CTKMAdd" class="btn btn-success px-5 rounded-0 btgetw" style=" color:#fff"><i class="fa fa-save" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Thêm mới</a>*@
+                                            <a id="btntuchoi" onclick="HanhDongsave();" class="btn btn-success px-5 rounded-0 btgetw" style=" color:#fff"><i class="fa fa-forward" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tiếp</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="div-content" style=" padding-top: 107px; ">
+                    @Html.Partial("~/Views/CTKM/Partial/__Index.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .table td, .table th {
+        padding: 0.75rem;
+        vertical-align: inherit !important;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .Hanhdongfill .dropdown.bootstrap-select.form-control {
+        width: 200px
+    }
+</style>
+
+
+<div class="modal" id="Detail_modal" tabindex="-1" role="dialog" aria-labelledby="shift_detail_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 70% !important; max-width: 70% !important; border-radius: 0; ">
+        <div class="modal-content" style="border-radius:0; padding: 10px;">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px; width:100%">
+                <h5 class="modal-title" id="shift_detail_modal_label" style=" font-size:18px;display: contents;"> Chi tiết CTKM mua</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div style=" width:100%;">
+                <table id="tbl_item_Line" class="table table-bordered tb_detail" style="margin-bottom:5px;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">Mã hàng</th>
+                            <th scope="col" style="text-align: left; width: 200px; max-width: 200px; ">Tên hàng</th>
+                            <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">Hình ảnh</th>
+                            <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">SL hàng</th>
+                            <th scope="col" style="text-align: left; width: 200px; max-width: 200px; ">Tên quà</th>
+                            <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">SL Quà</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div style="margin:10px">
+                    <div style="text-align: center;">
+                        <a data-dismiss="modal" class="form-control btn btn-info" style="width:88px; margin-top:10px ; color:#fff">Đóng </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(function () {
+        $('#txtHead').html("Quản lý CTKM mua");
+        $('#f_dev').html("");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        js_GetList();
+    });
+
+    function js_searchbox() {
+        js_GetList();
+    }
+
+    function js_ReloadTable() {
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[200, 50, 70, 100, -1], [200, 50, 70, 100]],
+            //"order": [[0, "desc"]],
+            columnDefs: [
+                { 'targets': 9, 'orderable': false }
+            ],
+            "searching": false,
+            fixedHeader: true,
+            fixedHeader: {
+                headerOffset: 207
+            },
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+    function js_GetList() {
+        var MaNCC = fomart_split($("#NhaCC").val(), 0);
+        var MaCTKM = $("#MaCTKM").val();
+
+        var Status = $("#TrangThai").val();
+        var TuNgay = $("#TuNgay").val();
+        var DenNgay = $("#DenNgay").val();
+        if (MaNCC != "") {
+            js_Loading(true, 1);
+
+            $.ajax({
+                url: '/CTKM/GetList_CTKM',//SP_CTKM_Ql_GateWay
+                type: 'POST',
+                data: JSON.stringify({ MaNCC: MaNCC, MaCTKM: MaCTKM, Status: Status, TuNgay: TuNgay, DenNgay: DenNgay }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    $("#div-content").find('tbody').empty();
+                    $('#div-content').html(data);
+                    js_ReloadTable();
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+    function load(MaCTKM) {
+        $('#Detail_modal').modal();
+        var MaNCC = fomart_split($("#NhaCC").val(), 0);
+        $.ajax({
+            url: '/CTKM/GetList_CTKM_Popup',
+            type: 'POST',
+            data: JSON.stringify({ MaNCC: MaNCC, MaCTKM: MaCTKM }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                let str = '';
+                $.each(data, (index, value) => {
+                    str += '<tr>';
+                    str += '<td  style="text-align: left">' + value.MaHang + '</td>';
+                    str += '<td  style="text-align: left">' + value.TenHang + '</td>';
+                    str += '<td  style="text-align: center"> <a target=\"_blank\" href=\"' + value.HinhAnh + '\" class=\"thickbox\"><img style=\"height: 60px\" src=\"' + value.HinhAnh + '\" class=\"content\"></a></td>';
+                    str += '<td  style="text-align: center">' + value.SLHang + '</td>';
+                    str += '<td  style="text-align: left">' + value.TenQua + '</td>';
+                    str += '<td  style="text-align: center">' + value.SLQua + '</td>';
+                    str += '</tr>';
+                });
+                $('#tbl_item_Line tbody').empty().html(str);
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+
+    }
+
+    function HanhDongsave() {
+        var HanhDong = $("#HanhDong").val();
+        var MaCTKM = [];
+        $("input:checked").each(function (index, value) {
+            MaCTKM.push($(value).val());
+        });
+
+        if (HanhDong == "2") {
+            if (MaCTKM == "") {
+                alert("Bạn chưa chọn hành động");
+                return;
+            }
+            if (HanhDong == "") {
+                alert("Bạn chưa chọn trạng thái");
+                return;
+            }
+            jConfirm('Bạn chắc chắn muốn xóa ?', 'Thông báo', function (r) {
+                if (r) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/CTKM/Delete_CTKM',
+                        data: JSON.stringify({ MaCTKM: MaCTKM }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (rt) {
+                            if (rt.code == 0) {
+                                location.reload();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            window.location.href = '/CTKM/CTKMAdd';
+        }
+    }
+</script>
+
+

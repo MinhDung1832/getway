@@ -1,0 +1,225 @@
+﻿@using MP_VendorTool.Models.Order
+@using Newtonsoft.Json;
+
+<input id="ShowDiscountOffer" type="hidden" data-toggle="modal" data-target="#DiscountOffer_modal" />
+<div class="modal" id="DiscountOffer_modal" tabindex="-1" role="dialog" aria-labelledby="shift_detail_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 1000px; border-radius: 0; ">
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style=" font-size:18px;display: contents;">
+                    Discount Offer
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style=" float: left; background: #fff;">
+
+                <div class="AnHien">
+                    <div class="col-md-12" id="DiscountOffer">
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Mã CTKM</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled id="MaCTKMDiscountOffer" name="MaCTKMDiscountOffer" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Thời gian từ</label>
+                            <div class="col-sm-9">
+                                <input type="date" id="TuNgay_CTKM" name="TuNgay_CTKM" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Thời gian đến</label>
+                            <div class="col-sm-9">
+                                <input type="date" id="DenNgay_CTKM" name="DenNgay_CTKM" value="" class="form-control" />
+                            </div>
+                        </div>
+                        @*<div class="form-group row">
+                            <label for="CouponCode" class="col-sm-3 col-form-label">Coupon Code</label>
+                            <div class="col-sm-9">
+                                <select id="CouponCode" class="form-control selectpicker" data-live-search="true" style="width: 262px">
+                                    <option value="">-- Chọn coupon code --</option>
+                                    @if (ViewBag.lstCoupon != null)
+                                    {
+                                        foreach (objCombox box in (List<objCombox>)ViewBag.lstCoupon)
+                                        {
+                                            <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>*@
+                        <div class="form-group row">
+                            <label for="PhamVi" class="col-sm-3 col-form-label">Phạm vi</label>
+                            <div class="col-sm-9">
+                                <select id="PhamVi_CTKM" class="form-control selectpicker" data-live-search="true" style="width: 262px">
+                                    <option value="">-- Chọn phạm vi --</option>
+                                    @if (ViewBag.lstCusPriceGroup != null)
+                                    {
+                                        foreach (objCombox box in (List<objCombox>)ViewBag.lstCusPriceGroup)
+                                        {
+                                            <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 id="txtHead01"> D./ Line</h4>
+                        <table class="table table-bordered" id="Discount_Offer_line">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 80px; max-width: 80px">Type</th>
+                                    <th scope="col" style="width: 200px !important; max-width: 200px !important ">No</th>
+                                    <th scope="col" style="width: 140px; max-width: 140px ">Disc. % from Std. Price</th>
+                                    <th scope="col" style="width: 140px; max-width: 140px ">Disc. Amount from Std. Price</th>
+                                    <th scope="col" style="width: 80px; max-width: 80px ">Thêm</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style=" clear:both; height:2px"></div>
+
+                <div style="text-align: right; margin: 0px; margin-right: 15px; ">
+                    <a href="#" onclick="fn_save_DiscountOffer_update()" id="btn_Gui" class="btn btn-secondary Luulai"><i class="far fa-paper-plane"></i> Lưu lại</a>
+                    <a href="#" data-dismiss="modal" id="btn_Gui" class="btn btn-secondary"><i class="fas fa-times"></i> Đóng </a>
+                </div>
+                <div style=" height:10px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .col-sm-9 .dropdown.bootstrap-select.form-control.bs3 {
+        max-width: 288px;
+    }
+  
+    #DiscountOffer .form-control[disabled] {
+        background: #f9f9f9 !important;
+    }
+
+    .spname button.btn.dropdown-toggle.btn-default {
+        padding: 2px !important;
+    }
+
+    .dropdown.bootstrap-select.form-control.bs3 {
+        max-width: 100%;
+    }
+
+    .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+        height: 20px !important;
+    }
+</style>
+
+<script>
+    var SourceCTKMPrice = [];
+    var SourceCTKM = [];
+    var obj = {};
+    function fn_save_DiscountOffer_update() {
+        if (
+            $('#MaCTKMDiscountOffer').val().length == 0 ||
+            //$('#CouponCode').val().length == 0 ||
+            $('#TuNgay_CTKM').val().length == 0 ||
+            $('#DenNgay_CTKM').val().length == 0 ||
+            $('#PhamVi_CTKM').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ.');
+            return;
+        }
+        GetDataCTKMPrice();
+        GetDataCTKM();
+
+        obj.SourceCTKM = JSON.stringify(SourceCTKM);
+        obj.SourceCTKMPrice = JSON.stringify(SourceCTKMPrice);
+
+        console.log(JSON.stringify(SourceCTKM));
+        console.log(JSON.stringify(SourceCTKMPrice));
+        console.log(JSON.stringify(obj));
+        if (SourceCTKM.length > 0) {
+            $.ajax({
+                url: '/PushSale/Update_PushSales_DiscountOffer',
+                type: 'POST',
+                data: JSON.stringify(obj),
+                enctype: 'multipart/form-data',
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    if (data.RespId == 0) {
+                        jAlert(data.RespMsg, 'Thông báo', (r) => {
+                            location.reload();
+                        });
+                    } else {
+                        jAlert(data.RespMsg, 'Thông báo');
+                    }
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+    function GetDataCTKM() {
+        SourceCTKM = [];
+        var NhaCC = $('#VendorNo').val();
+        var ArrNhaCC = NhaCC.split(' - ');
+
+        // var CTKM = $("input[name='CTKM']").val();
+        var ID = $("input[name='ID']").val();
+
+        var MaCTKM = $('#MaCTKMDiscountOffer').val().trim();
+
+      //  var CouponCode = $('#CouponCode').val();
+       // var ArrCouponCode = CouponCode.split(' - ');
+
+        var TuNgay = $('#TuNgay_CTKM').val();
+        var DenNgay = $('#DenNgay_CTKM').val();
+
+        var PhamVi = $('#PhamVi_CTKM').val();
+        var ArrPhamVi = PhamVi.split(' - ');
+
+        if (NhaCC.length > 0 && ID.length > 0 && MaCTKM.length > 0 && TuNgay.length > 0 && DenNgay.length > 0 && ArrPhamVi[0].length > 0)//&& ArrCouponCode[0].length > 0 
+        {
+            SourceCTKM.push({
+                "MaNCC": ArrNhaCC[0],
+                "TenNCC": ArrNhaCC[1],
+                "ID": ID,
+                "MaCTKM": MaCTKM,
+                "CouponCode":"",// ArrCouponCode[0],
+                "CouponName": "",//ArrCouponCode[1],
+                "FromDay": TuNgay,
+                "ToDay": DenNgay,
+                "PriceGroupCode": ArrPhamVi[0],
+                "PriceGroupName": ArrPhamVi[1]
+            });
+        }
+    }
+
+    function GetDataCTKMPrice() {
+        SourceCTKMPrice = [];
+        let trs = $("#Discount_Offer_line tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let Type = String($('#' + tr.id + '  select[name="Type"]').val()).trim();
+                let NameProducts = String($('#' + tr.id + '  select[name="NameProducts"]').val()).trim();
+                let arrNameProducts = NameProducts.split(' - ');
+
+                let DiscStdPrice = String($('#' + tr.id + '  input[name="DiscStdPrice"]').val().replaceAll(",", "")).trim();
+                let DiscAmountStdPrice = String($('#' + tr.id + '  input[name="DiscAmountStdPrice"]').val().replaceAll(",", "")).trim();
+                if (Type.length > 0 && arrNameProducts[0].length > 0 && DiscStdPrice.length > 0 && DiscAmountStdPrice.length > 0) {
+                    SourceCTKMPrice.push({
+                        "Type": Type,
+                        "ProductCode": arrNameProducts[0],
+                        "ProductName": arrNameProducts[1],
+                        "DiscStdPrice": DiscStdPrice,
+                        "DiscAmountStdPrice": DiscAmountStdPrice
+                    });
+                }
+            });
+        }
+    }
+</script>

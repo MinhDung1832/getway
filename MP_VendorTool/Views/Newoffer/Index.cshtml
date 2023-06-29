@@ -1,0 +1,572 @@
+﻿@{
+    ViewBag.Title = "Chào hàng mới";
+    Layout = "~/Views/Shared/_LayoutOffer.cshtml";
+}
+
+<style>
+    .UpAnhSp {
+        width: 70%;
+        margin: auto;
+    }
+
+    div#wp_thum_img {
+        height: 250px;
+        border: 1px solid #d7d7d7;
+    }
+    .form-group {
+        margin-bottom: 3px;
+    }
+</style>
+
+
+<header class="header">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="bglogin">
+                    <div id="logo_login"><a href="/Home/Index"><img src="/Resources/images/Logo.png"></a></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="txtHead" style=" text-align: left; margin-top: 6px;">THÔNG TIN DOANH NGHIỆP</div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="content-wrapper" style="margin-left: 2px; padding-top: 50px; ">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body" style=" display: flow-root">
+                <div class="">
+                    <div class="ibox-body">
+                        <div class="row " id="InfoCompany">
+
+                            <div class="col-md-12">
+                                <div class="ibox">
+                                    <div class="ibox-head">
+                                        <div class="ibox-title">THÔNG TIN SẢN PHẨM</div>
+                                        <div class="ibox-tools">
+                                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                            <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Ngành hàng</label>
+                                                        <div class="col-sm-9">
+                                                            <select id="NganhHang" class="form-control selectpicker" data-live-search="true">
+                                                                <option value="">--- Chọn Ngành hàng ---</option>
+                                                                @foreach (var i in ViewBag.ls_divison)
+                                                                {
+                                                                    <option value="@i.Code">@i.Name</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Tên sản phẩm <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control required" type="text" id="TenSanPham" name="TenSanPham" placeholder="Nhập tên sản phẩm">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Barcode <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control required" type="text" id="Barcode" name="Barcode" placeholder="Nhập Barcode">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Xuất xứ</label>
+                                                        <div class="col-sm-9">
+                                                            <select id="XuatXu" class="form-control selectpicker" data-live-search="true">
+                                                                <option value="">--- Chọn xuất xứ ---</option>
+                                                                @foreach (var i in ViewBag.ls_country)
+                                                                {
+                                                                    <option value="@i.Code">@i.Name</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Mầu sắc</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control " type="text" id="MauSac" name="MauSac" placeholder="Nhập mầu sắc">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Size</label>
+                                                        <div class="col-sm-9 row" style=" padding-right: 0px; margin-right: 0px; height: 29px;">
+                                                            <div class="col-sm-5 form-group ">
+                                                                <input class="form-control" type="text" id="Size" name="Size" placeholder="Size">
+                                                            </div>
+                                                            <div class="col-sm-7 bform-group row" style=" padding-right: 0px; margin-right: 0px; margin-left: 0px;">
+                                                                <label class="col-sm-3 col-form-label">Tuổi</label>
+                                                                <div class="col-sm-9 " style=" padding-right:0px; margin-right:0px">
+                                                                    <input class="form-control " type="text" id="Tuoi" name="Tuoi" placeholder="Nhập tuổi">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Trọng lượng</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control " type="text" id="TrongLuong" name="TrongLuong" placeholder="Nhập trọng lượng">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">SL tồn</label>
+                                                        <div class="col-sm-9 row" style=" padding-right: 0px; margin-right: 0px; height: 29px;">
+                                                            <div class="col-sm-5 form-group ">
+                                                                <input class="form-control required" type="text" id="SoLuongTon" name="SoLuongTon" placeholder="Số lượng tồn">
+                                                            </div>
+                                                            <div class="col-sm-7 bform-group row" style=" padding-right: 0px; margin-right: 0px; margin-left: 0px;">
+                                                                <label class="col-sm-3 col-form-label">MOQ</label>
+                                                                <div class="col-sm-9 " style=" padding-right:0px; margin-right:0px">
+                                                                    <input class="form-control " type="text" id="MOQ" name="MOQ" placeholder="Nhập MOQ">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Leadtime SX</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control " type="text" id="LeadtimeSX" name="LeadtimeSX" placeholder="Nhập Leadtime SX">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label"> SL/thùng </label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="SoLuongThung" name="SoLuongThung" placeholder="Nhập SL/thùng">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Kích thước thùng</label>
+                                                        <div class="col-sm-9 row" style=" padding-right: 0px; margin-right: 0px; height: 29px;">
+                                                            <div class="col-sm-4" style="">
+                                                                <input class="form-control " type="text" id="KichThuocDai" name="KichThuocDai" placeholder="Dài">
+                                                            </div>
+                                                            <div class="col-sm-4" style="">
+                                                                <input class="form-control " type="text" id="KichThuocRong" name="KichThuocRong" placeholder="Rộng">
+                                                            </div>
+                                                            <div class="col-sm-4" style=" padding-right: 0px; margin-right: 0px; height: 29px;">
+                                                                <input class="form-control " type="text" id="KichThuocCao" name="KichThuocCao" placeholder="Cao">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Tổng M3 </label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="TongM3" name="TongM3" placeholder="Nhập tổng Tổng M3">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Ảnh sản phẩm</label>
+                                                        <div class="col-sm-9">
+                                                            <div class="UpAnhSp">
+                                                                <input class="form-control" type="hidden" id="imgLink">
+                                                                <div id="wp_thum_img">
+                                                                    <div class="img_src"><img id="thum_img" for="fileUpload" src="" /><p></p></div>
+                                                                </div>
+                                                                <form id="upload" enctype="multipart/form-data" action="@Url.Action("uploadImg", "Product")" method="POST">
+                                                                    <input type="file" style="width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;" name="fileUpload" id="fileUpload" class="inputfile">
+                                                                    <label class="btn btn-success" for="fileUpload" style="width:100%;margin: 10px 0px;font-size:12px"><i class="fa fa-upload" aria-hidden="true"></i> @MP_VendorTool.Resource.lb_ImgUpload</label>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Giá bán <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control required OrderValue" type="text" id="GiaBan" name="GiaBan" placeholder="Nhập giá bán">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Link SP <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control required" type="text" id="LinkSP" name="LinkSP" placeholder="Nhập link SP">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Mô tả</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="MoTa" name="MoTa" style=" height:50px" placeholder="Nhập mô tả"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Kích thước SP <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9 row" style=" padding-right: 0px; margin-right: 0px; height: 29px;">
+                                                            <div class="col-sm-4" style="">
+                                                                <input class="form-control required" type="text" id="KichThuocSPDai" name="KichThuocSPDai" placeholder="Dài (Cm)">
+                                                            </div>
+                                                            <div class="col-sm-4" style="">
+                                                                <input class="form-control required" type="text" id="KichThuocSPRong" name="KichThuocSPRong" placeholder="Rộng (Cm)">
+                                                            </div>
+                                                            <div class="col-sm-4" style=" padding-right: 0px; margin-right: 0px; height: 29px;">
+                                                                <input class="form-control required" type="text" id="KichThuocSPCao" name="KichThuocSPCao" placeholder="Cao (Cm)">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="ibox">
+                            <div class="ibox-head">
+                                <div class="ibox-title">
+                                    THÔNG TIN DOANH NGHIỆP
+                                </div>
+                                <div class="ibox-tools">
+                                    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                    <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                </div>
+                            </div>
+                            <div class="ibox-body">
+                                @**@
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Loại hình doanh nghiệp</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control" id="LoaiHinhHopTac">
+                                                        @{
+                                                            if (ViewBag.ls_business != null)
+                                                            {
+                                                                foreach (var i in ViewBag.ls_business)
+                                                                {
+                                                                    <option value="@i.Code">@i.Name</option>
+                                                                }
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Tên doanh nghiệp <span style=" color:red">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control required" type="text" id="TenDoanhNghiep" name="TenDoanhNghiep" placeholder="Tên doanh nghiệp ">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Địa chỉ <span style=" color:red">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control required" type="text" id="DiaChi" name="DiaChi" placeholder="Địa chỉ">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Số điện thoại <span style=" color:red">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control required" type="text" id="SoDienThoai" name="SoDienThoai" placeholder="Số điện thoại">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Website</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text" id="Website" name="Website" placeholder="Website">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Email <span style=" color:red">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control required" type="text" id="Email" name="Email" placeholder="Email">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Facebook</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text" d="Facebook" name="Facebook" placeholder="Facebook">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-horizontal">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Lĩnh vực hoạt động </label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control" id="LinhVucHoatDong">
+                                                        @foreach (var i in ViewBag.ls_industry)
+                                                        {
+                                                            <option value="@i.Code">@i.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-horizontal">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Số ĐKKD <span style=" color:red">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control required" type="text" id="SoDKKD" name="SoDKKD" placeholder="Số ĐKKD">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-horizontal">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Mã số thuế <span style=" color:red">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control required" type="text" id="MaSoThue" name="MaSoThue" placeholder="Mã số thuế">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-horizontal">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Số tài khoản <span style="color:red">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control required" type="text" id="SoTaiKhoan" name="SoTaiKhoan" placeholder="Số tài khoản">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-horizontal">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Tại Ngân hàng</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control" id="TaiNganHang">
+                                                        @foreach (var i in ViewBag.ls_bank)
+                                                        {
+                                                            <option value="@i.Code">@i.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-horizontal">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Hóa đơn điện tử</label>
+                                                <div class="col-sm-9">
+                                                    <input readonly="readonly" class="form-check-input" type="checkbox" id="Invoice" name="Invoice" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="col-md-12" style="  text-align:right">
+                            <a href="#" onclick="SendInFor();" class="form-control btn btn-info" style="width: 150px; font-size: 14px !important"><i class="fa fa-save" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i>Lưu thông tin</a>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#txtHead').html("Chào hàng mới");
+    });
+    function SendInFor() {
+        var obError = undefined;
+        $("#InfoCompany .required").each(function () {
+            $(this).removeClass("boxFocus");
+            if (obError == undefined && $(this).val() === '') {
+                obError = $(this);
+                return false;
+            }
+        });
+
+        if (obError != undefined) {
+            obError.focus();
+            obError.addClass("boxFocus");
+            alert("Vui lòng nhập đầy đủ thông tin trong các ô có dấu * trước khi gửi");
+            return false;
+        }
+
+        ////
+
+        let NganhHang = $('#NganhHang').val();
+        let TenSanPham = $('#TenSanPham').val();
+        let Barcode = $('#Barcode').val();
+        let XuatXu = $('#XuatXu').val();
+        let MauSac = $('#MauSac').val();
+        let Size = $('#Size').val();
+        let Tuoi = $('#Tuoi').val();
+        let TrongLuong = $('#TrongLuong').val();
+        let SoLuongTon = $('#SoLuongTon').val();
+        let MOQ = $('#MOQ').val();
+        let LeadtimeSX = $('#LeadtimeSX').val();
+        let SoLuongThung = $('#SoLuongThung').val();
+        let KichThuocDai = $('#KichThuocDai').val();
+        let KichThuocRong = $('#KichThuocRong').val();
+        let KichThuocCao = $('#KichThuocCao').val();
+        let TongM3 = $('#TongM3').val();
+        let AnhSanPham = $('#imgLink').val();
+        let GiaBan = $('#GiaBan').val();
+        let LinkSP = $('#LinkSP').val();
+        let MoTa = $('#MoTa').val();
+        let KichThuocSPDai = $('#KichThuocSPDai').val();
+        let KichThuocSPRong = $('#KichThuocSPRong').val();
+        let KichThuocSPCao = $('#KichThuocSPCao').val();
+        let LoaiHinhHopTac = $('#LoaiHinhHopTac').val();
+        let TenDoanhNghiep = $('#TenDoanhNghiep').val();
+        let DiaChi = $('#DiaChi').val();
+        let SoDienThoai = $('#SoDienThoai').val();
+        let Website = $('#Website').val();
+        let Email = $('#Email').val();
+        let Facebook = $('#Facebook').val();
+        let LinhVucHoatDong = $('#LinhVucHoatDong').val();
+        let SoDKKD = $('#SoDKKD').val();
+        let MaSoThue = $('#MaSoThue').val();
+        let SoTaiKhoan = $('#SoTaiKhoan').val();
+        let TaiNganHang = $('#TaiNganHang').val();
+        let Invoice = $('#Invoice').val();
+
+        var prd = {};
+        prd.NganhHangCode = NganhHang
+        prd.NganhHang = $('#NganhHang option:selected').text();
+        prd.TenSanPham = TenSanPham;
+        prd.Barcode = Barcode;
+        prd.XuatXuCode = $('#XuatXu option:selected').text();
+        prd.XuatXu = XuatXu;
+        prd.MauSac = MauSac;
+        prd.Size = Size;
+        prd.Tuoi = Tuoi;
+        prd.TrongLuong = TrongLuong;
+        prd.SoLuongTon = SoLuongTon;
+        prd.MOQ = MOQ;
+        prd.LeadtimeSX = LeadtimeSX;
+        prd.SoLuongThung = SoLuongThung;
+        prd.KichThuocDai = KichThuocDai;
+        prd.KichThuocRong = KichThuocRong;
+        prd.KichThuocCao = KichThuocCao;
+        prd.TongM3 = TongM3;
+        prd.AnhSanPham = AnhSanPham;
+        prd.GiaBan = GiaBan;
+        prd.LinkSP = LinkSP;
+        prd.MoTa = MoTa;
+        prd.KichThuocSPDai = KichThuocSPDai;
+        prd.KichThuocSPRong = KichThuocSPRong;
+        prd.KichThuocSPCao = KichThuocSPCao;
+
+        prd.LoaiHinhHopTacCode = LoaiHinhHopTac;
+        prd.LoaiHinhHopTac = $('#LoaiHinhHopTac option:selected').text();
+        prd.TenDoanhNghiep = TenDoanhNghiep;
+        prd.DiaChi = DiaChi;
+        prd.SoDienThoai = SoDienThoai;
+        prd.Website = Website;
+        prd.Email = Email;
+        prd.Facebook = Facebook;
+        prd.LinhVucHoatDongCode = LinhVucHoatDong;
+        prd.LinhVucHoatDong = $('#LinhVucHoatDong option:selected').text();
+        prd.SoDKKD = SoDKKD;
+        prd.MaSoThue = MaSoThue;
+        prd.SoTaiKhoan = SoTaiKhoan;
+        prd.TaiNganHangCode = TaiNganHang;
+        prd.TaiNganHang = $('#TaiNganHang option:selected').text();
+        prd.Invoice = $('#Invoice').prop('checked') == false ? 0 : 1;
+
+        console.log(JSON.stringify({ prd }));
+        console.log(prd);
+        if ($('#imgLink').val().length > 0) {
+            $.ajax({
+                url: '/Newoffer/Newoffer_Save',
+                type: 'POST',
+                data: JSON.stringify({ info: prd }),
+                enctype: 'multipart/form-data',
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    if (data.RespId == 0) {
+                        jAlert(data.RespMsg, 'Thông báo', (r) => {
+                            location.reload();
+                        });
+                    } else {
+                        jAlert(data.RespMsg, 'Thông báo');
+                    }
+                    js_Loading(false, 1);
+                }
+            });
+
+        } else {
+            alert("Vui lòng đăng hình ảnh sản phẩm!");
+        }
+    };
+
+    //Upload file
+    $(document).ready(function () {
+        $("#fileUpload").change(function () {
+            //fileErrorMessage.innerHTML = '';
+            var vtrUpload = $("#fileUpload").val().toLowerCase();
+            var regexVTRUpload = new RegExp("(.*?)\.(png|jpg|jpeg)$");
+            if (!(regexVTRUpload.test(vtrUpload))) {
+                $("#fileUpload").val("");
+
+                alert("file false");
+            } else {
+                UploadFile();
+            }
+        });
+    });
+
+    function UploadFile() {
+        var data = new FormData();
+        var files = $("#fileUpload").get(0).files;
+        if (files.length > 0) {
+            data.append("MyImages", files[0]);
+        }
+        data.append("foldername", 'Newoffer');
+        $.ajax({
+            url: "/Newoffer/uploadImg",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: data,
+            async: true,
+            success: function (data) {
+                if (data.code == 1) {
+                    img_link = data.link;
+                    $('#imgLink').val(data.link);
+                    $('.img_src p').hide();
+                    $('#thum_img').css({ "width": "100%", "margin-top": "0px", "height": "251px", "object-fit": "cover" });
+                    $('#thum_img').attr("src", data.link);
+                    $('#real_img').attr("onclick", "fn_detail('" + data.link + "')");
+                }
+            },
+            error: function (er) {
+                alert("Thiết bị không hỗ trợ up ảnh từ camera. Chọn file từ bộ nhớ thiết bị!");
+            }
+        });
+    }
+</script>
+

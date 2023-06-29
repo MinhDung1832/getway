@@ -1,0 +1,431 @@
+﻿@{
+    ViewBag.Title = "Circle";
+}
+@*<h2>@MP_VendorTool.Resource.VendorInfoTT</h2>*@
+<style>
+    .btn-right {
+        background-image: url('../../image/Button/right.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+        .btn-right:hover {
+            background-image: url('../../image/Button/righthover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .btn-left {
+        background-image: url('../../image/Button/left.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+        .btn-left:hover {
+            background-image: url('../../image/Button/lefthover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .btn-center {
+        background-image: url('../../image/Button/center.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+    .btn-center:hover {
+            background-image: url('../../image/Button/centerhover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .content_vendor {
+        background-image: url('../../image/nen2.jpg');
+        background-color: #f3f3f3; /* Used if the image is unavailable */
+        /*height: 999px;*/ /* You must set a specified height */
+        /*background-position: center;*/ /* Center the image */
+        /*background-repeat: no-repeat;*/ /* Do not repeat the image */
+        background-size: cover;
+    }
+
+    .col-md-3 label {
+        width: 25%;
+    }
+
+    .nbut {
+        width: 300px;
+        font-weight: initial;
+        margin-top: 20px;
+        height: 38px;
+    }
+
+    .minusbutton {
+        border: none;
+        background: transparent;
+        outline: none;
+        padding: initial;
+    }
+
+    .money {
+        width: 120px;
+        display: inline;
+        font-size: initial;
+        text-align: right;
+    }
+
+    #footer {
+        position: fixed;
+        right: 1rem;
+        bottom: 0px;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        background: rgba(90,92,105,.5);
+        line-height: 46px;
+        display: inline;
+    }
+
+    .italic {
+        font-style: italic;
+    }
+
+    .redtext {
+        color: red;
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 18px;
+    }
+
+        .text_home a {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    legend {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 10px;
+        margin-top: 32px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #6f8cb8;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    .label2 {
+        display: block;
+        width: 100%;
+        padding: 0;
+        font-size: 15px;
+        line-height: inherit;
+        color: #555;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    fieldset {
+        margin-top: 34px;
+    }
+
+    label {
+        font-size: 12px;
+        color: #777575;
+    }
+
+    .from_vender {
+        margin-left: 8px;
+    }
+
+        .from_vender input, .from_vender select {
+            margin-bottom: 8px;
+        }
+
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+        .button_save_1 a {
+            text-align: center;
+            background-color: #868686 !important;
+            border-color: #868686 !important;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 8px;
+        }
+
+    #E_Invoice {
+        margin-bottom: 18px !important;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #86868600;
+        border-color: #868686;
+        color: #6f8cb8 !important;
+    }
+
+    .button_action a:hover {
+        background-color: #9e9e9e;
+        color: #f3f3f3 !important;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+    .button_action {
+        margin-top: 44px;
+    }
+
+    .table > thead > tr {
+        background: gray;
+    }
+
+        .table > thead > tr > th {
+            color: black;
+        }
+</style>
+<div class="wp_vendor">
+    <div class="header_vender" id="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3"><div class="logo"><a href="/Home/Index"><img src="~/image/bibologo.png" /></a></div></div>
+                <div class="col-md-6"><h3 class="header_title" id="header_title">@MP_VendorTool.Resource.VendorInfoTT</h3></div>
+                <div class="col-md-3" style="transform: translate(-6%,20%);"><div class="text_home"><a href="/Home/Index"><i class="fa fa-home" aria-hidden="true"></i> @MP_VendorTool.Resource.textHome_6</a></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="content_vendor">
+        <div class="container" style="min-height:600px;">
+
+         
+            <div id="step1">
+                
+                <fieldset>
+                    <legend>1. LEASING ONLINE</legend>
+                    <div class="col-md-12">
+
+                        <div class="col-md-6">
+                            <label>Chọn Kênh</label>
+                            <select class="form-control" id="businessType" style="width: 220px;display: inline;">
+                                <option value="">Chọn</option>
+                                <option value="">2020</option>
+                                <option value="">2021</option>
+                                <option value="">2022</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6" style="text-align:right">
+                            <label>Tổng đầu tư leasing online:</label>
+
+                            <label style="font-style: italic;
+                                            width: 100px;
+                                            border-bottom: solid;
+                                            border-bottom-style: ridge;
+                                            font-weight: bold !important;
+                                            font-family: system-ui;">99,999,999</label>
+
+                        </div>
+
+                    </div>
+                    <hr style="border: none;">
+                    <div class="tab-pane table-responsive" id="tab2">
+                        <table id="tab2_table" class="table table-bordered table-hover tb-inside-6 tb-f-s-12" cellpadding="0" cellspacing="0">
+                            <thead class="tb-thead">
+                                <tr>
+                                    <th>Hạng mục</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Mô tả</th>
+                                    <th>Từ ngày</th>
+                                    <th>Đến ngày</th>
+                                    <th>Đơn vị tính</th>
+                                    <th>Số lượng</th>
+                                    <th>Đơn giá</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Banner main slide top 1</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input class="form-control" type="date" style="width:135px;"></input></td>
+                                    <td><input class="form-control" type="date" style="width:135px;"></input></td>
+                                    <td></td>
+                                    <td>
+                                        <button onclick="decrease('tt1',1)" class="minusbutton">
+                                            <img src="~/image/Circle/minus.png" height="35px" />
+                                        </button>
+                                        <input class="form-control number-separator money" style="width: 35px;display: inline;" type="text" value="0" id="tt1"></input>
+                                        <button onclick="increase('tt1',1)" class="minusbutton">
+                                            <img src="~/image/Circle/plus.png" height="35px" />
+                                        </button>
+                                    </td>
+                                    <td>99.999.999</td>
+                                    <td>99.999.999</td>
+                                </tr>
+                          
+                            </tbody>
+                        </table>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="row button_action">
+                <div class="col-md-4">
+                    @*@Html.ActionLink(@MP_VendorTool.Resource.prevPage, "Create", "Vendor", null, new { @class = "form-control btn-primary text-center" })*@
+
+                    <a onclick="back()" class="form-control btn-left"> @MP_VendorTool.Resource.prevPage </a>
+                </div>
+                <div class="col-md-4">
+                   </div>
+                <div class="col-md-4">
+                    @*<input type="button" class="form-control btn-primary" value="@MP_VendorTool.Resource.Save_Con" onclick="fnSave('next')" />*@
+                    <a onclick="next()" style="margin-left:14px" class="form-control btn-right" onclick="fnSave('next')">@MP_VendorTool.Resource.Save_Con </a>
+                </div>
+            </div>
+
+            <div class="footer hidden" >
+                <button class="nbut btn-left" id="bbut" onclick="back()" style="float:left;margin-left: 100px;">Back</button>
+                <button class="nbut btn-right" id="nbut" onclick="next()" style="float:right;margin-right: 100px;">Next</button>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="thank_modal" tabindex="-1" role="dialog" aria-labelledby="shift_detail_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background:#546d8e; border-radius:15px">
+            <div class="modal-header hide">
+                <h5 class="modal-title" id="shift_detail_modal_label">Lời cảm ơn</h5>
+                <button type="button" class="close hide" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body pointer" style="margin-top: 42px;font-size: 26px;text-align: center;color: white;">
+                <p>Cảm ơn Quý đối tác đã kết nối và trao cơ hội hợp tác cho Bibo Mart!</p>
+                <p>Chúng tôi trân trọng cơ hội hợp tác này và sẽ phản hồi trong thời gian sớm nhất.</p>
+            </div>
+            <div style="text-align: center;">
+                <button type="button" class="btn btn-primary btn-rounded btn-sm max-w-100" style="background: #8aafe2;border: none; border-radius: 9px; margin-bottom:35px" data-dismiss="modal" aria-label="Close">
+                    <p style="
+                        color: #59595b;
+                        font-size: 22px;
+                        margin-top: -3px;
+                        margin-bottom: -1px;
+                        margin-left: 22px;
+                        margin-right: 22px;
+                    ">Đóng lại</p>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script src="~/Scripts/easy-number-separator.js"></script>
+<script type="text/javascript">
+    var jStep;
+    $(function () {
+        $('#header_title').html("GIA TĂNG TRƯNG BÀY VÀ HÌNH ẢNH");
+        jStep = 1;
+        step(jStep);
+    });
+    function next() {
+            jStep += 1;
+            if (jStep < 1) jStep = 1;
+            if (jStep > 4) jStep = 4;
+            step(jStep);
+
+        }
+
+    function back() {
+        jStep -= 1;
+        if (jStep < 1) jStep = 1;
+        if (jStep > 4) jStep = 4;
+        step(jStep);
+    }
+
+    function step(jStep) {
+        $("html, body").animate({ scrollTop: 0 }, "fast");
+
+        for (let i = 1; i <= 9; i++) {
+            $('#step' + i).hide(500);
+        }
+        $('#step' + jStep).show(500);
+     
+    }
+
+    function decrease(control, amount) {
+        var i = parseInt($('#' + control).val().replaceAll('.', ''));
+        if (isNaN(i)) i = 0;
+        $('#' + control).val((i - amount) < 0 ? 0 : (i - amount)).trigger('change');
+    }
+
+    function increase(control, amount) {
+        var i = parseInt($('#' + control).val().replaceAll('.', ''));
+        if (isNaN(i)) i = 0;
+        $('#' + control).val(i + amount).trigger('change');
+    }
+
+  
+</script>

@@ -1,0 +1,1261 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Quản lý tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    table#tbl_Item tbody tr:nth-of-type(odd) {
+        background: #f5f5f5 !important;
+    }
+
+    .badge-success, .label-success, .badge-default, .label-default, .badge-warning, .label-warning {
+        padding-right: 13px;
+        padding-left: 13px;
+    }
+</style>
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="vendorName" class="col-sm-4 col-form-label">NCC <span style=" color:red">(*)</span></label>
+                                            <div class="col-sm-8">
+                                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                                {
+                                                    <input type="text" class="form-control" id="VendorCode" name="VendorCode" value="@Session["VendorCode"] - @Session["VendorName"]" disabled style=" padding-left: 7px !important; ">
+                                                    <script>
+
+                                                        setTimeout(function () {
+                                                            js_onchange_NCC();
+                                                        }, 1000);
+
+                                                    </script>
+                                                }
+                                                else
+                                                {
+                                                    <select id="VendorCode" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox();js_onchange_NCC();">
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            <option value="">--- Chọn NCC ---</option>
+                                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row" style=" display:none">
+                                            <label for="textMien" class="col-sm-4 col-form-label">Vai trò </label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control selectpicker" id="PhongBan" data-live-search="true" onchange="js_searchbox();">
+                                                    <option value="">--- Chọn vai trò  ---</option>
+                                                    @if (ViewBag.lst_PhongBan != null)
+                                                    {
+                                                        foreach (objCombox box in (List<objCombox>)ViewBag.lst_PhongBan)
+                                                        {
+                                                            <option value="@box.Code">@box.Code - @box.Name</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" style=" display:none">
+                                            <label for="textMien" class="col-sm-4 col-form-label">
+                                                Chức danh
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control selectpicker" id="ChucDanh" data-live-search="true" onchange="js_searchbox();">
+                                                    <option value="">---Chọn chức danh ---</option>
+                                                    @if (ViewBag.lst_ChucDanh != null)
+                                                    {
+                                                        foreach (objCombox box in (List<objCombox>)ViewBag.lst_ChucDanh)
+                                                        {
+                                                            <option value="@box.Code">@box.Code - @box.Name</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-4">
+                                    <div class="box_with" style=" display:none">
+
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Trạng thái</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control selectpicker" id="TrangThai" data-live-search="true" onchange="js_searchbox()">
+                                                    <option value="">-- Chọn trạng thái ---</option>
+                                                    <option value="CREATED">Chờ duyệt</option>
+                                                    <option value="APPROVED">Đã duyệt</option>
+                                                    <option value="REJECT">Từ chối</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Tình trạng</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control selectpicker" id="TinhTrang" data-live-search="true" onchange="js_searchbox()">
+                                                    <option value="">-- Chọn tình trạng ---</option>
+                                                    <option value="Active">Active</option>
+                                                    <option value="InActive">InActive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Nhân viên </label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control selectpicker" id="NhanVien" data-live-search="true" onchange="js_searchbox()">
+                                                    <option value="">-- Chọn nhân viên ---</option>
+                                                    @if (ViewBag.lst_NhanVien != null)
+                                                    {
+                                                        foreach (objCombox box in (List<objCombox>)ViewBag.lst_NhanVien)
+                                                        {
+                                                            <option value="@box.Code">@box.Name</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center;">
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a id="btntuchoi" onclick="AddPopUp_LienHe()" ();"();" class="btn btn-success px-5 rounded-0 btgetw" style=" color:#fff"><i class="fa fa-save" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Thêm mới</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" style=" display:none">
+                                        <div class="col-sm-12">
+                                            <a href="#" class="btn btn-secondary px-5 btgetw" id="btnGetChecks" onclick="js_searchbox()"><i class="fa fa-search" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tìm kiếm</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="div-content" style=" padding-top: 35px; ">
+                    @Html.Partial("~/Views/Department/Partial/__DepartmentNV.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" name="SetIDTV" id="SetIDTV" value="0" />
+<script>
+    $(function () {
+        $('#txtHead').html("Quản lý tài khoản");
+        $('#f_dev').html("");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        js_GetList();
+    });
+    function js_searchbox() {
+        js_GetList();
+    }
+
+    function js_ReloadTable() {
+
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[50, 70, 100, 1000, -1], [50, 70, 100, 1000]],
+            //columnDefs: [
+            //    //{ 'targets': 0, 'searchable': false, 'orderable': false },
+            //    { 'targets': 9, 'searchable': false, 'orderable': false },
+            //    { 'targets': 10, 'searchable': false, 'orderable': false },
+            //    { 'targets': 11, 'searchable': false, 'orderable': false },
+            //    { 'targets': 12, 'searchable': false, 'orderable': false },
+            //    { 'targets': 13, 'searchable': false, 'orderable': false },
+            //    { 'targets': 14, 'searchable': false, 'orderable': false },
+            //    { 'targets': 15, 'searchable': false, 'orderable': false },
+            //],
+            "order": [[7, "asc"]],
+            //columnDefs: [
+            //    { 'targets': 12, 'orderable': false }
+            //],
+            "searching": false,
+            fixedHeader: true,
+            fixedHeader: {
+                headerOffset: 130
+            },
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+    function js_GetList() {
+        var Vendor = fomart_split($("#VendorCode").val(), 0);
+        var PhongBan = $("#PhongBan").val();
+        var ChucDanh = $("#ChucDanh").val();
+
+        var TrangThai = $("#TrangThai").val();
+        var TinhTrang = $("#TinhTrang").val();
+        var NhanVien = $("#NhanVien").val();
+
+        $.ajax({
+            url: '/Department/GetList_DepartmentNV',//
+            type: 'POST',
+            data: JSON.stringify({ Vendor: Vendor, PhongBan: PhongBan, ChucDanh: ChucDanh, TrangThai: TrangThai, TinhTrang: TinhTrang, NhanVien: NhanVien }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    // Thông tin liên hệ
+
+    function AddPopUp_LienHe() {
+        var NCC = fomart_split($("#VendorCode").val(), 0);
+        if (NCC.length < 0) {
+            alert('Vui lòng chọn nhà cung cấp.');
+        }
+
+        $('#NguoiDaiDienP').prop('disabled', false);
+        $('#GioiTinhP').prop('disabled', false).selectpicker("refresh");
+        $('#NgaySinhP').prop('disabled', false);
+
+
+        $('#imgLink').val('');
+        $('.img_src p').show();
+        $('#thum_img').css({ "width": "auto", "margin-top": "0px", "height": "auto", "object-fit": "cover" });
+        $('#thum_img').attr("src", '/Resources/images/upfiles.png');
+
+        $('#SetIDTV').val('0');
+        $('#PhongBanP').val('').selectpicker("refresh");;
+        $('#NguoiDaiDienP').val('');
+        $('#ChucDanhP').val('');
+
+        $('#SoDienThoai').val('');
+        $('#Email').val('');
+        $('#GioiTinhP').val('');
+        $('#NgaySinhP').val('');
+
+        $('#QuanLyCap1').val('');
+        $('#SDTQuanLyCap1').val('');
+        $('#EmailQuanLyCap1').val('');
+
+        $('#QuanLyCap2').val('');
+        $('#SDTQuanLyCap2').val('');
+        $('#EmailQuanLyCap2').val('');
+
+        $('#Mien').val('').selectpicker("refresh");;
+        $('#ThuongHieu').val('').selectpicker("refresh");;
+
+        $("#shift_NhanVien").html('Đăng ký tài khoản');
+        $('#PopUp_LienHe_modal').modal('show');
+        //  $('.LuuvaDong').show();
+    }
+
+    function fn_save_LienHe(ischeck) {
+        debugger;
+        if (
+            $('#VendorCode').val().length == 0 ||
+            $('#PhongBanP').val().length == 0 ||
+            $('#NguoiDaiDienP').val().length == 0 ||
+            $('#ChucDanhP').val().length == 0 ||
+
+            $('#SoDienThoai').val().length == 0 ||
+            $('#Email').val().length == 0 ||
+            $('#GioiTinhP').val().length == 0 ||
+            $('#NgaySinhP').val().length == 0 ||
+            $('#imgLink').val().length == 0 ||
+            $('#UserName').val().length == 0 ||
+            $('#Mien').val().length == 0 ||
+            $('#ThuongHieu').val().length == 0
+
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ');
+            $('#PopUp_LienHe_modal').modal('show');
+            return;
+        }
+
+        var phoneNumber = $("#SoDienThoai").val();
+        if (!isValidPhoneNumber(phoneNumber)) {
+            alert('Số điện thoại không hợp lệ'); return;
+        }
+
+        var email = $("#Email").val();
+        if (!isValidEmail(email)) {
+            alert("Email không đúng định dạng"); return;
+        }
+
+        var po = {};
+        po.ID = $('#SetIDTV').val();
+        po.VendorCode = fomart_split($('#VendorCode').val(), 0);
+        // po.PhongBan = $('#PhongBanP').val();
+        po.PhongBan = String($('#PhongBanP option:selected').toArray().map(item => item.value).join());
+        po.NguoiDaiDien = $('#NguoiDaiDienP').val();
+        po.ChucDanh = $('#ChucDanhP').val();
+        po.UserName = $('#UserName').val();
+
+        po.SoDienThoai = $('#SoDienThoai').val();
+        po.Email = $('#Email').val();
+        po.GioiTinh = $('#GioiTinhP').val();
+        po.NgaySinh = $('#NgaySinhP').val();
+        po.AnhDaiDien = $('#imgLink').val();
+
+        po.QuanLyCap1 = $('#QuanLyCap1').val();
+        po.SDTQuanLyCap1 = $('#SDTQuanLyCap1').val();
+        po.EmailQuanLyCap1 = $('#EmailQuanLyCap1').val();
+
+        po.QuanLyCap2 = $('#QuanLyCap2').val();
+        po.SDTQuanLyCap2 = $('#SDTQuanLyCap2').val();
+        po.EmailQuanLyCap2 = $('#EmailQuanLyCap2').val();
+
+        po.Mien = $('#Mien').val();
+        po.ThuongHieu = String($('#ThuongHieu option:selected').toArray().map(item => item.value).join());
+        console.log(JSON.stringify(po));
+
+        $.ajax({
+            type: "POST",
+            url: "/Department/Save_NhanVien_PhongBan_Roll",
+            data: JSON.stringify({ it: po }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r1) {
+                if (r1.RespId == '0') {
+                    if (ischeck == "1") {
+                        $('#PopUp_LienHe_modal').modal('hide');
+                    }
+                    // js_GetList();
+
+                    location.reload();
+                }
+                else if (r1.RespId == '2') {
+
+                }
+                else {
+                    $.toast({
+                        heading: 'Thông báo',
+                        text: 'Có lỗi xảy ra thử lại sau!',
+                        showHideTransition: 'fade',
+                        icon: 'error'
+                    })
+                }
+            }
+        });
+    }
+
+    function load(ID) {
+        $('#SetIDTV').val(ID);
+
+        $('#PhongBanP').val('');
+        $('#NguoiDaiDienP').val('');
+        $('#ChucDanhP').val('');
+        $('#imgLink').val('');
+        $('#SoDienThoai').val('');
+        $('#Email').val('');
+        $('#GioiTinhP').val('');
+        $('#NgaySinhP').val('');
+
+        $('#QuanLyCap1').val('');
+        $('#SDTQuanLyCap1').val('');
+        $('#EmailQuanLyCap1').val('');
+
+        $('#QuanLyCap2').val('');
+        $('#SDTQuanLyCap2').val('');
+        $('#EmailQuanLyCap2').val('');
+        $('#Mien').val('');
+        $('#ThuongHieu').val('');
+
+        //$('.LuuvaDong').hide();
+
+        $("#shift_NhanVien").html('Chỉnh sửa thông tin tài khoản');
+        $.ajax({
+            type: "POST",
+            url: "/Department/get_Edit_Department",
+            data: JSON.stringify({ ID: ID }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+                // js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data != null) {
+                    console.log(data);
+                    $('#PopUp_LienHe_modal').modal('show');
+
+                    //  $("#PhongBanP").val(data[0].PhongBan);
+                    $("#ChucDanhP").val(data[0].ChucDanh).selectpicker("refresh");
+                    $("#NguoiDaiDienP").val(data[0].NguoiDaiDien);
+                    $("#UserName").val(data[0].UserName);
+
+                    $("#SoDienThoai").val(data[0].SoDienThoai);
+                    $("#Email").val(data[0].Email);
+
+                    $("#GioiTinhP").val(data[0].GioiTinh).selectpicker("refresh");
+                    $("#NgaySinhP").val(data[0].NgaySinh);
+
+                    $("#QuanLyCap1").val(data[0].QuanLyCap1);
+                    $("#SDTQuanLyCap1").val(data[0].SDTQuanLyCap1);
+                    $("#EmailQuanLyCap1").val(data[0].EmailQuanLyCap1);
+
+                    $("#QuanLyCap2").val(data[0].QuanLyCap2);
+                    $("#SDTQuanLyCap2").val(data[0].SDTQuanLyCap2);
+                    $("#EmailQuanLyCap2").val(data[0].EmailQuanLyCap2);
+
+                    $("#Mien").val(data[0].Mien).selectpicker("refresh");
+                    $("#PhongBanP").val(data[0].PhongBan.split(',')).selectpicker("refresh");
+                    $("#ThuongHieu").val(data[0].ThuongHieu.split(',')).selectpicker("refresh");
+
+                    $('#NguoiDaiDienP').prop('disabled', true);
+                    $('#GioiTinhP').prop('disabled', true).selectpicker("refresh");
+                    $('#NgaySinhP').prop('disabled', true);
+
+                    if (data[0].AnhDaiDien != "") {
+                        $('#imgLink').val(data[0].AnhDaiDien);
+                        $('.img_src p').hide();
+                        $('#thum_img').css({ "width": "180px", "margin-top": "0px", "height": "132px", "object-fit": "cover" });
+                        $('#thum_img').attr("src", data[0].AnhDaiDien);
+                        $('#wp_thum_img').css({ "height": "184px" });
+                    }
+
+                }
+            }, error: function () {
+            }
+        });
+    }
+
+    function STRING_AGG(r) {
+        var input = r;
+        var arr = input.split(",");
+        var output = "";
+
+        for (var i = 0; i < arr.length; i++) {
+            if (output != "") {
+                output += ",";
+            }
+            output += "'" + arr[i] + "'";
+        }
+        return "[" + output + "]";
+    }
+
+    //fileUpload
+    $(function () {
+        $("#fileUpload").change(function () {
+            var vtrUpload = $("#fileUpload").val().toLowerCase();
+            var regexVTRUpload = new RegExp("(.*?)\.(png|jpg|jpeg)$");
+            if (!(regexVTRUpload.test(vtrUpload))) {
+                $("#fileUpload").val("");
+                $.toast({
+                    heading: 'Thông báo',
+                    text: 'File ảnh của bạn không đúng định dạng. Vui lòng kiểm tra lại.!',
+                    showHideTransition: 'fade',
+                    icon: 'error'
+                })
+            } else {
+                UploadFile();
+            }
+        });
+    });
+
+    function reupimg() {
+        $("#fileUpload").click();
+    }
+
+    function UploadFile() {
+        var data = new FormData();
+        var files = $("#fileUpload").get(0).files;
+        if (files.length > 0) {
+            data.append("MyImages", files[0]);
+        }
+        data.append("foldername", 'Department');
+        $.ajax({
+            url: "/Department/uploadImg",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: data,
+            async: true,
+            success: function (data) {
+                if (data.code == 1) {
+                    // img_link = data.link;
+                    $('#imgLink').val(data.link);
+                    $('.img_src p').hide();
+                    $('#thum_img').css({ "width": "180px", "margin-top": "0px", "height": "132px", "object-fit": "cover" });
+                    $('#thum_img').attr("src", data.link);
+                    $('#wp_thum_img').css({ "height": "184px" });
+                }
+            },
+            error: function (er) {
+                alert("Thiết bị không hỗ trợ up ảnh từ camera. Chọn file từ bộ nhớ thiết bị!");
+            }
+        });
+    }
+
+    function js_onchange_NCC() {
+        var NCC = fomart_split($("#VendorCode").val(), 0);
+        $('#NhanVien').empty();
+        if (NCC.length > 0) {
+            $.ajax({
+                url: '/Department/Department_NhanVien_NCC',
+                type: 'POST',
+                data: JSON.stringify({ NCC: NCC }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#NhanVien').empty();
+                        $('#NhanVien').append('<option value="">-- Chọn nhân viên --</option>');
+                        for (i in row) {
+                            $('#NhanVien').append('<option value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#NhanVien').selectpicker('refresh');
+
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+            js_searchbox();
+
+            var VendorCode = fomart_split($('#VendorCode').val(), 0);
+            if (VendorCode.length == 0) {
+                alert('Vui lòng chọn nhà cung cấp.');
+                return;
+            }
+
+            // Mã User Nhân viên
+            $.ajax({
+                url: '/Department/CreateUserName',
+                type: 'POST',
+                data: JSON.stringify({ Vendor: VendorCode }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        $("#UserName").val(data[0].Code.trim());
+                    } else {
+                        alert('Có lỗi xẩy ra. Vui lòng thử lại sau !');
+                    }
+                }
+            });
+
+            $.ajax({
+                url: '/Department/ThongTinHangHoa_BrandName',
+                type: 'POST',
+                data: JSON.stringify({ NCC: NCC }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#ThuongHieu').empty();
+                        $('#ThuongHieu').append('<option value="">-- Chọn thương hiệu --</option>');
+                        for (i in row) {
+                            $('#ThuongHieu').append('<option value="' + row[i].Code + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#ThuongHieu').selectpicker('refresh');
+
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+
+    //AddPopUp_ChucDanh
+    function PopUp_Edit_ChucDanh_modal() {
+        $('#PopUp_Edit_ChucDanh_modal').modal('show');
+        $('#PopUp_modal').modal('hide');
+        $('#PopUp_LienHe_modal').modal('hide');
+        ShowLoad_ChucDanh();
+    }
+
+    function AddPopUp_ChucDanh() {
+        $('#SetIDChucDanh').val('0');
+        $('#TenChucDanh').val('');
+        $('#MoTa').val('');
+        $("#shift_detail_modal_label").html('Thêm mới chức danh');
+        $('#PopUp_modal').modal('show');
+        $('#PopUp_LienHe_modal').modal('hide');
+        $('#PopUp_Edit_ChucDanh_modal').modal('hide');
+
+    }
+
+    function fn_save_ChucDanh(ischeck) {
+        debugger;
+        if (
+            $('#TenChucDanh').val().length == 0 ||
+            $('#MoTa').val().length == 0 ||
+            $('#VendorCode').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ');
+            $('#PopUp_modal').modal('show');
+            return;
+        }
+        var SetIDChucDanh = $('#SetIDChucDanh').val();
+        var TenChucDanh = $('#TenChucDanh').val();
+        var MoTa = $('#MoTa').val();
+        var VendorCode = fomart_split($('#VendorCode').val(), 0);
+
+        $.ajax({
+            url: '/Department/Save_Department_ChucDanh_NCC',
+            type: 'POST',
+            data: JSON.stringify({ ID: SetIDChucDanh, TenChucDanh: TenChucDanh, MoTa: MoTa, Vendor: VendorCode }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data == 1) {
+                    alert("Thành công");
+                    if (ischeck == "1") {
+                        $('#PopUp_modal').modal('hide');
+                        $('#PopUp_LienHe_modal').modal('hide');
+                        $('#PopUp_Edit_ChucDanh_modal').modal('show');
+                    }
+                    // location.reload();
+                    ShowLoad_ChucDanh();
+                    js_Loading(false, 1);
+                } else {
+                    alert("Có lỗi xảy ra.");
+                }
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function ShowLoad_ChucDanh() {
+        var VendorCode = fomart_split($('#VendorCode').val(), 0);
+        $.ajax({
+            url: '/Department/ChucDanhdetail',
+            type: 'POST',
+            data: JSON.stringify({ Vendor: VendorCode }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $('#div-content-detail').html(data);
+                js_ReloadTableDetail();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_ReloadTableDetail() {
+        $('#tbl_Item_ChucDanh').DataTable({
+            lengthMenu: [[50, 70, 100, -1], [50, 70, 100]],
+            "searching": false,
+            autoWidth: false,
+            "order": [[4, "desc"]],
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+
+    function load_ChucDanh(ID) {
+        $('#SetIDChucDanh').val(ID);
+
+        $('#TenChucDanh').val('');
+        $('#MoTa').val('');
+
+        $("#shift_detail_modal_label").html('Chỉnh sửa vai trò');
+        $.ajax({
+            type: "POST",
+            url: "/Department/get_Edit_Department_ChucDanh",
+            data: JSON.stringify({ ID: ID }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+                // js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data != null) {
+                    console.log(data);
+                    $('#PopUp_modal').modal('show');
+                    $('#PopUp_Edit_ChucDanh_modal').modal('hide');
+
+                    $('#SetIDChucDanh').val(data[0].ID);
+                    $("#TenChucDanh").val(data[0].TenChucDanh);
+                    $("#MoTa").val(data[0].MoTa);
+                }
+            }, error: function () {
+            }
+        });
+    }
+
+    //AddPopUp_VaiTro
+    function PopUp_Edit_VaiTro_modal() {
+        $('#PopUp_Edit_VaiTro_modal').modal('show');
+        $('#VaiTro_PopUp_modal').modal('hide');
+        $('#PopUp_LienHe_modal').modal('hide');
+        ShowLoad_VaiTro();
+    }
+
+    function AddPopUp_VaiTro() {
+        $('#SetIDVaiTro').val('0');
+        $('#TenVaiTro').val('');
+        $('#MoTaVaiTro').val('');
+        $("#shift_VaiTro_modal_label").html('Thêm mới vai trò');
+        $('#VaiTro_PopUp_modal').modal('show');
+        $('#PopUp_LienHe_modal').modal('hide');
+        $('#PopUp_Edit_VaiTro_modal').modal('hide');
+    }
+
+    function fn_save_VaiTro(ischeck) {
+        debugger;
+        if (
+            $('#TenVaiTro').val().length == 0 ||
+            $('#MoTaVaiTro').val().length == 0 ||
+            $('#VendorCode').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ');
+            $('#VaiTro_PopUp_modal').modal('show');
+            return;
+        }
+        var SetIDVaiTro = $('#SetIDVaiTro').val();
+        var VaiTro = $('#TenVaiTro').val();
+        var MoTaVaiTro = $('#MoTaVaiTro').val();
+        var VendorCode = fomart_split($('#VendorCode').val(), 0);
+
+
+
+        $.ajax({
+            url: '/Department/Save_Department_VaiTro_NCC',
+            type: 'POST',
+            data: JSON.stringify({ ID: SetIDVaiTro,VaiTro: VaiTro, MoTa: MoTaVaiTro, Vendor: VendorCode }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data == 1) {
+                    alert("Thành công");
+                    if (ischeck == "1") {
+                        $('#VaiTro_PopUp_modal').modal('hide');
+                        $('#PopUp_LienHe_modal').modal('hide');
+                        $('#PopUp_Edit_VaiTro_modal').modal('show');
+                    }
+                    // location.reload();
+                    ShowLoad_VaiTro();
+                    js_Loading(false, 1);
+                } else {
+                    alert("Có lỗi xảy ra.");
+                }
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function ShowLoad_VaiTro() {
+        var VendorCode = fomart_split($('#VendorCode').val(), 0);
+        $.ajax({
+            url: '/Department/VaiTrodetail',
+            type: 'POST',
+            data: JSON.stringify({ Vendor: VendorCode }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $('#div-content-VaiTro').html(data);
+                js_ReloadTableDetailV2();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_ReloadTableDetailV2() {
+        $('#tbl_Item_VaiTro').DataTable({
+            lengthMenu: [[50, 70, 100, -1], [50, 70, 100]],
+            "searching": false,
+            autoWidth: false,
+            "order": [[4, "desc"]],
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+    function load_VaiTro(ID) {
+        $('#SetIDVaiTro').val(ID);
+
+        $('#TenVaiTro').val('');
+        $('#MoTaVaiTro').val('');
+
+        $("#shift_VaiTro_modal_label").html('Chỉnh sửa vai trò');
+        $.ajax({
+            type: "POST",
+            url: "/Department/get_Edit_Department_VaiTro",
+            data: JSON.stringify({ ID: ID }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+                // js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data != null) {
+                    console.log(data);
+                    $('#VaiTro_PopUp_modal').modal('show');
+                    $('#PopUp_Edit_VaiTro_modal').modal('hide');
+                    $('#SetIDVaiTro').val(data[0].ID);
+                    $("#TenVaiTro").val(data[0].VaiTro);
+                    $("#MoTaVaiTro").val(data[0].MoTa);
+                }
+            }, error: function () {
+            }
+        });
+    }
+    //
+</script>
+
+<div class="modal" id="PopUp_LienHe_modal">
+    <div class="modal-dialog" role="document" style="width: 900px; max-width: 900px; border-radius: 0; ">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_NhanVien" style="font-size:18px;display: contents; text-transform:uppercase">Đăng ký tài khoản</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="row from_vender frominput">
+
+                <div class="col-md-9">
+                    <fieldset>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Tài khoản<span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" disabled name="UserName" id="UserName" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Họ và tên <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="NguoiDaiDien" id="NguoiDaiDienP" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Giới tính <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control selectpicker required" id="GioiTinhP" data-live-search="true">
+                                    <option value="">---Chọn giới tính ---</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Ngày sinh <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="date" name="NgaySinhP" id="NgaySinhP" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Số điện thoại <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="SoDienThoai" id="SoDienThoai" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Email <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="Email" id="Email" class="form-control" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Chức danh <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control selectpicker required" id="ChucDanhP" data-live-search="true">
+                                    <option value="">---Chọn chức danh ---</option>
+                                    @if (ViewBag.lst_ChucDanh != null)
+                                    {
+                                        foreach (objCombox box in (List<objCombox>)ViewBag.lst_ChucDanh)
+                                        {
+                                            <option value="@box.Code">@box.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <a onclick="PopUp_Edit_ChucDanh_modal()" style=" color: #3498db; padding: 3px; border-radius: 3px; font-size: 12px; margin-top: 2px; float: left; " title="Thêm chức danh">[+]</a>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Vai trò <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <select size="4" multiple="multiple" data-live-search="true" class="form-control selectpicker" id="PhongBanP" name="PhongBanP" data-selected-text-format="count > 2" data-none-selected-text="-- Chọn vai trò --">
+                                    <option value="">--- Chọn vai trò ---</option>
+                                    @if (ViewBag.lst_PhongBan != null)
+                                    {
+                                        foreach (objCombox box in (List<objCombox>)ViewBag.lst_PhongBan)
+                                        {
+                                            <option value="@box.Code">@box.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <a onclick="PopUp_Edit_VaiTro_modal()" style=" color: #3498db; padding: 3px; border-radius: 3px; font-size: 12px; margin-top: 2px; float: left;" title="Thêm vai trò">[+]</a>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Miền <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control selectpicker required" id="Mien" data-live-search="true">
+                                    <option value="">--- Chọn miền ---</option>
+                                    @if (ViewBag.list_Mien != null)
+                                    {
+                                        foreach (objCombox box in (List<objCombox>)ViewBag.list_Mien)
+                                        {
+                                            <option value="@box.Code">@box.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Thương hiệu <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <select size="4" multiple="multiple" data-live-search="true" class="form-control selectpicker" id="ThuongHieu" name="ThuongHieu" data-selected-text-format="count > 2" data-none-selected-text="-- Chọn thương hiệu --">
+                                    <option value="">--- Chọn thương hiệu ---</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> <b>THÔNG TIN LIÊN HỆ</b></label>
+                            </div>
+                            <div class="col-md-8">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Quản lý cấp 1 <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="QuanLyCap1" id="QuanLyCap1" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Số điện thoại <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="SDTQuanLyCap1" id="SDTQuanLyCap1" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Email <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="EmailQuanLyCap1" id="EmailQuanLyCap1" class="form-control" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Quản lý cấp 2 <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="QuanLyCap2" id="QuanLyCap2" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Số điện thoại <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="SDTQuanLyCap2" id="SDTQuanLyCap2" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12" style=" height:7px;"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Email <span style="color:red">(*)</span></label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="EmailQuanLyCap2" id="EmailQuanLyCap2" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 ">
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-8">
+                                <div style=" clear:both; height:10px"></div>
+                                <a href="#" onclick="fn_save_LienHe('1')" id="btn_Gui" class="btn btn-success px-5 rounded-0 btgetw" style="color:#fff"><i class="fa fa-save"></i> Lưu & đóng</a>
+                                <div style=" height: 10px"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style=" height:15px;"></div>
+                    </fieldset>
+                </div>
+                <div class="col-md-3">
+                    <div style=" clear:both"></div>
+                    <div id="img_src">
+                        <ul id="ShowImgM1"></ul>
+                    </div>
+                    <div class="Upload_img" style=" float:left">
+                        <input class="form-control" type="hidden" id="imgLink">
+                        <div id="wp_thum_img" onclick="reupimg()" style="text-align: center;width: 150px;height: 140px;border: 1px dashed rgba(0, 0, 0, 0.38);border-radius: 4px;margin-top: 9px;">
+                            <div class="img_src" style="padding-top: 0px; cursor: pointer; margin-top: 32px;">
+                                <img id="thum_img" for="fileUpload" src="~/Resources/images/upfiles.png">
+                                <div id="upload_theme">
+                                    <p style="">Up ảnh chân dung <span style=" color:red">(*)</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="form-control" name="txtMImage" id="txtMImage" />
+                        <div style=" clear:both"></div>
+                        <input type="file" multiple="multiple" style="width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;" name="fileUpload" id="fileUpload" class="inputfile">
+                    </div>
+                    <div style=" clear:both"></div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@* Start ChucDanh*@
+<div class="modal" id="PopUp_Edit_ChucDanh_modal">
+    <div class="modal-dialog" role="document" style="width: 800px; max-width: 800px; border-radius: 0; ">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style="font-size:18px;display: contents; text-transform:uppercase">Quản lý chức danh</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="card-body" style="margin-top: 7px ">
+                <a href="#" onclick="AddPopUp_ChucDanh('1')" id="btn_Gui" class="btn btn-success px-5 rounded-0 btgetw" style="color: #fff; width: 135px; padding-left: 2px !important; padding-right: 2px !important; }"><i class="fa fa-save"></i> Thêm mới</a>
+                <div style=" height:7px"></div>
+                <div class="table-responsive" id="div-content-detail">
+                    @Html.Partial("~/Views/Department/Partial/__ChucDanh.cshtml")
+                </div>
+            </div>
+            <div style=" height:10px"></div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" name="SetIDChucDanh" id="SetIDChucDanh" value="0" />
+<style>
+    #tbl_Item_ChucDanh_length {
+        display: none
+    }
+</style>
+
+<div class="modal" id="PopUp_modal">
+    <div class="modal-dialog" role="document" style="width:500px; border-radius:0; ">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style="font-size:18px;display: contents; text-transform:uppercase">Thêm mới chức danh</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="row from_vender frominput">
+                <fieldset>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label> Tên chức danh</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" name="TenChucDanh" id="TenChucDanh" placeholder="Tên chức danh" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label> Mô tả <span style="color:red">(*)</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <textarea class="form-control" type="text" id="MoTa" name="MoTa" style=" height: 127px !important" placeholder="Nhập mô tả"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-9">
+                        <div style=" clear:both; height:10px"></div>
+                        <a href="#" onclick="fn_save_ChucDanh('1')" id="btn_Gui" class="btn btn-success px-5 rounded-0 btgetw" style="color:#fff"><i class="fa fa-save"></i> Lưu & đóng</a>
+                        <div style=" clear:both; height:10px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*End ChucDanh*@
+
+
+@* Start VaiTro*@
+<div class="modal" id="PopUp_Edit_VaiTro_modal">
+    <div class="modal-dialog" role="document" style="width: 800px; max-width: 800px; border-radius: 0; ">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style="font-size:18px;display: contents; text-transform:uppercase">Quản lý vai trò</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="card-body" style="margin-top: 7px ">
+                <a href="#" onclick="AddPopUp_VaiTro('1')" id="btn_Gui" class="btn btn-success px-5 rounded-0 btgetw" style="color: #fff; width: 135px; padding-left: 2px !important; padding-right: 2px !important; }"><i class="fa fa-save"></i> Thêm mới</a>
+                <div style=" height:7px"></div>
+                <div class="table-responsive" id="div-content-VaiTro">
+                    @Html.Partial("~/Views/Department/Partial/__PhongBan.cshtml")
+                </div>
+            </div>
+            <div style=" height:10px"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #tbl_Item_VaiTro_length {
+        display: none
+    }
+</style>
+<input type="hidden" name="SetIDVaiTro" id="SetIDVaiTro" value="0" />
+
+<div class="modal" id="VaiTro_PopUp_modal">
+    <div class="modal-dialog" role="document" style="width:500px; border-radius:0; ">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_VaiTro_modal_label" style="font-size:18px;display: contents; text-transform:uppercase">Thêm mới vai trò</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="row from_vender frominput">
+                <fieldset>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label> Tên vai trò</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" name="TenVaiTro" id="TenVaiTro" placeholder="Tên vai trò" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label> Mô tả <span style="color:red">(*)</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <textarea class="form-control" type="text" id="MoTaVaiTro" name="MoTaVaiTro" style=" height: 127px !important" placeholder="Nhập mô tả"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-9">
+                        <div style=" clear:both; height:10px"></div>
+                        <a href="#" onclick="fn_save_VaiTro('1')" id="btn_Gui" class="btn btn-success px-5 rounded-0 btgetw" style="color:#fff"><i class="fa fa-save"></i> Lưu & đóng</a>
+                        <div style=" clear:both; height:10px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*End VaiTro*@
+

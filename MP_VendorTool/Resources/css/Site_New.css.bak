@@ -1,0 +1,169 @@
+﻿/* 755 of 4440 unused characters has been removed. */
+@font-face {
+    font-family: 'Rift';
+    src: url('../Rift_2/Fort Foundry - Rift-Bold.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift-Demi.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift-Light.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift-Medium.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift-Regular.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift Bold Italic.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift Demi Italic.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift Italic.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift Light Italic.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift Medium Italic.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift Soft Bold Italic.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift Soft Demi Italic.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift Soft Italic.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift Soft Light Italic.otf') format('opentype'),url('../Rift_2/Fort Foundry - Rift Soft Medium Italic.otf') format('opentype'),url('../Rift_2/Fort Foundry - RiftSoft-Bold.otf') format('opentype'),url('../Rift_2/Fort Foundry - RiftSoft-Demi.otf') format('opentype'),url('../Rift_2/Fort Foundry - RiftSoft-Light.otf') format('opentype'),url('../Rift_2/Fort Foundry - RiftSoft-Medium.otf') format('opentype'),url('../Rift_2/Fort Foundry - RiftSoft-Regular.otf') format('opentype')
+}
+
+@font-face {
+    font-family: 'SF-Pro-Text-Regular';
+    src: url('../Sf Pro/SF-Pro-Text-Regular.otf') format('opentype')
+}
+
+a {
+    color: #337ab7;
+    text-decoration: none
+}
+
+body {
+    font-size: 13px !important
+}
+
+.wrap-login100 {
+    width: 73%;
+    margin: 0 auto;
+    padding: 0 60px 53px;
+    margin-top: 82px;
+    padding-bottom: 130px
+}
+
+#logo_login img {
+    width: 251px;
+    text-align: center
+}
+
+#logo_login {
+    text-align: center;
+    padding-top: 46px
+}
+
+.loginbtn {
+    background: #fff;
+    border-radius: 8px;
+    display: block;
+    height: 35px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #000;
+    border: 1px solid #eae6e6;
+    padding: 3px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    font-family: 'SF-Pro-Text-Regular';
+    width: 200px !important;
+    text-align: center;
+    margin: auto
+}
+
+.controllg {
+    background: rgba(0,0,0,0.48);
+    border-radius: 3px;
+    display: block;
+    width: 100%;
+    height: 28px;
+    font-size: 14px;
+    font-family: 'SF-Pro-Text-Regular';
+    padding: 3px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    color: #fff;
+    border: none;
+    text-align: center
+}
+
+form#myForm {
+    width: 385px;
+    margin: auto
+}
+
+.bglogin .Vendors {
+    font-family: 'Rift';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 96px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    text-align: center;
+    text-shadow: 0 0 12px rgba(0,0,0,0.25);
+    padding-top: 107px
+}
+
+.sologan {
+    font-family: 'SF-Pro-Text-Regular';
+    height: 75px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 19px;
+    text-align: center;
+    color: #FFFFFF;
+    padding-top: 30px
+}
+
+.text_change_pass a {
+    color: #fff;
+    padding: 11px;
+    display: block;
+    font-style: italic;
+    font-size: 13px
+}
+
+body {
+    position: relative;
+    min-height: 100%;
+    background-image: url(../images/bglogin.png);
+    height: 100%;
+    background-position: 0 -40px
+}
+
+html {
+    background: linear-gradient(90deg,rgba(1,11,52,0.98) 0%,rgba(0,22,67,0.94) 49%,rgba(0,47,102,0.8) 100%)
+}
+
+.bglogin ::-webkit-input-placeholder { /* Edge */
+    color: #fff
+}
+
+.bglogin :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #fff
+}
+
+.bglogin ::placeholder {
+    color: #fff
+}
+
+.text_change_pass {
+    text-align: center
+}
+
+.menu_footer ul li {
+    list-style: none;
+    display: inline-block;
+    padding-right: 10px
+}
+
+    .menu_footer ul li a {
+        color: #eae6e6;
+        font-size: 14px;
+        font-family: 'SF-Pro-Text-Regular';
+        font-size: 13px
+    }
+
+.menu_footer ul {
+    margin: 0 auto;
+    text-align: center
+}
+
+    .menu_footer ul li span {
+        padding-left: 10px;
+        float: right
+    }
+
+.footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: transparent;
+    text-align: center
+}

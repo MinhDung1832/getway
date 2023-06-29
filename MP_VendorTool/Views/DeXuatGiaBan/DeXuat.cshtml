@@ -1,0 +1,800 @@
+﻿@using ProductAllTool.Models.ManageSales;
+@using ProductAllTool.Common
+@{
+    ViewBag.Title = "Đề xuất giá bán";
+    Layout = "~/Views/Shared/_Layout_V2.cshtml";
+}
+<style>
+    .valueNumber {
+        text-align: right
+    }
+    .from_vender.frominput {
+        padding-top: 0px;
+    }
+
+    .from_vender {
+        margin-left: 0px;
+    }
+    .dros .col-md-12 {
+        margin-bottom: 0px !important;
+    }
+    .content-wrapper {
+        padding-top: 47px;
+    }
+
+    .form-control[disabled] {
+        background: #f7f7f7 !important;
+    }
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    #btn_Gui {
+        background-color: #868e96;
+        color: #fff;
+        padding: 3px 21px;
+        margin-top: 2px;
+        width: 170px;
+        height: 30px;
+        border-radius: 3px;
+        text-align: center;
+    }
+    #btn_Guis {
+        background-color: #868e96;
+        color: #fff;
+        padding: 3px 21px;
+        margin-top: 2px;
+        width: 170px;
+        height: 30px;
+        border-radius: 3px;
+        text-align: center;
+    }
+
+    .from_vender input, .from_vender select {
+        margin-bottom: 3px !important;
+    }
+
+    .content_vendor {
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .btn-success {
+        color: #fff;
+        background-color: #cccccc;
+        border: none;
+    }
+
+        .btn-success:hover, .btn-success:active, .btn-success:focus, .btn-success:active:focus, .btn-success:active:hover {
+            color: #fff;
+            background-color: #cccccc;
+            border: none;
+        }
+
+
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .img_src {
+        padding: 10px 10px 43px;
+    }
+
+    .thum_img {
+        height: 355px;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 18px;
+    }
+
+        .text_home a {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    fieldset h4 {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #355c96;
+        text-transform: uppercase;
+        border: 0;
+        padding-left: 10px;
+    }
+
+    fieldset {
+        margin-top: 34px;
+    }
+
+    label {
+        font-size: 12px;
+        color: #777575;
+    }
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+        .button_save_1 a {
+            text-align: center;
+            background-color: #868686 !important;
+            border-color: #868686 !important;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 8px;
+        }
+
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #ded6d6;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #86868600;
+        border-color: #868686;
+        color: #6f8cb8 !important;
+    }
+
+    .button_action a:hover {
+        background-color: #008888;
+        color: #fff !important;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+    .button_action {
+        margin-top: 44px;
+    }
+
+    .table > thead > tr > th {
+        color: #6f8cb8;
+    }
+
+    #wp_thum_img {
+        background-color: #fff;
+        text-align: center;
+    }
+
+    /*  .frominput .form-control {
+        height: 25px !important;
+        width: 428px !important;
+        max-width: 428px !important;
+    }*/
+
+    .dropdown.bootstrap-select.form-control {
+        padding: 0px;
+        margin: 0px;
+        background: none;
+        width: 100%;
+        max-width: 100%;
+        padding-left: 0px !important;
+        border: none !important;
+    }
+
+    .col-sm-8 .btn {
+        height: 26px;
+        line-height: 11px
+    }
+
+
+
+    .dropdown.bootstrap-select.form-control.bs3 {
+        padding-bottom: 1px;
+    }
+
+    .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+        overflow: hidden;
+        height: 17px;
+        padding: 0px;
+        font-size: 12px;
+        color: #59595B;
+        margin-left: 8px;
+    }
+
+    .col-sm-9 .btn {
+        height: 27px;
+        line-height: 13px;
+    }
+</style>
+<div class="">
+    <div class="col-md-12">
+        <div class="row from_vender frominput">
+            <fieldset>
+                <div class="col-md-12">
+                    <h4>THÔNG TIN CƠ BẢN</h4>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label>Nhà cung cấp</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="NhaCC" class="form-control selectpicker" data-live-search="true" onchange="js_onchange_NCC_MaHang()">
+                                @if (ViewBag.list_vendor != null)
+                                {
+                                    <option value="">--- Chọn NCC ---</option>
+                                    foreach (objCombox box in (List<objCombox>)ViewBag.list_vendor)
+                                    {
+                                        <option value="@box.Code">@box.Code - @box.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label>Mã hàng <span style=" color:red">*</span></label>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="MaHang" class="form-control selectpicker" data-live-search="true" onchange="js_onchange_barcode()">
+                                <option value="">--- Chọn mã hàng ---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label>Barcode</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="form-control selectpicker" data-live-search="true" id="Barcode">
+                                <option value=""> -- Chọn Barcode --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label>Upload PDF</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input class="form-control" type="hidden" id="imgLink">
+                        <div id="wp_thum_img">
+                            <div class="img_src"><img id="thum_img" for="fileUpload" src="" /><p></p></div>
+                        </div>
+                        <form id="upload" enctype="multipart/form-data" action="@Url.Action("UploadFile", "OfferPrice")" method="POST">
+                            <input type="file" style="width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;" name="fileUpload" id="fileUpload" class="inputfile">
+                            <label class="btn btn-success" for="fileUpload" style="width: 49%; font-size: 13px; background: #23b7e5 !important; height: 30px; margin: auto; padding-top: 6px; border-radius: 3px;"><i class="fa fa-upload" aria-hidden="true"></i> Upload PDF</label>
+                        </form>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="col-md-12">
+                    <h4>Thông tin chi tiết</h4>
+                </div>
+                <div class="row dros" style=" padding-left: 0px; padding-right: 0; ">
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            <div class="col-md-5">
+                                <label>Giá bán cũ (+VAT) </label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control valueNumber" type="text" id="GiaBanCu" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-5">
+                                <label>Giá bán mới (+VAT)<span style=" color:red">*</span></label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control valueNumber" type="text" id="GiaMoi" onchange="PhanTramGp_Change()">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-5">
+                                <label>Giá mua (+VAT) </label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control valueNumber" type="text" id="GiaMua" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            <div class="col-md-5">
+                                <label>%GP cũ </label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control valueNumber" type="text" id="hdGpCu" disabled>
+                                <input class="form-control valueNumber" type="hidden" id="GpCu">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-5">
+                                <label>%GP mới</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control valueNumber" type="text" id="hdGpMoi" disabled>
+                                <input class="form-control valueNumber" type="hidden" id="GpMoi">
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-5">
+                                <label>%GP Function </label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control valueNumber" type="text" id="hdGpFunction" disabled>
+                                <input class="form-control valueNumber" type="hidden" id="GpFunction">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            <div class="col-md-5">
+                                <label>Ngày thông báo</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control" id="NgayThongBaoChinhThuc" value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-5">
+                                <label>Ngày hiệu lực</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control" id="NgayHieuLuc" value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-5">
+                                <label>Ngày kết thúc</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control" id="NgayKetThuc" type="date">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <hr>
+        </div>
+
+        <div class="col-md-12">
+            <div style=" padding-top: 32px;float:right">
+                @*<a href="/DeXuatGiaBan" id="btn_Gui" class="btn btn-secondary" style=" width: 150px"><i class="fa fa-forward" style="margin-right: 3px; width: 17px; "></i>Quản lý giá bán </a>*@
+                <a href="#" id="btn_Guis" onclick="fn_save('2')" class="btn btn-secondary"><i class="fa fa-paper-plane"></i> Gửi duyệt</a>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="mh" type="hidden" />
+
+<script type="text/javascript">
+
+    $(function () {
+        var url = new URL(window.location);
+        if (url.searchParams.get("NhaCC")) $("#NhaCC").val(url.searchParams.get("NhaCC"));
+        if (url.searchParams.get("MaHang")) $("#MaHang").val(url.searchParams.get("MaHang"));
+        if (url.searchParams.get("MaHang")) $("#mh").val(url.searchParams.get("MaHang"));
+
+        $('#txtHead').html("Đề xuất giá bán");
+        $('#f_dev').html("");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        $('#NhaCC').selectpicker('refresh');
+        js_onchange_NCC_MaHang();
+
+    });
+
+    function js_onchange_NCC_MaHang() {
+        var NCC = fomart_split($('#NhaCC option:selected').text(), 0);
+        $('#MaHang').empty();
+        if (NCC.length > 0) {
+
+            // Call MaHang
+            $.ajax({
+                url: '/DeXuatGiaBan/SP_DeXuqatGiaBan_Pro_ITEM_Vendor',
+                type: 'POST',
+                data: JSON.stringify({ NCC: NCC }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#MaHang').empty();
+                        $('#MaHang').append('<option value="">--Chọn mã hàng--</option>');
+                        for (i in row) {
+                            $('#MaHang').append('<option value="' + row[i].Code + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    var mh = $('#mh').val();
+                    if (mh != "") {
+                        $('#MaHang').val(mh);
+                        js_onchange_barcode();
+                    }
+                    $('#MaHang').selectpicker('refresh');
+                }
+            });
+        }
+
+        var url = new URL(window.location);
+        if (url.searchParams.get("NhaCC")) $("#NhaCC").val(url.searchParams.get("NhaCC"));
+        if (url.searchParams.get("MaHang")) $("#MaHang").val(url.searchParams.get("MaHang"));
+        $('#MaHang').selectpicker('refresh');
+
+    }
+
+    function js_onchange_barcode(r) {
+        $('#GpMoi').val('');
+        $('#GpFunction').val('');
+        $('#GpCu').val('');
+        $('#GiaBanCu').val('');
+        $('#GiaMua').val('');
+
+        let nameProduct = $('#MaHang option:selected').text();
+        $('#Barcode' + r).empty();
+        $('#Barcode' + r).append('<option value="">--Chọn Barcode--</option>');
+        var item = nameProduct.split(" - ");
+
+        let NhaCC = $('#NhaCC option:selected').text();
+        var arNhaCC = NhaCC.split(" - ");
+        if (nameProduct.length > 0) {
+
+            // Call Barcode
+            $.ajax({
+                url: '/DeXuatGiaBan/GetListBarcode',
+                type: 'POST',
+                data: JSON.stringify({ itemNo: item[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#Barcode').empty();
+                        for (i in row) {
+                            $('#Barcode').append('<option value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#Barcode').selectpicker('refresh');
+                }
+            });
+            debugger;
+            // Show bảng [SalesPrice] trên [DWH]
+            $.ajax({
+                type: "POST",
+                url: "/DeXuatGiaBan/SalesPrice_ThayDoiGiaAll",
+                data: JSON.stringify({ MaHang: item[0] }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                },
+                success: function (data) {
+                    if (data != null) {
+                        $('#GiaBanCu').val(data.Name);
+                    }
+                }, error: function () {
+                }
+            });
+
+            //GiaMua_DeXuatGiaBan
+            $.ajax({
+                type: "POST",
+                url: "/DeXuatGiaBan/GiaMua_DeXuatGiaBan",
+                data: JSON.stringify({ MaHang: item[0], Vendor: arNhaCC[0] }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                },
+                success: function (data) {
+                    if (data != null) {
+                        $('#GiaMua').val(data.Name);
+                    }
+                }, error: function () {
+                }
+            });
+
+            //%GP Function
+            $.ajax({
+                type: "POST",
+                url: "/DeXuatGiaBan/PTGPFunction_DeXuatGiaBan",
+                data: JSON.stringify({ MaHang: item[0] }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                },
+                success: function (data) {
+                    if (data != null) {
+                        $('#GpFunction').val(data.Code);
+                        $('#hdGpFunction').val(data.Name);
+                    }
+                }, error: function () {
+                }
+            });
+
+            PhanTramGp();
+        }
+    }
+
+    function PhanTramGp() {
+        setTimeout(function () {
+            // %GPCu
+            let GiaBanCu = $('#GiaBanCu').val().replaceAll(".", "").replaceAll(",", "");
+            let GiaMua = $('#GiaMua').val().replaceAll(".", "").replaceAll(",", "");
+            if (GiaBanCu.length > 0 && GiaMua.length > 0) {
+                let Sum = (((parseInt(GiaBanCu) - parseInt(GiaMua)) / parseInt(GiaMua)) * 100);
+                let SumA = ((parseInt(GiaBanCu) - parseInt(GiaMua)) / parseInt(GiaMua));
+                $('#hdGpCu').val(Sum.toFixed(2) + "%");
+                $('#GpCu').val(SumA);
+
+            }
+            else {
+                $('#hdGpCu').val('');
+                $('#GpCu').val('');
+            }
+
+            // %GPMoi
+            let GiaMoi = $('#GiaMoi').val().replaceAll(".", "").replaceAll(",", "");
+            if (GiaMoi.length > 0 && GiaMua.length > 0) {
+                let SumMoi = (((parseInt(GiaMoi) - parseInt(GiaMua)) / parseInt(GiaMua)) * 100);
+                let SumMoiA = ((parseInt(GiaMoi) - parseInt(GiaMua)) / parseInt(GiaMua));
+                $('#hdGpMoi').val(SumMoi.toFixed(2) + "%");
+                $('#GpMoi').val(SumMoiA);
+            }
+            else {
+                $('#hdGpMoi').val('');
+                $('#GpMoi').val('');
+            }
+
+        }, 2000);
+    }
+
+
+
+    function PhanTramGp_Change() {
+        // %GPCu
+        let GiaBanCu = $('#GiaBanCu').val().replaceAll(".", "").replaceAll(",", "");
+        let GiaMua = $('#GiaMua').val().replaceAll(".", "").replaceAll(",", "");
+        if (GiaBanCu.length > 0 && GiaMua.length > 0) {
+            let Sum = (((parseInt(GiaBanCu) - parseInt(GiaMua)) / parseInt(GiaMua)) * 100);
+            let SumA = ((parseInt(GiaBanCu) - parseInt(GiaMua)) / parseInt(GiaMua));
+            $('#hdGpCu').val(Sum.toFixed(2) + "%");
+            $('#GpCu').val(SumA);
+
+        }
+        else {
+            $('#hdGpCu').val('');
+            $('#GpCu').val('');
+        }
+
+        // %GPMoi
+        let GiaMoi = $('#GiaMoi').val().replaceAll(".", "").replaceAll(",", "");
+        if (GiaMoi.length > 0 && GiaMua.length > 0) {
+            let SumMoi = (((parseInt(GiaMoi) - parseInt(GiaMua)) / parseInt(GiaMua)) * 100);
+            let SumMoiA = ((parseInt(GiaMoi) - parseInt(GiaMua)) / parseInt(GiaMua));
+            $('#hdGpMoi').val(SumMoi.toFixed(2) + "%");
+            $('#GpMoi').val(SumMoiA);
+        }
+        else {
+            $('#hdGpMoi').val('');
+            $('#GpMoi').val('');
+        }
+
+    }
+
+    function fn_save(Status) {
+        if (
+            $('#NhaCC').val().length == 0 ||
+            $('#MaHang').val().length == 0 ||
+            $('#GiaMoi').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ (*) ');
+            return;
+        }
+        var MaHang = $('#MaHang option:selected').text();
+        var arrMaHang = MaHang.split(' - ');
+        var NhaCC = $('#NhaCC option:selected').text();
+        var arrNhaCC = NhaCC.split(' - ');
+
+        var prd = {};
+        prd.MaNCC = arrNhaCC[0];
+        prd.TenNCC = arrNhaCC[1];
+        prd.MaHang = arrMaHang[0];
+        prd.TenHang = arrMaHang[1];
+        prd.Barcode = $('#Barcode').val();
+        prd.Link = $('#imgLink').val();
+
+        prd.GiaBanCu = $('#GiaBanCu').val().replaceAll(".", "").replaceAll(",", "");
+        prd.GiaMoi = $('#GiaMoi').val().replaceAll(".", "").replaceAll(",", "");
+        prd.GiaMua = $('#GiaMua').val().replaceAll(".", "").replaceAll(",", "");
+
+        prd.GpCu = $('#GpCu').val();
+        prd.GpMoi = $('#GpMoi').val();
+        prd.GpFunction = $('#GpFunction').val();
+
+        prd.NgayThongBaoChinhThuc = $('#NgayThongBaoChinhThuc').val();
+        prd.NgayHieuLuc = $('#NgayHieuLuc').val();
+        prd.NgayKetThuc = $('#NgayKetThuc').val();
+
+        prd.Status = Status;
+        console.log(JSON.stringify({ prd }));
+        console.log(prd);
+
+        $.ajax({
+            url: '/DeXuatGiaBan/Create_DeXuatGiaBan',
+            type: 'POST',
+            data: JSON.stringify({ info: prd }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                //  js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data) {
+                    jAlert('Thêm mới thành công', 'Thông báo', (r) => {
+                        $('#imgLink').val('');
+
+                        $('#GiaBanCu').val('');
+                        $('#GiaMoi').val('');
+                        $('#GiaMua').val('');
+
+                        $('#GpCu').val('');
+                        $('#GpMoi').val('');
+                        $('#GpFunction').val('');
+
+                        $('#hdGpCu').val('');
+                        $('#hdGpMoi').val('');
+                        $('#hdGpFunction').val('');
+
+                        $('#NgayThongBaoChinhThuc').val('');
+                        $('#NgayHieuLuc').val('');
+                        $('#NgayKetThuc').val('');
+                        location.reload();
+                    });
+                } else {
+                    jAlert('Có lỗi xảy ra', 'Thông báo');
+                }
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    jQuery(document).ready(function ($) {
+        $(".valueNumber").on('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+        });
+
+        $(".valueNumber").load('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            if (n.toLocaleString() != 'NaN') {
+                $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+            }
+        });
+    });
+
+    $('body').on('keyup', '.valueNumber', function (e) {
+        var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+        if (n.toLocaleString() != 'NaN') {
+            $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+        }
+    });
+
+</script>
+
+<script type="text/javascript">
+    //Upload file
+    $(document).ready(function () {
+        $("#fileUpload").change(function () {
+            debugger;
+            var tb = $('#imgLink').val();
+            if (tb != '') {
+                jConfirm('Bạn muốn thay thế file PDF đã tải lên?', 'Thông báo', function (r) {
+                    if (r) {
+                        var vtrUpload = $("#fileUpload").val().toLowerCase();
+                        var regexVTRUpload = new RegExp("(.*?)\.(pdf)$");//png|jpg|jpeg
+                        if (!(regexVTRUpload.test(vtrUpload))) {
+                            $("#fileUpload").val("");
+                            alert("File không đúng định dạng. Vui lòng kiểm tra lại.");
+                        } else {
+                            UploadFile();
+                        }
+                    }
+                });
+            } else {
+                var vtrUpload = $("#fileUpload").val().toLowerCase();
+                var regexVTRUpload = new RegExp("(.*?)\.(pdf)$");//png|jpg|jpeg
+                if (!(regexVTRUpload.test(vtrUpload))) {
+                    $("#fileUpload").val("");
+                    alert("File không đúng định dạng. Vui lòng kiểm tra lại.");
+                } else {
+                    UploadFile();
+                }
+            }
+        });
+    });
+    //function load(ID, FilePDF) {
+    //    $('#ID').val(ID);
+    //    if (FilePDF.length > 0)
+    //        $('#TaiFile').html("<a id=\"Link\" href=\"" + FilePDF + "\" style=\"color: #fff;width: 100%;margin: 17px 4px;font-size: 12px;background: #e6472e !important;padding: 6px 42px 6px 36px;\" target=\"_blank\">Tải File pdf</a>");
+    //    else
+    //        $('#TaiFile').html("");
+    //    document.getElementById("showFile").click();
+    //}
+    function UploadFile() {
+
+        var data = new FormData();
+        var files = $("#fileUpload").get(0).files;
+        if (files.length > 0) {
+            data.append("MyImages", files[0]);
+        }
+        data.append("foldername", 'OfferPrice');
+
+        $.ajax({
+            url: "/OfferPrice/UploadFile",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            data: data,
+            async: true,
+            success: function (data) {
+                js_Loading(false, 1);
+                if (data.code == 1) {
+
+                    // img_link = data.link;
+                    $('#imgLink').val(data.link);
+                    $('.img_src p').hide();
+                    $('#thum_img').css({ "width": "100%", "margin-top": "0px", "height": "70px", "object-fit": "contain" });
+                    $('#thum_img').attr("src", data.showfie);
+                    $('#real_img').attr("onclick", "fn_detail('" + data.link + "')");
+                    // $('#TaiFile').html("<a id=\"Link\" href=\"" + data.link + "\" style=\"color: #fff;width: 100%;margin: 17px 4px;font-size: 12px;background: #e6472e !important;padding: 6px 42px 6px 36px;\" target=\"_blank\">Tải File pdf</a>");
+                }
+            },
+            error: function (er) {
+                js_Loading(false, 1);
+                alert("Thiết bị không hỗ trợ up ảnh từ camera. Chọn file từ bộ nhớ thiết bị!");
+            }
+        });
+    }
+    function fomart_split(input, number) {
+        var value = input;
+        if (value != null && !value.length < 1) {
+            return value.split(" - ")[number];
+        } else {
+            return "";
+        }
+    }
+</script>

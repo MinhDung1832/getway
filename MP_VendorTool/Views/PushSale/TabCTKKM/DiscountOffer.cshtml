@@ -1,0 +1,306 @@
+﻿@using MP_VendorTool.Models.Order
+@using Newtonsoft.Json;
+@{
+    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+    var jsonItems = serializer.Serialize(ViewBag.lstItem);
+}
+<style>
+    #DiscountOffer .form-control[disabled] {
+        background: #d7d7d7 !important
+    }
+
+    .spname button.btn.dropdown-toggle.btn-default {
+        padding: 2px !important;
+    }
+</style>
+<div style=" margin-left: 10px">
+    <div class="col-md-6 frominput  ShowInPut" style="pointer-events: none; opacity: 0.6; " id="DiscountOffer">
+        <div class="form-group row">
+            <label for="MaCTKM" class="col-sm-3 col-form-label">Mã CTKM</label>
+            <div class="col-sm-9">
+                @*<div class="input_left">
+                        <input type="text" disabled id="MaCTKM" name="MaCTKM" value="" style="width: 383px !important;" class="form-control" />
+                    </div>
+                    <div class="input_left" style="margin-top: 4px;">
+                        <a href="#" onclick="js_createCodeCTKM()" id="btn_add_Code">Lấy mã</a>
+                    </div>*@
+                <input type="text" disabled id="MaCTKM" name="MaCTKM" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ThoiGian" class="col-sm-3 col-form-label">Thời gian từ</label>
+            <div class="col-sm-9">
+                <table width="612px">
+                    <tr>
+                        <td style="width: 10% !important;"> <input type="date" class="form-control" id="TuNgay_CTKM" name="TuNgay_CTKM" style=" width: 170px !important;max-width:170px !important "></td>
+                        <td style="width: 1% !important; text-align:center"> <label for="ThoiGian" class="col-form-label" style="margin-left:-297px;">Đến</label></td>
+                        <td style="width: 10% !important;"> <input type="date" class="form-control" id="DenNgay_CTKM" name="DenNgay_CTKM" style="width: 170px !important;max-width:170px !important; margin-left:-114px"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        @*<div class="form-group row">
+            <label for="CouponCode" class="col-sm-3 col-form-label">Coupon Code</label>
+            <div class="col-sm-9">
+                <select id="CouponCode" class="form-control selectpicker" data-live-search="true">
+                    <option value="">-- Chọn coupon code --</option>
+                </select>
+            </div>
+        </div>*@
+        <div class="form-group row">
+            <label for="PhamVi" class="col-sm-3 col-form-label">Phạm vi</label>
+            <div class="col-sm-9">
+                <select id="PhamVi_CTKM" class="form-control selectpicker" data-live-search="true">
+                    <option value="">-- Chọn phạm vi --</option>
+                    @if (ViewBag.lstCusPriceGroup != null)
+                    {
+                        foreach (objCombox box in (List<objCombox>)ViewBag.lstCusPriceGroup)
+                        {
+                            <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+    </div>
+    <div style="height: 10px; clear: both; "></div>
+    <div class="col-md-9  ShowInPut" style="pointer-events: none; opacity: 0.6; ">
+        <table class="table table-bordered" id="table_CTKM">
+            <thead>
+                <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">No</th>
+                    <th scope="col">Disc. % from Std. Price</th>
+                    <th scope="col">Disc. Amount from Std. Price</th>
+                    <th scope="col" style="text-align: center ">Thêm</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-12  ShowInPut" style="pointer-events: none; opacity: 0.6; ">
+        <div style=" padding-top: 32px">
+            <a href="#" onclick="SavePushSales_DiscountOffer()" id="btn_Gui" class="btn btn-secondary"><i class="far fa-paper-plane"></i> Lưu lại</a>
+        </div>
+    </div>
+</div>
+
+<script>
+ var listItems = @Html.Raw(jsonItems);
+    var CTKM = 0;
+    $(function () {
+        js_createCodeCTKM();
+        js_add();
+        Get_Coupon();
+    });
+    function js_add(r) {
+        CTKM++;
+        var chuoi = "";
+        var TTC = CTKM - 1;
+        $("#row_" + TTC + " .btn_add").empty();
+        $("#row_" + TTC + " .btn_add").html('<a href="javascript:void(0);" onclick="deleteRow(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+        chuoi += '<tr id="row_' + CTKM + '">';
+        chuoi += '<td style=" width: 8%;"><select style="width:100% !important"   class="form-control" name="Type"><option value="Item">Item</option></select></td>';
+        chuoi += '<td style=" width: 20%;max-width: 20%;" class="spname"><select style="width: 20% !important;max-width: 20% !important" id="NameProducts_' + CTKM + '" onchange="js_changeInfoDisOffer(' + CTKM + ')" class="form-control selectpicker" name="NameProducts" data-live-search="true">';
+        chuoi += '<option value="">--Chọn--</option>';
+        $.each(listItems, (index, value) => {
+            chuoi += '<option value="' + value.Code + ' - ' + value.Name + '">' + value.Code + ' - ' + value.Name + '</option>';
+        });
+        chuoi += '</select></td>';
+        chuoi += '<td style=" width: 14%; "><input style="width:100% !important" type="text" name="DiscStdPrice" class="form-control OrderValue" /></td>';
+        chuoi += '<td style=" width: 14%; "><input style="width:100% !important" type="text" name="DiscAmountStdPrice" class="form-control OrderValue" /></td>';
+        chuoi += '<td style="text-align:center;width:3%; " class="btn_add"><a href="javascript:void(0)" onclick="js_add(' + CTKM + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td></tr > ';
+        $("#table_CTKM tbody").append(chuoi);
+        $('.selectpicker').selectpicker();
+    }
+    function deleteRow(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("table_CTKM").deleteRow(ri);
+    }
+   
+</script>
+
+<script type="text/javascript">
+    SourceCTKMPrice = [];
+    SourceCTKM = [];
+
+    function SavePushSales_DiscountOffer() {
+        debugger;
+        // Kiểm tra xem mã đã tồn tại chưa, Sét lại nếu đã tồn tại
+        js_createCodeCTKM();
+
+        if (
+            $('#MaCTKM').val().length == 0 ||
+           // $('#CouponCode').val().length == 0 ||
+            $('#TuNgay_CTKM').val().length == 0 ||
+            $('#DenNgay_CTKM').val().length == 0 ||
+            $('#PhamVi_CTKM').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ.');
+            return;
+        }
+        debugger;
+        GetDataCTKMPrice();
+        GetDataCTKM();
+        var obj = {};
+        obj.SourceCTKM = JSON.stringify(SourceCTKM);
+        obj.SourceCTKMPrice = JSON.stringify(SourceCTKMPrice);
+
+        console.log(JSON.stringify(SourceCTKM));
+        console.log(JSON.stringify(SourceCTKMPrice));
+        console.log(JSON.stringify(obj));
+
+        // Call Save PushSale Header set ID
+        fn_save_Invest_Header();
+
+        //if (SourceCTKM.length > 0) {
+            $.ajax({
+                url: '/PushSale/SavePushSales_DiscountOffer',
+                type: 'POST',
+                data: JSON.stringify(obj),
+                enctype: 'multipart/form-data',
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    if (data.RespId == 0) {
+                        jAlert(data.RespMsg, 'Thông báo', (r) => {
+                            location.reload();
+                        });
+                    } else {
+                        jAlert(data.RespMsg, 'Thông báo');
+                    }
+                    js_Loading(false, 1);
+                }
+            });
+        //}
+    }
+
+    function GetDataCTKM() {
+        debugger;
+        var NhaCC = $('#NhaCC').val();
+        var ArrNhaCC = NhaCC.split(' - ');
+
+        // var CTKM = $("input[name='CTKM']").val();
+
+        var MaCTKM = $('#MaCTKM').val().trim();
+
+        //var CouponCode = $('#CouponCode').val();
+        //var ArrCouponCode = CouponCode.split(' - ');
+
+        var TuNgay = $('#TuNgay_CTKM').val();
+        var DenNgay = $('#DenNgay_CTKM').val();
+
+        var PhamVi = $('#PhamVi_CTKM').val();
+        var ArrPhamVi = PhamVi.split(' - ');
+
+        if (NhaCC.length > 0 && MaCTKM.length > 0 && TuNgay.length > 0 && DenNgay.length > 0 && ArrPhamVi[0].length > 0)//&& ArrCouponCode[0].length > 0 
+        {
+            SourceCTKM.push({
+                "MaNCC": ArrNhaCC[0],
+                "TenNCC": ArrNhaCC[1],
+                "MaCTKM": MaCTKM,
+                "CouponCode": "",//ArrCouponCode[0],
+                "CouponName": "",//ArrCouponCode[1],
+                "FromDay": TuNgay,
+                "ToDay": DenNgay,
+                "PriceGroupCode": ArrPhamVi[0],
+                "PriceGroupName": ArrPhamVi[1]
+            });
+        }
+    }
+
+    function GetDataCTKMPrice() {
+        SourceCTKMPrice = [];
+        let trs = $("#table_CTKM tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let Type = String($('#' + tr.id + '  select[name="Type"]').val()).trim();
+                let NameProducts = String($('#' + tr.id + '  select[name="NameProducts"]').val()).trim();
+                let arrNameProducts = NameProducts.split(' - ');
+
+                let DiscStdPrice = String($('#' + tr.id + '  input[name="DiscStdPrice"]').val().replaceAll(",", "")).trim();
+                let DiscAmountStdPrice = String($('#' + tr.id + '  input[name="DiscAmountStdPrice"]').val().replaceAll(",", "")).trim();
+                if (Type.length > 0 && arrNameProducts[0].length > 0 && DiscStdPrice.length > 0 && DiscAmountStdPrice.length > 0) {
+                    SourceCTKMPrice.push({
+                        "Type": Type,
+                        "ProductCode": arrNameProducts[0],
+                        "ProductName": arrNameProducts[1],
+                        "DiscStdPrice": DiscStdPrice,
+                        "DiscAmountStdPrice": DiscAmountStdPrice
+                    });
+                }
+            });
+        }
+    }
+
+    function js_changeInfoDisOffer(r) {
+        debugger;
+        var MaHang = $('#NameProducts_' + r).val();
+        var arMaHang = MaHang.split(' - ');
+        var str = 'row_' + r;
+        let trs = $("#table_CTKM tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                if (str != tr.id) {
+                    let MaHang_old = String($('#' + tr.id + ' select[name="NameProducts"]').val()).trim();
+                    var arMaHang_old = MaHang_old.split(' - ');
+                    if (arMaHang_old[0] == arMaHang[0]) {
+                        var ri = confirm('Mã ' + arMaHang[0] + ' đã có. Bạn vui lòng chọn mã khác !');
+                        if (ri) {
+                            $("#NameProducts_" + r).val('');
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function js_createCodeCTKM() {
+        debugger;
+        $.ajax({
+            url: '/PushSale/API_GetCodeCTKMPushSale',
+            type: 'POST',
+            // data: JSON.stringify({ typeCTKM: typeCTKM }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data.length > 0) {
+                    $("#MaCTKM").val(data[0].Code);
+                } 
+            }
+        });
+    }
+
+    function Get_Coupon() {
+        $("#CouponCode").val('');
+        $('#CouponCode').selectpicker().empty();
+        option = document.createElement('option');
+        option.text = '-- Chọn Coupon--';
+        option.value = '';
+        $('#CouponCode').selectpicker().append(option);
+
+        $.ajax({
+            url: '/PushSale/GetListNoTotalDisOffer',
+            type: 'POST',
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                $.each(data, (index, value) => {
+                    option = document.createElement('option');
+                    option.text = value.Code + ' - ' + value.Name;
+                    option.value = value.Code + ' - ' + value.Name;
+                    $('#CouponCode').selectpicker().append(option);
+                });
+                $('#CouponCode').selectpicker('refresh');
+            }
+        });
+    }
+
+
+</script>
+
+
+

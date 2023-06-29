@@ -1,0 +1,360 @@
+﻿
+@{
+    ViewBag.Title = "Policy";
+}
+
+<style>
+    .logo img {
+        width: 250px;
+    }
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 18px;
+    }
+
+        .text_home a {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    legend {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 20px;
+        margin-top: 32px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #6f8cb8;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    fieldset {
+        margin-top: 34px;
+    }
+
+    .row_3 {
+        padding: 15px 0px;
+    }
+
+    label {
+        font-size: 12px;
+        color: #777575;
+    }
+
+    .from_vender {
+        margin-left: 8px;
+    }
+
+        .from_vender input, .from_vender select {
+            margin-bottom: 8px;
+        }
+
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+        .button_save_1 a {
+            text-align: center;
+            background-color: #868686 !important;
+            border-color: #868686 !important;
+        }
+
+    #E_Invoice {
+        margin-bottom: 24px;
+    }
+    label {
+        font-size: 12px !important;
+        color: #59595B !important;
+    }
+
+    .row_2 {
+        padding: 14px 0px;
+        clear: both;
+        font-size: 12px;
+        color: #59595B;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    #tbl_tradingItem thead {
+        background-color: #868686;
+        color: #fff;
+    }
+
+    #tbl_tradingItem {
+        border: 1px solid #d2cece;
+    }
+
+        #tbl_tradingItem thead tr {
+            font-size: 12px;
+        }
+
+    .row_01 {
+        margin-top: 33px;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+        .button_action a:hover {
+            text-decoration: none;
+        }
+
+    .button_action {
+        margin-top: 30px;
+        padding-left: 9px !important;
+        padding-right: 9px !important;
+    }
+
+    .btn-primary {
+        background-color: #86868600;
+        border-color: #868686;
+        color: #6f8cb8 !important;
+    }
+
+    .fa-caret-left:before {
+        content: "\f0d9";
+        padding-right: 9px;
+    }
+
+    .td_01 {
+        background-color: #fcfcfc;
+        text-align: center;
+    }
+
+    .td_02 {
+        background-color: #f5f5f5;
+    }
+
+ 
+    .button_action a:hover {
+        background-color: #9e9e9e;
+        color: #f3f3f3 !important;
+    }
+    #dayQty{
+        width: 40px;
+    }
+
+    .content_policy {
+        background-color: #fff;
+        padding: 17px;
+        margin-top: 21px;
+        color: #59595B;
+        font-size: 12px;
+    }
+    .modal-lg {
+        width: 794px;
+    }
+    #modalDetails .modal-body {
+        text-align: center;
+        padding: 83px 56px !important;
+    }
+    .bt_close{
+        margin-top: 50px !important;
+    }
+        .bt_close a {
+            font-size: 12px !important;
+            font-weight: bold;
+            width: 200px;
+            margin: 0 auto;
+        }
+
+    .btn-center {
+        background-image: url('../../image/Button/center.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+        .btn-center:hover {
+            background-image: url('../../image/Button/centerhover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+</style>
+
+
+<div class="wp_vendor">
+    <div class="header_vender">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3"><div class="logo"><a href="/Home/Index"><img src="~/image/bibologo.png" /></a></div></div>
+                <div class="col-md-6"><h3 class="header_title">@MP_VendorTool.Resource.TradingtermTT</h3></div>
+                <div class="col-md-3" style="transform: translate(-6%,20%);"><div class="text_home"><a href="/Home/Index"><i class="fa fa-home" aria-hidden="true"></i> @MP_VendorTool.Resource.textHome_6</a></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="content_vendor">
+        <div class="container">
+            <div class="row from_vender">
+                <div class="content_policy">
+                    <p>
+                        ĐIỀU KIỆN VỀ GIAO DỊCH CHUNG TẠI BIBOMART <br>
+
+                        1. Giới thiệu <br>
+
+                        Chào mừng Ba Mẹ đến với website Bibomart.com.vn, đơn vị chủ quản là Công ty cổ phần Bibo Mart TM.<br>
+
+                        <br>Công ty Cổ phần Bibo Mart TM có trụ sở chính 120 Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội; giấy chứng nhận đăng ký kinh doanh số 0108024302 cấp bởi Sở kế hoạch đầu tư Hà Nội ngày 16 tháng 10 năm 2017.
+
+                        <br> Website Bibomart.com.vn là trang web chính thức để Ba Mẹ có thể giao dịch, đặt hàng và tham khảo các sản phẩm có tại Cửa hàng. Hiện tại, Bibomart (sau đây được gọi là chúng tôi) có hệ thống Cửa hàng rộng khắp trên địa bàn Hà Nội, Hồ Chí Minh và các tỉnh thành trên toàn quốc.
+
+                        <br> Khi truy cập vào website Bibomart.com.vn để mua sắm hoặc tham khảo sản phẩm, thì Ba Mẹ đã đồng ý tuần thủ và rằng buộc với những quy định của chúng tôi. Trang web có quyền thay đổi, chỉnh sửa, thêm hoặc lược bỏ bất kỳ phần nào trong Điều khoản này vào bất cứ lúc nào. Các thay đổi sẽ có hiệu lực ngay khi được đăng tải trên trang web mà không cần thông báo trước. Và khi Ba Mẹ tiếp tục sử dụng trang web sau khi các thay đổi về Điều khoản được đăng tải, nghĩa là Ba Mẹ chấp nhận với các thay đổi đó.
+
+                        <br>Ba Mẹ vui lòng kiểm tra thường xuyên để cập nhật những thay đổi của Bibomart. Nếu Ba Mẹ có bất kỳ câu hỏi nào về những thỏa thuận dưới đây, vui lòng gửi email cho Bibomart theo địa chỉ: cskh@bibomart.com.vn.
+
+                        <br> 2. Hướng dẫn sử dụng Website
+
+                        <br>Khi truy cập và website, Ba Mẹ đảm bảo có đầy đủ hành vi dân sự để thực hiện các giao dịch mua bán hàng hóa theo quy định hiện hành của pháp luật Việt Nam.
+                                                                                                                        
+                        <br> Chúng tôi sẽ cấp một tài khoản (Account) sử dụng để Ba Mẹ có thể mua sắm trên website Bibomart.com.vn trong khuôn khổ Điều khoản và Điều kiện sử dụng đã đề ra.
+
+                        <br> Ba Mẹ sẽ phải đăng ký tài khoản với thông tin xác thực về bản thân và phải cập nhật nếu có bất kỳ thay đổi nào. Mỗi người truy cập phải có trách nhiệm với mật khẩu, tài khoản và hoạt động của mình trên website. Trong trường hợp tài khoản bị truy cập trái phép, Ba Mẹ phải thôngg báo cho chúng tôi. Chúng tôi không chịu trách nhiệm, dù trực tiếp hay gián tiếp đối với những thiệt hại hoặc mất mát gây ra do Ba Mẹ không tuân thủ quy định.
+
+                        <br> Nghiêm cấm sử dụng bất kỳ phần nào của website này với mục đích thương mại hoặc nhân danh bất kỳ đối tác thứ ba nào nếu không được chúng tôi cho phép bằng văn bản. Nếu vi phạm bất cứ điều nào trong đây, chúng tôi sẽ hủy tài khoản của Ba Mẹ mà không cần báo trước.
+
+                        <br> 3. Ý kiến của Khách hàng
+
+                        <br>Tất cả nội dung trang web và ý kiến phê bình của Ba Mẹ đều là tài sản của chúng tôi. Nếu chúng tôi phát hiện bất kỳ thông tin giả mạo nào, chúng tôi sẽ khóa tài khoản của Ba Mẹ ngay lập tức hoặc áp dụng các biện pháp khác theo quy định của pháp luật Việt Nam.
+
+                        <br> 4. Chấp nhận đơn hàng và giá cả
+
+                        <br>Giá sản phẩm được niêm yết trên website là giá bán cuối cùng đã bao gồm thuế Giá trị gia tăng (VAT) và chưa bao gồm phí vận chuyển, đóng gói. Giá của sản phẩm có thể thay đổi tùy theo thời điểm và chương trình khuyến mại (nếu có). Phí vận chuyển, đóng gói được áp dụng thêm (nếu có) và sẽ được hiển thị tại trang thanh toán khi Ba Mẹ tiến hành đặt hàng hoặc được thông báo cụ thể từ bộ phận Xử lý đơn hàng của Chúng tôi.
+
+                        <br>Chúng tôi cam kết sẽ cung cấp thông tin giá cả chính xác nhất đối với từng sản phẩm. Tuy nhiên, đôi lúc vẫn có sai sót xảy ra, ví dụ như trường hợp giá sản phẩm không hiển thị chính xác trên trang web hoặc sai giá, tùy theo từng trường hợp chúng tôi sẽ liên hệ với Ba Mẹ trong quà trình xử lý đơn hàng để hướng dẫn hoặc thông báo hủy đơn hàng. Chúng tôi cũng có quyền từ chối hoặc hủy bỏ bất cứ đơn hàng nào dù đơn hàng đó đã hoặc chưa được xác nhận.
+                    </p>
+                </div>
+                <div class="row_01">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="ck_Accept">
+                        <label class="form-check-label" for="defaultCheck1">
+                            @MP_VendorTool.Resource.textterm_2
+                        </label>
+                    </div>
+                </div>
+                <div class="row_2">
+
+                    <span>@MP_VendorTool.Resource.textterm_3</span>
+                    <span> <input type="text" id="dayQty" onchange="intNumberParse('dayQty')" value="0" /></span>
+                    <span>@MP_VendorTool.Resource.textterm_4</span>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="row_4 button_action">
+                    <div class="col-md-4">
+                        @*@Html.ActionLink(@MP_VendorTool.Resource.prevPage, "Create", "Product", null, new { @class = "form-control btn-primary text-center fa fa-caret-left" })*@
+                        @* <a href="/Product/Create" class="form-control btn-primary"><i class="fa fa-caret-left" aria-hidden="true"></i> @MP_VendorTool.Resource.prevPage </a>*@
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <a href="#" class="form-control btn-center" onclick="Save()">@MP_VendorTool.Resource.Save_close</a>
+                        <input id="showPop" type="hidden" data-toggle="modal" data-target="#modalDetails"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="false">
+    <div class="modal-dialog modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @*<h3 style="margin:15px;" class="modal-title" id="exampleModalLongTitle">Chi tiết</h3>*@
+            <div class="modal-body">
+                <h3>@MP_VendorTool.Resource.textpopup_1</h3>
+                <p>@MP_VendorTool.Resource.textpopup_2</p>
+                <div class="bt_close">
+                    @Html.ActionLink(@MP_VendorTool.Resource.textpopup_3, "Index", "Vendor", null, new { @class = "form-control btn-primary text-center"})
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        
+    });
+    function pop() {
+        //document.getElementById('modalDetails').modal();
+    }
+
+    function Save() {
+        if ($('#ck_Accept').prop('checked') == true) {
+
+            if ($('#dayQty').val() != '0') {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Tradingterm/addDayRefund",
+                    data: '{tradingtermId:"@(ViewBag.tradingtermId)",dayQty:' + $('#dayQty').val()+ '}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r1) {
+
+                        if (r1.code == '0') {
+                            //window.location.href = '/Vendor/';
+
+                            document.getElementById("showPop").click();
+
+                        } else {
+                            alert("Có lỗi xảy ra thử lại sau!");
+                        }
+                    }
+                });
+
+
+            } else {
+                alert('Nhập số tháng đổi trả!!!');
+            }
+
+        } else {
+            alert("Chọn đồng ý với các điều khoản!!!!");
+        }
+    }
+</script>
+

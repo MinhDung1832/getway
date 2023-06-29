@@ -1,0 +1,303 @@
+﻿@using System.Data
+<table id="tbl_Item" class="table table-bordered tb_detail" style=" width:99%">
+    <thead>
+        <tr>
+            <th class="text-left" style="text-align: left; width: 20px; max-width: 20px; overflow: hidden; white-space: nowrap ">
+                Nguồn nhập
+            </th>
+            <th class="text-center" style="width: 15px; max-width: 15px; ">
+                Mã NCC
+            </th>
+            <th class="text-left" style="text-align: left; width: 80px; max-width: 80px; overflow: hidden; white-space: nowrap ">
+                Tên NCC
+            </th>
+            <th class="text-left" style="text-align: left; width: 50px; max-width: 50px; overflow: hidden; white-space: nowrap ">
+                Số hợp đồng
+            </th>
+            <th class="text-left" style="text-align: left; width: 50px; max-width: 50px; overflow: hidden; white-space: nowrap ">
+                Số phụ lục
+            </th>
+            <th class="text-left" style="width: 20px; max-width: 20px; ">
+                Loại hình<br />hợp tác
+            </th>
+            <th class="text-left" style="width: 20px; max-width: 20px; ">
+                Ngày tạo
+            </th>
+            <th class="text-left" style="width: 20px; max-width: 20px; ">
+                Ngày <br>hiệu lực
+            </th>
+            <th class="text-left" style="width: 20px; max-width: 20px; ">
+                Ngày hết<br> hiệu lực
+            </th>
+            <th class="text-left" style="width: 30px; max-width: 30px; ">
+                Tình trạng <br> hợp đồng
+            </th>
+            <th class="text-center" style="width: 20px; max-width: 20px; ">
+                Next Step
+            </th>
+            @*<th class="text-center" style="width: 30px; max-width: 30px; ">
+                Up File
+            </th>*@
+            <th class="text-center" style="width: 15px; max-width: 15px; ">
+                Hành động
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        <tr id="row_@i">
+                            <td class="text-left" style="width: 20px; max-width: 20px; ">
+                                @item["NgonNhap"]
+                                @*insert into sql*@
+
+                                @if (item["ContractNo"].ToString() != "" && item["LoaiHinhHopTac"].ToString() != "")
+                                {
+                                    @*@Html.Raw(ProductAllTool.Common.TradingTerm.SP_TRADTERM_TTCHUNG_ThueKe_VietDung(item["ID"].ToString(), item["ContractNo"].ToString(), item["VendorNo"].ToString()))
+                                        @Html.Raw(ProductAllTool.Common.TradingTerm.SP_TRADTERM_SanPham_ThueKe_VietDung(item["ID"].ToString(), item["ContractNo"].ToString(), item["VendorNo"].ToString()))*@
+
+                                    @*@Html.Raw(ProductAllTool.Common.TradingTerm.SP_TRADTERM_ApDungSp_HHOA_TK_KGUI_N1(item["ID"].ToString(), item["ContractNo"].ToString(), item["VendorNo"].ToString(), item["LoaiHinhHopTac"].ToString()))
+                                        @Html.Raw(ProductAllTool.Common.TradingTerm.SP_TRADTERM_ApDungSp_HHOA_TK_KGUI_N2_KG(item["ID"].ToString(), item["ContractNo"].ToString(), item["VendorNo"].ToString(), item["LoaiHinhHopTac"].ToString()))*@
+                                }
+                            </td>
+                            <td class="text-center" style="width: 15px; max-width: 15px; ">
+                                @item["VendorNo"]
+                            </td>
+                            <td class="text-left" style="text-align: left; width: 80px; max-width: 80px; overflow: hidden; white-space: nowrap " title="@item["VendorName"]">
+                                @item["VendorName"]
+                            </td>
+                            <td class="text-left" style="text-align: left; width: 50px; max-width: 50px; overflow: hidden; white-space: nowrap " title="@item["SoHopDong"]">
+                                @*@{
+                                        if (item["CheckStatus"].ToString() == "0" || item["CheckStatus"].ToString() == "2")
+                                        {
+                                            <a target="_blank" href="/tradingTermVendor/Edit?id=@item["ID"]" style="color:#2d7fbc">@item["SoHopDong"]</a>
+                                        }
+                                        else
+                                        {
+                                            <a target="_blank" href="/tradingTermVendor/detail?id=@item["ID"]" style="color:#2d7fbc">@item["SoHopDong"]</a>
+                                        }
+                                    }*@
+
+                                <a target="_blank" href="/tradingTermVendor/Edit?id=@item["ID"]" style="color:#2d7fbc">@item["SoHopDong"]</a>
+                            </td>
+                            <td class="text-left" style="text-align: left; width: 50px; max-width: 50px; overflow: hidden; white-space: nowrap " title="@item["SoPhuLuc"]">
+                                @*@{
+                                        if (item["CheckStatus"].ToString() == "0" || item["CheckStatus"].ToString() == "2")
+                                        {
+                                            <a target="_blank" href="/tradingTermVendor/Edit?id=@item["ID"]" style="color:#2d7fbc">@item["SoPhuLuc"]</a>
+                                        }
+                                        else
+                                        {
+                                            <a target="_blank" href="/tradingTermVendor/detail?id=@item["ID"]" style="color:#2d7fbc">@item["SoPhuLuc"]</a>
+                                        }
+                                    }*@
+
+                                <a target="_blank" href="/tradingTermVendor/Edit?id=@item["ID"]" style="color:#2d7fbc">@item["SoPhuLuc"]</a>
+                            </td>
+                            <td class="text-left" style="width: 20px; max-width: 20px; ">
+                                @*@item["Type"]
+                                    <br />*@
+                                @item["LoaiHinhHopTac"]
+                            </td>
+
+                            <td class="text-right" style="width: 20px; max-width: 20px; ">
+                                @item["CreatedDate"]
+                            </td>
+                            <td class="text-right" style="width: 20px; max-width: 20px; ">
+                                @item["fromDate"]
+                            </td>
+                            <td class="text-right" style="width: 20px; max-width: 20px; ">
+                                @item["toDate"]
+                            </td>
+                            <td class="text-center trangthai" style="width: 30px; max-width: 30px; ">
+                                @if (item["NgonNhap"].ToString().Trim() == "Nhập khẩu" || item["NgonNhap"].ToString().Trim() == "Sản xuất")
+                                {
+                                    if (item["ContractNo"].ToString().Trim() != "")
+                                    {
+                                        @Html.Raw(item["IsStatus"])
+                                    }
+                                    else if (item["TinhTrang"].ToString().Trim() == "Chưa có HĐ")
+                                    {
+                                        @Html.Raw(item["IsStatus"])
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-success" style="padding-right: 18px; padding-left: 18px;">OB</span>
+                                    }
+                                }
+                                else
+                                {
+                                    @Html.Raw(item["IsStatus"])
+                                }
+                            </td>
+                            <td class="text-center" style="width: 20px; max-width: 20px; ">
+                                @item["NextStep"]
+
+                            </td>
+                            @*<td class="text-center" style="width: 30px; max-width: 30px; ">
+                                @if (item["FilePDF"].ToString() == "")
+                                    {
+                                        <a class="btn_detail btn btn-secondary" style="color:#ffd800" onclick="load('@item["ID"]','@item["FilePDF"]')">Up File</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn_detail btn btn-secondary" onclick="load('@item["ID"]','@item["FilePDF"]')">Chi tiết</a>
+                                    }
+
+                                <a target="_blank" onclick="load('@item["ID"]','@item["FilePDF"]')" class="btn btn-primary btn-xs" style="background:#506D84; color:#fff; border:none">Chi tiết</a>
+
+                            </td>*@
+                            <td class="text-center" style="width: 15px; max-width: 15px; " id="CheckID">
+                                @*@{
+                                        if (item["CheckStatus"].ToString() != "0" || item["CheckStatus"].ToString() != "")
+                                        {
+                                            <input type="checkbox" disabled name="CheckID" value="@item["ContractNo"]" />
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" id="_@i" onchange="clearcheck(@i)" name="CheckID" value="@item["ContractNo"]" />
+                                        }
+                                    }*@
+                                <input type="checkbox" id="_@i" onchange="clearcheck(@i)" name="CheckID" value="@item["ID"]" />
+                                <span id="LoaiHinhHopTac_@i" style=" display:none">@item["LoaiHinhHopTac"]</span>
+                                <span id="ContractNo_@i" style=" display:none">@item["ContractNo"]</span>
+                                <span id="VendorNo_@i" style=" display:none">@item["VendorNo"]</span>
+                                <span id="TinhTrang_@i" style=" display:none">@item["TinhTrang"]</span>
+                                @*@{
+                                        if (item["CheckStatus"].ToString() == "0")
+                                        {
+                                            @Html.CheckBox(i + "_Row", false, new { @class = "cb-element", value = @item["ContractNo"] })
+                                        }
+                                        else
+                                        {
+                                            <input class="cb-element" type="checkbox" value="0" disabled>
+                                        }
+                                    }*@
+
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
+
+
+<input id="showFile" type="hidden" data-toggle="modal" data-target="#showFile_modal" />
+<div class="modal" id="showFile_modal" tabindex="-1" role="dialog" aria-labelledby="shift_detail_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 500px; border-radius: 0; ">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style="font-size:18px;display: contents; text-transform:uppercase">Upload File </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="row from_vender frominput">
+
+                <div class="col-sm-12">
+                    <div class="col-sm-4">
+                        <label>Upload File </label>
+
+                    </div>
+
+                    <div class="col-sm-8" id="UpFile">
+                        <input class="form-control" type="hidden" id="imgLink" value="">
+                        <div id="wp_thum_img" style=" display:none">
+                            <div class="img_src"><img id="thum_img" for="fileUpload" src="" /><p></p></div>
+                        </div>
+                        <form id="upload" enctype="multipart/form-data" action="@Url.Action("UploadFile", "TradingTermVendor")" method="POST">
+                            <input class="form-control" type="hidden" id="ID" value="0">
+                            <input type="file" style="width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;" name="fileUpload" id="fileUpload" class="inputfile">
+                            <label class="btn btn-success fileUploadsss" for="fileUpload" style="width: 100%; margin: 10px 0px; font-size: 12px; background: #0c1998 !important"><i class="fa fa-upload" aria-hidden="true"></i> Upload pdf</label>
+                        </form>
+                        <div id="TaiFile" style=" text-align:center"> </div>
+                    </div>
+                </div>
+
+                <div style=" height:30px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function clearcheck(k) {
+        var cboxes = document.getElementsByName('CheckID');
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                cboxes[i].checked = false;
+            }
+        }
+        $("#_" + k).prop('checked', true);
+    }
+
+    //Upload file
+    $(document).ready(function () {
+        $("#fileUpload").change(function () {
+            var vtrUpload = $("#fileUpload").val().toLowerCase();
+            var regexVTRUpload = new RegExp("(.*?)\.(pdf)$");//png|jpg|jpeg
+            if (!(regexVTRUpload.test(vtrUpload))) {
+                $("#fileUpload").val("");
+                alert("File không đúng định dạng. Vui lòng kiểm tra lại.");
+            } else {
+                UploadFile();
+            }
+        });
+    });
+    function load(ID, FilePDF) {
+        $('#ID').val(ID);
+        if (FilePDF.length > 0)
+            $('#TaiFile').html("<a id=\"Link\" href=\"" + FilePDF + "\" style=\"color: #fff;width: 100%;margin: 17px 4px;font-size: 12px;background: #e6472e !important;padding: 6px 42px 6px 36px;\" target=\"_blank\">Tải File pdf</a>");
+        else
+            $('#TaiFile').html("");
+        document.getElementById("showFile").click();
+    }
+    function UploadFile() {
+        var ID = $('#ID').val();
+        var data = new FormData();
+        var files = $("#fileUpload").get(0).files;
+        if (files.length > 0) {
+            data.append("MyImages", files[0]);
+        }
+        data.append("foldername", 'TradingTermVendor');
+        data.append("ID", ID);
+        $.ajax({
+            url: "/TradingTermVendor/uploadTradingTerm",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            data: data,
+            async: true,
+            success: function (data) {
+                js_Loading(false, 1);
+                if (data.code == 1) {
+                    $('#TaiFile').html("<a id=\"Link\" href=\"" + data.link + "\" style=\"color: #fff;width: 100%;margin: 17px 4px;font-size: 12px;background: #e6472e !important;padding: 6px 42px 6px 36px;\" target=\"_blank\">Tải File pdf</a>");
+                }
+            },
+            error: function (er) {
+                js_Loading(false, 1);
+                alert("Thiết bị không hỗ trợ up ảnh từ camera. Chọn file từ bộ nhớ thiết bị!");
+            }
+        });
+    }
+
+</script>
+
+
+

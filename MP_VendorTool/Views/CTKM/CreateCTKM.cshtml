@@ -1,0 +1,458 @@
+﻿@using MP_VendorTool.Models.Order;
+@using System.Data
+@{
+    ViewBag.Title = "Ca làm việc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+    var jsonItems = serializer.Serialize(ViewBag.list_VatTu);
+}
+<div class="" style="display:block;height:1200px; margin-top:50px">
+    <div class="col-md-12" style="width:50%;display:flex;">
+        <div class="col-md-1" style="width:20%;padding:0px">
+            <label>Nhà cung cấp</label>
+        </div>
+        <div class="col-md-1" style="width:30%;padding:0px" ondblclick="$('#NCC').val('').trigger('change');">
+            <select id="NCC" class="form-control selectpicker" data-live-search="true" onchange="js_GetListHangMua();">
+                <option value="">Nhà cung cấp</option>
+                @if (ViewBag.list_ncc != null)
+                {
+                    foreach (objCombox box in (List<objCombox>)ViewBag.list_ncc)
+                    {
+                        <option value="@box.Code">@box.Name</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="col-md-1" style="width:50%;padding:0px 10px">
+            <a href="#" style="margin-top:5px;text-align:center;width:35%;" onclick="show();" class="form-control btn btn-info btn_ver">Tạo CTKM</a>
+        </div>
+    </div>
+    <br />
+
+    <div class="col-md-12" style="margin-top:50px">
+        <div class="col-md-1" id="div-content-hangmua" style="width:50%;padding:0px 10px">
+            @Html.Partial("~/Views/CTKM/tables/__tblMuaHang.cshtml")
+        </div>
+        <div class="col-md-1" id="div-content-hangtang" style="width:50%;padding:0px 10px">
+            @Html.Partial("~/Views/CTKM/tables/__tblQuaTang.cshtml")
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="Detail_modal" tabindex="-1" role="dialog" aria-labelledby="shift_detail_modal_label" aria-hidden="true" hidden>
+    <div class="modal-dialog" role="document" style="width:1200px; border-radius:0; height:1000px;">
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style="font-size:18px;display: contents;">Tạo Combo khuyến mại</h5>
+
+                <a class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 7px">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div style="width:100%; padding:15px; height:800px;">
+                <div class="col-md-12">
+                    <div class="col-md-1 c3">
+                        <label>Mã CTKM</label>
+                    </div>
+                    <div class="col-md-1 c4">
+                        <input type="text" name="name" id="MaCTKM" disabled />
+                    </div>
+                    <div class="col-md-1 c3">
+                        <label>Từ ngày</label>
+                    </div>
+                    <div class="col-md-1 c4">
+                        <input type="date" name="NGBD" id="NGBD" value="" onchange="CheckThoiGian();" min="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.AddDays(90).ToString("yyyy-MM-dd")" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-1 c3">
+                        <label>Tên CTKM</label>
+                    </div>
+                    <div class="col-md-1 c4">
+                        <input type="text" id="TenCTKM" name="" value="" />
+                    </div>
+                    <div class="col-md-1 c3">
+                        <label>Đến ngày</label>
+                    </div>
+                    <div class="col-md-1 c4">
+                        <input type="date" name="NGKT" id="NGKT" value="" onchange="CheckThoiGian();" min="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.AddDays(90).ToString("yyyy-MM-dd")" />
+                    </div>
+                </div>
+                <br />
+                <div class="col-md-12">
+                    <h3>Hàng mua</h3>
+                </div>
+                <div class="col-md-12">
+                    <div>
+                        <table id="tbl_pop_hangMua" class="table table-bordered tb_detail" style="border:none !important">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Mã hàng
+                                    </th>
+                                    <th>
+                                        Tên hàng
+                                    </th>
+                                    <th>
+                                        Giá bán
+                                    </th>
+                                    <th>
+                                        SL áp dụng
+                                    </th>
+                                    <th>
+                                        % quà
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <h3>Hàng tặng</h3>
+                </div>
+                <div class="col-md-12">
+                    <div>
+                        <table id="tbl_pop_hangTang" class="table table-bordered tb_detail" style="border:none !important">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Mã hàng
+                                    </th>
+                                    <th>
+                                        Tên hàng
+                                    </th>
+                                    <th>
+                                        Giá quà
+                                    </th>
+                                    <th>
+                                        SL áp dụng
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center; margin:15px ; margin-top:10px">
+                <a href="#" onclick="js_acceptcbkm(); " class="form-control btn btn-info" style="max-width: 90%; text-align: center">Tạo Combo </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        js_GetListHangMua();
+        js_GetListHangTang();
+        js_GetCode();
+    });
+    function js_ReloadTableTang() {
+        $('#tbl_Item_HangTang')
+            .DataTable({
+                "pageLength": 10,
+                columnDefs: [],
+                "orderClasses": false,
+                "deferRender": true,
+
+                autoWidth: false,
+                bAutoWidth: false,
+                "searching": false,
+                responsive: false,
+                order: [],
+                "language": {
+                    "emptyTable": "Không có dữ liệu !"
+                }
+            });
+    }
+    function js_ReloadTableMua() {
+        $('#tbl_Item_HangMua')
+            .DataTable({
+                "pageLength": 10,
+                columnDefs: [],
+                "orderClasses": false,
+                "deferRender": true,
+
+                autoWidth: false,
+                bAutoWidth: false,
+                "searching": false,
+                responsive: false,
+                order: [],
+                "language": {
+                    "emptyTable": "Không có dữ liệu !"
+                }
+            });
+    }
+    function js_GetListHangMua() {
+        window.scrollTo(0, 0);
+        var NCC = $('#NCC').val();
+        $.ajax({
+            url: '/CTKM/getHangMua',
+            type: 'POST',
+            data: JSON.stringify({ NCC: NCC }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $('#div-content-hangmua').html(data);
+                js_ReloadTableMua();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+    function js_GetListHangTang() {
+        //debugger;
+        window.scrollTo(0, 0);
+        var TongTien = $('#tong').html();
+        $.ajax({
+            url: '/CTKM/getHangTang',
+            type: 'POST',
+            data: JSON.stringify({ TongTien: TongTien }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $('#div-content-hangtang').html(data);
+                js_ReloadTableTang();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_acceptcbkm() {
+        debugger;
+        if (
+            $('#TenCTKM').val().length == 0 ||
+            $('#NGBD').val().length == 0 ||
+            $('#NGKT').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ.');
+            return;
+        }
+        var CTKM = [];
+        var lst2 = {};
+        lst2.MaCTKM = $('#MaCTKM').val().trim();
+        lst2.TenCTKM = $('#TenCTKM').val().trim();
+        lst2.TuNgay = $('#NGBD').val().trim();
+        lst2.DenNgay = $('#NGKT').val().trim();
+        console.log(lst2);
+        CTKM.push(lst2);
+        var cboxes = document.getElementsByName('check1[]');
+        var i = 0;
+        var HangMua = [];
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                var lst = {};
+                lst.MaCTKM = $('#MaCTKM').val().trim();
+                lst.MaHang = $('#row' + cboxes[i].id + ' #MaHang_Mua').html().trim();
+                lst.TenHang = $('#row' + cboxes[i].id + ' #TenHang_Mua').html().trim();
+                lst.DonGia = $('#row' + cboxes[i].id + ' #GiaMua').html().trim();
+                lst.SoLuong = $('#row' + cboxes[i].id + ' #SLMua').val().trim();
+                lst.PTQua = $('#row' + cboxes[i].id + ' #ptqua').val().trim();
+                HangMua.push(lst);
+            }
+        }
+        var cboxes1 = document.getElementsByName('check3[]');
+        var HangTang = [];
+        var i = 0;
+        for (var i = 0; i < cboxes1.length; i++) {
+            if (cboxes1[i].checked) {
+                var lst1 = {};
+                lst1.MaCTKM = $('#MaCTKM').val().trim();
+                lst1.MaHang = $('#row' + cboxes1[i].id + ' #MaHang_tang').html().trim();
+                lst1.TenHang = $('#row' + cboxes1[i].id + ' #TenHang_tang').html().trim();
+                lst1.DonGia = $('#row' + cboxes1[i].id + ' #GiaTang').html().trim();
+                lst1.SLTang = $('#row' + cboxes1[i].id + ' #sltang').val().trim();
+                HangTang.push(lst1);
+            }
+        }
+        var obj = {};
+        obj.HangMua = JSON.stringify(HangMua);
+        obj.HangTang = JSON.stringify(HangTang);
+        obj.CTKM = JSON.stringify(CTKM);
+        console.log("hangmua" + obj.HangMua);
+        console.log("hangtang" + obj.HangTang);
+        console.log("lst" + obj.CTKM);
+        console.log("obj" + obj);
+
+        $.ajax({
+            url: '/CTKM/SaveCTKM',
+            type: 'POST',
+            data: JSON.stringify({ obj }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+
+                if (data.RespId == 0) {
+                    jAlert(data.RespMsg, 'Thông báo', (r) => {
+                        location.reload();
+                    });
+                    window.location = '/CTKM/DuyetCTKM';
+                } else {
+                    jAlert(data.RespMsg, 'Thông báo');
+                }
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+
+        });
+        $('#Detail_modal').modal('hide');
+    }
+    function TongTangHang() {
+        debugger;
+        var cboxes1 = document.getElementsByName('check3[]');
+        var arrCheckbox3 = [];
+        var tongtang = 0;
+
+        var j = 0;
+        for (var j = 0; j < cboxes1.length; j++) {
+            if (cboxes1[j].checked) {
+                var lst1 = {};
+                lst1.GiaTang = $('#row' + cboxes1[j].id + ' #GiaTang').html();
+                lst1.SLTang = $('#row' + cboxes1[j].id + ' #sltang').val();
+                console.log(lst1);
+                if (lst1.SLTang != "") {
+                    tongtang += parseInt(lst1.GiaTang) * parseInt(lst1.SLTang);
+                }
+                console.log(tongtang);
+                arrCheckbox3.push(lst1);
+            }
+        }
+        //var tongsp = $('#tong').html();
+        //if (tongtang > tongsp) {
+        //    alert("abc");
+        //    return $('#row' + cboxes1[i].id + ' #sltang').val("0");
+        //}
+        $('#tongtang').html(tongtang);
+        console.log('1');
+
+        console.log(arrCheckbox3);
+
+    }
+    function TongMuaHang() {
+        var cboxes = document.getElementsByName('check1[]');
+        var arrCheckbox5 = [];
+        var tongsp = 0;
+
+        var i = 0;
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                var lst = {};
+                lst.DonGia = $('#row' + cboxes[i].id + ' #GiaMua').html();
+                lst.SoLuong = $('#row' + cboxes[i].id + ' #SLMua').val();
+                lst.PTQua = $('#row' + cboxes[i].id + ' #ptqua').val();
+                if (lst.SoLuong.length > 0 && lst.PTQua > 0) {
+                    tongsp += parseInt(lst.DonGia) * parseInt(lst.SoLuong) * parseInt(lst.PTQua) / 100;
+                }
+
+                console.log(tongsp);
+                console.log(lst);
+                arrCheckbox5.push(lst);
+            }
+        }
+        $('#tong').html(tongsp);
+        console.log('1');
+        console.log(arrCheckbox5);
+        js_GetListHangTang();
+    }
+    function show() {
+        var cboxes = document.getElementsByName('check1[]');
+        var i = 0;
+        var HangMua = [];
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                var lst = {};
+                lst.MaHang_Mua = $('#row' + cboxes[i].id + ' #MaHang_Mua').html();
+                lst.TenHang_Mua = $('#row' + cboxes[i].id + ' #TenHang_Mua').html();
+                lst.GiaMua = $('#row' + cboxes[i].id + ' #GiaMua').html();
+                lst.SLMua = $('#row' + cboxes[i].id + ' #SLMua').val();
+                lst.ptqua = $('#row' + cboxes[i].id + ' #ptqua').val();
+                HangMua.push(lst);
+            }
+        }
+
+        console.log(JSON.stringify({ HangMua }));
+
+        $.each(HangMua, (index, value) => {
+            $('#tbl_pop_hangMua tbody').append('<tr><td>' + value.MaHang_Mua + ' </td><td>' + value.TenHang_Mua + '</td><td>' + value.GiaMua + '</td><td>' + value.SLMua + '</td><td>' + value.ptqua + '</td></tr>');
+        });
+
+        var cboxes1 = document.getElementsByName('check3[]');
+        var HangTang = [];
+        var i = 0;
+        for (var i = 0; i < cboxes1.length; i++) {
+            if (cboxes1[i].checked) {
+                var lst1 = {};
+                lst1.MaHang_tang = $('#row' + cboxes1[i].id + ' #MaHang_tang').html();
+                lst1.TenHang_tang = $('#row' + cboxes1[i].id + ' #TenHang_tang').html();
+                lst1.GiaTang = $('#row' + cboxes1[i].id + ' #GiaTang').html();
+                lst1.sltang = $('#row' + cboxes1[i].id + ' #sltang').val();
+                HangTang.push(lst1);
+            }
+        }
+        $.each(HangTang, (index, value) => {
+            $('#tbl_pop_hangTang tbody').append('<tr><td>' + value.MaHang_tang + ' </td><td>' + value.TenHang_tang + '</td><td>' + value.GiaTang + '</td><td>' + value.sltang + '</td></tr>');
+        });
+        js_Loading(false, 1);
+        $('#Detail_modal').modal('show');
+    }
+    function CheckThoiGian() {
+        var TuNgay = $('#NGBD').val();
+        var DenNgay = $('#NGKT').val();
+        if (DenNgay != "" && TuNgay != "") {
+            var DenNgay = new Date(DenNgay);
+            var EndDate1 = DenNgay.getTime();
+            var EndDate2 = EndDate1.toString().substring(0, 6);
+
+            var TuNgay = new Date(TuNgay);
+            var startDate1 = TuNgay.getTime();
+            var startDate2 = startDate1.toString().substring(0, 6);
+
+            if (startDate2 > EndDate2) {
+                alert("Ngày bắt đầu không thể lớn hơn ngày kết thúc. Vui lòng nhập lại !");
+                $('#NGBD').val('');
+                $('#NGKT').val('');
+                return;
+            }
+        }
+    }
+    var lstcode;
+    function js_GetCode() {
+        //debugger;
+        window.scrollTo(0, 0);
+        $.ajax({
+            url: '/CTKM/getautocode',
+            type: 'POST',
+            data: JSON.stringify({}),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                var a = $('#MaCTKM').val(data[0].MaCTKM);
+                //alert(data.MaCTKM);
+                console.log(a);
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+</script>

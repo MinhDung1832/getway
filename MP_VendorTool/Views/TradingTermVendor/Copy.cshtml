@@ -1,0 +1,2946 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@using MP_VendorTool.Models.TradingTermVendor
+@{
+    ViewBag.Title = "Chỉnh sửa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var listTypeBonus = (List<objCombox>)ViewBag.list_typeBonus;
+    var listChiPhiBanHang = (List<objCombox>)ViewBag.list_ChiPhiBanHang;
+}
+<style>
+    .content-wrapper {
+        border-top: 10px solid #f3f3f3;
+    }
+    #vendor-form {
+        padding-top: 18px;
+    }
+    .content-wrapper {
+        padding-top: 0px !important;
+    }
+
+    .container_Tradingtem {
+        width: 94%;
+        margin: 0 auto !important;
+        margin-left: 35px !important;
+    }
+
+    .wp_content {
+        padding-top: 17px !important;
+    }
+
+
+    .table-bordered {
+        border: 0px solid #ddd !important;
+    }
+
+    label.col-sm-3.col-form-label.denngay {
+        padding-top: 5px;
+    }
+    /*
+    #vendor-form {
+        width: 75% !important;
+        margin: 0 auto;
+    }*/
+
+    .dropdown.bootstrap-select.form-control.bs3 {
+        background: #f3f3f3;
+        border: none !important;
+        -webkit-box-shadow: 0 0 black !important;
+        float: right;
+    }
+
+    button.btn.dropdown-toggle.btn-default.bs-placeholder {
+        padding: 5px 4px !important
+    }
+
+    .content {
+        -webkit-transition: all .4s ease-in-out;
+        -moz-transition: all .4s ease-in-out;
+        -o-transition: all .4s ease-in-out;
+        -ms-transition: all .4s ease-in-out;
+    }
+
+    .Cantrai .dropdown.bootstrap-select.form-control.bs3 {
+        float: left;
+    }
+
+    .Canphai .dropdown.bootstrap-select.form-control.bs3 {
+        width: 272px !important;
+        max-width: 272px !important;
+    }
+
+    .Canphai a.form-control.btn.btn-info {
+        float: right;
+        margin-top: 3px;
+    }
+
+    .btn_add a {
+        background-color: #ededed !important;
+        padding: 5px !important;
+        color: #1f1919 !important;
+    }
+
+    a.dropdown-item.active.selected span {
+        color: #463e3e !important;
+    }
+</style>
+<link href="~/Resources/css/main.css" rel="stylesheet" />
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="wp_main">
+                    <form id="vendor-form" class="form-horizontal" accept-charset="utf-8">
+                        <div class="wp_content">
+                            <div class="container_Tradingtem">
+                                <div class="box_1">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @*<h4>Thông tin đối tác</h4>*@
+                                            <div class="form-group row">
+                                                <label for="textDate" class="col-sm-4 col-form-label">Mã nhà cung cấp</label>
+                                                <div class="col-sm-8">
+                                                    <input type="hidden" class="form-control" disabled id="VendorNo" name="VendorNo" value="@ViewBag.VendorNo - @ViewBag.VendorName" placeholder="Mã nhà cung cấp">
+                                                    <input type="text" class="form-control" disabled id="VendorNo_Code" name="VendorNo_Code" value="@ViewBag.VendorNo" placeholder="Mã nhà cung cấp">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="textDate" class="col-sm-4 col-form-label">Tên nhà cung cấp</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" disabled id="VendorNo_Name" name="VendorNo_Name" value="@ViewBag.VendorName" placeholder="Tên nhà cung cấp">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="textDate" class="col-sm-4 col-form-label">Tình trạng</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" disabled id="TinhTrang" name="TinhTrang" value="@ViewBag.TinhTrang">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="textDate" class="col-sm-4 col-form-label">Điện BBM</label>
+                                                <div class="col-sm-8">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <input type="text" class="form-control" id="NguoiDaiDienBBM" name="NguoiDaiDienBBM" placeholder="Họ và tên" value="@ViewBag.NguoiDaiDienBBM">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="text" class="form-control" id="DaiDienBBM" name="DaiDienBBM" placeholder="Đại diện" value="@ViewBag.DaiDienBBM">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="textDate" class="col-sm-4 col-form-label">Đại diện đối tác</label>
+                                                <div class="col-sm-8">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <input type="text" class="form-control" id="NguoiDaiDienNCC" name="NguoiDaiDienNCC" placeholder="Họ và tên" value="@ViewBag.NguoiDaiDienNCC">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="text" class="form-control" id="DaiDienNCC" name="DaiDienNCC" placeholder="Đại diện" value="@ViewBag.DaiDienNCC">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row" style=" display:none">
+                                                <label for="textkho" class="col-md-4 col-form-label"></label>
+                                                <div class="col-sm-8" style=" margin: auto; text-align: center; ">
+                                                    <input class="form-control" type="hidden" id="FileSoHopDong" value="">
+                                                    <input type="file" style="width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;" name="fileUpload01" id="fileUpload01" class="inputfile">
+                                                    <label class="btn btn-success fileUploadsss" for="fileUpload01" style="width: 30%; margin: 10px 0px; font-size: 12px; background: #bfbfbf !important "><i class="fa fa-upload" aria-hidden="true"></i> Upload pdf</label>
+                                                    <div id="TaiFile01" style="text-align: center; float: left; padding-top: 14px;"> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 EditHD">
+                                            @*<h4>Thông tin liên hệ</h4>*@
+                                            <div class="form-group row">
+                                                <label for="textStatus" class="col-sm-4 col-form-label">Số hợp đồng</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="SoHopDong" name="SoHopDong" value="@ViewBag.SoHopDong" placeholder="Số hợp đồng">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="textMien" class="col-sm-4 col-form-label">Hiệu lực từ</label>
+                                                <div class="col-sm-8">
+                                                    <div class="row">
+                                                        <div class="col-md-5">
+                                                            <input type="date" class="form-control" id="TuNgay" name="TuNgay" value="@ViewBag.TuNgay">
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <div class="form-group row">
+                                                                <label for="textMien" class="col-sm-3 col-form-label denngay">đến</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="date" class="form-control" style="  " id="DenNgay" name="DenNgay" value="@ViewBag.DenNgay">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<div class="form-group row">
+                                        <label for="textkho" class="col-md-4 col-form-label">Tự động gia hạn</label>
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <input type="checkbox" class="form-check-input" name="AutoExtentContractSoHopDong" @(ViewBag.AutoExtentContractSoHopDong == "1" ? "checked" : "")>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>*@
+                                            <div class="form-group row">
+                                                <label for="textMien" class="col-sm-4 col-form-label">Số phụ lục</label>
+                                                <div class="col-sm-8">
+                                                    <input type="hidden" disabled class="form-control" id="ContractNo" name="ContractNo" value="@ViewBag.ContractNo" placeholder="Số phụ lục">
+                                                    <input type="text" class="form-control" id="SoPhuLuc" name="SoPhuLuc" value="@ViewBag.SoPhuLuc" placeholder="Số phụ lục">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="textTinh" class="col-sm-4 col-form-label">Hiệu lực từ</label>
+                                                <div class="col-sm-8">
+                                                    <div class="row">
+                                                        <div class="col-md-5">
+                                                            <input type="date" class="form-control" id="FromDate" name="FromDate" value="@ViewBag.FromDate">
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <div class="form-group row">
+                                                                <label for="textMien" class="col-sm-3 col-form-label denngay">đến</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="date" class="form-control" style="  " id="ToDate" name="ToDate" value="@ViewBag.ToDate">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<div class="form-group row">
+                                        <label for="textkho" class="col-md-4 col-form-label">Tự động gia hạn</label>
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <input type="checkbox" class="form-check-input" name="AutoExtentContract" value="0" @(ViewBag.AutoExtentContract == "1" ? "checked" : "")>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>*@
+
+                                            <div class="form-group row">
+                                                <label for="textkho" class="col-md-4 col-form-label">Tự động gia hạn HĐ</label>
+                                                <div class="col-md-8">
+                                                    <div class="row">
+                                                        <div class="col-md-7">
+                                                            <input type="checkbox" class="form-check-input" name="AutoExtentContractSoHopDong" value="0" @(ViewBag.AutoExtentContractSoHopDong == "1" ? "checked" : "")>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-12">
+                                                                    <label for="textMien" style=" padding-top: 3px; ">
+
+                                                                        <span style=" float: left; margin-left: -13px; "> <input type="checkbox" class="form-check-input" name="AutoExtentContract" value="0" @(ViewBag.AutoExtentContract == "1" ? "checked" : "")></span>
+                                                                        <span style=" padding-top: 2px; float: left; "> Tự động gia hạn PL</span>
+
+
+
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="form-group row" style=" display:none">
+                                                <label for="textkho" class="col-md-4 col-form-label"></label>
+                                                <div class="col-sm-8" style=" margin: auto; text-align: center; ">
+                                                    <input class="form-control" type="hidden" id="FilePhuLucHopDong" value="">
+                                                    <input type="file" style="width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;" name="fileUpload02" id="fileUpload02" class="inputfile">
+                                                    <label class="btn btn-success fileUploadsss" for="fileUpload02" style="width: 30%; margin: 10px 0px; font-size: 12px; background: #bfbfbf !important "><i class="fa fa-upload" aria-hidden="true"></i> Upload pdf</label>
+                                                    <div id="TaiFile02" style="text-align: center; float: left; padding-top: 14px;"> </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" class="form-control" id="ACM" name="ACM" placeholder="Trưởng ngành hàng" value="@ViewBag.ACM">
+                                <input type="hidden" class="form-control" id="CM" name="CM" placeholder="Giám đốc ngành hàng" value="@ViewBag.CM">
+                                <input type="hidden" id="SupplyManager" class="form-control" name="SupplyManager" placeholder="Giám đốc Cung ứng" value="@ViewBag.SupplyManager" />
+
+                                <div class="box_2" style=" display:none">
+                                    <h4>Tình hình hợp tác</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="textDate" class="col-sm-4 col-form-label">Doanh số Y-1</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="salesY1" name="salesY1" placeholder="Doanh số Y-1" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="textOrderId" class="col-sm-4 col-form-label">
+                                                    Doanh số YTD
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="salesYTD" name="salesYTD" placeholder="Doanh số YTD" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="textStatus" class="col-sm-4 col-form-label">Dự kiến YTD</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="expectedYTD" name="expectedYTD" placeholder="Dự kiến YTD" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="textMien" class="col-sm-4 col-form-label">Tình trạng hợp đồng</label>
+                                                <div class="col-sm-8">
+                                                    @*<select class="form-control" id="contractStatus" name="contractStatus">
+                                                <option value="Đã ký">Đã ký</option>
+                                                <option value="Chưa ký">Chưa ký</option>
+                                                <option value="Hết hạn">Hết hạn</option>
+                                            </select>*@
+                                                    <input type="text" class="form-control" id="contractStatus" name="contractStatus" value="@ViewBag.ContractStatus" placeholder="Tình trạng hợp đồng" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="textTinh" class="col-sm-4 col-form-label">Số lượng CH phủ hàng</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="numberCH" name="numberCH" placeholder="Số lượng CH phủ hàng" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="textkho" class="col-sm-4 col-form-label">Sales loss do OOS</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="SalesLossOOS" class="form-control" name="SalesLossOOS" placeholder="Sales loss do OOS" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+
+
+                                @*SKU Mua bán *@
+                                <h4 class="Danhmucsp">Danh mục sản phẩm</h4>
+                                @*SKU Mua bán *@
+                                <div class="MuaBan TabMuaBan_SKU">
+                                    <div class="box_1">
+                                        <input type="text" class="form-control" id="MaSpSKU" name="MaSpSKU" value="" style="width: 350px; margin: 0px 4px !important;" placeholder="Tìm theo mã sản phẩm" onchange="ApDungSanPhamMuaBan_HH();">
+
+                                        <div class="row hidden">
+                                            <div style="width: 101%; margin-left: -17px;">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-1 c1">
+
+                                                    </div>
+                                                    <div class="col-md-1 c2">
+
+                                                    </div>
+                                                    <div class="col-md-1 c3">
+                                                        <select id="HanhDongMB" class="form-control selectpicker" data-live-search="true" style=" width: 280px">
+                                                            <option value="">--- Chọn hành động ---</option>
+                                                            <option value="1">Hàng mới</option>
+                                                            <option value="2">Cập nhật giá</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-1 c4">
+
+                                                    </div>
+                                                    <div class="col-md-1 c5">
+                                                        <a href="#" onclick="HanhDongMB()" style="width: 272px; float: right; max-width: 155px; margin-right: 4px !important; height: 27px !important;" class="form-control btn btn-info"><i class="fa fa-forward" aria-hidden="true" style="float: left; margin-left: 6px; margin-top: 3px;"></i> Tiếp </a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style=" display:none">
+                                        <select id="RangeReview" class="form-control selectpicker" data-live-search="true" style=" width: 280px" onchange="ApDungSanPhamMuaBan_HH();">
+                                            <option value="">--- Chọn Range Review ---</option>
+                                            @foreach (objCombox box in (List<objCombox>)ViewBag.list_RangeReview)
+                                            {
+                                                <option value="@box.Code">@box.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div id="TabMuaBan_SKU">
+                                        @Html.Partial("~/Views/TradingTermVendor/tabCopy/_tabMuaBan_KGUI_SKU.cshtml")
+                                    </div>
+                                </div>
+                                <div class="box_3">
+                                    <p>
+                                        Trường hợp thay đổi giá báo trước <input type="text" name="priceChangeDate" id="priceChangeDate" value="@ViewBag.priceChangeDate" class="form-control" style="width:60px;display: inline;" /> ngày. Mức giá cũ vẫn áp dụng trước thời gian thông báo báo trước này.
+                                    </p>
+                                </div>
+                                <h4 class="Danhmucsp">Danh mục sản phẩm thuê kệ</h4>
+                                @Html.Partial("~/Views/TradingTermVendor/tabCopy/_tabThueKe_SKU.cshtml")
+
+                                <div class="ThueKe TabConten03" style="display:none">
+                                </div>
+
+                                <hr>
+                                <div class="box_4">
+                                    <h4 class="DieuKhoanThuongMai">ĐIỀU KHOẢN THƯƠNG MẠI</h4>
+                                    <ul class="nav nav-pills">
+                                        <li class="nav-item active TabConten01" style="display:none">
+                                            <a href="#tab1" data-toggle="tab" class="nav-link active tab-1">Mua bán</a>
+                                        </li>
+                                        <li class="nav-item  active TabConten02" style="display:none">
+                                            <a href="#tab2" data-toggle="tab" class="nav-link tab-2">Ký gửi</a>
+                                        </li>
+                                        <li class="nav-item  active TabConten03" style="display:none">
+                                            <a href="#tab3" data-toggle="tab" class="nav-link tab-3">Thuê kệ</a>
+                                        </li>
+                                    </ul>
+                                    <!-- Nội dung -->
+                                    <div class="tab-content">
+                                        <div class="tab-pane active TabConten01" id="tab1" style="display:none">
+                                            @Html.Partial("~/Views/TradingTermVendor/tabEdit/_tabMuaBan.cshtml")
+                                        </div>
+                                        <div class="tab-pane active TabConten02" id="tab2" style="display:none">
+                                            @Html.Partial("~/Views/TradingTermVendor/tabEdit/_tabKyGui.cshtml")
+                                        </div>
+                                        <div class="tab-pane active TabConten03" id="tab3" style="display:none">
+                                            @Html.Partial("~/Views/TradingTermVendor/tabEdit/_tabThueKe.cshtml")
+                                        </div>
+                                        <div class="btn_save" style="float:right;">
+                                            <input name="submit" class="btn_export" type="submit" value="Lưu và kết thúc" style="border: none;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nhập liệu từ file excel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("TradingTermVendor", "uploadExcel", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmUploadCustomer" }))
+                {
+                    //@Html.AntiForgeryToken()
+                    <div class="wp_upload">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <span>Chọn file:</span>
+                            </div>
+                            <div class="col-md-10">
+                                <input id="cashierFile" title="Upload file" type="file" name="file" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <span>Lưu ý:</span>
+                            </div>
+                            <div class="col-md-10">
+                                File upload cần phải đúng định dạng. Vui lòng tải file mẫu <b><a href="~/Exports/Customer_2.xlsx">Tại đây.</a></b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button_action">
+                        <button type="submit" class="btn btn-success btn-icon-text btn-sm" id="btn_upload_cashier">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                            Tải lên
+                        </button>
+                        <div class="flag_uploadExcel" style="margin-top: 15px;"></div>
+                        <div id="status_upload_custumer" style="display: none;text-align:center;">
+                            <img style="width:150px;" src="~/Content/Images/loading.gif" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" name="TypeS" id="TypeS" value="@ViewBag.Type" />
+<input type="hidden" name="TrangThaiDuyet" id="TrangThaiDuyet" value="@ViewBag.TrangThaiDuyet" />
+
+<input type="hidden" name="IDContractNo" id="IDContractNo" value="@ViewBag.IDContractNo" />
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script>
+    var listTypeBonus = @Html.Raw(Json.Encode(listTypeBonus));
+    var listChiPhiBanHang = @Html.Raw(Json.Encode(listChiPhiBanHang));
+
+    var ri = $('#table_hanghoa').find('tr').length - 1;
+    var thuekes = $('#table_hangthuekes').find('tr').length - 1;
+
+    var hoanghoaMB = 0;
+    var HangHoaKyGui = 0;
+    var TTChung = 0;
+
+    var SourceHangHoa = [];
+    var SourceHangHoaFunction = [];
+    var SourceHangHoaBrand = [];
+    var SourceBonus = [];
+    var SourceTrade = [];
+    var SourceThuongHieu = [];
+    var SourceCustomer = [];
+    var SourceChietKhau = [];
+    var SourceHangTang = [];
+    var SourceContract = [];
+    var SourceCoopInfoVendors = [];
+    var SourceDoiTra = [];
+    var SourceThanhToan = [];
+    var SourceHopTacKhac = [];
+    var SourceLeaderTime = [];
+    var SourceChiPhiVanHanh = [];
+    var SourceHangThueKe = [];
+    var SourceThueKeBrand = [];
+    var SourceThueKeFunction = [];
+    var SourceThongTinChung = [];
+
+    jQuery(function ($) {
+        $("#vendor-form").validate({
+            rules: {
+                VendorNo: {
+                    required: true
+                },
+                ContractNo: {
+                    required: true
+                },
+                FromDate: {
+                    required: true
+                },
+                ToDate: {
+                    required: true
+                },
+                SoHopDong: {
+                    required: true
+                },
+                TuNgay: {
+                    required: true
+                },
+                DenNgay: {
+                    required: true
+                }
+
+            },
+            messages: {
+                VendorNo: {
+                    required: "Vui lòng chọn mã đối tác"
+                },
+                ContractNo: {
+                    required: 'Vui lòng nhập phụ lục hợp đồng'
+                },
+                FromDate: {
+                    required: 'Vui lòng ngày hiệu lực hợp đồng từ'
+                },
+                ToDate: {
+                    required: 'Vui lòng ngày hiệu lực hợp đồng đến'
+                }
+                , SoHopDong: {
+                    required: 'Vui lòng nhập số hợp đồng'
+                },
+                TuNgay: {
+                    required: 'Vui lòng ngày hiệu lực hợp đồng từ'
+                },
+                DenNgay: {
+                    required: 'Vui lòng ngày hiệu lực hợp đồng đến'
+                }
+            },
+            submitHandler: function (form) {
+
+                getDataContract();
+                getDataCoopInfoVendors();
+                getTableDataHangHoa();
+                getTableDataHangHoa_Brand();
+                getTableDataHangHoa_Funtion();
+                getTableDataChietKhau();
+                getTableDataHangTang();
+                getTableDataBonus();
+                getTableDataTrade();
+                getTableDataThuongHieu();
+                getTableDataCustomer();
+                getTableDataDoiTraHang();
+                getTableDataThanhToan();
+                getDataHopTacKhac();
+                getTableLeaderTime();
+                getTableDataChiPhiVanHanh();
+                getTableDataHangThueKe();
+
+                getTableData_Brand_ThuKe();
+                getTableData_Funtion_ThueKe();
+                getTableDataThongTinChung();
+
+                var obj = {};
+                obj.SourceContract = JSON.stringify(SourceContract);
+                obj.SourceCoopInfoVendors = JSON.stringify(SourceCoopInfoVendors);
+                obj.SourceHangHoa = JSON.stringify(SourceHangHoa);
+
+                obj.SourceHangHoaFunction = JSON.stringify(SourceHangHoaFunction);
+                obj.SourceHangHoaBrand = JSON.stringify(SourceHangHoaBrand);
+
+                obj.SourceChietKhau = JSON.stringify(SourceChietKhau);
+                obj.SourceHangTang = JSON.stringify(SourceHangTang);
+                obj.SourceBonus = JSON.stringify(SourceBonus);
+                obj.SourceTrade = JSON.stringify(SourceTrade);
+                obj.SourceThuongHieu = JSON.stringify(SourceThuongHieu);
+                obj.SourceCustomer = JSON.stringify(SourceCustomer);
+                obj.SourceDoiTra = JSON.stringify(SourceDoiTra);
+                obj.SourceThanhToan = JSON.stringify(SourceThanhToan);
+                obj.SourceHopTacKhac = JSON.stringify(SourceHopTacKhac);
+                obj.SourceLeaderTime = JSON.stringify(SourceLeaderTime);
+                obj.SourceChiPhiVanHanh = JSON.stringify(SourceChiPhiVanHanh);
+                obj.SourceHangThueKe = JSON.stringify(SourceHangThueKe);
+
+                obj.SourceThueKeBrand = JSON.stringify(SourceThueKeBrand);
+                obj.SourceThueKeFunction = JSON.stringify(SourceThueKeFunction);
+
+                obj.SourceThongTinChung = JSON.stringify(SourceThongTinChung);
+
+                if (SourceContract.length > 0) {
+                    $.ajax({
+                        url: '/TradingTermVendor/Copy_TradeRequest',
+                        type: 'POST',
+                        data: JSON.stringify(obj),
+                        contentType: 'application/json, charset=utf-8',
+                        success: function (data) {
+                            if (data.RespId == 0) {
+                                jAlert(data.RespMsg, 'Thông báo', (r) => {
+                                    location.href = "/TradingTermVendor/index";
+                                });
+                            } else {
+                                jAlert(data.RespMsg, 'Thông báo');
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+    });
+
+    $(function () {
+        js_onchange_verdor();
+        ApDungSanPhamMuaBan_HH();
+        ApDungSanPhamThueKe();
+        ApDungTTChungThueKe();
+
+        TTChung = $('#table_TTCChungThueKe').find('tr').length - 1;
+        js_add_TTChung();
+        $('#txtHead').html("Chỉnh sửa thỏa thuận thương mại");
+        LoadTypeS();
+    });
+
+    function LoadTypeS() {
+        debugger;
+        var TypeS = $('#TypeS').val();
+        if (TypeS == 'HHOA') {
+            $('.TabMuaBan_SKU').show();
+            $('.TabConten01').show();
+            $('.TabConten02').hide();
+            $('.TabConten03').hide();
+           // $('.TabConten03TK').hide();
+        }
+        else if (TypeS == 'KGUI') {
+            $('.TabMuaBan_SKU').show();
+            $('.TabConten01').hide();
+            $('.TabConten02').show();
+            $('.TabConten03').hide();
+            //$('.TabConten03TK').hide();
+        }
+        else if (TypeS == 'TKE') {
+            $('.TabMuaBan_SKU').hide();
+            $('.TabConten01').hide();
+            $('.TabConten02').hide();
+            $('.TabConten03').show();
+            //$('.TabConten03TK').show();
+            //$('.DieuKhoanThuongMai').hide();
+        }
+    }
+
+    function getTableData_Brand_ThuKe() {
+        SourceThueKeBrand = [];
+        // Dành cho Thuê kệ
+        let strTK = $("#table_BrandThueKe tbody tr");
+        if (strTK.length) {
+            strTK.each((index, tr) => {
+                let nameProduct = String($('#' + tr.id + ' input[name="nameProductTK"]').val()).trim();
+                let SoCuaHangThue = String($('#' + tr.id + ' input[name="SoCuaHangThue"]').val()).trim();
+                let SoThang = String($('#' + tr.id + ' input[name="SoThang"]').val()).trim();
+                let M2FThueCuaHang = String($('#' + tr.id + ' input[name="M2FThueCuaHang"]').val()).trim();
+
+                let ChiPhiThueThangVAT = String($('#' + tr.id + ' input[name="ChiPhiThueThangVAT"]').val()).trim();
+                let TongChiPhiThueThangVAT = String($('#' + tr.id + ' input[name="TongChiPhiThueThangVAT"]').val()).trim();
+                let TongChiPhiThueNam = String($('#' + tr.id + ' input[name="TongChiPhiThueNam"]').val()).trim();
+                let DSCamKetCuaHang = String($('#' + tr.id + ' input[name="DSCamKetCuaHang"]').val()).trim();
+
+                let NgayKyHD = String($('#' + tr.id + ' input[name="NgayKyHD"]').val()).trim();
+                let NgayHetHanHD = String($('#' + tr.id + ' input[name="NgayHetHanHD"]').val()).trim();
+
+                let NgaybatDauThue = String($('#' + tr.id + ' input[name="NgaybatDauThue"]').val()).trim();
+                let NgayDieuChinhKetThuc = String($('#' + tr.id + ' input[name="NgayDieuChinhKetThuc"]').val()).trim();
+
+                let checkTuDongGiaHans = 0;
+                let checkTuDongGiaHan = $('#' + tr.id + ' input[name="checkTuDongGiaHan"]:checked').length > 0;
+                if (checkTuDongGiaHan == true) {
+                    checkTuDongGiaHans = 1;
+                }
+
+                let HieuLuc = 0;
+                let checkHieuLuc = $('#' + tr.id + ' input[name="checkHieuLuc"]:checked').length > 0;
+                if (checkHieuLuc == true) {
+                    HieuLuc = 1;
+                }
+                var arrNameProduct = nameProduct.split(" - ");
+                if (SoCuaHangThue.length > 0 && nameProduct.length > 0) {
+                    SourceThueKeBrand.push({
+
+                        "codeProduct": arrNameProduct[0],
+                        "nameProduct": arrNameProduct[1],
+                        "SoCuaHangThue": SoCuaHangThue,
+                        "SoThang": SoThang,
+                        "M2FThueCuaHang": M2FThueCuaHang,
+
+                        "ChiPhiThueThangVAT": ChiPhiThueThangVAT,
+                        "TongChiPhiThueThangVAT": TongChiPhiThueThangVAT,
+                        "TongChiPhiThueNam": TongChiPhiThueNam,
+                        "DSCamKetCuaHang": DSCamKetCuaHang,
+
+                        "NgayKyHD": NgayKyHD,
+                        "NgayHetHanHD": NgayHetHanHD,
+
+                        "NgaybatDauThue": NgaybatDauThue,
+                        "NgayDieuChinhKetThuc": NgayDieuChinhKetThuc,
+
+                        "checkTuDongGiaHan": checkTuDongGiaHans,
+                        "HieuLuc": HieuLuc
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableData_Funtion_ThueKe() {
+        //Function Thuê kệ
+        SourceThueKeFunction = [];
+        let trsThueKe = $("#table_FunctionThueKe tbody tr");
+        if (trsThueKe.length) {
+            trsThueKe.each((index, tr) => {
+
+                let nameProduct = String($('#' + tr.id + ' input[name="nameProductTK"]').val()).trim();
+                let barcode = String($('#' + tr.id + ' select[name="barcodeFunctionTK"]').val()).trim();
+
+                let M2netSP = String($('#' + tr.id + ' input[name="M2netSP"]').val()).trim();
+                let M2FGrossSP = String($('#' + tr.id + ' input[name="M2FGrossSP"]').val()).trim();
+
+
+                let CoatingShop = String($('#' + tr.id + ' input[name="CoatingShop"]').val()).trim();
+                let NumberFace = String($('#' + tr.id + ' input[name="NumberFace"]').val()).trim();
+
+                let NgayBatDau = String($('#' + tr.id + ' input[name="NgayBatDau"]').val()).trim();
+                let NgayKetThuc = String($('#' + tr.id + ' input[name="NgayKetThuc"]').val()).trim();
+
+                let HieuLuc = 0;
+                let checkHieuLuc = $('#' + tr.id + ' input[name="checkHieuLuc"]:checked').length > 0;
+                if (checkHieuLuc == true) {
+                    HieuLuc = 1;
+                }
+
+                var arrNameProduct = nameProduct.split(" - ");
+                if (nameProduct.length > 0 && barcode.length > 0 && CoatingShop.length > 0) {
+                    SourceThueKeFunction.push({
+                        "codeProduct": arrNameProduct[0],
+                        "nameProduct": arrNameProduct[1],
+                        "barcode": barcode,
+
+                        "M2netSP": M2netSP,
+                        "M2FGrossSP": M2FGrossSP,
+
+                        "CoatingShop": CoatingShop,
+                        "NumberFace": NumberFace,
+
+                        "NgayBatDau": NgayBatDau,
+                        "NgayKetThuc": NgayKetThuc,
+                        "HieuLuc": HieuLuc
+                    });
+                }
+            });
+        }
+    }
+
+    // 9999999999
+    //function getTableDataThongTinChung() {
+    //    SourceThongTinChung = [];
+    //    let trs = $("#table_TTCChungThueKe tbody tr");
+    //    if (trs.length) {
+    //        trs.each((index, tr) => {
+    //            let SoCuaHangThue = String($('#' + tr.id + ' .SoCuaHangThue').html()).trim();
+    //            let SoThang = String($('#' + tr.id + ' .SoThang').html()).trim();
+    //            let M2FThueCuaHang = String($('#' + tr.id + ' .M2FThueCuaHang').html()).trim();
+
+    //            let ChiPhiThueThangVAT = String($('#' + tr.id + ' .ChiPhiThueThangVAT').html()).trim();
+    //            let TongChiPhiThueThangVAT = String($('#' + tr.id + ' .TongChiPhiThueThangVAT').html()).trim();
+    //            let TongChiPhiThueNam = String($('#' + tr.id + ' .TongChiPhiThueNam').html()).trim();
+    //            let DSCamKetCuaHang = String($('#' + tr.id + ' .DSCamKetCuaHang').html()).trim();
+
+    //            let Mien = String($('#' + tr.id + ' .Mien').html()).trim();
+
+    //            let NgayKyHD = String($('#' + tr.id + ' .NgayKyHD').html()).trim();
+    //            let NgayHetHanHD = String($('#' + tr.id + ' .NgayHetHanHD').html()).trim();
+
+    //            let NgaybatDauThue = String($('#' + tr.id + ' .NgaybatDauThue').html()).trim();
+    //            let NgayDieuChinhKetThuc = String($('#' + tr.id + ' .NgayDieuChinhKetThuc').html()).trim();
+
+    //            let checkTuDongGiaHans = 0;
+    //            let checkTuDongGiaHan = $('#' + tr.id + ' input[name="checkTuDongGiaHan"]:checked').length > 0;
+    //            if (checkTuDongGiaHan == true) {
+    //                checkTuDongGiaHans = 1;
+    //            }
+
+    //            let HieuLuc = 0;
+    //            let checkHieuLuc = $('#' + tr.id + ' input[name="checkHieuLuc"]:checked').length > 0;
+    //            if (checkHieuLuc == true) {
+    //                HieuLuc = 1;
+    //            }
+    //            if (SoCuaHangThue.length > 0) {
+    //                SourceThongTinChung.push({
+    //                    "SoCuaHangThue": SoCuaHangThue,
+    //                    "SoThang": SoThang,
+    //                    "M2FThueCuaHang": M2FThueCuaHang,
+    //                    "ChiPhiThueThangVAT": ChiPhiThueThangVAT,
+    //                    "TongChiPhiThueThangVAT": TongChiPhiThueThangVAT,
+    //                    "TongChiPhiThueNam": TongChiPhiThueNam,
+    //                    "DSCamKetCuaHang": DSCamKetCuaHang,
+    //                    "Mien": Mien,
+    //                    "NgayKyHD": NgayKyHD,
+    //                    "NgayHetHanHD": NgayHetHanHD,
+    //                    "NgaybatDauThue": NgaybatDauThue,
+    //                    "NgayDieuChinhKetThuc": NgayDieuChinhKetThuc,
+    //                    "checkTuDongGiaHan": checkTuDongGiaHans,
+    //                    "HieuLuc": HieuLuc
+    //                });
+    //            }
+    //        });
+    //    }
+
+    //}
+
+
+
+    function deleteRowHangThuKes(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("table_hangthuekes").deleteRow(ri);
+    }
+
+    //function getTableDataHangThueKe() {
+    //    SourceHangThueKe = [];
+    //    let trs = $("#table_hangthuekes tbody tr");
+    //    if (trs.length) {
+    //        trs.each((index, tr) => {
+    //            let MaSP = String($('#' + tr.id + ' .MaSP').html()).trim();
+    //            let nameProduct = String($('#' + tr.id + ' .NameProduct').html()).trim();
+    //            let barcode = String($('#' + tr.id + ' .Barcode').html()).trim();
+
+    //            let M2netSP = String($('#' + tr.id + ' .M2netSP').html()).trim();
+    //            let M2FGrossSP = String($('#' + tr.id + ' .M2FGrossSP').html()).trim();
+
+    //            let CoatingShop = String($('#' + tr.id + ' .SoCHPhu').html()).trim();
+    //            let NumberFace = String($('#' + tr.id + ' .SoMatTBCH').html()).trim();
+
+    //            let Mien = String($('#' + tr.id + ' .Mien').html()).trim();
+
+    //            let NgayBatDau = String($('#' + tr.id + ' .NgayBatDau').html()).trim();
+    //            let NgayKetThuc = String($('#' + tr.id + ' .NgayKetThuc').html()).trim();
+
+    //            let NgaybatDauThue = String($('#' + tr.id + ' .NgaybatDauThue').html()).trim();
+    //            let NgayDieuChinhKetThuc = String($('#' + tr.id + ' .NgayDieuChinhKetThuc').html()).trim();
+
+    //            let TuDongGiaHan = 0;
+    //            let checkTuDongGiaHan = $('#' + tr.id + ' input[name="checkTuDongGiaHan"]:checked').length > 0;
+    //            if (checkTuDongGiaHan == true) {
+    //                TuDongGiaHan = 1;
+    //            }
+
+    //            let HieuLuc = 0;
+    //            let checkHieuLuc = $('#' + tr.id + ' input[name="checkHieuLuc"]:checked').length > 0;
+    //            if (checkHieuLuc == true) {
+    //                HieuLuc = 1;
+    //            }
+
+    //            if (MaSP.length > 0 && nameProduct.length > 0 && barcode.length > 0 && CoatingShop.length > 0) {
+    //                SourceHangThueKe.push({
+    //                    "codeProduct": MaSP,
+    //                    "nameProduct": nameProduct,
+    //                    "barcode": barcode,
+
+    //                    "M2netSP": M2netSP,
+    //                    "M2FGrossSP": M2FGrossSP,
+
+    //                    "CoatingShop": CoatingShop,
+    //                    "NumberFace": NumberFace,
+    //                    "Mien": Mien,
+
+    //                    "NgayBatDau": NgayBatDau,
+    //                    "NgayKetThuc": NgayKetThuc,
+
+    //                    "NgaybatDauThue": NgaybatDauThue,
+    //                    "NgayDieuChinhKetThuc": NgayDieuChinhKetThuc,
+    //                    "TuDongGiaHan": TuDongGiaHan,
+
+    //                    "HieuLuc": HieuLuc
+    //                });
+    //            }
+    //        });
+    //    }
+    //}
+
+    function js_PriceAfterDiscount(r) {
+
+
+        let discountPrice = $('#rowKyGui_' + r + ' input[name="discountPrice"]').val().trim();
+        var priceSeparate = commaSeparateNumber(discountPrice);
+
+        $('#discountPrice_' + r).val(priceSeparate);
+
+        let percentDiscount = $('#rowKyGui_' + r + ' input[name="percentDiscount"]').val().trim();
+        if (discountPrice > 0 && percentDiscount > 0) {
+            var disPrice = discountPrice.replace(/\./g, '');
+            var priceAfterDiscount = disPrice * (1 - percentDiscount / 100);
+            $('#rowKyGui_' + r + ' #priceAfterDiscount_' + r).html(commaSeparateNumber(Math.round(priceAfterDiscount)));
+            $('#rowKyGui_' + r + ' #priceAfterInput_' + r).val(commaSeparateNumber(Math.round(priceAfterDiscount)));
+        }
+        if (discountPrice > 0 && parseInt(percentDiscount) == 0) {
+            $('#rowKyGui_' + r + ' #priceAfterDiscount_' + r).html(discountPrice);
+            $('#rowKyGui_' + r + ' #priceAfterInput_' + r).val(discountPrice);
+        }
+        if (discountPrice > 0 && percentDiscount.length < 0) {
+            $('#rowKyGui_' + r + ' #priceAfterDiscount_' + r).html(discountPrice);
+            $('#rowKyGui_' + r + ' #priceAfterInput_' + r).val(discountPrice);
+        }
+        else if (parseInt(discountPrice) == 0) {
+            $('#rowKyGui_' + r + ' #priceAfterDiscount_' + r).html('0');
+            $('#rowKyGui_' + r + ' #priceAfterInput_' + r).val('0');
+        }
+    }
+
+    function js_PriceAfterDiscountMB(r) {
+
+        let discountPrice = $('#rowMuaBan_' + r + ' input[name="discountPrice"]').val().trim();
+        var priceSeparate = commaSeparateNumber(discountPrice);
+
+        $('#discountPrice_' + r).val(priceSeparate);
+
+        let percentDiscount = $('#rowMuaBan_' + r + ' input[name="percentDiscount"]').val().trim();
+        if (discountPrice > 0 && percentDiscount > 0) {
+            var disPrice = discountPrice.replace(/\./g, '');
+            var priceAfterDiscount = disPrice * (1 - percentDiscount / 100);
+            $('#priceAfterDiscount_' + r).html(commaSeparateNumber(Math.round(priceAfterDiscount)));
+            $('#priceAfterInput_' + r).val(commaSeparateNumber(Math.round(priceAfterDiscount)));
+        }
+        if (discountPrice > 0 && parseInt(percentDiscount) == 0) {
+            $('#priceAfterDiscount_' + r).html(discountPrice);
+            $('#priceAfterInput_' + r).val(discountPrice);
+        }
+        if (discountPrice > 0 && percentDiscount.length < 0) {
+            $('#priceAfterDiscount_' + r).html(discountPrice);
+            $('#priceAfterInput_' + r).val(discountPrice);
+        }
+        else if (parseInt(discountPrice) == 0) {
+            $('#priceAfterDiscount_' + r).html('0');
+            $('#priceAfterInput_' + r).val('0');
+        }
+    }
+    function js_SumLeaderTime(r) {
+
+        let Leadtimesx = $('#rowLeadtime1_' + r + ' input[name="Leadtimesx"]').val().trim();
+        let ThoiGianKyHD = $('#rowLeadtime1_' + r + ' input[name="ThoiGianKyHD"]').val().trim();
+        let ThanhToan = $('#rowLeadtime1_' + r + ' input[name="ThanhToan"]').val().trim();
+        let DongCongVaHQXuat = $('#rowLeadtime1_' + r + ' input[name="DongCongVaHQXuat"]').val().trim();
+        let DiBien = $('#rowLeadtime1_' + r + ' input[name="DiBien"]').val().trim();
+        let ThuTucHQDauNhap = $('#rowLeadtime1_' + r + ' input[name="ThuTucHQDauNhap"]').val().trim();
+
+        if (Leadtimesx <= 0) {
+            Leadtimesx = 0;
+        }
+        if (ThoiGianKyHD <= 0) {
+            ThoiGianKyHD = 0;
+        }
+        if (ThanhToan <= 0) {
+            ThanhToan = 0;
+        }
+        if (DongCongVaHQXuat <= 0) {
+            DongCongVaHQXuat = 0;
+        }
+        if (DiBien <= 0) {
+            DiBien = 0;
+        }
+        if (ThuTucHQDauNhap <= 0) {
+            ThuTucHQDauNhap = 0;
+        }
+        //alert(Leadtimesx + '--' + ThoiGianKyHD + '--' + ThanhToan + '--' + DongCongVaHQXuat + '--' + DiBien + '--' + ThuTucHQDauNhap);
+        //if (Leadtimesx > 0 && ThoiGianKyHD > 0 && ThanhToan > 0 && DongCongVaHQXuat > 0 && DiBien > 0 && ThuTucHQDauNhap > 0 ) {
+        var Leadtimesx1 = Leadtimesx.replace(/\./g, '');
+        var ThoiGianKyHD1 = ThoiGianKyHD.replace(/\./g, '');
+        var priceAfterDiscount = parseInt(Leadtimesx) + parseInt(ThoiGianKyHD) + parseInt(ThanhToan) + parseInt(DongCongVaHQXuat) + parseInt(DiBien) + parseInt(ThuTucHQDauNhap);
+        $('#js_SumLeaderTime_' + r).html(commaSeparateNumber(priceAfterDiscount));
+        $('#TongLeadtime' + r).val(priceAfterDiscount);
+        // }
+    }
+    function js_SumLeaderTime2(r) {
+        let Leadtimesx = $('#rowLeadtime2_' + r + ' input[name="Leadtimesx"]').val().trim();
+        let ThoiGianKyHD = $('#rowLeadtime2_' + r + ' input[name="ThoiGianKyHD"]').val().trim();
+        let ThanhToan = $('#rowLeadtime2_' + r + ' input[name="ThanhToan"]').val().trim();
+        let DongCongVaHQXuat = $('#rowLeadtime2_' + r + ' input[name="DongCongVaHQXuat"]').val().trim();
+        let DiBien = $('#rowLeadtime2_' + r + ' input[name="DiBien"]').val().trim();
+        let ThuTucHQDauNhap = $('#rowLeadtime2_' + r + ' input[name="ThuTucHQDauNhap"]').val().trim();
+
+        if (Leadtimesx <= 0) {
+            Leadtimesx = 0;
+        }
+        if (ThoiGianKyHD <= 0) {
+            ThoiGianKyHD = 0;
+        }
+        if (ThanhToan <= 0) {
+            ThanhToan = 0;
+        }
+        if (DongCongVaHQXuat <= 0) {
+            DongCongVaHQXuat = 0;
+        }
+        if (DiBien <= 0) {
+            DiBien = 0;
+        }
+        if (ThuTucHQDauNhap <= 0) {
+            ThuTucHQDauNhap = 0;
+        }
+        //alert(Leadtimesx + '--' + ThoiGianKyHD + '--' + ThanhToan + '--' + DongCongVaHQXuat + '--' + DiBien + '--' + ThuTucHQDauNhap);
+        //if (Leadtimesx > 0 && ThoiGianKyHD > 0 && ThanhToan > 0 && DongCongVaHQXuat > 0 && DiBien > 0 && ThuTucHQDauNhap > 0 ) {
+        var Leadtimesx1 = Leadtimesx.replace(/\./g, '');
+        var ThoiGianKyHD1 = ThoiGianKyHD.replace(/\./g, '');
+        var priceAfterDiscount = parseInt(Leadtimesx) + parseInt(ThoiGianKyHD) + parseInt(ThanhToan) + parseInt(DongCongVaHQXuat) + parseInt(DiBien) + parseInt(ThuTucHQDauNhap);
+        $('#js_SumLeaderTimeKG_' + r).html(commaSeparateNumber(priceAfterDiscount));
+        $('#TongLeadtimeKG' + r).val(priceAfterDiscount);
+        // }
+    }
+
+    function commaSeparateNumber(val) {
+        while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+        }
+        return val;
+    }
+
+    function js_onchange_verdor() {
+        var VendorNo = $('#VendorNo').val().trim();
+        var arrVendorNo = VendorNo.split(" - ");
+        $.ajax({
+            url: '/TradingTermVendor/GetListItemVendor',
+            type: 'POST',
+            data: JSON.stringify({ vendorNo: arrVendorNo[0]}),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                var row = JSON.parse(data);
+                if (row != null) {
+                $('#product_datalist').empty();
+                for (i in row) {
+                    $('#product_datalist').append('<option value="'+row[i].Code +' - '+ row[i].Name+'" />');
+                    }
+                }
+            }
+        });
+
+        //2: Function Datalist
+        $.ajax({
+            url: '/TradingTermVendor/GetListItemVendor_Function',
+            type: 'POST',
+            data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                var row = JSON.parse(data);
+                if (row != null) {
+                $('#Function_datalist').empty();
+                for (i in row) {
+                    $('#Function_datalist').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '" />');
+                    }
+                }
+            }
+        });
+
+        // 3: Band Datalist
+        $.ajax({
+            url: '/TradingTermVendor/GetListItemVendor_Brand',
+            type: 'POST',
+            data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                var row = JSON.parse(data);
+                if (row != null) {
+                $('#Brand_datalist').empty();
+                for (i in row) {
+                    $('#Brand_datalist').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '" />');
+                    }
+                }
+            }
+        });
+
+
+      // ?????????????
+      // 3: Band Datalist - MuaBan - Create
+        if (arrVendorNo[0].length > 0) {
+
+            $.ajax({
+                url: '/TradingTermVendor/GetListItemVendor_MuaBan_Brand_Create',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                    $('#Brand_datalist_MuaBan_Create').empty();
+                    for (i in row) {
+                        $('#Brand_datalist_MuaBan_Create').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '" />');
+                        }
+                    }
+                }
+            });
+        }
+        //2: Function Datalist MuaBan - Create
+        if (arrVendorNo[0].length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/GetListItemVendor_Function_Create',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                    $('#Function_datalist_MuaBan_Create').empty();
+                    for (i in row) {
+                        $('#Function_datalist_MuaBan_Create').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '" />');
+                        }
+                    }
+                }
+            });
+        }
+        //2: Function Datalist KyGui - Create
+        if (arrVendorNo[0].length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/GetListItemVendor_Function_KyGui_Create',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                    $('#Function_datalist_KyGui_Create').empty();
+                    for (i in row) {
+                        $('#Function_datalist_KyGui_Create').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '" />');
+                        }
+                    }
+                }
+            });
+        }
+
+        // 3: Band Datalist _ Ký gửi
+        if (arrVendorNo[0].length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/GetListItemVendor_Brand_KyGui_Create',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                    $('#Brand_datalist_KyGui_Create').empty();
+                    for (i in row) {
+                        $('#Brand_datalist_KyGui_Create').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '" />');
+                        }
+                    }
+                }
+            });
+        }
+
+        //88888888888888888
+        // 3: Band Datalist _ Thueke
+        if (arrVendorNo[0].length > 0) {
+
+            $.ajax({
+                url: '/TradingTermVendor/GetListItemVendor_Product_ThueKe_Create',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                    $('#Products_datalist_ThueKe').empty();
+                    for (i in row) {
+                        $('#Products_datalist_ThueKe').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '" />');
+                        }
+                    }
+                }
+            });
+        }
+
+        if (arrVendorNo[0].length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/GetListItemVendor_Brand_ThueKe_Create',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                    $('#Brand_datalist_ThueKe_Create').empty();
+                    for (i in row) {
+                        $('#Brand_datalist_ThueKe_Create').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '" />');
+                        }
+                    }
+                }
+            });
+        }
+
+        if (arrVendorNo[0].length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/GetListItemVendor_Function_ThueKe_Create',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                    $('#Function_datalist_ThueKe_Create').empty();
+                    for (i in row) {
+                        $('#Function_datalist_ThueKe_Create').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '" />');
+                        }
+                    }
+                }
+            });
+        }
+
+        if (arrVendorNo[0].length > 0) {
+        $.ajax({
+            url: '/TradingTermVendor/GetListCoopInfoVendors',
+            type: 'POST',
+            data: JSON.stringify({ vendorNo: arrVendorNo[0]}),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                var row = JSON.parse(data);
+                if (data != null) {
+                     $('#salesY1').val(commaSeparateNumber(row[0]['Sale_LastYear']));
+                    $('#salesYTD').val(commaSeparateNumber(row[0]['SaleYTD']));
+                    $('#expectedYTD').val(commaSeparateNumber(row[0]['SalesEstimateCurrYear']));
+                    $('#numberCH').val(row[0]['CountItem_Store']);
+                    $('#SalesLossOOS').val(row[0]['SalesLossOOS']);
+                    //$('#contractStatus').val(row[0]['ContractStatus']);
+                }
+            }
+        });
+           // HieuLuc();
+        }
+
+        if (arrVendorNo[0].length > 0) {
+
+            $.ajax({
+                url: '/TradingTermVendor/GetListItemVendor_HangHoa_KyGui',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                    $('#product_datalist_KyGui').empty();
+                    for (i in row) {
+                        $('#product_datalist_KyGui').append('<option value="' + row[i].Code + ' - ' + row[i].Name + '" />');
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function HieuLuc() {
+        var dateStart = $("#ToDate").val();
+        var d = new Date();
+        var dateEnd = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+        console.log(dateStart + '***' + dateEnd);
+        if (dateStart > dateEnd) {
+            $('#contractStatus').val('Còn hiệu lực');
+        } else {
+            $('#contractStatus').val('Hết hiệu lực');
+        }
+    }
+    function js_onchange_barcode(r) {
+        let nameProduct = String($('#rowMuaBan_' + r + ' input[name="nameProduct"]').val()).trim();
+        $('#rowMuaBan_' + r + ' #barcode_' + r).empty();
+        $('#rowMuaBan_' + r + ' #barcode_' + r).append('<option value="">--Chọn Barcode--</option>');
+
+        var item = nameProduct.split(" - ");
+        if (nameProduct.length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/GetListBarcode',
+                type: 'POST',
+                data: JSON.stringify({ itemNo: item[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                    $('#barcode_' + r).empty();
+                    for (i in row) {
+                        $('#barcode_' + r).append('<option value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function js_onchange_barcodeKyGui(r) {
+        let nameProduct = String($('#rowKyGui_' + r + ' input[name="nameProduct"]').val()).trim();
+        $('#rowKyGui_' + r + '  #barcodeKyGui_' + r).empty();
+        $('#rowKyGui_' + r + ' #barcode_' + r).append('<option value="">--Chọn Barcode--</option>');
+
+        var item = nameProduct.split(" - ");
+        if (nameProduct.length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/GetListBarcode',
+                type: 'POST',
+                data: JSON.stringify({ itemNo: item[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                    $('#barcodeKyGui_' + r).empty();
+                    for (i in row) {
+                        $('#barcodeKyGui_' + r).append('<option value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+
+    function getDataContract() {
+
+        SourceContract = [];
+        var VendorNo = $('#VendorNo').val().trim();
+        var ContractNo = $('#ContractNo').val().trim();
+        var FromDate = $('#FromDate').val().trim();
+        var ToDate = $('#ToDate').val().trim();
+        var ACM = $('#ACM').val().trim();
+        var CM = $('#CM').val().trim();
+        var TypeS = $('#TypeS').val().trim();
+
+        var SoHopDong = $('#SoHopDong').val().trim();
+        var SoPhuLuc = $('#SoPhuLuc').val().trim();
+        var TuNgay = $('#TuNgay').val().trim();
+        var DenNgay = $('#DenNgay').val().trim();
+        var FileSoHopDong = $('#FileSoHopDong').val().trim();
+        var FilePhuLucHopDong = $('#FilePhuLucHopDong').val().trim();
+        var NguoiDaiDienBBM = $('#NguoiDaiDienBBM').val().trim();
+        var NguoiDaiDienNCC = $('#NguoiDaiDienNCC').val().trim();
+        var TinhTrang = $('#TinhTrang').val();
+
+        var DaiDienBBM = $('#DaiDienBBM').val();
+        var DaiDienNCC = $('#DaiDienNCC').val();
+
+        var SupplyManager = $('#SupplyManager').val().trim();
+        //var AutoExtentContract = $("#vendor-form input[type='checkbox']:checked").val();
+
+        let AutoExtentContract = 0;
+        let ischeck = $('#vendor-form input[name="AutoExtentContract"]:checked').length > 0;
+        if (ischeck == true) {
+            AutoExtentContract = 1;
+        }
+
+        let AutoExtentContractSoHopDong = 0;
+        let ischeckSHD = $('#vendor-form input[name="AutoExtentContractSoHopDong"]:checked').length > 0;
+        if (ischeckSHD == true) {
+            AutoExtentContractSoHopDong = 1;
+        }
+
+        var priceChangeDate = $('#priceChangeDate').val().trim();
+        var arrVendorNo = VendorNo.split(" - ");
+
+        if (VendorNo.length > 0 && ContractNo.length > 0) {
+            SourceContract.push({
+                "VendorNo": arrVendorNo[0],
+                "ContractNo": ContractNo,
+                "FromDate": FromDate,
+                "ToDate": ToDate,
+                "ACM": ACM,
+                "CM": CM,
+                "SupplyManager": SupplyManager,
+                "AutoExtentContract": AutoExtentContract,
+                "AutoExtentContractSoHopDong": AutoExtentContractSoHopDong,
+                "priceChangeDate": priceChangeDate,
+                "Type": TypeS,
+
+                "SoPhuLuc": SoPhuLuc,
+                "SoHopDong": SoHopDong,
+                "TuNgay": TuNgay,
+                "DenNgay": DenNgay,
+                "FileSoHopDong": FileSoHopDong,
+                "FilePhuLucHopDong": FilePhuLucHopDong,
+                "NguoiDaiDienBBM": NguoiDaiDienBBM,
+                "NguoiDaiDienNCC": NguoiDaiDienNCC,
+                "TinhTrang": TinhTrang,
+                "DaiDienBBM": DaiDienBBM,
+                "DaiDienNCC": DaiDienNCC,
+            });
+        }
+    }
+
+    function getDataCoopInfoVendors() {
+         SourceCoopInfoVendors = [];
+         var salesY1 = $('#salesY1').val().trim();
+         var salesYTD = $('#salesYTD').val().trim();
+         var expectedYTD = $('#expectedYTD').val().trim();
+         var contractStatus = $('#contractStatus :selected').val();
+         var numberCH = $('#numberCH').val().trim();
+         var SalesLossOOS = $('#SalesLossOOS').val().trim();
+
+         if (salesY1.length > 0 && salesYTD.length > 0) {
+             SourceCoopInfoVendors.push({
+                "salesY1": salesY1,
+                "salesYTD": salesYTD,
+                "expectedYTD": expectedYTD,
+                "contractStatus": contractStatus,
+                "numberCH": numberCH,
+                "SalesLossOOS": SalesLossOOS
+            });
+         }
+    }
+
+
+
+    function getTableDataHangHoa_Funtion() {
+        SourceHangHoaFunction = [];
+        let trs = $("#table_FunctionMuaBan tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let nameProduct = String($('#' + tr.id + ' input[name="nameProduct"]').val()).trim();
+                let hinhthucht = String($('#' + tr.id + ' select[name="hinhthucht"]').val()).trim();
+                let vat = String($('#' + tr.id + ' input[name="vat"]').val()).trim();
+                let discountPrice = String($('#' + tr.id + ' input[name="discountPrice"]').val()).trim();
+
+                var arrNameProduct = nameProduct.split(" - ");
+                if (nameProduct.length > 0 && hinhthucht.length > 0 && vat.length > 0 && discountPrice.length > 0) {
+                    SourceHangHoaFunction.push({
+                        "FunctionCode": arrNameProduct[0],
+                        "FunctionName": arrNameProduct[1],
+                        "hinhthucht": hinhthucht,
+                        "vat": vat,
+                        "discountPrice": discountPrice.replace(/\./g, ''),
+                        'typeTab': '1'
+                    });
+                }
+            });
+        }
+
+        let trsKG = $("#table_FunctionKyGui tbody tr");
+        if (trsKG.length) {
+            trsKG.each((index, tr) => {
+
+                let nameProduct = String($('#' + tr.id + ' input[name="nameProduct"]').val()).trim();
+                let hinhthucht = String($('#' + tr.id + ' select[name="hinhthucht"]').val()).trim();
+                let vat = String($('#' + tr.id + ' input[name="vat"]').val()).trim();
+                let discountPrice = String($('#' + tr.id + ' input[name="discountPrice"]').val()).trim();
+
+                var arrNameProduct = nameProduct.split(" - ");
+                if (nameProduct.length > 0 && hinhthucht.length > 0 && vat.length > 0 && discountPrice.length > 0) {
+                    SourceHangHoaFunction.push({
+                        "FunctionCode": arrNameProduct[0],
+                        "FunctionName": arrNameProduct[1],
+                        "hinhthucht": hinhthucht,
+                        "vat": vat,
+                        "discountPrice": discountPrice.replace(/\./g, ''),
+                        'typeTab': '2'
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataHangHoa_Brand() {
+        SourceHangHoaBrand = [];
+        let trs = $("#table_BrandMuaBan tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let nameProduct = String($('#' + tr.id + ' input[name="nameProduct"]').val()).trim();
+                let hinhthucht = String($('#' + tr.id + ' select[name="hinhthucht"]').val()).trim();
+                let vat = String($('#' + tr.id + ' input[name="vat"]').val()).trim();
+                let discountPrice = String($('#' + tr.id + ' input[name="discountPrice"]').val()).trim();
+
+                var arrNameProduct = nameProduct.split(" - ");
+                if (nameProduct.length > 0 && hinhthucht.length > 0 && vat.length > 0 && discountPrice.length > 0) {
+                    SourceHangHoaBrand.push({
+                        "BrandCode": arrNameProduct[0],
+                        "BrandName": arrNameProduct[1],
+                        "hinhthucht": hinhthucht,
+                        "vat": vat,
+                        "discountPrice": discountPrice.replace(/\./g, ''),
+                        'typeTab': '1'
+                    });
+                }
+            });
+        }
+
+        let trsKG = $("#table_BrandKyGui tbody tr");
+        if (trsKG.length) {
+            trsKG.each((index, tr) => {
+
+                let nameProduct = String($('#' + tr.id + ' input[name="nameProduct"]').val()).trim();
+                let hinhthucht = String($('#' + tr.id + ' select[name="hinhthucht"]').val()).trim();
+                let vat = String($('#' + tr.id + ' input[name="vat"]').val()).trim();
+                let discountPrice = String($('#' + tr.id + ' input[name="discountPrice"]').val()).trim();
+
+                var arrNameProduct = nameProduct.split(" - ");
+                if (nameProduct.length > 0 && hinhthucht.length > 0 && vat.length > 0 && discountPrice.length > 0) {
+                    SourceHangHoaBrand.push({
+                        "BrandCode": arrNameProduct[0],
+                        "BrandName": arrNameProduct[1],
+                        "hinhthucht": hinhthucht,
+                        "vat": vat,
+                        "discountPrice": discountPrice.replace(/\./g, ''),
+                        'typeTab': '2'
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataChietKhau() {
+        SourceChietKhau = [];
+        let trs = $("#table_chietkhau tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let HinhThucThanhToan = String($('#' + tr.id + ' select[name="HinhThucThanhToan"]').val()).trim();
+
+                let typeDiscount = String($('#' + tr.id + ' select[name="typeDiscount"]').val()).trim();
+                let discountAmount = String($('#' + tr.id + ' input[name="discountAmount"]').val()).trim();
+                let percentDiscount = String($('#' + tr.id + ' input[name="percent_Discount"]').val()).trim();
+                let OrderValue = String($('#' + tr.id + ' input[name="OrderValue"]').val()).trim();
+                if (discountAmount.length > 0 || percentDiscount.length > 0 || OrderValue.length > 0) {
+                    SourceChietKhau.push({
+                        "typeDiscount": typeDiscount,
+                        "HinhThucThanhToan": HinhThucThanhToan,
+                        "discountAmount": discountAmount,
+                        "percentDiscount": percentDiscount,
+                        "OrderValue": OrderValue,
+                        'typeTab': '1'
+                    });
+               }
+            });
+        }
+        let trs_kygui = $("#table_kygui_chietkhau tbody tr");
+        if (trs_kygui.length) {
+            trs_kygui.each((index, tr) => {
+                let HinhThucThanhToan = String($('#' + tr.id + ' select[name="HinhThucThanhToan"]').val()).trim();
+                let typeDiscount = String($('#' + tr.id + ' select[name="typeDiscount"]').val()).trim();
+                let discountAmount = String($('#' + tr.id + ' input[name="discountAmount"]').val()).trim();
+                let percentDiscount = String($('#' + tr.id + ' input[name="percent_Discount"]').val()).trim();
+                let OrderValue = String($('#' + tr.id + ' input[name="OrderValue"]').val()).trim();
+
+                if (discountAmount.length > 0 || percentDiscount.length > 0 || OrderValue.length > 0 ) {
+                    SourceChietKhau.push({
+                        "typeDiscount": typeDiscount,
+                        "HinhThucThanhToan": HinhThucThanhToan,
+                        "discountAmount": discountAmount,
+                        "percentDiscount": percentDiscount,
+                        "OrderValue": OrderValue,
+                        'typeTab': '2'
+                    });
+                }
+            });
+        }
+        let trs_thueke = $("#table_thueke_chietkhau tbody tr");
+        if (trs_thueke.length) {
+            trs_thueke.each((index, tr) => {
+                let HinhThucThanhToan = String($('#' + tr.id + ' select[name="HinhThucThanhToan"]').val()).trim();
+                let typeDiscount = String($('#' + tr.id + ' select[name="typeDiscount"]').val()).trim();
+                let discountAmount = String($('#' + tr.id + ' input[name="discountAmount"]').val()).trim();
+                let percentDiscount = String($('#' + tr.id + ' input[name="percent_Discount"]').val()).trim();
+                let OrderValue = String($('#' + tr.id + ' input[name="OrderValue"]').val()).trim();
+                if (discountAmount.length > 0 || percentDiscount.length > 0 || OrderValue.length > 0) {
+                    SourceChietKhau.push({
+                        "typeDiscount": typeDiscount,
+                        "HinhThucThanhToan": HinhThucThanhToan,
+                        "discountAmount": discountAmount,
+                        "percentDiscount": percentDiscount,
+                        "OrderValue": OrderValue,
+                        'typeTab': '3'
+                    });
+              }
+            });
+        }
+    }
+
+    function getTableDataDoiTraHang() {
+        debugger;
+
+        SourceDoiTra = [];
+        let trs = $("#table_doitra tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let check = $('#' + tr.id + ' input[name="checkDoiTra"]:checked').length > 0;
+                if (check == true) {
+
+                    let BaoTruocNgay = String($('#' + tr.id + ' input[name="BaoTruocNgay"]').val()).trim();
+                    let Satus = String($('#' + tr.id + ' select[name="ddlDoiTra"]').val()).trim();
+                    let confirmChange = $('#' + tr.id + ' input[name="checkDoiTra"]:checked').val();
+                    let refundTerm = String($('#' + tr.id + ' input[name="refundTerm"]').val()).trim();
+                    let Penalty = String($('#' + tr.id + ' input[name="Penalty"]').val()).trim();
+                    let Conten = String($('#' + tr.id + ' input[name="Conten"]').val()).trim();
+
+                    // alert(confirmChange + '-111-' + check + '-111-' + refundTerm + '-111-' + Penalty);
+                    if (Satus.length > 0 && confirmChange.length > 0 && refundTerm.length > 0 && Penalty.length > 0) {
+                        SourceDoiTra.push({
+                            "Satus": Satus,
+                            "confirmChange": confirmChange,
+                            "refundTerm": refundTerm,
+                            "Penalty": Penalty,
+                            "Conten": Conten,
+                            "BaoTruocNgay": BaoTruocNgay,
+                            'typeTab': '1'
+                        });
+                    }
+                }
+            });
+        }
+        let trsdoiTra = $("#table_kygui_doitra tbody tr");
+        if (trsdoiTra.length) {
+            trsdoiTra.each((index, tr2) => {
+                let check2 = $('#' + tr2.id + ' input[name="checkDoiTraKG"]:checked').length > 0;
+                if (check2 == true) {
+                    let BaoTruocNgay = String($('#' + tr2.id + ' input[name="BaoTruocNgayKG"]').val()).trim();
+                    let Satus = String($('#' + tr2.id + ' select[name="ddlDoiTraKG"]').val()).trim();
+                    let confirmChange = $('#' + tr2.id + ' input[name="checkDoiTraKG"]:checked').val();
+                    let refundTerm = String($('#' + tr2.id + ' input[name="refundTermKG"]').val()).trim();
+                    let Penalty = String($('#' + tr2.id + ' input[name="PenaltyKG"]').val()).trim();
+                    let Conten = String($('#' + tr2.id + ' input[name="ContenKG"]').val()).trim();
+
+                    // alert(confirmChange + '-222-' + check2);
+                    if (Satus.length > 0 && confirmChange.length > 0 && refundTerm.length > 0 && Penalty.length > 0) {
+                        SourceDoiTra.push({
+                            "Satus": Satus,
+                            "confirmChange": confirmChange,
+                            "refundTerm": refundTerm,
+                            "Penalty": Penalty,
+                            "Conten": Conten,
+                            "BaoTruocNgay": BaoTruocNgay,
+                            'typeTab': '2'
+                        });
+                    }
+                }
+            });
+        }
+        let trsthueke = $("#table_thueke_doitra  tbody tr");
+        if (trsthueke.length) {
+            trsthueke.each((index, tr3) => {
+
+                let check3 = $('#' + tr3.id + ' input[name="checkDoiTraTK"]:checked').length > 0;
+                if (check3 == true) {
+                    let BaoTruocNgay = String($('#' + tr3.id + ' input[name="BaoTruocNgayTK"]').val()).trim();
+                    let Satus = String($('#' + tr3.id + ' select[name="ddlDoiTraTK"]').val()).trim();
+                    let confirmChange = $('#' + tr3.id + ' input[name="checkDoiTraTK"]:checked').val();
+
+                    let refundTerm = String($('#' + tr3.id + ' input[name="refundTermTK"]').val()).trim();
+                    let Penalty = String($('#' + tr3.id + ' input[name="PenaltyTK"]').val()).trim();
+                    let Conten = String($('#' + tr3.id + ' input[name="ContenTK"]').val()).trim();
+                    console.log(BaoTruocNgay);
+                    // alert(confirmChange + '-333-' + check3);
+                    if (Satus.length > 0 && confirmChange.length > 0 && refundTerm.length > 0 && Penalty.length > 0) {
+                        SourceDoiTra.push({
+                            "Satus": Satus,
+                            "confirmChange": confirmChange,
+                            "refundTerm": refundTerm,
+                            "Penalty": Penalty,
+                            "Conten": Conten,
+                            "BaoTruocNgay": BaoTruocNgay,
+                            'typeTab': '3'
+                        });
+                    }
+                }
+            });
+        }
+        console.log(SourceDoiTra);
+    }
+
+    function getDataHopTacKhac() {
+
+        SourceHopTacKhac = [];
+        let cooperate_content_1 = $('#cooperate_content_1').val().trim();
+        let cooperate_content_2 = $('#cooperate_content_2').val().trim();
+        let cooperate_content_3 = $('#cooperate_content_3').val().trim()
+        if (cooperate_content_1.length || cooperate_content_2.length || cooperate_content_3.length) {
+              SourceHopTacKhac.push({
+                'content1': $('#cooperate_content_1').val().trim(),
+                'content2': $('#cooperate_content_2').val().trim(),
+                'content3': $('#cooperate_content_3').val().trim(),
+                'typeTab': '1'
+              });
+        }
+
+        let cooperate_kygui_content_4 = $('#cooperate_kygui_content_4').val().trim();
+        let cooperate_kygui_content_5 = $('#cooperate_kygui_content_5').val().trim();
+        let cooperate_kygui_content_6 = $('#cooperate_kygui_content_6').val().trim()
+        if (cooperate_kygui_content_4.length || cooperate_kygui_content_5.length || cooperate_kygui_content_6.length) {
+             SourceHopTacKhac.push({
+                 'content1': $('#cooperate_kygui_content_4').val().trim(),
+                'content2': $('#cooperate_kygui_content_5').val().trim(),
+                'content3': $('#cooperate_kygui_content_6').val().trim(),
+                'typeTab': '2'
+            });
+        }
+        let cooperate_thueke_content_7 = $('#cooperate_thueke_content_7').val().trim();
+        let cooperate_thueke_content_8 = $('#cooperate_thueke_content_8').val().trim();
+        let cooperate_thueke_content_9 = $('#cooperate_thueke_content_9').val().trim()
+        if (cooperate_thueke_content_7.length || cooperate_thueke_content_8.length || cooperate_thueke_content_9.length) {
+              SourceHopTacKhac.push({
+                'content1': $('#cooperate_thueke_content_7').val().trim(),
+                'content2': $('#cooperate_thueke_content_8').val().trim(),
+                'content3': $('#cooperate_thueke_content_9').val().trim(),
+                'typeTab': '3'
+              });
+       }
+    }
+
+    function getTableDataThanhToan() {
+        SourceThanhToan = [];
+        let trs = $("#table_thanhtoan tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let typeOrder = "";//String($('#' + tr.id + ' select[name="typeOrder"]').val()).trim();
+                let paymentPeriod = String($('#' + tr.id + ' select[name="paymentPeriod"]').val()).trim();
+                let onDay = String($('#' + tr.id + ' input[name="onDay"]').val()).trim();
+                let andDay = String($('#' + tr.id + ' input[name="andDay"]').val()).trim();
+                let applyFor = String($('#' + tr.id + ' select[name="applyFor"]').val()).trim();
+                let Content = String($('#' + tr.id + ' input[name="Content"]').val()).trim();
+                if (applyFor.length > 0 ) {
+                    SourceThanhToan.push({
+                        "typeOrder": typeOrder,
+                        "paymentPeriod": paymentPeriod,
+                        "onDay": onDay,
+                        "andDay": andDay,
+                        "applyFor": applyFor,
+                        "Content": Content,
+                        'typeTab': '1'
+                    });
+                }
+            });
+        }
+        let trs_kygui = $("#table_kygui_thanhtoan tbody tr");
+        if (trs_kygui.length) {
+            trs_kygui.each((index, tr) => {
+                let typeOrder = "";// String($('#' + tr.id + ' select[name="typeOrder"]').val()).trim();
+                let paymentPeriod = String($('#' + tr.id + ' select[name="paymentPeriod"]').val()).trim();
+                let onDay = String($('#' + tr.id + ' input[name="onDay"]').val()).trim();
+                let andDay = String($('#' + tr.id + ' input[name="andDay"]').val()).trim();
+                let applyFor = String($('#' + tr.id + ' select[name="applyFor"]').val()).trim();
+                let Content = String($('#' + tr.id + ' input[name="Content"]').val()).trim();
+                if (applyFor.length > 0) {
+                    SourceThanhToan.push({
+                        "typeOrder": typeOrder,
+                        "paymentPeriod": paymentPeriod,
+                        "onDay": onDay,
+                        "andDay": andDay,
+                        "applyFor": applyFor,
+                        "Content": Content,
+                        'typeTab': '2'
+                    });
+                }
+            });
+        }
+        let trs_thueke = $("#table_thueke_thanhtoan tbody tr");
+        if (trs_thueke.length) {
+            trs_thueke.each((index, tr) => {
+                let typeOrder = "";//String($('#' + tr.id + ' select[name="typeOrder"]').val()).trim();
+                let paymentPeriod = String($('#' + tr.id + ' select[name="paymentPeriod"]').val()).trim();
+                let onDay = String($('#' + tr.id + ' input[name="onDay"]').val()).trim();
+                let andDay = String($('#' + tr.id + ' input[name="andDay"]').val()).trim();
+                let applyFor = String($('#' + tr.id + ' select[name="applyFor"]').val()).trim();
+                let Content = String($('#' + tr.id + ' input[name="Content"]').val()).trim();
+                if (applyFor.length > 0) {
+                    SourceThanhToan.push({
+                        "typeOrder": typeOrder,
+                        "paymentPeriod": paymentPeriod,
+                        "onDay": onDay,
+                        "andDay": andDay,
+                        "applyFor": applyFor,
+                        "Content": Content,
+                        'typeTab': '3'
+                    });
+                }
+            });
+        }
+
+    }
+
+    function getTableDataHangTang() {
+        SourceHangTang = [];
+        let trs = $("#table_hangtang tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let quantityBuy = String($('#' + tr.id + ' input[name="quantityBuy"]').val()).trim();
+                let orderQuantity = String($('#' + tr.id + ' input[name="orderQuantity"]').val()).trim();
+                if (quantityBuy.length > 0 || orderQuantity.length > 0) {
+                    SourceHangTang.push({
+                        "quantityBuy": quantityBuy,
+                        "orderQuantity": orderQuantity,
+                        'typeTab': '1'
+                    });
+                }
+            });
+        }
+        let trs_kygui = $("#table_kygui_hangtang tbody tr");
+        if (trs_kygui.length) {
+            trs_kygui.each((index, tr) => {
+                let quantityBuy = String($('#' + tr.id + ' input[name="quantityBuy"]').val()).trim();
+                let orderQuantity = String($('#' + tr.id + ' input[name="orderQuantity"]').val()).trim();
+                if (quantityBuy.length > 0 || orderQuantity.length > 0) {
+                    SourceHangTang.push({
+                        "quantityBuy": quantityBuy,
+                        "orderQuantity": orderQuantity,
+                        'typeTab': '2'
+                    });
+                }
+            });
+        }
+        let trs_thueke = $("#table_thueke_hangtang tbody tr");
+        if (trs_thueke.length) {
+            trs_thueke.each((index, tr) => {
+                let quantityBuy = String($('#' + tr.id + ' input[name="quantityBuy"]').val()).trim();
+                let orderQuantity = String($('#' + tr.id + ' input[name="orderQuantity"]').val()).trim();
+                if (quantityBuy.length > 0 || orderQuantity.length > 0) {
+                    SourceHangTang.push({
+                        "quantityBuy": quantityBuy,
+                        "orderQuantity": orderQuantity,
+                        'typeTab': '3'
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataBonus() {
+        SourceBonus = [];
+        let trs = $("#table_thuong tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let bonusType = String($('#' + tr.id + ' select[name="bonusType"]').val()).trim();
+                let salesLevel = String($('#' + tr.id + ' input[name="salesLevel"]').val()).trim();
+                let salesLevelDen = String($('#' + tr.id + ' input[name="salesLevelDen"]').val()).trim();
+
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+                let discountPercent = String($('#' + tr.id + ' input[name="discountPercent"]').val()).trim();
+                let DiscountAmountNoVAT = String($('#' + tr.id + ' input[name="DiscountAmountNoVAT"]').val()).trim();
+                let description = String($('#' + tr.id + ' input[name="description"]').val()).trim();
+                let DKDSTinhThuong = String($('#' + tr.id + ' select[name="DKDSTinhThuong"]').val()).trim();
+
+                if (salesLevel.length > 0 || salesLevelDen.length > 0 || discountPercent.length > 0 || DiscountAmountNoVAT.length > 0) {
+                    SourceBonus.push({
+                        "bonusType": bonusType,
+                        "salesLevel": salesLevel,
+                        "salesLevelDen": salesLevelDen,
+                        "salesConditions": salesConditions,
+                        "discountPercent": discountPercent,
+                        "DiscountAmountNoVAT": DiscountAmountNoVAT,
+                        "description": description,
+                        "DKDSTinhThuong": DKDSTinhThuong,
+                        'typeTab': '1'
+                    });
+                }
+            });
+        }
+        let trs2 = $("#table_thuong_2 tbody tr");
+        if (trs2.length) {
+            trs2.each((index, tr) => {
+                let bonusType = String($('#' + tr.id + ' select[name="bonusType"]').val()).trim();
+                let salesLevel = String($('#' + tr.id + ' input[name="salesLevel"]').val()).trim();
+                let salesLevelDen = String($('#' + tr.id + ' input[name="salesLevelDen"]').val()).trim();
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+                let discountPercent = String($('#' + tr.id + ' input[name="discountPercent"]').val()).trim();
+                let DiscountAmountNoVAT = String($('#' + tr.id + ' input[name="DiscountAmountNoVAT"]').val()).trim();
+                let description = String($('#' + tr.id + ' input[name="description"]').val()).trim();
+
+                let DKDSTinhThuong = String($('#' + tr.id + ' select[name="DKDSTinhThuong"]').val()).trim();
+
+                if (salesLevel.length > 0 || salesLevelDen.length > 0 || discountPercent.length > 0 || DiscountAmountNoVAT.length > 0) {
+                    SourceBonus.push({
+                        "bonusType": bonusType,
+                        "salesLevel": salesLevel,
+                        "salesLevelDen": salesLevelDen,
+                        "salesConditions": salesConditions,
+                        "discountPercent": discountPercent,
+                        "DiscountAmountNoVAT": DiscountAmountNoVAT,
+                        "description": description,
+                        "DKDSTinhThuong": DKDSTinhThuong,
+                        'typeTab': '2'
+                    });
+                }
+            });
+        }
+        let trs3 = $("#table_thuong_3 tbody tr");
+        if (trs3.length) {
+            trs3.each((index, tr) => {
+                let bonusType = String($('#' + tr.id + ' select[name="bonusType"]').val()).trim();
+                let salesLevel = String($('#' + tr.id + ' input[name="salesLevel"]').val()).trim();
+                let salesLevelDen = String($('#' + tr.id + ' input[name="salesLevelDen"]').val()).trim();
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+                let discountPercent = String($('#' + tr.id + ' input[name="discountPercent"]').val()).trim();
+                let DiscountAmountNoVAT = String($('#' + tr.id + ' input[name="DiscountAmountNoVAT"]').val()).trim();
+                let description = String($('#' + tr.id + ' input[name="description"]').val()).trim();
+
+                let DKDSTinhThuong = String($('#' + tr.id + ' select[name="DKDSTinhThuong"]').val()).trim();
+
+                if (salesLevel.length > 0 || salesLevelDen.length > 0 || discountPercent.length > 0 || DiscountAmountNoVAT.length > 0) {
+                    SourceBonus.push({
+                        "bonusType": bonusType,
+                        "salesLevel": salesLevel,
+                        "salesLevelDen": salesLevelDen,
+                        "salesConditions": salesConditions,
+                        "discountPercent": discountPercent,
+                        "DiscountAmountNoVAT": DiscountAmountNoVAT,
+                        "description": description,
+                        "DKDSTinhThuong": DKDSTinhThuong,
+                        'typeTab': '3'
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataTrade() {
+        SourceTrade = [];
+        let trs = $("#table_trade tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let mktbonus_content_invest = String($('#' + tr.id + ' select[name="mktbonus_content_invest"]').val()).trim();
+                let mktbonus_percent_invest = String($('#' + tr.id + ' input[name="mktbonus_percent_invest"]').val()).trim();
+                let mktbonus_invest_value = String($('#' + tr.id + ' input[name="mktbonus_invest_value"]').val()).trim();
+                let mktbonus_des = String($('#' + tr.id + ' input[name="mktbonus_des"]').val()).trim();
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+
+                if (mktbonus_percent_invest.length > 0 || mktbonus_invest_value.length > 0 || mktbonus_des.length > 0) {
+                    SourceTrade.push({
+                        "mktbonus_content_invest": mktbonus_content_invest,
+                        "mktbonus_percent_invest": mktbonus_percent_invest,
+                        "mktbonus_invest_value": mktbonus_invest_value,
+                        "mktbonus_des": mktbonus_des,
+                        "salesConditions": salesConditions,
+                        'typeTab': '1'
+                    });
+                }
+            });
+        }
+        let trs2 = $("#table_trade_2 tbody tr");
+        if (trs2.length) {
+            trs2.each((index, tr) => {
+                let mktbonus_content_invest = String($('#' + tr.id + ' select[name="mktbonus_content_invest"]').val()).trim();
+                let mktbonus_percent_invest = String($('#' + tr.id + ' input[name="mktbonus_percent_invest"]').val()).trim();
+                let mktbonus_invest_value = String($('#' + tr.id + ' input[name="mktbonus_invest_value"]').val()).trim();
+                let mktbonus_des = String($('#' + tr.id + ' input[name="mktbonus_des"]').val()).trim();
+
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+
+                if (mktbonus_percent_invest.length > 0 || mktbonus_invest_value.length > 0 || mktbonus_des.length > 0) {
+                    SourceTrade.push({
+                        "mktbonus_content_invest": mktbonus_content_invest,
+                        "mktbonus_percent_invest": mktbonus_percent_invest,
+                        "mktbonus_invest_value": mktbonus_invest_value,
+                        "mktbonus_des": mktbonus_des,
+                        "salesConditions": salesConditions,
+                        'typeTab': '2'
+                    });
+                }
+            });
+        }
+        let trs3 = $("#table_trade_3 tbody tr");
+        if (trs3.length) {
+            trs3.each((index, tr) => {
+                let mktbonus_content_invest = String($('#' + tr.id + ' select[name="mktbonus_content_invest"]').val()).trim();
+                let mktbonus_percent_invest = String($('#' + tr.id + ' input[name="mktbonus_percent_invest"]').val()).trim();
+                let mktbonus_invest_value = String($('#' + tr.id + ' input[name="mktbonus_invest_value"]').val()).trim();
+                let mktbonus_des = String($('#' + tr.id + ' input[name="mktbonus_des"]').val()).trim();
+
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+
+                if (mktbonus_percent_invest.length > 0 || mktbonus_invest_value.length > 0 || mktbonus_des.length > 0) {
+                    SourceTrade.push({
+                        "mktbonus_content_invest": mktbonus_content_invest,
+                        "mktbonus_percent_invest": mktbonus_percent_invest,
+                        "mktbonus_invest_value": mktbonus_invest_value,
+                        "mktbonus_des": mktbonus_des,
+                        "salesConditions": salesConditions,
+                        'typeTab': '3'
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataThuongHieu() {
+        SourceThuongHieu = [];
+        let trs = $("#table_thuonghieu tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let brandbonus_content_invest = String($('#' + tr.id + ' select[name="brandbonus_content_invest"]').val()).trim();
+                let brandbonus_percent_invest = String($('#' + tr.id + ' input[name="brandbonus_percent_invest"]').val()).trim();
+                let brandbonus_invest_value = String($('#' + tr.id + ' input[name="brandbonus_invest_value"]').val()).trim();
+                let brandbonus_des = String($('#' + tr.id + ' input[name="brandbonus_des"]').val()).trim();
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+
+                if (brandbonus_percent_invest.length > 0 || brandbonus_invest_value.length > 0 || brandbonus_des.length > 0) {
+                    SourceThuongHieu.push({
+                        "brandbonus_content_invest": brandbonus_content_invest,
+                        "brandbonus_percent_invest": brandbonus_percent_invest,
+                        "brandbonus_invest_value": brandbonus_invest_value,
+                        "brandbonus_des": brandbonus_des,
+                        "salesConditions": salesConditions,
+                        'typeTab': '1'
+                    });
+                }
+            });
+        }
+        let trs2 = $("#table_thuonghieu_2 tbody tr");
+        if (trs2.length) {
+            trs2.each((index, tr) => {
+                let brandbonus_content_invest = String($('#' + tr.id + ' select[name="brandbonus_content_invest"]').val()).trim();
+                let brandbonus_percent_invest = String($('#' + tr.id + ' input[name="brandbonus_percent_invest"]').val()).trim();
+                let brandbonus_invest_value = String($('#' + tr.id + ' input[name="brandbonus_invest_value"]').val()).trim();
+                let brandbonus_des = String($('#' + tr.id + ' input[name="brandbonus_des"]').val()).trim();
+
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+
+                if (brandbonus_percent_invest.length > 0 || brandbonus_invest_value.length > 0 || brandbonus_des.length > 0) {
+                    SourceThuongHieu.push({
+                        "brandbonus_content_invest": brandbonus_content_invest,
+                        "brandbonus_percent_invest": brandbonus_percent_invest,
+                        "brandbonus_invest_value": brandbonus_invest_value,
+                        "brandbonus_des": brandbonus_des,
+                        "salesConditions": salesConditions,
+                        'typeTab': '2'
+                    });
+                }
+            });
+        }
+        let trs3 = $("#table_thuonghieu_3 tbody tr");
+        if (trs3.length) {
+            trs3.each((index, tr) => {
+                let brandbonus_content_invest = String($('#' + tr.id + ' select[name="brandbonus_content_invest"]').val()).trim();
+                let brandbonus_percent_invest = String($('#' + tr.id + ' input[name="brandbonus_percent_invest"]').val()).trim();
+                let brandbonus_invest_value = String($('#' + tr.id + ' input[name="brandbonus_invest_value"]').val()).trim();
+                let brandbonus_des = String($('#' + tr.id + ' input[name="brandbonus_des"]').val()).trim();
+
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+
+                if (brandbonus_percent_invest.length > 0 || brandbonus_invest_value.length > 0 || brandbonus_des.length > 0) {
+                    SourceThuongHieu.push({
+                        "brandbonus_content_invest": brandbonus_content_invest,
+                        "brandbonus_percent_invest": brandbonus_percent_invest,
+                        "brandbonus_invest_value": brandbonus_invest_value,
+                        "brandbonus_des": brandbonus_des,
+                        "salesConditions": salesConditions,
+                        'typeTab': '3'
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataCustomer() {
+        SourceCustomer = [];
+        let trs = $("#table_khachhang tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let cusbonus_content_invest = String($('#' + tr.id + ' select[name="cusbonus_content_invest"]').val()).trim();
+                let cusbonus_percent_invest = String($('#' + tr.id + ' input[name="cusbonus_percent_invest"]').val()).trim();
+                let cusbonus_invest_value = String($('#' + tr.id + ' input[name="cusbonus_invest_value"]').val()).trim();
+                let cusbonus_percent_des = String($('#' + tr.id + ' input[name="cusbonus_percent_des"]').val()).trim();
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+
+                if (cusbonus_percent_invest.length > 0 || cusbonus_invest_value.length > 0 || cusbonus_percent_des.length > 0) {
+                    SourceCustomer.push({
+                        "cusbonus_content_invest": cusbonus_content_invest,
+                        "cusbonus_percent_invest": cusbonus_percent_invest,
+                        "cusbonus_invest_value": cusbonus_invest_value,
+                        "cusbonus_percent_des": cusbonus_percent_des,
+                        "salesConditions": salesConditions,
+                        'typeTab': '1'
+                    });
+                }
+            });
+        }
+
+        let trs2 = $("#table_khachhang_2 tbody tr");
+        if (trs2.length) {
+            trs2.each((index, tr) => {
+                let cusbonus_content_invest = String($('#' + tr.id + ' select[name="cusbonus_content_invest"]').val()).trim();
+                let cusbonus_percent_invest = String($('#' + tr.id + ' input[name="cusbonus_percent_invest"]').val()).trim();
+                let cusbonus_invest_value = String($('#' + tr.id + ' input[name="cusbonus_invest_value"]').val()).trim();
+                let cusbonus_percent_des = String($('#' + tr.id + ' input[name="cusbonus_percent_des"]').val()).trim();
+
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+                if (cusbonus_percent_invest.length > 0 || cusbonus_invest_value.length > 0 || cusbonus_percent_des.length > 0) {
+                    SourceCustomer.push({
+                        "cusbonus_content_invest": cusbonus_content_invest,
+                        "cusbonus_percent_invest": cusbonus_percent_invest,
+                        "cusbonus_invest_value": cusbonus_invest_value,
+                        "cusbonus_percent_des": cusbonus_percent_des,
+                        "salesConditions": salesConditions,
+                        'typeTab': '2'
+                    });
+                }
+            });
+        }
+        let trs3 = $("#table_khachhang_3 tbody tr");
+        if (trs3.length) {
+            trs3.each((index, tr) => {
+                let cusbonus_content_invest = String($('#' + tr.id + ' select[name="cusbonus_content_invest"]').val()).trim();
+                let cusbonus_percent_invest = String($('#' + tr.id + ' input[name="cusbonus_percent_invest"]').val()).trim();
+                let cusbonus_invest_value = String($('#' + tr.id + ' input[name="cusbonus_invest_value"]').val()).trim();
+                let cusbonus_percent_des = String($('#' + tr.id + ' input[name="cusbonus_percent_des"]').val()).trim();
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+
+                if (cusbonus_percent_invest.length > 0 || cusbonus_invest_value.length > 0 || cusbonus_percent_des.length > 0) {
+                    SourceCustomer.push({
+                        "cusbonus_content_invest": cusbonus_content_invest,
+                        "cusbonus_percent_invest": cusbonus_percent_invest,
+                        "cusbonus_invest_value": cusbonus_invest_value,
+                        "cusbonus_percent_des": cusbonus_percent_des,
+                        "salesConditions": salesConditions,
+                        'typeTab': '3'
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableLeaderTime() {
+
+        SourceLeaderTime = [];
+        let trs = $("#table_Leadtime tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let Leadtimesx = String($('#' + tr.id + ' input[name="Leadtimesx"]').val()).trim();
+                let ThoiGianKyHD = String($('#' + tr.id + ' input[name="ThoiGianKyHD"]').val()).trim();
+                let ThanhToan = String($('#' + tr.id + ' input[name="ThanhToan"]').val()).trim();
+                let DongCongVaHQXuat = String($('#' + tr.id + ' input[name="DongCongVaHQXuat"]').val()).trim();
+                let DiBien = String($('#' + tr.id + ' input[name="DiBien"]').val()).trim();
+                let ThuTucHQDauNhap = String($('#' + tr.id + ' input[name="ThuTucHQDauNhap"]').val()).trim();
+                let TongLeadtime = String($('#' + tr.id + ' input[name="TongLeadtime"]').val()).trim();
+                if (Leadtimesx != "" && ThoiGianKyHD != "" && ThanhToan != "" && DongCongVaHQXuat != "" && DiBien != "" && ThuTucHQDauNhap != "" && TongLeadtime != "") {
+                    SourceLeaderTime.push({
+                        "Leadtimesx": Leadtimesx,
+                        "ThoiGianKyHD": ThoiGianKyHD,
+                        "ThanhToan": ThanhToan,
+                        "DongCongVaHQXuat": DongCongVaHQXuat,
+                        "DiBien": DiBien,
+                        "ThuTucHQDauNhap": ThuTucHQDauNhap,
+                        "TongLeadtime": TongLeadtime,
+                        'typeTab': '1'
+                    });
+                }
+            });
+        }
+
+        let trs2 = $("#table_LeadtimeKG tbody tr");
+        if (trs2.length) {
+            trs2.each((index, tr) => {
+                let Leadtimesx = String($('#' + tr.id + ' input[name="Leadtimesx"]').val()).trim();
+                let ThoiGianKyHD = String($('#' + tr.id + ' input[name="ThoiGianKyHD"]').val()).trim();
+                let ThanhToan = String($('#' + tr.id + ' input[name="ThanhToan"]').val()).trim();
+                let DongCongVaHQXuat = String($('#' + tr.id + ' input[name="DongCongVaHQXuat"]').val()).trim();
+                let DiBien = String($('#' + tr.id + ' input[name="DiBien"]').val()).trim();
+                let ThuTucHQDauNhap = String($('#' + tr.id + ' input[name="ThuTucHQDauNhap"]').val()).trim();
+                let TongLeadtime = String($('#' + tr.id + ' input[name="TongLeadtime"]').val()).trim();
+                if (Leadtimesx != "" && ThoiGianKyHD != "" && ThanhToan != "" && DongCongVaHQXuat != "" && DiBien != "" && ThuTucHQDauNhap != "" && TongLeadtime != "") {
+                    SourceLeaderTime.push({
+                        "Leadtimesx": Leadtimesx,
+                        "ThoiGianKyHD": ThoiGianKyHD,
+                        "ThanhToan": ThanhToan,
+                        "DongCongVaHQXuat": DongCongVaHQXuat,
+                        "DiBien": DiBien,
+                        "ThuTucHQDauNhap": ThuTucHQDauNhap,
+                        "TongLeadtime": TongLeadtime,
+                        'typeTab': '2'
+                    });
+                }
+            });
+        }
+
+    }
+
+    function getTableDataChiPhiVanHanh() {
+        SourceChiPhiVanHanh = [];
+        let trs = $("#table_ChiPhiVanHanh tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let NoiDungDauTu = String($('#' + tr.id + ' select[name="NoiDungDauTu"]').val()).trim();
+                let PTDauTu = String($('#' + tr.id + ' input[name="PTDauTu"]').val()).trim();
+                let GiaTriDauTu = String($('#' + tr.id + ' input[name="GiaTriDauTu"]').val()).trim();
+                let DieuKien = String($('#' + tr.id + ' input[name="DieuKien"]').val()).trim();
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+
+                if (PTDauTu.length > 0 || GiaTriDauTu.length > 0 || DieuKien.length > 0) {
+                    SourceChiPhiVanHanh.push({
+                        "NoiDungDauTu": NoiDungDauTu,
+                        "PTDauTu": PTDauTu,
+                        "GiaTriDauTu": GiaTriDauTu,
+                        "DieuKien": DieuKien,
+                        "salesConditions": salesConditions,
+                        'typeTab': '1'
+                    });
+                }
+            });
+        }
+        let trs2 = $("#table_ChiPhiVanHanh2 tbody tr");
+        if (trs2.length) {
+            trs2.each((index, tr) => {
+                let NoiDungDauTu = String($('#' + tr.id + ' select[name="NoiDungDauTu"]').val()).trim();
+                let PTDauTu = String($('#' + tr.id + ' input[name="PTDauTu"]').val()).trim();
+                let GiaTriDauTu = String($('#' + tr.id + ' input[name="GiaTriDauTu"]').val()).trim();
+                let DieuKien = String($('#' + tr.id + ' input[name="DieuKien"]').val()).trim();
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+
+                if (PTDauTu.length > 0 || GiaTriDauTu.length > 0 || DieuKien.length > 0) {
+                    SourceChiPhiVanHanh.push({
+                        "NoiDungDauTu": NoiDungDauTu,
+                        "PTDauTu": PTDauTu,
+                        "GiaTriDauTu": GiaTriDauTu,
+                        "DieuKien": DieuKien,
+                        "salesConditions": salesConditions,
+                        'typeTab': '2'
+                    });
+                }
+            });
+        }
+        let trs3 = $("#table_ChiPhiVanHanh3 tbody tr");
+        if (trs3.length) {
+            trs3.each((index, tr) => {
+                let NoiDungDauTu = String($('#' + tr.id + ' select[name="NoiDungDauTu"]').val()).trim();
+                let PTDauTu = String($('#' + tr.id + ' input[name="PTDauTu"]').val()).trim();
+                let GiaTriDauTu = String($('#' + tr.id + ' input[name="GiaTriDauTu"]').val()).trim();
+                let DieuKien = String($('#' + tr.id + ' input[name="DieuKien"]').val()).trim();
+                let salesConditions = String($('#' + tr.id + ' select[name="salesConditions"]').val()).trim();
+
+                if (PTDauTu.length > 0 || GiaTriDauTu.length > 0 || DieuKien.length > 0) {
+                    SourceChiPhiVanHanh.push({
+                        "NoiDungDauTu": NoiDungDauTu,
+                        "PTDauTu": PTDauTu,
+                        "GiaTriDauTu": GiaTriDauTu,
+                        "DieuKien": DieuKien,
+                        "salesConditions": salesConditions,
+                        'typeTab': '3'
+                    });
+                }
+            });
+        }
+    }
+
+    function ApDungSanPhamMuaBan() {
+        HangHoaMuaBan = 0;
+        hoanghoaMB = 0;
+        list_HangHoa = [];
+        js_addRowHangHoaMuaBan();
+        // 1: Show Hàng hóa
+        var VendorNo = $('#VendorNo').val().trim();
+        var arrVendorNo = VendorNo.split(" - ");
+        if (arrVendorNo[0].length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/GetListItemVendor_HangHoa',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    $("#table_hanghoaMuaBan tbody").empty();
+                    if (row != null) {
+                    list_HangHoa = row;
+                    js_addRowHangHoaMuaBan();
+                    HangHoaMuaBan = $('#table_hanghoaMuaBan').find('tr').length - 1;
+                    js_addRowHangHoa();
+                    }
+                    else {
+                        alert('Không tìm thấy dữ liệu');
+                    }
+                },
+                error: function () {
+                    alert('Không tìm thấy dữ liệu');
+                }
+            });
+        }
+        else {
+            alert('Vui lòng chọn Mã NCC');
+        }
+    }
+    function js_addRowHangHoaMuaBan() {
+        //Mua bán
+        // 1: sản phẩm
+        list_HangHoa.forEach(function (row) {
+            hoanghoaMB++;
+
+            var chuoi = "";
+            chuoi += '<tr id="rowMuaBan_' + hoanghoaMB + '">';
+            chuoi += '<td class="text-center" style="width: 30% "><input   value="' + row.Code + ' - ' + row.Name + '"  ondblclick="$(\'#rowMuaBan_' + hoanghoaMB + ' #nameProduct_' + hoanghoaMB + '\').val(\'\').trigger(\'change\');" onchange="js_onchange_barcode(' + hoanghoaMB + ')" type="search" name="nameProduct" id="nameProduct_' + hoanghoaMB + '" class="form-control" list="product_datalist" placeholder="--- Chọn sản phẩm ---"></td>';
+            chuoi += '<td class="text-center" style="width: 10%"><select class="form-control" name="barcode" id="barcode_' + hoanghoaMB + '"><option value="">--Chọn Barcode--</option></select></td>';
+            chuoi += '<td style="width: 10% "> <select class="form-control" name="hinhthucht" id="hinhthucht_' + hoanghoaMB + '"></select> </td>';
+            chuoi += '<td class="text-right" style="width: 7%;"> <input type="number" id="VAT_' + hoanghoaMB + '" name="vat" class="form-control text-right"></td>';
+            chuoi += '<td class="text-right" style="width: 10%; "><input type="text"  id="discountPrice_' + hoanghoaMB + '" name="discountPrice" class="form-control text-right" onchange="js_PriceAfterDiscountMB(' + hoanghoaMB + ')"></td>';
+            chuoi += '<td class="text-right" style="width: 7% "><input onchange="js_PriceAfterDiscountMB(' + hoanghoaMB + ')" id="percentDiscount_' + hoanghoaMB + '" type="text" name="percentDiscount" class="form-control text-right"></td>';
+            chuoi += '<td class="text-right" style="width: 10%;"><span id="priceAfterDiscount_' + hoanghoaMB + '"></span><input name="priceAfterDiscount" type="hidden" id="priceAfterInput_' + hoanghoaMB + '"></td>';
+            chuoi += '<td style="text-align:center;width: 10%"  class="btn_add"><a href="javascript:void(0);" onclick="deleteRowHanghoaMuaBan(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
+            chuoi += '</tr>';
+            $("#table_hanghoaMuaBan tbody").append(chuoi);
+            js_onchange_barcode(hoanghoaMB);
+            Setselect_HinhThucHopTac(hoanghoaMB);
+            SetApDungGia("rowMuaBan_", hoanghoaMB, row.Code);
+        });
+    }
+
+
+
+    function SetApDungGia(tr, i, Code) {
+
+        $.ajax({
+            url: '/TradingTermVendor/Get_SetApDungGia',
+            type: 'POST',
+            data: JSON.stringify({ MaHang: Code }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                var row = JSON.parse(data);
+                if (row != null) {
+                    $('#' + tr + i + ' #discountPrice_' + i + '').val(row[0].GiaApDungCK.replaceAll(',', '.'));
+                    $('#' + tr + i + ' #percentDiscount_' + i + '').val(row[0].PTCKDon.replaceAll(',', '.'));
+                    $('#' + tr + i + ' #VAT_' + i + '').val(row[0].VAT.replaceAll(',', '.'));
+
+                    // Tính Giá bán sau CK
+                    let discountPrice = row[0].GiaApDungCK.replaceAll(',', '').trim();
+                    let percentDiscount = row[0].PTCKDon.replaceAll(',', '').trim();
+                    if (discountPrice > 0 && percentDiscount > 0) {
+                        var disPrice = discountPrice.replace(/\./g, '');
+                        var priceAfterDiscount = disPrice * (1 - percentDiscount / 100);
+                        $('#priceAfterDiscount_' + i).html(commaSeparateNumber(Math.round(priceAfterDiscount)));
+                        $('#priceAfterInput_' + i).val(commaSeparateNumber(Math.round(priceAfterDiscount)));
+                    }
+                    if (discountPrice > 0 && parseInt(percentDiscount) == 0) {
+                        $('#priceAfterDiscount_' + i).html(discountPrice);
+                        $('#priceAfterInput_' + i).val(discountPrice);
+                    }
+                    if (discountPrice > 0 && percentDiscount.length < 0) {
+                        $('#priceAfterDiscount_' + i).html(discountPrice);
+                        $('#priceAfterInput_' + i).val(discountPrice);
+                    }
+                    else if (parseInt(discountPrice) == 0) {
+                        $('#priceAfterDiscount_' + i).html('0');
+                        $('#priceAfterInput_' + i).val('0');
+                    }
+                }
+            },
+            error: function () {
+            }
+        });
+    }
+
+    function SetApDungGia_KyGui(tr, i, Code) {
+
+        $.ajax({
+            url: '/TradingTermVendor/Get_SetApDungGia',
+            type: 'POST',
+            data: JSON.stringify({ MaHang: Code }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                var row = JSON.parse(data);
+                if (row != null) {
+                    $('#' + tr + i + ' #discountPriceKyGui_' + i + '').val(row[0].GiaApDungCK.replaceAll(',', '.'));
+                    $('#' + tr + i + ' #percentDiscount_' + i + '').val(row[0].PTCKDon.replaceAll(',', '.'));
+                    $('#' + tr + i + ' #VAT_' + i + '').val(row[0].VAT.replaceAll(',', '.'));
+                    // Tính Giá bán sau CK
+                    let discountPrice = row[0].GiaApDungCK.replaceAll(',', '').trim();
+                    let percentDiscount = row[0].PTCKDon.replaceAll(',', '').trim();
+                    if (discountPrice > 0 && percentDiscount > 0) {
+                        var disPrice = discountPrice.replace(/\./g, '');
+                        var priceAfterDiscount = disPrice * (1 - percentDiscount / 100);
+                        $('#priceAfterDiscountKyGui_' + i).html(commaSeparateNumber(Math.round(priceAfterDiscount)));
+                        $('#priceAfterInputKyGui_' + i).val(commaSeparateNumber(Math.round(priceAfterDiscount)));
+                    }
+                    if (discountPrice > 0 && parseInt(percentDiscount) == 0) {
+                        $('#priceAfterDiscountKyGui_' + i).html(discountPrice);
+                        $('#priceAfterInputKyGui_' + i).val(discountPrice);
+                    }
+                    if (discountPrice > 0 && percentDiscount.length < 0) {
+                        $('#priceAfterDiscountKyGui_' + i).html(discountPrice);
+                        $('#priceAfterInputKyGui_' + i).val(discountPrice);
+                    }
+                    else if (parseInt(discountPrice) == 0) {
+                        $('#priceAfterDiscountKyGui_' + i).html('0');
+                        $('#priceAfterInputKyGui_' + i).val('0');
+                    }
+                }
+            },
+            error: function () {
+            }
+        });
+    }
+    // VietDung 25/12/2021
+    // Khai báo tab Thuê kệ / TTChung (Db lấy từ exel chị Nhàn)
+    //function ApDungTTChungThueKe() {
+    //    TTChung = 0;
+    //    AddTTChung = 0;
+    //    list_TTChung_ThueKe = [];
+    //    js_addRow_THongTinChung_Exel_ThueKe();
+    //    // 1: Show Hàng hóa
+    //    var VendorNo = $('#VendorNo').val().trim();
+    //    var arrVendorNo = VendorNo.split(" - ");
+    //    if (arrVendorNo[0].length > 0) {
+    //        $.ajax({
+    //            url: '/TradingTermVendor/Get_SetApDung_TTChung_ThueKe',
+    //            type: 'POST',
+    //            data: JSON.stringify({ VendorNCC: arrVendorNo[0] }),
+    //            contentType: 'application/json, charset=utf-8',
+    //            success: function (data) {
+    //                var row = JSON.parse(data);
+    //                $("#table_TTCChungThueKe tbody").empty();
+    //                if (row != null) {
+    //                    list_TTChung_ThueKe = row;
+    //                    js_addRow_THongTinChung_Exel_ThueKe();
+    //                    TTChung = $('#table_TTCChungThueKe').find('tr').length - 1;
+    //                    js_add_TTChung();
+    //                }
+    //                else {
+    //                    alert('Không tìm thấy dữ liệu');
+    //                }
+    //            },
+    //            error: function () {
+    //                alert('Không tìm thấy dữ liệu');
+    //            }
+    //        });
+    //    }
+    //    else {
+    //        alert('Vui lòng chọn Mã NCC');
+    //    }
+    //}
+    //function js_addRow_THongTinChung_Exel_ThueKe() {
+    //    list_TTChung_ThueKe.forEach(function (row) {
+    //        AddTTChung++;
+    //        var chuoi = "";
+    //        chuoi += '<tr id="rowChiPhiTTChung_' + AddTTChung + '">';
+    //        chuoi += '<td style=" width: 60px; "><input  type="text" name="SoCuaHangThue" value="' + row.SoCuaHangThue + '" class="form-control" /></td>';
+    //        chuoi += '<td style=" width: 60px; "><input  type="text" name="SoThang" value="' + row.SoThang + '"  class="form-control" /></td>';
+    //        chuoi += '<td style=" width: 60px; "><input  type="text" name="M2FThueCuaHang" value="' + row.M2FThueCuaHang + '" class="form-control" /></td>';
+    //        chuoi += '<td style=" width: 100px; "><input  type="text" name="ChiPhiThueThangVAT" value="' + row.ChiPhiThueThangVAT + '" class="form-control OrderValue" /></td>';
+    //        chuoi += '<td style=" width: 100px; "><input  type="text" name="TongChiPhiThueThangVAT" value="' + row.TongChiPhiThueThangVAT + '"  class="form-control OrderValue" /></td>';
+    //        chuoi += '<td style=" width: 100px; "><input  type="text" name="TongChiPhiThueNam" value="' + row.TongChiPhiThueNam + '" class="form-control OrderValue" /></td>';
+    //        chuoi += '<td style=" width: 100px; "><input  type="text" name="DSCamKetCuaHang" value="' + row.DSCamKetCuaHang + '" class="form-control OrderValue" /></td>';
+    //        chuoi += '<td style=" width: 100px; "><input type="search" class="form-control" id="Mien" value="' + row.Mien + '" name="Mien" list="Mien_datalist" placeholder="Nhập Miền"></td>';
+    //        chuoi += '<td style=" width: 100px; " ><input type="date" name="NgayKyHD" value="' + row.NgayKyHD + '"  class="form-control" /></td>';
+    //        chuoi += '<td style=" width: 100px; " ><input  type="date" name="NgayHetHanHD" value="' + row.NgayHetHanHD + '"  class="form-control" /></td>';
+    //        chuoi += '<td style=" width: 100px; " ><input  type="date" name="NgaybatDauThue" value="' + row.NgaybatDauThue + '"  class="form-control" /></td>';
+    //        chuoi += '<td style=" width: 100px; " ><input  type="date" name="NgayDieuChinhKetThuc" value="' + row.NgayDieuChinhKetThuc + '"  class="form-control" /></td>';
+    //        chuoi += '<td style="text-align:center;"><input type="checkbox" class="form-check-input"  name="checkTuDongGiaHan" value=""></td>';
+    //        chuoi += '<td style="text-align:center;"><input type="checkbox" class="form-check-input" name="checkHieuLuc" value=""></td>';
+    //        chuoi += '<td style="text-align:center" class="btn_add"><a href="javascript:void(0);" onclick="deleteRowChiPhiTTChung(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a></td></tr > ';
+    //        $("#table_TTCChungThueKe tbody").append(chuoi);
+    //        if (row.CheckTuDongGiaHan == "1") {
+    //            $("#rowChiPhiTTChung_" + AddTTChung + " input[name='checkTuDongGiaHan']").prop("checked", true);
+    //        }
+    //        if (row.CheckHieuLuc == "1") {
+    //            $("#rowChiPhiTTChung_" + AddTTChung + " input[name='checkHieuLuc']").prop("checked", true);
+    //        }
+    //    });
+    //}
+    //SKU - Thuê kệ
+
+     function ApDungSanPhamThueKe() {
+        thuekes=0;
+        HangThueKe = 0;
+        list_HangHoaThueKe = [];
+        js_addRowHangHoaThueKe();
+        // 1: Show Hàng hóa
+        var VendorNo = $('#VendorNo').val().trim();
+        var arrVendorNo = VendorNo.split(" - ");
+        if (arrVendorNo[0].length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/GetListItemVendor_HangHoa_ThueKe',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    $("#table_hangthuekes tbody").empty();
+                    if (row != null) {
+
+                        list_HangHoaThueKe = row;
+                        js_addRowHangHoaThueKe();
+                        thuekes = $('#table_hangthuekes').find('tr').length - 1;
+                       // js_addRowHangThueKes();
+                    }
+                    else {
+                        alert('Không tìm thấy dữ liệu');
+                    }
+                },
+                error: function () {
+                    alert('Không tìm thấy dữ liệu');
+                }
+            });
+        }
+        else {
+            alert('Vui lòng chọn Mã NCC');
+        }
+    }
+
+    function js_addRowHangHoaThueKe() {
+        list_HangHoaThueKe.forEach(function (row) {
+            HangThueKe++;
+            $("#table_hangthuekes tbody").append('<tr id="row_hang_thue_ke_' + HangThueKe + '"><td style=" width: 100px; max-width: 100px"><input  value="' + row.MaSP + '"   type="text" name="MaSP" id="MaSP_' + HangThueKe + '" class="form-control" /></td><td style=" width: 230px; max-width: 230px"><input  value="' + row.TenSP + '"   type="text" name="nameProductTK" id="nameProductTK_' + HangThueKe + '" class="form-control" /></td><td class="text-center"  style=" width:100px;max-width:100px"> <input  value="' + row.Barcode + '"   type="text" name="barcodehangthueke" id="barcodehangthueke_' + HangThueKe + '" class="form-control" /></td><td  style=" width:100px;max-width:100px"><input type="search" name="M2netSP" id="M2netSP_' + HangThueKe + '" class="form-control text-right"   /></td><td class="text-right" style=" width:100px;max-width:100px"><input type="text" name="M2FGrossSP" id="M2FGrossSP_' + HangThueKe + '" class="form-control text-right" /></td><td class="text-right" style=" width:100px;max-width:100px"><input type="number" id="CoatingShop_' + HangThueKe + '" name="CoatingShop"  class="form-control text-right" /></td><td class="text-right" style=" width:100px;max-width:100px"><input  type="number" name="NumberFace" id="NumberFace_' + HangThueKe + '"  class="form-control text-right" /></td><td style=" width: 100px; "><input type="search" class="form-control" id="Mien_' + HangThueKe + '" name="Mien" list="Mien_datalist" placeholder="Nhập Miền"></td><td class="text-right" style=" width:126px;max-width:126px">  <input  type="date" name="NgayBatDau" id="NgayBatDau_' + HangThueKe + '" class="form-control text-right" /></td><td class="text-right" style=" width:126px;max-width:126px">  <input  type="date"   name="NgayKetThuc" id="NgayKetThuc_' + HangThueKe + '" class="form-control text-right" /></td><td style=" width:126px;max-width:126px"" ><input  type="date" name="NgaybatDauThue" id="NgaybatDauThue_' + HangThueKe + '" class="form-control" /></td><td style=" width:126px;max-width:126px"" ><input  type="date" name="NgayDieuChinhKetThuc" id="NgayDieuChinhKetThuc_' + HangThueKe + '" class="form-control" /></td><td style="text-align:center;width:80px;max-width:80px"><input type="checkbox" class="form-check-input" name="checkTuDongGiaHan" value=""><td style="text-align:center;width:80px;max-width:80px"><input type="checkbox" class="form-check-input" name="checkHieuLuc" value=""></td></tr>');
+            // js_onchange_barcodeHangThueKe(HangThueKe);
+            // SetApDung_SKU_ThueKe("row_hang_thue_ke_", HangThueKe, row.Code);
+        });
+    }
+
+    function SetApDung_SKU_ThueKe(tr, i, Code) {
+
+        $.ajax({
+            url: '/TradingTermVendor/SetApDung_SKU_ThueKe',
+            type: 'POST',
+            data: JSON.stringify({ MaHang: Code }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                var row = JSON.parse(data);
+                if (row != null) {
+                    // alert('#' + tr + i + ' #M2netSP_' + i + '');
+                    $('#' + tr + i + ' #M2netSP_' + i + '').val(row[0].M2netSP);
+                    $('#' + tr + i + ' #M2FGrossSP_' + i + '').val(row[0].M2FGrossSP);
+                    $('#' + tr + i + ' #CoatingShop_' + i + '').val(row[0].SoCuaHangPhu);
+                    $('#' + tr + i + ' #NumberFace_' + i + '').val(row[0].SoMatTBCH);
+                    $('#' + tr + i + ' #Mien_' + i + '').val(row[0].Mien);
+                    $('#' + tr + i + ' #NgayBatDau_' + i + '').val(row[0].NgayBatDau);
+                    $('#' + tr + i + ' #NgayKetThuc_' + i + '').val(row[0].NgayKetThuc);
+                    $('#' + tr + i + ' #NgaybatDauThue_' + i + '').val(row[0].NgaybatDauThue);
+                    $('#' + tr + i + ' #NgayDieuChinhKetThuc_' + i + '').val(row[0].NgayDieuChinhKetThuc);
+                    if (row[0].CheckTuDongGiaHan == "1") {
+                        $("#" + tr + i + "  input[name='checkTuDongGiaHan']").prop("checked", true);
+                    }
+                    if (row[0].CheckHieuLuc == "1") {
+                        $("#" + tr + i + " input[name='checkHieuLuc']").prop("checked", true);
+                    }
+
+                }
+            },
+            error: function () {
+            }
+        });
+    }
+
+    jQuery(document).ready(function ($) {
+        $(".OrderValue").on('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+        });
+
+        $(".OrderValue").load('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            if (n.toLocaleString() != 'NaN') {
+                $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+            }
+        });
+    });
+
+    $('body').on('keyup', '.OrderValue', function (e) {
+        var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+        if (n.toLocaleString() != 'NaN') {
+            $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+        }
+    });
+
+
+    // BOXUNG
+
+    function ApDungTTChungThueKe() {
+        TTChung = 0;
+        AddTTChung = 0;
+        list_TTChung_ThueKe = [];
+        js_addRow_THongTinChung_Exel_ThueKe();
+
+        // 1: Show Hàng hóa
+        var VendorNo = $('#VendorNo').val().trim();
+        var arrVendorNo = VendorNo.split(" - ");
+        if (arrVendorNo[0].length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/Get_SetApDung_TTChung_ThueKe',
+                type: 'POST',
+                data: JSON.stringify({ VendorNCC: arrVendorNo[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    $("#table_TTCChungThueKe tbody").empty();
+                    if (row != null) {
+                        list_TTChung_ThueKe = row;
+                        js_addRow_THongTinChung_Exel_ThueKe();
+                        TTChung = $('#table_TTCChungThueKe').find('tr').length - 1;
+                        js_add_TTChung();
+                    }
+                    else {
+                        // alert('Không tìm thấy dữ liệu');
+                    }
+                },
+                error: function () {
+                    //alert('Không tìm thấy dữ liệu');
+                }
+            });
+        }
+        else {
+            alert('Vui lòng chọn Mã NCC');
+        }
+
+    }
+
+    function js_addRow_THongTinChung_Exel_ThueKe() {
+        list_TTChung_ThueKe.forEach(function (row) {
+            AddTTChung++;
+            var chuoi = "";
+            chuoi += '<tr id="rowChiPhiTTChung_' + AddTTChung + '">';
+            chuoi += '<td><input  type="text" name="SoCuaHangThue" value="' + row.SoCuaHangThue + '" class="form-control" /></td>';
+            chuoi += '<td><input  type="text" name="SoThang" value="' + row.SoThang + '"  class="form-control" /></td>';
+            chuoi += '<td><input  type="text" name="M2FThueCuaHang" value="' + row.M2FThueCuaHang + '" class="form-control" /></td>';
+            chuoi += '<td><input  type="text" name="ChiPhiThueThangVAT" value="' + row.ChiPhiThueThangVAT + '" class="form-control OrderValue" /></td>';
+            chuoi += '<td><input  type="text" name="TongChiPhiThueThangVAT" value="' + row.TongChiPhiThueThangVAT + '"  class="form-control OrderValue" /></td>';
+            chuoi += '<td><input  type="text" name="TongChiPhiThueNam" value="' + row.TongChiPhiThueNam + '" class="form-control OrderValue" /></td>';
+            chuoi += '<td><input  type="text" name="DSCamKetCuaHang" value="' + row.DSCamKetCuaHang + '" class="form-control OrderValue" /></td>';
+            chuoi += '<td><input type="search" class="form-control" id="Mien" value="' + row.Mien + '" name="Mien" list="Mien_datalist" placeholder="Nhập Miền"></td>';
+            chuoi += '<td><input type="date" name="NgayKyHD" value="' + row.NgayKyHD + '"  class="form-control" /></td>';
+            chuoi += '<td><input  type="date" name="NgayHetHanHD" value="' + row.NgayHetHanHD + '"  class="form-control" /></td>';
+            chuoi += '<td><input  type="date" name="NgaybatDauThue" value="' + row.NgaybatDauThue + '"  class="form-control" /></td>';
+            chuoi += '<td><input  type="date" name="NgayDieuChinhKetThuc" value="' + row.NgayDieuChinhKetThuc + '"  class="form-control" /></td>';
+            chuoi += '<td style="text-align:center;"><input type="checkbox" class="form-check-input"  name="checkTuDongGiaHan" value=""></td>';
+            chuoi += '<td style="text-align:center; display:none"><input type="checkbox" class="form-check-input" name="checkHieuLuc" value=""></td>';
+            chuoi += '<td style="text-align:center" class="btn_add"><a href="javascript:void(0);" onclick="deleteRowChiPhiTTChung(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a></td></tr > ';
+            $("#table_TTCChungThueKe tbody").append(chuoi);
+            if (row.CheckTuDongGiaHan == "1") {
+                $("#rowChiPhiTTChung_" + AddTTChung + " input[name='checkTuDongGiaHan']").prop("checked", true);
+            }
+            if (row.CheckHieuLuc == "1") {
+                $("#rowChiPhiTTChung_" + AddTTChung + " input[name='checkHieuLuc']").prop("checked", true);
+            }
+        });
+    }
+
+
+
+    function getTableDataThongTinChung() {
+        SourceThongTinChung = [];
+        let trs = $("#table_TTCChungThueKe tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let SoCuaHangThue = String($('#' + tr.id + ' input[name="SoCuaHangThue"]').val()).trim();
+                let SoThang = String($('#' + tr.id + ' input[name="SoThang"]').val()).trim();
+                let M2FThueCuaHang = String($('#' + tr.id + ' input[name="M2FThueCuaHang"]').val()).trim();
+
+                let ChiPhiThueThangVAT = String($('#' + tr.id + ' input[name="ChiPhiThueThangVAT"]').val()).trim();
+                let TongChiPhiThueThangVAT = String($('#' + tr.id + ' input[name="TongChiPhiThueThangVAT"]').val()).trim();
+                let TongChiPhiThueNam = String($('#' + tr.id + ' input[name="TongChiPhiThueNam"]').val()).trim();
+                let DSCamKetCuaHang = String($('#' + tr.id + ' input[name="DSCamKetCuaHang"]').val()).trim();
+
+                let Mien = String($('#' + tr.id + ' input[name="Mien"]').val()).trim();
+
+                let NgayKyHD = String($('#' + tr.id + ' input[name="NgayKyHD"]').val()).trim();
+                let NgayHetHanHD = String($('#' + tr.id + ' input[name="NgayHetHanHD"]').val()).trim();
+
+                let NgaybatDauThue = String($('#' + tr.id + ' input[name="NgaybatDauThue"]').val()).trim();
+                let NgayDieuChinhKetThuc = String($('#' + tr.id + ' input[name="NgayDieuChinhKetThuc"]').val()).trim();
+
+                let checkTuDongGiaHans = 0;
+                let checkTuDongGiaHan = $('#' + tr.id + ' input[name="checkTuDongGiaHan"]:checked').length > 0;
+                if (checkTuDongGiaHan == true) {
+                    checkTuDongGiaHans = 1;
+                }
+
+                let HieuLuc = 0;
+                let checkHieuLuc = $('#' + tr.id + ' input[name="checkHieuLuc"]:checked').length > 0;
+                if (checkHieuLuc == true) {
+                    HieuLuc = 1;
+                }
+
+                if (SoCuaHangThue.length > 0) {
+                    SourceThongTinChung.push({
+                        "SoCuaHangThue": SoCuaHangThue,
+                        "SoThang": SoThang,
+                        "M2FThueCuaHang": M2FThueCuaHang,
+                        "ChiPhiThueThangVAT": ChiPhiThueThangVAT,
+                        "TongChiPhiThueThangVAT": TongChiPhiThueThangVAT,
+                        "TongChiPhiThueNam": TongChiPhiThueNam,
+                        "DSCamKetCuaHang": DSCamKetCuaHang,
+                        "Mien": Mien,
+                        "NgayKyHD": NgayKyHD,
+                        "NgayHetHanHD": NgayHetHanHD,
+                        "NgaybatDauThue": NgaybatDauThue,
+                        "NgayDieuChinhKetThuc": NgayDieuChinhKetThuc,
+                        "checkTuDongGiaHan": checkTuDongGiaHans,
+                        "HieuLuc": HieuLuc
+
+                    });
+                }
+            });
+            console.log(SourceThongTinChung);
+        }
+    }
+    function js_add_TTChung(r) {
+        TTChung++;
+        var chuoi = "";
+        var TTC = TTChung - 1;
+        $("#rowChiPhiTTChung_" + TTC + " .btn_add").empty();
+        $("#rowChiPhiTTChung_" + TTC + " .btn_add").html('<a href="javascript:void(0);" onclick="deleteRowChiPhiTTChung(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+        chuoi += '<tr id="rowChiPhiTTChung_' + TTChung + '">';
+        chuoi += '<td><input  type="text" name="SoCuaHangThue" class="form-control" /></td>';
+        chuoi += '<td><input  type="text" name="SoThang" class="form-control" /></td>';
+        chuoi += '<td><input  type="text" name="M2FThueCuaHang" class="form-control" /></td>';
+        chuoi += '<td><input  type="text" name="ChiPhiThueThangVAT" class="form-control OrderValue" /></td>';
+        chuoi += '<td><input  type="text" name="TongChiPhiThueThangVAT" class="form-control OrderValue" /></td>';
+        chuoi += '<td><input  type="text" name="TongChiPhiThueNam" class="form-control OrderValue" /></td>';
+        chuoi += '<td><input  type="text" name="DSCamKetCuaHang" class="form-control OrderValue" /></td>';
+        chuoi += '<td><input type="search" class="form-control" id="Mien" name="Mien" list="Mien_datalist" placeholder="Nhập Miền"></td>';
+
+        chuoi += '<td><input type="date" name="NgayKyHD" class="form-control" /></td>';
+        chuoi += '<td><input  type="date" name="NgayHetHanHD" class="form-control" /></td>';
+        chuoi += '<td><input  type="date" name="NgaybatDauThue" class="form-control" /></td>';
+        chuoi += '<td><input  type="date" name="NgayDieuChinhKetThuc" class="form-control" /></td>';
+        chuoi += '<td style="text-align:center;"><input type="checkbox" class="form-check-input" name="checkTuDongGiaHan" value=""></td>';
+        chuoi += '<td style="text-align:center;display:none"><input type="checkbox" class="form-check-input" name="checkHieuLuc" value=""></td>';
+        chuoi += '<td style="text-align:center; " class="btn_add"><a href="javascript:void(0)" onclick="js_add_TTChung(' + TTChung + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td></tr > ';
+        $("#table_TTCChungThueKe tbody").append(chuoi);
+    }
+
+
+      function ApDungSanPhamThueKe() {
+        thuekes=0;
+        HangThueKe = 0;
+        list_HangHoaThueKe = [];
+          js_addRowHangHoaThueKe();
+
+        // 1: Show Hàng hóa
+        var VendorNo = $('#VendorNo').val().trim();
+        var arrVendorNo = VendorNo.split(" - ");
+        if (arrVendorNo[0].length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/GetListItemVendor_HangHoa_ThueKe',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    $("#table_hangthuekes tbody").empty();
+                    if (row != null) {
+
+                        list_HangHoaThueKe = row;
+                        js_addRowHangHoaThueKe();
+                        thuekes = $('#table_hangthuekes').find('tr').length - 1;
+                        js_addRowHangThueKes();
+                    }
+                    else {
+                       // alert('Không tìm thấy dữ liệu');
+                    }
+                },
+                error: function () {
+                   // alert('Không tìm thấy dữ liệu');
+                }
+            });
+        }
+        else {
+            alert('Vui lòng chọn Mã NCC');
+        }
+    }
+
+
+
+    function js_addRowHangHoaThueKe() {
+        list_HangHoaThueKe.forEach(function (row) {
+            HangThueKe++;
+            $("#table_hangthuekes tbody").append('<tr id="row_hang_thue_ke_' + HangThueKe + '"><td style=" width: 65px; max-width: 65px"><input  value="' + row.MaSP + '"   type="text" name="MaSP" id="MaSP_' + HangThueKe + '" class="form-control" /></td><td style=" width: 230px; max-width: 230px"><input  value="' + row.NameProduct + '"   type="text" name="nameProductTK" id="nameProductTK_' + HangThueKe + '" class="form-control" /></td><td class="text-center"  style=" width:100px;max-width:100px"> <input  value="' + row.Barcode + '"   type="text" name="barcodehangthueke" id="barcodehangthueke_' + HangThueKe + '" class="form-control" /></td><td  style=" width:65px;max-width:65px"><input value="' + row.M2netSP + '"  type="search" name="M2netSP" id="M2netSP_' + HangThueKe + '" class="form-control text-right"   /></td><td class="text-right" style=" width:65px;max-width:65px"><input value="' + row.M2FGrossSP + '"  type="text" name="M2FGrossSP" id="M2FGrossSP_' + HangThueKe + '" class="form-control text-right" /></td><td class="text-right" style=" width:63px;max-width:63px"><input value="' + row.SoCHPhu + '" type="number" id="CoatingShop_' + HangThueKe + '" name="CoatingShop"  class="form-control text-right CoatingShop" /></td><td class="text-right" style=" width:63px;max-width:63px"><input  value="' + row.SoMatTBCH + '"  type="number" name="NumberFace" id="NumberFace_' + HangThueKe + '"  class="form-control text-right NumberFace" /></td><td style=" width: 70px; "><input value="' + row.Mien + '"    type="search" class="form-control Mien" id="Mien_' + HangThueKe + '" name="Mien" list="Mien_datalist" placeholder="Nhập Miền"></td><td class="text-right" style=" width:95px;max-width:95px">  <input value="' + row.NgayBatDau + '"   type="date" name="NgayBatDau" id="NgayBatDau_' + HangThueKe + '" class="form-control text-right NgayBatDau" /></td><td class="text-right" style=" width:95px;max-width:95px">  <input  type="date" value="' + row.NgayKetThuc + '"   name="NgayKetThuc" id="NgayKetThuc_' + HangThueKe + '" class="form-control text-right NgayKetThuc" /></td><td style=" width:95px;max-width:95px"" ><input  value="' + row.NgaybatDauThue + '" type="date" name="NgaybatDauThue" id="NgaybatDauThue_' + HangThueKe + '" class="form-control NgaybatDauThue" /></td><td style=" width:95px;max-width:95px"" ><input   value="' + row.NgayDieuChinhKetThuc + '"  type="date" name="NgayDieuChinhKetThuc" id="NgayDieuChinhKetThuc_' + HangThueKe + '" class="form-control NgayDieuChinhKetThuc" /></td><td style="text-align:center;width:60px;max-width:60px"><input type="checkbox" class="form-check-input" name="checkTuDongGiaHan" value=""><td style="text-align:center;width:60px;max-width:60px; display:none;"><input type="checkbox" class="form-check-input" name="checkHieuLuc" value=""></td> <td style="text-align:center;width: 50px; max-width: 50px " class="btn_add"><a href="javascript:void(0);" onclick="deleteRowHangThuKes(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a></td></tr >');
+
+            if (row.TuDongGiaHan == "1") {
+                $("#row_hang_thue_ke_" + HangThueKe + " input[name='checkTuDongGiaHan']").prop("checked", true);
+            }
+            if (row.HieuLuc == "1") {
+                $("#row_hang_thue_ke_" + HangThueKe + " input[name='checkHieuLuc']").prop("checked", true);
+            }
+        });
+    }
+
+    function js_addRowHangThueKes() {
+        thuekes++;
+        var jtk = thuekes - 1;
+        $("#row_hang_thue_ke_" + jtk + " .btn_add").empty();
+        $("#row_hang_thue_ke_" + jtk + " .btn_add").html('<a href="javascript:void(0);" onclick="deleteRowHangThuKes(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+        $("#table_hangthuekes tbody").append('<tr id="row_hang_thue_ke_' + thuekes + '"><td style=" width: 65px; max-width: 230px"><input  type="text" name="MaSP" id="MaSP_' + thuekes + '" class="form-control" /><td style=" width: 65px; max-width: 230px"><input  type="text" name="nameProductTK" id="nameProductTK_' + thuekes + '" class="form-control" /></td><td class="text-center"  style=" width:100px;max-width:100px"><input     type="text" name="barcodehangthueke" id="barcodehangthueke_' + thuekes + '" class="form-control" /></td><td  style=" width:100px;max-width:100px"><input type="search" name="M2netSP" id="M2netSP_' + thuekes + '" class="form-control text-right "   /></td><td class="text-right"   style=" width:100px;max-width:100px"><input type="text" name="M2FGrossSP" id="M2FGrossSP_' + thuekes + '" class="form-control text-right" /></td><td class="text-right"   style=" width:100px;max-width:100px"><input type="number" id="CoatingShop' + thuekes + '" name="CoatingShop"  class="form-control text-right CoatingShop" /></td><td class="text-right"   style=" width:100px;max-width:100px"><input  type="number" name="NumberFace" id="NumberFace_' + thuekes + '"  class="form-control text-right NumberFace" /></td><td style=" width: 100px; "><input type="search" class="form-control Mien" id="Mien" name="Mien" list="Mien_datalist" placeholder="Nhập Miền"></td><td class="text-right"   style=" width:126px;max-width:126px">  <input  type="date" name="NgayBatDau" id="NgayBatDau_' + thuekes + '"  class="form-control text-right NgayBatDau" /></td><td class="text-right" style=" width:126px;max-width:126px">  <input  type="date"  name="NgayKetThuc" id="NgayKetThuc_' + thuekes + '" class="form-control text-right NgayKetThuc" /></td><td style=" width:126px;max-width:126px"" ><input  type="date" name="NgaybatDauThue" class="form-control NgaybatDauThue" /></td><td style=" width:126px;max-width:126px"" ><input  type="date" name="NgayDieuChinhKetThuc" class="form-control NgayDieuChinhKetThuc" /></td><td style="text-align:center;width:80px;max-width:80px"><input type="checkbox" class="form-check-input" name="checkTuDongGiaHan" value=""></td><td style="text-align:center;width:80px;max-width:80px; display:none"><input type="checkbox" class="form-check-input" name="checkHieuLuc" value=""></td><td style="text-align:center;width:50px;max-width:50px"class="btn_add"><a href="javascript:void(0)" onclick="js_addRowHangThueKes(' + thuekes + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td></tr>');
+    }
+
+    function getTableDataHangThueKe() {
+        SourceHangThueKe = [];
+        let trs = $("#table_hangthuekes tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let MaSP = String($('#' + tr.id + ' input[name="MaSP"]').val()).trim();
+                let nameProduct = String($('#' + tr.id + ' input[name="nameProductTK"]').val()).trim();
+                let barcode = String($('#' + tr.id + ' input[name="barcodehangthueke"]').val()).trim();
+
+                let M2netSP = String($('#' + tr.id + ' input[name="M2netSP"]').val()).trim();
+                let M2FGrossSP = String($('#' + tr.id + ' input[name="M2FGrossSP"]').val()).trim();
+
+                let CoatingShop = String($('#' + tr.id + ' input[name="CoatingShop"]').val()).trim();
+                let NumberFace = String($('#' + tr.id + ' input[name="NumberFace"]').val()).trim();
+
+                let Mien = String($('#' + tr.id + ' input[name="Mien"]').val()).trim();
+
+                let NgayBatDau = String($('#' + tr.id + ' input[name="NgayBatDau"]').val()).trim();
+                let NgayKetThuc = String($('#' + tr.id + ' input[name="NgayKetThuc"]').val()).trim();
+
+                let NgaybatDauThue = String($('#' + tr.id + ' input[name="NgaybatDauThue"]').val()).trim();
+                let NgayDieuChinhKetThuc = String($('#' + tr.id + ' input[name="NgayDieuChinhKetThuc"]').val()).trim();
+
+                let TuDongGiaHan = 0;
+                let checkTuDongGiaHan = $('#' + tr.id + ' input[name="checkTuDongGiaHan"]:checked').length > 0;
+                if (checkTuDongGiaHan == true) {
+                    TuDongGiaHan = 1;
+                }
+
+                let HieuLuc = 0;
+                let checkHieuLuc = $('#' + tr.id + ' input[name="checkHieuLuc"]:checked').length > 0;
+                if (checkHieuLuc == true) {
+                    HieuLuc = 1;
+                }
+
+                if (nameProduct.length > 0 && barcode.length > 0 && CoatingShop.length > 0) {
+                    SourceHangThueKe.push({
+                        "codeProduct": MaSP,
+                        "nameProduct": nameProduct,
+                        "barcode": barcode,
+
+                        "M2netSP": M2netSP,
+                        "M2FGrossSP": M2FGrossSP,
+
+                        "CoatingShop": CoatingShop,
+                        "NumberFace": NumberFace,
+
+                        "Mien": Mien,
+
+                        "NgayBatDau": NgayBatDau,
+                        "NgayKetThuc": NgayKetThuc,
+
+                        "NgaybatDauThue": NgaybatDauThue,
+                        "NgayDieuChinhKetThuc": NgayDieuChinhKetThuc,
+                        "TuDongGiaHan": TuDongGiaHan,
+
+                        "HieuLuc": HieuLuc
+                    });
+                }
+            });
+            console.log(SourceHangThueKe);
+        }
+    }
+    // BOXUNG
+    function ApDungSanPhamMuaBan_HH() {
+
+        var VendorNo = $('#VendorNo').val().trim();
+        var MaSpSKU = $('#MaSpSKU').val().trim();
+        var TenSpSKU = '';
+        var RangeReview = $('#RangeReview').val().trim();
+
+        var arrVendorNo = VendorNo.split(" - ");
+        var TypeS = $('#TypeS').val();
+        var Type = 'HHOA';
+        if (TypeS == 'HHOA') {
+            Type = 'HHOA';
+        }
+        if (TypeS == 'KGUI') {
+            Type = 'KGUI';
+        }
+
+        if (arrVendorNo[0].length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/SP_TRADTERM_ApDungSp_HHOA_TK_KGUI',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0], Type: Type, MaSpSKU: MaSpSKU, TenSpSKU: TenSpSKU, RangeReview: RangeReview }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    $("#TabMuaBan_SKU").find('tbody').empty();
+                    $('#TabMuaBan_SKU').html(data);
+                    //js_ReloadTable();
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+    function getTableDataHangHoa() {
+
+        SourceHangHoa = [];
+        var TypeS = $('#TypeS').val();
+        var typeTab = '1';
+        if (TypeS == 'HHOA') {
+            typeTab = '1';
+        }
+        if (TypeS == 'KGUI') {
+            typeTab = '2';
+        }
+        let trs = $("#table_hanghoaMuaBan tbody tr");
+        if (trs.length > 0) {
+            trs.each((index, tr) => {
+                let MaSP = String($('#' + tr.id + ' .MaSP').html()).trim();
+                let nameProduct = String($('#' + tr.id + ' .TenSP').html()).trim();
+                let barcode = String($('#' + tr.id + ' .Barcode').html()).trim();
+                let hinhthucht = String($('#' + tr.id + ' select[name="hinhthucht"]').val()).trim();
+                let vat = String($('#' + tr.id + ' .VAT').html()).trim();
+                let discountPrice = String($('#' + tr.id + ' input[name="discountPrice"]').val()).trim();
+                let percentDiscount = String($('#' + tr.id + ' input[name="percentDiscount"]').val()).trim();
+                let priceAfterDiscount = String($('#' + tr.id + ' input[name="priceAfterDiscount"]').val()).trim();
+
+                let Active = String($('#' + tr.id + ' select[name="Active"]').val()).trim();
+                let RangeReviewCode = String($('#' + tr.id + ' .RangeReviewCode').html()).trim();
+                let RangeReviewName = String($('#' + tr.id + ' .RangeReviewName').html()).trim();
+                let ThuongDinhHuong = String($('#' + tr.id + ' input[name="ThuongDinhHuong"]').val()).trim();
+
+                if (MaSP.length > 0 && nameProduct.length > 0) {
+                    SourceHangHoa.push({
+                        "codeProduct": MaSP,
+                        "nameProduct": nameProduct,
+                        "barcode": barcode,
+                        "hinhthucht": hinhthucht,
+                        "vat": vat,
+                        "discountPrice": discountPrice.replace(/\./g, ''),
+                        "percentDiscount": percentDiscount,
+                        "priceAfterDiscount": priceAfterDiscount,
+                        'typeTab': typeTab,
+                        'TinhTrang': Active,
+                        'RangeReviewCode': RangeReviewCode,
+                        'RangeReviewName': RangeReviewName,
+                        'ThuongDinhHuong': ThuongDinhHuong,
+                    });
+                }
+            });
+            console.log(SourceHangHoa);
+        }
+    }
+
+
+</script>

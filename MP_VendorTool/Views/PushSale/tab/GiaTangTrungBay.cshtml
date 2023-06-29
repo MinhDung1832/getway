@@ -1,0 +1,223 @@
+﻿@using MP_VendorTool.Models.Order
+
+
+<div class="col-md-12">
+    <div style=" padding-bottom: 20px; padding-top: 15px ">
+    </div>
+</div>
+
+<div class="frominput  ShowInPut" style="pointer-events: none; opacity: 0.6; ">
+    <div class="col-md-6">
+        <div class="form-group row">
+            <label for="Div" class="col-sm-3 col-form-label">Div</label>
+            <div class="col-sm-9">
+                <select id="DivTB" class="form-control selectpicker" data-live-search="true" onchange="getBrandNCCdatalist_GTTB()">
+                    <option value="">-- Chọn Div --</option>
+                    @if (ViewBag.listDiv != null)
+                    {
+                        foreach (objCombox box in (List<objCombox>)ViewBag.listDiv)
+                        {
+                            <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Brand" class="col-sm-3 col-form-label">Brand</label>
+            <div class="col-sm-9">
+                <select id="BrandTB" class="form-control selectpicker" data-live-search="true" onchange="getProdatalist_GTTB()">
+                    <option value="">-- Chọn Brand --</option>
+                    @*@if (ViewBag.list_getVendor != null)
+                        {
+                            foreach (objCombox box in (List<objCombox>)ViewBag.list_getVendor)
+                            {
+                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                            }
+                        }*@
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="MaHang" class="col-sm-3 col-form-label">Mã hàng</label>
+            <div class="col-sm-9">
+                <select id="MaHangTB" class="form-control selectpicker" data-live-search="true">
+                    <option value="">-- Chọn mã hàng --</option>
+                    @*@if (ViewBag.List_Mahang != null)
+                        {
+                            foreach (objCombox box in (List<objCombox>)ViewBag.List_Mahang)
+                            {
+                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                            }
+                        }*@
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group row">
+            <label for="SoCuaHang" class="col-sm-3 col-form-label">Số cửa hàng</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control OrderValue" id="SoCuaHang" name="SoCuaHang" placeholder="-- NCC tự nhập số CH trưng bày từng SP --">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="SoMatHangTrungBay" class="col-sm-3 col-form-label">Số mặt trưng bày</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control OrderValue" id="SoMatHangTrungBay" name="SoMatHangTrungBay" placeholder="-- NCC tự nhập số mặt trưng bày từng SP --">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="DonGiaCHMTB" class="col-sm-3 col-form-label">Đơn giá/CH/MTB</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control OrderValue" id="DonGiaCHMTB" name="DonGiaCHMTB" placeholder="-- Hệ thống tự hiển thị đơn giá --">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12  ShowInPut" style="pointer-events: none; opacity: 0.6; " >
+    <div style=" padding-top: 32px">
+        <a href="#" id="btn_Gui" onclick="fn_save_gttb();" class="btn btn-secondary"><i class="far fa-paper-plane"></i> Lưu lại</a>
+    </div>
+</div>
+<div style=" clear:both; height:20px"></div>
+
+
+<script>
+    function fn_save_gttb() {
+        if (
+            $('#DivTB').val().length == 0 ||
+            $('#BrandTB').val().length == 0 ||
+            $('#MaHangTB').val().length == 0 ||
+
+            $('#SoCuaHang').val().length == 0 ||
+            $('#SoMatHangTrungBay').val().length == 0 ||
+            $('#DonGiaCHMTB').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ.');
+            return;
+        }
+        var NhaCC = $('#NhaCC').val();
+        var arrNhaCC = NhaCC.split(' - ');
+
+        var Div = $('#DivTB').val();
+        var arrDiv = Div.split(' - ');
+
+        var Brand = $('#BrandTB').val();
+        var arrBrand = Brand.split(' - ');
+
+        var MaHang = $('#MaHangTB').val();
+        var arrMaHang = MaHang.split(' - ');
+
+        var prd = {};
+        prd.MaNCC = arrNhaCC[0];
+        prd.TenNCC = arrNhaCC[1];
+        prd.CodeDiv = arrDiv[0];
+        prd.NameDiv = arrDiv[1];
+        prd.CodeBrand = arrBrand[0];
+        prd.NameBrand = arrBrand[1];
+        prd.MaHang = arrMaHang[0];
+        prd.TenHang = arrMaHang[1];
+        prd.SoCuaHang = $('#SoCuaHang').val();
+        prd.SoMatHangTrungBay = $('#SoMatHangTrungBay').val();
+        prd.DonGiaCHMTB = $('#DonGiaCHMTB').val();
+        console.log(JSON.stringify({ prd }));
+        console.log(prd);
+
+        // Call Save PushSale Header set ID
+        fn_save_Invest_Header();
+
+        $.ajax({
+            url: '/PushSale/Create_PushSale_NCC_GiaTangTrungBay',
+            type: 'POST',
+            data: JSON.stringify({ info: prd }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                //  js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data) {
+                    jAlert('Thêm mới thành công', 'Thông báo', (r) => {
+                        location.reload();
+                    });
+                } else {
+                    jAlert('Có lỗi xảy ra', 'Thông báo');
+                }
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+</script>
+<script>
+    function getBrandNCCdatalist_GTTB() {
+        var div = $("#DivTB").val();
+        var arrdiv = div.split(" - ");
+
+        var NhaCC = $('#NhaCC').val();
+        var arrNhaCC = NhaCC.split(' - ');
+
+
+        $("#BrandTB").val('');
+        $('#BrandTB').selectpicker().empty();
+        option = document.createElement('option');
+        option.text = '--Chọn BrandNCC--';
+        option.value = '';
+        $('#BrandTB').selectpicker().append(option);
+
+        $.ajax({
+            url: '/PushSale/getBrandNCCDatalist',
+            type: 'POST',
+            data: JSON.stringify({
+                Div: arrdiv[0],
+                MaNCC: arrNhaCC[0]
+            }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                $.each(data, (index, value) => {
+                    option = document.createElement('option');
+                    option.text = value.Code + ' - ' + value.Name;
+                    option.value = value.Code + ' - ' + value.Name;
+                    $('#BrandTB').selectpicker().append(option);
+                });
+                $('#BrandTB').selectpicker('refresh');
+            }
+        });
+
+    }
+
+    function getProdatalist_GTTB() {
+        var brand = $("#BrandTB").val();
+        var arrbrand = brand.split(" - ");
+
+        var VendorCode = $("#NhaCC").val();
+        var ArrVendorCode = VendorCode.split(' - ');
+
+        $("#MaHangTB").val('');
+        $('#MaHangTB').selectpicker().empty();
+        option = document.createElement('option');
+        option.text = '-- Chọn mã hàng --';
+        option.value = '';
+        $('#MaHangTB').selectpicker().append(option);
+
+        $.ajax({
+            url: '/PushSale/sp_Pushsale_Brand_NCC_get',
+            type: 'POST',
+            data: JSON.stringify({
+                Brand: arrbrand[0], VendorCode: ArrVendorCode[0]
+            }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                $.each(data, (index, value) => {
+                    option = document.createElement('option');
+                    option.text = value.Code + ' - ' + value.Name;
+                    option.value = value.Code + ' - ' + value.Name;
+                    $('#MaHangTB').selectpicker().append(option);
+                });
+                $('#MaHangTB').selectpicker('refresh');
+            }
+        });
+    }
+</script>

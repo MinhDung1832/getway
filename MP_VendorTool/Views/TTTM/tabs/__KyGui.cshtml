@@ -1,0 +1,428 @@
+﻿
+
+<style>
+    table#table_hanghoaMuaBan tbody {
+        display: block;
+        max-height: 500px;
+        overflow-y: scroll;
+        width: 101%;
+    }
+
+        table#table_hanghoaMuaBan thead, table#table_hanghoaMuaBan tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+    table#table_FunctionMuaBan tbody {
+        display: block;
+        max-height: 500px;
+        overflow-y: scroll;
+        width: 101%;
+    }
+
+        table#table_FunctionMuaBan thead, table#table_FunctionMuaBan tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+    table#table_BrandMuaBan tbody {
+        display: block;
+        max-height: 500px;
+        overflow-y: scroll;
+        width: 101%;
+    }
+
+        table#table_BrandMuaBan thead, table#table_BrandMuaBan tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+</style>
+
+
+
+<div class="box_tab_1">
+    <div class="row">
+        <div class="col-md-2">
+            <h5>Chiết khấu</h5>
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-5">
+                    <table class="table table-bordered" id="table_chietkhau_ky">
+                        <thead>
+                            <tr>
+                                <th scope="col">Loại chiết khấu</th>
+                                <th scope="col">Hình thức TT</th>
+                                <th scope="col">Giá trị CK</th>
+                                <th scope="col">% chiết khấu</th>
+                                <th scope="col">Giá trị đơn hàng tối đa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="row_1">
+                                <th style=" width: 107px; ">
+                                    <select class="form-control" name="typeDiscountKy">
+                                        <option value="CK trực tiêp">CK trực tiêp</option>
+                                        <option value="CK thu sau">CK thu sau</option>
+                                        <option value="Khai trương">Khai trương</option>
+                                        <option value="Hàng mới">Hàng mới</option>
+                                    </select>
+                                </th>
+                                <th style=" width: 107px; ">
+                                    <select class="form-control" name="HinhThucThanhToanKy">
+                                        <option value="Price">Tiền</option>
+                                        <option value="Products">Hàng hóa</option>
+                                    </select>
+                                </th>
+                                <td><input type="text" name="discountAmountKy" class="form-control OrderValue" /></td>
+                                <td><input type="text" name="percent_DiscountKy" class="form-control" /></td>
+                                <td><input type="text" name="OrderValueKy" class="form-control OrderValue" /></td>
+                            </tr>
+                            <tr id="row_2">
+                                <th style=" width: 107px; ">
+                                    <select class="form-control" name="typeDiscountKy">
+                                        <option value="CK trực tiêp">CK trực tiêp</option>
+                                        <option value="CK thu sau">CK thu sau</option>
+                                        <option value="Khai trương">Khai trương</option>
+                                        <option value="Hàng mới">Hàng mới</option>
+                                    </select>
+                                </th>
+                                <th style=" width: 107px; ">
+                                    <select class="form-control" name="HinhThucThanhToanKy">
+                                        <option value="Price">Tiền</option>
+                                        <option value="Products">Hàng hóa</option>
+                                    </select>
+                                </th>
+                                <td><input type="text" name="discountAmountKy" class="form-control OrderValue" /></td>
+                                <td><input type="text" name="percent_DiscountKy" class="form-control" /></td>
+                                <td><input type="text" name="OrderValueKy" class="form-control OrderValue" /></td>
+                            </tr>
+                            <tr id="row_3">
+                                <th style=" width: 107px; ">
+                                    <select class="form-control" name="typeDiscountKy">
+                                        <option value="CK trực tiêp">CK trực tiêp</option>
+                                        <option value="CK thu sau">CK thu sau</option>
+                                        <option value="Khai trương">Khai trương</option>
+                                        <option value="Hàng mới">Hàng mới</option>
+                                    </select>
+                                </th>
+                                <th style=" width: 107px; ">
+                                    <select class="form-control" name="HinhThucThanhToanKy">
+                                        <option value="Price">Tiền</option>
+                                        <option value="Products">Hàng hóa</option>
+                                    </select>
+                                </th>
+                                <td><input type="text" name="discountAmountKy" class="form-control OrderValue" /></td>
+                                <td><input type="text" name="percent_DiscountKy" class="form-control" /></td>
+                                <td><input type="text" name="OrderValueKy" class="form-control OrderValue" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Hàng tặng hàng</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <table class="table table-bordered" id="table_hangtang_ky">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Số lượng mua</th>
+                                        <th scope="col">Số lượng tặng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="row_1">
+                                        <td><input type="text" name="quantityBuyKy" class="form-control" /></td>
+                                        <td><input type="text" name="orderQuantityKy" class="form-control" /></td>
+                                    </tr>
+                                    <tr id="row_2">
+                                        <td><input type="text" name="quantityBuyKy" class="form-control" /></td>
+                                        <td><input type="text" name="orderQuantityKy" class="form-control" /></td>
+                                    </tr>
+                                    <tr id="row_3">
+                                        <td><input type="text" name="quantityBuyKy" class="form-control" /></td>
+                                        <td><input type="text" name="orderQuantityKy" class="form-control" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="box_tab_2 boxAn">
+    <div class="row">
+        <div class="col-md-2">
+            <h5>Thưởng</h5>
+        </div>
+        <div class="col-md-10">
+            <table class="table table-bordered" id="table_thuong_ky">
+                <thead>
+                    <tr>
+                        <th scope="col" style=" width: 19%">Loại thưởng</th>
+                        <th scope="col" style="width: 10% ">Mức DS từ</th>
+                        <th scope="col" style="width: 10% ">Mức DS đến</th>
+                        <th scope="col" style="width: 17% ">Điều kiện DS target</th>
+                        <th scope="col" style="width: 17% ">Điều kiện DS tính thưởng</th>
+                        <th scope="col" style="width: 10% ">% thưởng</th>
+                        <th scope="col" style="width: 10% ">Giá trị thưởng</th>
+                        <th scope="col" style="width: 13% ">Ghi chú</th>
+                        <th scope="col" style="width: 7% ">Thêm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            
+
+        </div>
+    </div>
+
+</div>
+
+<div class="box_tab_3 boxAn">
+    <div class="row">
+        <div class="col-md-2">
+            <h5>TRADE MARKETING</h5>
+        </div>
+        <div class="col-md-10">
+            <table class="table table-bordered" id="table_trade_ky">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 330px;">Nội dung đầu tư</th>
+                        <th scope="col">% đầu tư</th>
+                        <th scope="col">Giá trị đầu tư</th>
+                        <th scope="col">Điều kiện</th>
+                        <th scope="col">Điều kiện doanh số</th>
+                        <th scope="col">Thêm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+           
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        js_addThuongKy();
+        js_addTradeMarkKy();
+    });
+    var CDFlashKy = 0;
+    var CDFlashTradeKy = 0;
+    function js_addThuongKy() {
+        CDFlashKy++;
+        var chuoi = "";
+        var TTC = CDFlashKy - 1;
+        $("#row_" + TTC + " .btn_add4").empty();
+        $("#row_" + TTC + " .btn_add4").html('<a href="javascript:void(0);" onclick="deleteRowKy(this);" class="btn_add4"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+        chuoi += '<tr id="row_' + CDFlashKy + '">';
+
+        chuoi += '<td><select id="LoaiThuongKy" class="form-control selectpicker" name="LoaiThuongKy" data-live-search="true">';
+        chuoi += '<option value="">-- Loại thưởng --</option>';
+        $.each(list_LoaiThuong, (index, value) => {
+            chuoi += '<option value=' + value.Code + '>' + value.Name + '</option>';
+        });
+        chuoi += '</select></td>';
+
+        chuoi += '<td><input class="form-control" type="number" id="MucDSTuKy" name="MucDSTuKy" value=""></td>';
+        chuoi += '<td><input class="form-control" type="number" id="MucDSDenKy" name="MucDSDenKy" value=""></td>';
+
+        chuoi += '<td><select id="DKDSTargetKy" class="form-control selectpicker" name="DKDSTargetKy" data-live-search="true">';
+        chuoi += '<option value="">-- Điều kiện danh sách Target --</option>';
+        $.each(list_DKDSTarget, (index, value) => {
+            chuoi += '<option value=' + value.Code + '>' + value.Name + '</option>';
+        });
+        chuoi += '</select></td>';
+
+        chuoi += '<td><select id="DKDSTinhThuongKy" class="form-control selectpicker" name="DKDSTinhThuongKy" data-live-search="true">';
+        chuoi += '<option value="">-- Điều kiện DS tính thưởng --</option>';
+        $.each(list_DKDSTinhThuong, (index, value) => {
+            chuoi += '<option value=' + value.Code + '>' + value.Name + '</option>';
+        });
+        chuoi += '</select></td>';
+
+        chuoi += '<td><input class="form-control" type="number" id="PTThuongKy" name="PTThuongKy" value=""></td>';
+        chuoi += '<td><input class="form-control" type="number" id="GTThuongKy" name="GTThuongKy" value=""></td>';
+        chuoi += '<td><input class="form-control" type="text" id="GhiChuKy" name="GhiChuKy" value=""></td>';
+
+        chuoi += '<td style="text-align:center;" class="btn_add4"><a class="add" href="javascript:void(0)" onclick="js_addThuongKy(' + CDFlashKy + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td></tr > ';
+        $("#table_thuong_ky tbody").append(chuoi);
+        $('.selectpicker').selectpicker();
+    }
+
+
+    function js_addTradeMarkKy() {
+        CDFlashTradeKy++;
+        var chuoi = "";
+        var TTC = CDFlashTradeKy - 1;
+        $("#row_" + TTC + " .btn_add5").empty();
+        $("#row_" + TTC + " .btn_add5").html('<a href="javascript:void(0);" onclick="deleteRowTradeKy(this);" class="btn_add5"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+        chuoi += '<tr id="row_' + CDFlashTradeKy + '">';
+
+        chuoi += '<td><select id="NDDauTuKy" class="form-control selectpicker" name="NDDauTuKy" data-live-search="true">';
+        chuoi += '<option value="">-- Nội dung đầu tư --</option>';
+        $.each(list_NDDauTu, (index, value) => {
+            chuoi += '<option value=' + value.Code + '>' + value.Name + '</option>';
+        });
+        chuoi += '</select></td>';
+
+        chuoi += '<td><input class="form-control" type="number" id="PTDauTuKy" name="PTDauTuKy" value=""></td>';
+        chuoi += '<td><input class="form-control" type="number" id="GTDauTuKy" name="GTDauTuKy" value=""></td>';
+        chuoi += '<td><input class="form-control" type="text" id="DieuKienKy" name="DieuKienKy" value=""></td>';
+
+        chuoi += '<td><select id="DKDSTargetKy" class="form-control selectpicker" name="DKDSTargetKy" data-live-search="true">';
+        chuoi += '<option value="">-- Điều kiện doanh số --</option>';
+        $.each(list_DKDSTarget, (index, value) => {
+            chuoi += '<option value=' + value.Code + '>' + value.Name + '</option>';
+        });
+        chuoi += '</select></td>';
+
+        chuoi += '<td style="text-align:center;" class="btn_add5"><a class="add" href="javascript:void(0)" onclick="js_addTradeMarkKy(' + CDFlashTradeKy + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td></tr > ';
+        $("#table_trade_ky tbody").append(chuoi);
+        $('.selectpicker').selectpicker();
+    }
+    function deleteRowKy(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("table_thuong_ky").deleteRow(ri);
+    }
+    function deleteRowTradeKy(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("table_trade_ky").deleteRow(ri);
+    }
+    //function getTable_KyGui() {
+    //    SourceLineThuongKy = [];
+    //    let trs = $("#table_thuong_ky tbody tr");
+    //    if (trs.length) {
+    //        trs.each((index, tr) => {
+
+    //            let LoaiThuongCode = String($('#' + tr.id + ' select[name="LoaiThuongKy"]').val()).trim();
+    //            //console.log(LoaiThuongCode);
+    //            var LoaiThuong = String($('#table_thuong_ky #' + tr.id + ' select[name="LoaiThuongKy"] option:selected').text()).trim();
+    //            //console.log(LoaiThuong);
+
+    //            let MucDSTu = String($('#' + tr.id + ' input[name="MucDSTuKy"]').val()).trim();
+    //            let MucDSDen = String($('#' + tr.id + ' input[name="MucDSDenKy"]').val()).trim();
+
+    //            let DKDSCode = String($('#' + tr.id + ' select[name="DKDSTargetKy"]').val()).trim();
+    //            var DKDSTarget = String($('#table_thuong_ky #' + tr.id + ' select[name="DKDSTargetKy"] option:selected').text()).trim();
+    //            //console.log(DKDSTarget);
+
+    //            let DKDSTTCode = String($('#' + tr.id + ' select[name="DKDSTinhThuongKy"]').val()).trim();
+    //            var DKDSTinhThuong = String($('#table_thuong_ky #' + tr.id + ' select[name="DKDSTinhThuongKy"] option:selected').text()).trim();
+    //            //console.log(DKDSTinhThuong);
+
+    //            let PTThuong = String($('#' + tr.id + ' input[name="PTThuongKy"]').val()).trim();
+    //            let GiaTriThuong = String($('#' + tr.id + ' input[name="GTThuongKy"]').val()).trim();
+    //            let GhiChu = String($('#' + tr.id + ' input[name="GhiChuKy"]').val()).trim();
+    //            if (LoaiThuongCode.length > 0 || DKDSCode.length > 0 || MucDSTu.length > 0 || MucDSDen.length > 0 || DKDSTTCode.length > 0 || PTThuong.length > 0 || GiaTriThuong.length > 0 || GhiChu.length > 0) {
+    //                SourceLineThuongKy.push({
+    //                    "LoaiThuongCode": LoaiThuongCode,
+    //                    "LoaiThuong": LoaiThuong,
+    //                    "MucDSTu": MucDSTu,
+    //                    "MucDSDen": MucDSDen,
+    //                    "DKDSCode": DKDSCode,
+    //                    "DKDSTarget": DKDSTarget,
+    //                    "DKDSTTCode": DKDSTTCode,
+    //                    "DKDSTinhThuong": DKDSTinhThuong,
+    //                    "PTThuong": PTThuong,
+    //                    "GiaTriThuong": GiaTriThuong,
+    //                    "GhiChu": GhiChu
+    //                });
+    //            }
+    //        });
+    //    }
+    //    console.log(SourceLineThuongKy);
+
+    //    SourceLineTradeKy = [];
+    //    let trs1 = $("#table_trade_ky tbody tr");
+    //    if (trs1.length) {
+    //        trs1.each((index, tr) => {
+
+    //            let NDCode = String($('#' + tr.id + ' select[name="NDDauTuKy"]').val()).trim();
+    //            var NDDauTu = String($('#table_trade_ky #' + tr.id + ' select[name="NDDauTuKy"] option:selected').text()).trim();
+
+    //            let PTDauTu = String($('#' + tr.id + ' input[name="PTDauTuKy"]').val()).trim();
+    //            let GiaTriDT = String($('#' + tr.id + ' input[name="GTDauTuKy"]').val()).trim();
+    //            let DieuKien = String($('#' + tr.id + ' input[name="DieuKienKy"]').val()).trim();
+
+    //            let DKDoanhSoCode = String($('#' + tr.id + ' select[name="DKDSTargetKy"]').val()).trim();
+    //            var DKDoanhSo = String($('#table_trade_ky #' + tr.id + ' select[name="DKDSTargetKy"] option:selected').text()).trim();
+                
+    //            if (NDCode.length > 0 || PTDauTu.length > 0 || GiaTriDT.length > 0 || DieuKien.length > 0 || DKDoanhSoCode.length > 0 ) {
+    //                SourceLineTradeKy.push({
+    //                    "NDCode": NDCode,
+    //                    "NDDauTu": NDDauTu,
+    //                    "PTDauTu": PTDauTu,
+    //                    "GiaTriDT": GiaTriDT,
+    //                    "DieuKien": DieuKien,
+    //                    "DKDoanhSoCode": DKDoanhSoCode,
+    //                    "DKDoanhSo": DKDoanhSo,
+    //                });
+    //            }
+    //        });
+    //    }
+    //    console.log(SourceLineTradeKy);
+    //    SourceLineCKKy = [];
+    //    let trs2 = $("#table_chietkhau_ky tbody tr");
+    //    if (trs2.length != 0) {
+    //        trs2.each((index, tr) => {
+
+    //            let LoaiCK = String($('#table_chietkhau_ky #' + tr.id + ' select[name="typeDiscountKy"] option:selected').text()).trim();
+    //            let HinhThucTT = String($('#table_chietkhau_ky #' + tr.id + ' select[name="HinhThucThanhToanKy"] option:selected').text()).trim();
+    //            let GiaTriCK = String($('#' + tr.id + ' input[name="discountAmountKy"]').val()).trim();
+    //            let PTCK = String($('#' + tr.id + ' input[name="percent_DiscountKy"]').val()).trim();
+    //            let GiaTriDHTD = String($('#' + tr.id + ' input[name="OrderValueKy"]').val()).trim();
+    //            if (GiaTriCK.length > 0 || PTCK.length > 0 || GiaTriDHTD.length > 0 ) {
+    //                SourceLineCKKy.push({
+    //                    "LoaiCK": LoaiCK,
+    //                    "HinhThucTT": HinhThucTT,
+    //                    "GiaTriCK": GiaTriCK,
+    //                    "PTCK": PTCK,
+    //                    "GiaTriDHTD": GiaTriDHTD
+    //                });
+    //            }
+    //        });
+    //    }
+    //    console.log(SourceLineCKKy);
+    //    SourceLineHTHKy = [];
+    //    let trs3 = $("#table_hangtang_ky tbody tr");
+    //    if (trs3.length != 0) {
+    //        trs3.each((index, tr) => {
+    //            let SLMua = String($('#' + tr.id + ' input[name="quantityBuyKy"]').val()).trim();
+    //            let SlTang = String($('#' + tr.id + ' input[name="orderQuantityKy"]').val()).trim();
+    //            if (SLMua.length > 0 || SlTang.length > 0) {
+    //                SourceLineHTHKy.push({
+    //                    "SLMua": SLMua,
+    //                    "SlTang": SlTang,
+    //                });
+    //            }
+    //        });
+    //    }
+    //    console.log(SourceLineHTHKy);
+    //}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+

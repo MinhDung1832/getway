@@ -1,0 +1,259 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Quản lý điều chỉnh giá bán cho người tiêu dùng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="vendorName" class="col-sm-4 col-form-label">Nhà cung cấp</label>
+                                            <div class="col-sm-8">
+                                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                                {
+                                                    <input type="text" class="form-control" id="NhaCCFull" name="NhaCCFull" value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                                                    <input type="hidden" class="form-control" id="NhaCC" name="NhaCC" value="@Session["VendorCode"]" disabled>
+                                                }
+                                                else
+                                                {
+                                                    <input type="hidden" class="form-control" id="NhaCCFull" name="NhaCCFull" disabled>
+                                                    <select id="NhaCC" class="form-control selectpicker" data-live-search="true" onchange="ShowNCCFull(); js_onchange_NCC_MaHang(); js_searchbox()">
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            <option value="">--- Chọn NCC ---</option>
+                                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label">Mã hàng /Tên hàng</label>
+                                            <div class="col-sm-8">
+                                                <select id="MaHang" class="form-control selectpicker" data-live-search="true" onchange="js_onchange_barcode(); js_searchbox()">
+                                                    <option value="">--- Chọn mã hàng ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="Ngay" class="col-sm-4 col-form-label">Barcode</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control selectpicker" data-live-search="true" id="Barcode" onchange="js_searchbox()">
+                                                    <option value=""> -- Chọn Barcode --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Trạng thái</label>
+                                            <div class="col-sm-8">
+                                                <select id="TrangThai" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox()">
+                                                    <option value=""> -- Chọn trạng thái --</option>
+                                                    <option value="NEW" selected>Gửi duyệt</option>
+                                                    <option value="APPROVED">Đã duyệt</option>
+                                                    <option value="REJECT">Từ chối</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center;">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a href="#" class="btn btn-secondary px-5 btgetw" onchange="js_searchbox()" id="btnGetChecks"><i class="fa fa-search" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tìm kiếm</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="div-content" style=" padding-top: 74px; ">
+                    @Html.Partial("~/Views/OfferPrice/Partial/__PriceSellAr.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#txtHead').html("Quản lý điều chỉnh giá bán cho người tiêu dùng");
+        $('#f_dev').html("");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        js_GetList();
+        js_onchange_NCC_MaHang();
+    });
+
+    $(window).on('load', function () {
+        debugger;
+        var url = new URL(window.location);
+        if (url.searchParams.get("MaNCC")) $("#NhaCC").val(url.searchParams.get("MaNCC"));
+        $('#NhaCC').selectpicker('refresh');
+        $('#NhaCC').trigger('change');
+
+        setTimeout(function () {
+            debugger;
+            var url = new URL(window.location);
+            if (url.searchParams.get("mahang")) $("#MaHang").val(url.searchParams.get("mahang"));
+
+            $('#MaHang').selectpicker('refresh');
+            var MaHang = $("#MaHang").val();
+            if (MaHang != "") {
+                js_GetList();
+            }
+        }, 2000);
+    });
+    function ShowNCCFull() {
+        $("#NhaCCFull").val($('#NhaCC').find(":selected").text())
+    }
+    function js_searchbox() {
+        js_GetList();
+    }
+    function js_ReloadTable() {
+        imgrecall();
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[200, 50, 70, 100, -1], [200, 50, 70, 100]],
+            //"order": [[0, "desc"]],
+            //columnDefs: [
+            //    { 'targets': 6, 'orderable': false },
+            //    { 'targets': 7, 'orderable': false },
+            //    { 'targets': 8, 'orderable': false },
+            //],
+            "searching": false,
+            fixedHeader: true,
+            fixedHeader: {
+                headerOffset: 155
+            },
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+        $('img.content').hover(function () {
+            $(this).addClass('transition');
+        }, function () {
+            $(this).removeClass('transition');
+        });
+    }
+    function js_GetList() {
+
+        var vendorNo = fomart_split($("#NhaCCFull").val(), 0);
+        var MaHang = $("#MaHang").val();
+        var Barcode = fomart_split($("#Barcode").val(), 0);
+        var TrangThai = $("#TrangThai").val();
+
+        js_Loading(true, 1);
+        $.ajax({
+            url: '/OfferPrice/GetList_PriceSellAr',
+            type: 'POST',
+            data: JSON.stringify({ vendorNo: vendorNo, MaHang: MaHang, Barcode: Barcode, TrangThai: TrangThai }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_onchange_NCC_MaHang() {
+        var VendorCode = fomart_split($("#NhaCCFull").val(), 0);
+        $('#MaHang').empty();
+        if (VendorCode.length > 0) {
+            // Call MaHang
+            $.ajax({
+                url: '/OfferPrice/GetList_NCC_Produts_PriceSell',
+                type: 'POST',
+                data: JSON.stringify({ VendorCode: VendorCode }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#MaHang').empty();
+                        $('#MaHang').append('<option value="">--Chọn mã hàng--</option>');
+                        for (i in row) {
+                            $('#MaHang').append('<option value="' + row[i].Code + '">' + row[i].Code + ' - ' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#MaHang').selectpicker('refresh');
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+    function js_onchange_barcode(r) {
+        let nameProduct = $('#MaHang').val();
+        $('#Barcode').empty();
+        var item = nameProduct.split(" - ");
+        if (nameProduct.length > 0) {
+
+            // Call Barcode
+            $.ajax({
+                url: '/OfferPrice/GetListBarcode_PriceSell',
+                type: 'POST',
+                data: JSON.stringify({ itemNo: item[0] }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#Barcode').empty();
+                        $('#Barcode').append('<option value="">--Chọn Barcode--</option>');
+                        for (i in row) {
+                            $('#Barcode').append('<option value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                        }
+                    }
+                    $('#Barcode').selectpicker('refresh');
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+</script>

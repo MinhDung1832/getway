@@ -1,0 +1,113 @@
+﻿@using System.Data;
+@using ProductAllTool.Models.ManageSales;
+<link href="~/Content/css/thickbox.css" rel="stylesheet" />
+<script src="~/Scripts/thickbox.js"></script>
+<table id="tbl_Item_DMSP" class="table table-bordered tb_detail" style="border:none !important">
+    <thead>
+        <tr>
+            <th>
+                Mã hàng
+            </th>
+            <th>
+                Tên hàng
+            </th>
+            <th>
+                VAT(%)
+            </th>
+            <th>
+                Giá áp dụng CK
+            </th>
+            <th>
+                %CK/đơn
+            </th>
+            <th>
+                Giá sau CK
+            </th>
+            <th>
+                Thưởng định hướng
+            </th>
+            <th>
+                Range review
+            </th>
+            <th>
+                Tình trạng
+            </th>
+            <th>
+                Chọn
+            </th>
+            <th>
+                Xóa
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        <tr id="row_@i">
+                            <td class="text-center" style="width:100px; max-width: 65px;  overflow: hidden;white-space: nowrap" id="masp_@i">
+                                <span id="MaHang">@item["MaHang"]</span>
+                            </td>
+                            <td class="text-left" style="width: 100px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                <span id="TenHang"> @item["TenHang"]</span>
+                            </td>
+                            <td class="text-right" style="width: 100px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                <span id="VAT">@item["VAT"]</span>
+                            </td>
+                            <td class="text-right" style="width: 100px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                <input type="number" id="GiaADCK" class="form-control"  />
+                            </td>
+                            <td class="text-right" style="width: 100px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                <input type="number" id="PTCK" class="form-control"  />
+                            </td>
+                            <td class="text-right" style="width: 100px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                <span id="GiaSauCK">@item["GiaSauCK"]</span>
+                            </td>
+                            <td class="text-right" style="width: 100px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                <input type="number" id="ThuongDH" class="form-control"  />
+                            </td>
+                            <td class="text-right" style="width: 100px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                <span id="RangeReview">@item["RangeReview"]</span>
+                            </td>
+                            <td class="text-right" style="width: 100px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                <select id="TinhTrang" class="form-control" onchange="" style="max-width:150px">
+                                    <option value="">Active</option>
+                                    <option value="">InActive</option>
+                                </select>
+                            </td>
+                            <td class="text-right" style="width: 100px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                <input type="checkbox" id="_@i" name="check1[]" value="@item["ID"]" />
+                            </td>
+                            <td class="text-right" style="width: 100px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                @*<input type="checkbox" id="_@i" name="check1[]" value="@item["ID"]" />*@
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+</table>
+
+<script>
+    function check(r) {
+        // $('#_0').filter(':checkbox').prop('checked', true);
+        var SLMua = $('#SLMua').val();
+        var ptqua = $('#ptqua').val();
+        if (SLMua.length != 0 && ptqua.length != 0) {
+            $('#_' + r).filter(':checkbox').prop('checked', true);
+            js_GetListHangTang();
+        } else {
+            $('#_' + r).filter(':checkbox').prop('checked', false);
+        }
+        TongMuaHang();
+    }
+</script>

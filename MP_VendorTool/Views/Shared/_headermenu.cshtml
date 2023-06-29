@@ -1,0 +1,132 @@
+﻿<div class="header_vender" id="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"><div class="logo"><a href="/Home/Index"><img src="~/image/bibologo.png" /></a></div></div>
+            <div class="col-md-5">
+                <h3 class="header_title" id="header_title"></h3>
+            </div>
+            <div class="col-md-4" style="transform: translate(-6%,20%);">
+                <div class="text_home">
+                    <span class="text_login">
+                        @if (Session["all_us_role"] != null)
+                        {
+                            <p>@Session["uname"]</p>
+                            <a href="/Account/Logout">@MP_VendorTool.Resource.textlogout_3</a>
+                        }
+                        else
+                        {
+                            <a href="/Account/Login">@MP_VendorTool.Resource.LogIn</a>
+                        }
+                    </span>
+                    <a href="#">@MP_VendorTool.Resource.language</a>
+
+                    <span>
+                        <a href="#" onclick="loadLang('vi')">
+                            <img src="~/image/VN flag.png" />
+                        </a>
+                    </span><span style="color: #fff"> | </span>
+                    <span>
+                        <a href="#" onclick="loadLang('En')">
+                            <img src="~/image/EN flag.png" />
+                        </a>
+                    </span>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .flag img {
+        width: 20px;
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .text_login a {
+        padding-right: 10px;
+    }
+
+    .header_top {
+        margin-top: 52px;
+    }
+
+    .menu_login li {
+        list-style: none;
+        float: left;
+        padding-right: 16px;
+    }
+
+        .menu_login li a {
+            color: #fff;
+            font-size: 14px;
+        }
+
+    .menu_login {
+        float: right;
+    }
+
+    .f-nav { /* To fix main menu container */
+        z-index: 9999;
+        /*  position: fixed;*/
+
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .header_vender {
+        background-color: transparent;
+        padding: 18px 0px;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 18px;
+    }
+
+        .text_home a {
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .text_home p {
+            font-size: 12px;
+            color: #fff;
+            display: inline;
+            margin-right: 20px;
+        }
+</style>
+
+<script type="text/javascript">
+        //Upload file
+        $(document).ready(function () {
+            $('#sl_lang').val('@(ViewBag.lang)');
+        });
+        function loadLang(strCode) {
+            //var lang = $('#sl_lang').val();
+
+            //Html.ActionLink(i.LanguageFullName, "ChangeLanguage", "", new { lang = i.LanguageCultureName }, null)
+
+            window.location.href = '/Home/ChangeLanguage?lang=' + strCode;
+    }
+
+</script>

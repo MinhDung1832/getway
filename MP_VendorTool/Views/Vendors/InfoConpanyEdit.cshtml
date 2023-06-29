@@ -1,0 +1,486 @@
+﻿@{
+    ViewBag.Title = "Thông tin doanh nghiệp";
+}
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                @**@
+                <div class="">
+                    <div class="ibox-body">
+                        <div class="row " id="InfoCompany">
+                            <div class="col-md-12">
+                                <div class="ibox">
+                                    <div class="ibox-head">
+                                        <div class="ibox-title">
+                                            THÔNG TIN DOANH NGHIỆP
+                                        </div>
+                                        <div class="ibox-tools">
+                                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                            <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-horizontal">
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Số ĐKKD <span style=" color:red">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control required" type="text" id="SoDKKD" name="SoDKKD" value="@ViewBag.ls_info[0].SoDKKD" placeholder="Số ĐKKD">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Mã số thuế <span style=" color:red">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control required" type="text" id="MaSoThue" name="MaSoThue" value="@ViewBag.ls_info[0].MaSoThue" placeholder="Mã số thuế">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Loại hình doanh nghiệp</label>
+                                                        <div class="col-sm-9">
+                                                            <select class="form-control selectpicker" id="LoaiHinhHopTac">
+                                                                @foreach (var i in ViewBag.ls_business)
+                                                                {
+                                                                    <option value="@i.Code" @(ViewBag.ls_info[0].LoaiHinhHopTacCode == i.Code ? "selected" : "")>@i.Name</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Lĩnh vực hoạt động </label>
+                                                            <div class="col-sm-9">
+                                                                <select class="form-control selectpicker" id="LinhVucHoatDong">
+                                                                    @foreach (var i in ViewBag.ls_industry)
+                                                                    {
+                                                                        <option value="@i.Code" @(ViewBag.ls_info[0].LinhVucHoatDongCode == i.Code ? "selected" : "")>@i.Name</option>
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Tên doanh nghiệp <span style=" color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control required" type="text" id="TenDoanhNghiep" name="TenDoanhNghiep" value="@ViewBag.ls_info[0].TenDoanhNghiep" placeholder="Tên doanh nghiệp ">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Địa chỉ <span style=" color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control required" type="text" id="DiaChi" name="DiaChi" value="@ViewBag.ls_info[0].DiaChi" placeholder="Địa chỉ">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Website</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="Website" name="Website" value="@ViewBag.ls_info[0].Website" placeholder="Website">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+
+
+                                                <div class="form-horizontal">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Số tài khoản <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control required" type="text" id="SoTaiKhoan" name="SoTaiKhoan" value="@ViewBag.ls_info[0].SoTaiKhoan" placeholder="Số tài khoản">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Tại Ngân hàng</label>
+                                                        <div class="col-sm-9">
+                                                            <select class="form-control selectpicker" id="TaiNganHang">
+                                                                @foreach (var i in ViewBag.ls_bank)
+                                                                {
+                                                                    <option value="@i.Code" @(ViewBag.ls_info[0].TaiNganHangCode == i.Code ? "selected" : "")>@i.Name</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Hóa đơn điện tử</label>
+                                                        <div class="col-sm-9">
+                                                            <input readonly="readonly" class="form-check-input" type="checkbox" id="Invoice" name="Invoice" value="@ViewBag.ls_info[0].Invoice" @(ViewBag.ls_info[0].Invoice == "1" ? "checked" : "") />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">ERP đang sử dụng</label>
+                                                        <div class="col-sm-9">
+                                                            <select class="form-control selectpicker" id="TenInvoice">
+                                                                <option value="">@MP_VendorTool.Resource.multi_def</option>
+                                                                @foreach (var i in ViewBag.ls_erp)
+                                                                {
+                                                                    <option value="@i.Code" @(ViewBag.ls_info[0].TenInvoiceCode == i.Code ? "selected" : "")>@i.Name</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Số điện thoại <span style=" color:red">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control required" type="text" id="SoDienThoai" name="SoDienThoai" value="@ViewBag.ls_info[0].SoDienThoai" placeholder="Số điện thoại">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Email <span style=" color:red">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control required" type="text" id="Email" name="Email" value="@ViewBag.ls_info[0].Email" placeholder="Email">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Facebook</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="text" d="Facebook" name="Facebook" value="@ViewBag.ls_info[0].Facebook" placeholder="Facebook">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="ibox">
+                                    <div class="ibox-head">
+                                        <div class="ibox-title">NĂNG LỰC HOẠT ĐỘNG</div>
+                                        <div class="ibox-tools">
+                                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                            <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Thời gian hoạt động</label>
+                                                        <div class="col-sm-9">
+                                                            <select class="form-control selectpicker" id="ThoiGianHoatDong">
+                                                                @foreach (var i in ViewBag.ls_yearActive)
+                                                                {
+                                                                    <option value="@i.Code" @(ViewBag.ls_info[0].ThoiGianHoatDongCode == i.Code ? "selected" : "")>@i.Name</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Số lượng nhân sự <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control required" type="number" id="SoLuongNhanSu" name="SoLuongNhanSu" value="@ViewBag.ls_info[0].SoLuongNhanSu" placeholder="Số lượng nhân sự">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Độ phủ thị trường</label>
+                                                        <div class="col-sm-9">
+                                                            <select class="form-control selectpicker" id="DoBaoPhu">
+                                                                <option value="">@MP_VendorTool.Resource.multi_def</option>
+                                                                @foreach (var i in ViewBag.ls_coverageMarket)
+                                                                {
+                                                                    <option value="@i.Code" @(ViewBag.ls_info[0].DoBaoPhuCode == i.Code ? "selected" : "")>@i.Name</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Doanh thu năm trước</label>
+                                                        <div class="col-sm-9">
+                                                            <select class="form-control selectpicker" id="DoanhThuNamTruoc">
+                                                                @foreach (var i in ViewBag.ls_previousRevenue)
+                                                                {
+                                                                    <option value="@i.Code" @(ViewBag.ls_info[0].DoanhThuNamTruocCode == i.Code ? "selected" : "")>@i.Name</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Lợi thế của DN </label>
+                                                        <div class="col-sm-9">
+                                                            <select class="form-control selectpicker" id="LoiTheDoanhNghiep">
+                                                                <option value="">@MP_VendorTool.Resource.multi_def</option>
+                                                                @foreach (var i in ViewBag.ls_compe)
+                                                                {
+                                                                    <option value="@i.Code" @(ViewBag.ls_info[0].LoiTheDoanhNghiepCode == i.Code ? "selected" : "")>@i.Name</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Khách hàng chính <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control required" type="text" id="KhachHangChinh" name="KhachHangChinh" value="@ViewBag.ls_info[0].KhachHangChinh" placeholder="Khách hàng chính">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Số M2 kho/xưởng <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control required" type="text" id="SoM2Kho" name="SoM2Kho" value="@ViewBag.ls_info[0].SoM2Kho" placeholder="Số M2 kho/xưởng">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Số lượng xe vận tải <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control required" type="number" id="SoLuongXe" name="SoLuongXe" value="@ViewBag.ls_info[0].SoLuongXe" placeholder="Số lượng xe vận tải">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <div class="ibox">
+                                    <div class="ibox-head">
+                                        <div class="ibox-title">THÔNG TIN LIÊN HỆ</div>
+                                        <div class="ibox-tools">
+                                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                            <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Người đại diện <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="DaiDien" name="DaiDien" value="@ViewBag.ls_info[0].DaiDien" placeholder="Người đại diện">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Email người đại diện <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="EmailDaiDien" name="EmailDaiDien" value="@ViewBag.ls_info[0].EmailDaiDien" placeholder="Email người đại diện">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Chức danh <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <select class="form-control selectpicker" id="ChucDanhDaiDien">
+                                                                @foreach (var i in ViewBag.ls_position)
+                                                                {
+                                                                    <option value="@i.Code" @(ViewBag.ls_info[0].ChucDanhDaiDienCode == i.Code ? "selected" : "")>@i.Name</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Số ĐT người đại diện <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="PhoneDaiDien" name="PhoneDaiDien" value="@ViewBag.ls_info[0].PhoneDaiDien" placeholder="Số ĐT người đại diện">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Người liên hệ <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="NguoiLienHe" name="NguoiLienHe" value="@ViewBag.ls_info[0].NguoiLienHe" placeholder="Người liên hệ">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Email người liên hệ <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="EmailLienHe" name="EmailLienHe" value="@ViewBag.ls_info[0].EmailLienHe" placeholder="Email người liên hệ">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Chức danh <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <select class="form-control selectpicker" id="ChucDanhLienHe">
+                                                                @foreach (var i in ViewBag.ls_position)
+                                                                {
+                                                                    <option value="@i.Code" @(ViewBag.ls_info[0].ChucDanhLienHeCode == i.Code ? "selected" : "")>@i.Name</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Số ĐT người liên hệ <span style="color:red">*</span></label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="PhoneLienHe" name="PhoneLienHe" value="@ViewBag.ls_info[0].PhoneLienHe" placeholder="Số ĐT người liên hệ ">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            @{
+                                if (ViewBag.ls_info[0].Status == "0")
+                                {
+                                    <div class="col-md-12">
+                                        <div class="col-md-12" style=" float:right; text-align:right">
+                                            <input class="btn btn-info" type="submit" onclick="SendInFor();" value="Cập nhật thông tin" />
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#txtHead').html("Thông tin doanh nghiệp");
+    });
+    function SendInFor() {
+        var obError = undefined;
+        $("#InfoCompany .required").each(function () {
+            $(this).removeClass("boxFocus");
+            if (obError == undefined && $(this).val() === '') {
+                obError = $(this);
+                return false;
+            }
+        });
+
+        if (obError != undefined) {
+            obError.focus();
+            obError.addClass("boxFocus");
+            alert("Vui lòng nhập đầy đủ thông tin trong các ô có dấu * trước khi gửi");
+            return false;
+        }
+
+        ////
+
+        let LoaiHinhHopTac = $('#LoaiHinhHopTac').val();
+        let TenDoanhNghiep = $('#TenDoanhNghiep').val();
+        let DiaChi = $('#DiaChi').val();
+        let SoDienThoai = $('#SoDienThoai').val();
+        let Website = $('#Website').val();
+        let Email = $('#Email').val();
+        let Facebook = $('#Facebook').val();
+        let LinhVucHoatDong = $('#LinhVucHoatDong').val();
+        let SoDKKD = $('#SoDKKD').val();
+        let MaSoThue = $('#MaSoThue').val();
+        let SoTaiKhoan = $('#SoTaiKhoan').val();
+        let TaiNganHang = $('#TaiNganHang').val();
+        let Invoice = $('#Invoice').val();
+        let TenInvoice = $('#TenInvoice').val();
+        let ThoiGianHoatDongCode = $('#ThoiGianHoatDongCode').val();
+        let ThoiGianHoatDong = $('#ThoiGianHoatDong').val();
+        let SoLuongNhanSu = $('#SoLuongNhanSu').val();
+        let DoBaoPhu = $('#DoBaoPhu').val();
+        let DoanhThuNamTruoc = $('#DoanhThuNamTruoc').val();
+        let LoiTheDoanhNghiep = $('#LoiTheDoanhNghiep').val();
+        let KhachHangChinh = $('#KhachHangChinh').val();
+        let SoM2Kho = $('#SoM2Kho').val();
+        let SoLuongXe = $('#SoLuongXe').val();
+        let DaiDien = $('#DaiDien').val();
+        let EmailDaiDien = $('#EmailDaiDien').val();
+        let ChucDanhDaiDien = $('#ChucDanhDaiDien').val();
+        let PhoneDaiDien = $('#PhoneDaiDien').val();
+        let NguoiLienHe = $('#NguoiLienHe').val();
+        let EmailLienHe = $('#EmailLienHe').val();
+        let ChucDanhLienHe = $('#ChucDanhLienHe').val();
+        let PhoneLienHe = $('#PhoneLienHe').val();
+
+        
+
+        var prd = {};
+        prd.LoaiHinhHopTacCode = LoaiHinhHopTac;
+        prd.LoaiHinhHopTac = $('#LoaiHinhHopTac option:selected').text();
+        prd.TenDoanhNghiep = TenDoanhNghiep;
+        prd.DiaChi = DiaChi;
+        prd.SoDienThoai = SoDienThoai;
+        prd.Website = Website;
+        prd.Email = Email;
+        prd.Facebook = Facebook;
+        prd.LinhVucHoatDongCode = LinhVucHoatDong;
+        prd.LinhVucHoatDong = $('#LinhVucHoatDong option:selected').text();
+        prd.SoDKKD = SoDKKD;
+        prd.MaSoThue = MaSoThue;
+        prd.SoTaiKhoan = SoTaiKhoan;
+        prd.TaiNganHangCode = TaiNganHang;
+        prd.TaiNganHang = $('#TaiNganHang option:selected').text();
+        prd.Invoice = $('#Invoice').prop('checked') == false ? 0 : 1;
+        prd.TenInvoiceCode = TenInvoice;
+        prd.TenInvoice = $('#TenInvoice option:selected').text();
+        prd.ThoiGianHoatDongCode = ThoiGianHoatDong;
+        prd.ThoiGianHoatDong = $('#ThoiGianHoatDong option:selected').text();
+        prd.SoLuongNhanSu = SoLuongNhanSu;
+        prd.DoBaoPhuCode = DoBaoPhu;
+        prd.DoBaoPhu = $('#DoBaoPhu option:selected').text();;
+        prd.DoanhThuNamTruocCode = DoanhThuNamTruoc;
+        prd.DoanhThuNamTruoc = $('#DoanhThuNamTruoc option:selected').text();
+        prd.LoiTheDoanhNghiepCode = LoiTheDoanhNghiep;
+        prd.LoiTheDoanhNghiep = $('#LoiTheDoanhNghiep option:selected').text();
+        prd.KhachHangChinh = KhachHangChinh;
+        prd.SoM2Kho = SoM2Kho;
+        prd.SoLuongXe = SoLuongXe;
+        prd.DaiDien = DaiDien;
+        prd.EmailDaiDien = EmailDaiDien;
+        prd.ChucDanhDaiDienCode = ChucDanhDaiDien;
+        prd.ChucDanhDaiDien = $('#ChucDanhDaiDien option:selected').text();
+        prd.PhoneDaiDien = PhoneDaiDien;
+        prd.NguoiLienHe = NguoiLienHe;
+        prd.EmailLienHe = EmailLienHe;
+        prd.ChucDanhLienHeCode = ChucDanhLienHe;
+        prd.ChucDanhLienHe = $('#ChucDanhLienHe option:selected').text();
+        prd.PhoneLienHe = PhoneLienHe;
+
+
+        console.log(JSON.stringify({ prd }));
+        console.log(prd);
+
+        $.ajax({
+            url: '/Vendors/InfoCompany_Save',
+            type: 'POST',
+            data: JSON.stringify({ info: prd }),
+            enctype: 'multipart/form-data',
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                if (data.RespId == 0) {
+                    jAlert(data.RespMsg, 'Thông báo', (r) => {
+                        location.reload();
+                    });
+                } else {
+                    jAlert(data.RespMsg, 'Thông báo');
+                }
+                js_Loading(false, 1);
+            }
+        });
+
+
+    };
+</script>

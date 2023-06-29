@@ -1,0 +1,1439 @@
+﻿@using MP_VendorTool.Models.Order
+@using MP_VendorTool.Common;
+@using Newtonsoft.Json;
+@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Chào hàng mới";
+
+    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+
+    var json_MAU = serializer.Serialize(ViewBag.ls_MAU);
+    var json_DOTUOI = serializer.Serialize(ViewBag.ls_DOTUOI);
+    var json_ls_UoM = serializer.Serialize(ViewBag.ls_UoM);
+
+}
+<script src="https://cdn.ckeditor.com/4.5.11/standard/ckeditor.js"></script>
+
+<style>
+    span#cke_1_top {
+        display: none;
+    }
+
+    span#cke_1_bottom {
+        display: none;
+    }
+
+    .guiduyet a:hover, .guiduyet a:focus {
+        color: #fff !important;
+        text-decoration: none !important;
+    }
+
+    .guiduyet:hover, .guiduyet:focus {
+        color: #fff !important;
+        text-decoration: none !important;
+        background: #4a722d;
+    }
+
+    #ShowImgM1 {
+        margin: 0 0 7px 0px !important
+    }
+
+    .boximg {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ccc
+    }
+
+    #ShowImgM1 li {
+        display: block;
+        position: relative;
+        margin: 3px 3px 3px 0;
+        padding: 5px;
+        float: left;
+        width: 85px;
+        height: 90px
+    }
+
+    .boximg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover
+    }
+
+    .boximg:hover .btn-close {
+        display: inline-block
+    }
+
+    img.icdelete {
+        width: 20px;
+        height: 20px;
+    }
+
+    .boximg .btn-close {
+        position: absolute;
+        top: 0;
+        right: -6px;
+        font-size: 25px;
+        line-height: 20px;
+    }
+
+    .dropup .dropdown-menu, .navbar-fixed-bottom .dropdown .dropdown-menu {
+        margin-bottom: 2px;
+    }
+
+    .dropup .dropdown-menu {
+        top: auto;
+        bottom: 100%;
+        margin-bottom: .125rem;
+    }
+
+    .col-md-8.box_sizeProduct {
+        padding-left: 19px;
+        padding-right: 17px;
+    }
+
+    i.fa.fa-trash {
+        font-size: 17px;
+        padding-top: 5px;
+    }
+
+    .ibox-head {
+        padding: 0px 0px !important;
+        margin-bottom: 28px !important;
+    }
+
+    .container {
+        margin-left: 0px;
+    }
+
+    .QuyCachDongGoi .form-control {
+        font-size: 12px !important;
+        margin-bottom: 4px;
+        width: 96% !important;
+    }
+
+    .Kichthuoc .form-control {
+        font-size: 12px !important;
+        width: 96% !important;
+    }
+
+    .dropdown.bootstrap-select.form-control {
+        font-size: 12px !important;
+    }
+
+    img.MultipleImg {
+        float: left;
+        width: 47%;
+        margin: 4px;
+        height: 130px;
+        border: 1px solid #d7d7d7;
+    }
+
+
+    img.MultipleImgFull {
+        width: 100%;
+    }
+
+    .btn_add .add i {
+        font-size: 18px;
+        color: #337ab7;
+        padding-top: 4px;
+    }
+
+
+    #wp_thum_img {
+        background-color: #fff;
+        text-align: center;
+    }
+
+    #img_src img {
+        border-radius: 5px;
+        margin-right: 7px;
+    }
+
+    .img_src p {
+        font-size: 14px;
+        color: #000;
+    }
+
+
+    #btn_Guis {
+        background-color: #868686;
+        color: #fff;
+        padding: 7px 38px;
+        margin-top: 2px;
+        text-align: left;
+    }
+
+    .box_sizeProduct .form-group {
+        padding-left: 0px;
+        padding-right: 3px;
+    }
+
+    .chiadeu {
+        width: 33%;
+        display: inline-block;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .Themmoi:hover {
+        background-color: #0f4c81 !important;
+        color: #e9e8e6 !important;
+    }
+
+    .col-md-8.box_sizeProduct .form-group {
+        margin-bottom: 0px;
+    }
+
+    .modal {
+        top: 20%;
+    }
+
+    .page-content {
+        padding-top: 2px;
+    }
+
+    .khoangcach {
+        margin-top: 10px;
+    }
+
+    a#guiduyet:hover {
+        color: #fff;
+    }
+
+    .panel-heading .chevron:after {
+        content: "\f078";
+    }
+
+    .panel-heading.collapsed .chevron:after {
+        content: "\f054";
+    }
+
+    .col-xs-1.right {
+        float: right;
+        margin-right: 34px;
+        margin-top: -17px;
+    }
+
+    .modal-dialog {
+        max-width: 480px !important;
+    }
+
+    body {
+        font-size: 13px !important;
+    }
+</style>
+<div class="content-wrapper nhanTuVan">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ViewtabNew" style="margin-left: 0px !important">
+                <button class="btn tabbt btntab" onclick="window.location = '/Product/ProInfo'" style="margin-left: 3px;">Tất cả</button>
+                <button class="btn tabbt btn-danger " onclick="window.location = '/Product/Create'">Chào hàng mới</button>
+                <button class="btn tabbt btntab" onclick="window.location = '/Product/ProUpdate'">Thông tin sản phẩm</button>
+            </div>
+
+            <div style=" display:none">
+                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                {
+                    <input type="text" class="form-control" id="VendorNo" name="VendorNo" value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                }
+                else
+                {
+                    <select id="VendorNo" class="form-control selectpicker" data-live-search="true">
+                        @if (ViewBag.list_vendor != null)
+                        {
+                            <option value=""> Chọn NCC </option>
+                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                            {
+                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                            }
+                        }
+                    </select>
+                }
+
+                <select id="functionCode" class="form-control selectpicker" data-live-search="true" onchange="loadgroup();loaddiv(); loadcat();  loadgroupERP(); loaddivERP(); loadcatERP();">
+                    <option value=""> Chọn Function </option>
+                    @foreach (var i in ViewBag.listFunction)
+                    {
+                        <option value="@i.Code">@i.Code - @i.Name</option>
+                    }
+                </select>
+
+                <select id="DivisionERP" class="form-control selectpicker" data-live-search="true">
+                    <option value=""> Chọn Division ERP </option>
+                </select>
+
+                <select id="CategoryERP" class="form-control selectpicker" data-live-search="true">
+                    <option value=""> Chọn Category ERP </option>
+                </select>
+
+                <select id="GroupERP" class="form-control selectpicker" data-live-search="true">
+                    <option value=""> Chọn Group ERP </option>
+                </select>
+
+                <select id="divisionCode" class="form-control selectpicker" data-live-search="true">
+                    <option value=""> Chọn Division 18 </option>
+                </select>
+
+                <select id="categoryCode" class="form-control selectpicker" data-live-search="true">
+                    <option value=""> Chọn Category 18 </option>
+                </select>
+
+                <select id="groupCode" class="form-control selectpicker" data-live-search="true">
+                    <option value=""> Chọn Group 18 </option>
+                </select>
+
+                <select id="GenProPostingGroup" class="form-control selectpicker" data-live-search="true">
+                    <option value=""> Chọn HH/KG </option>
+                    @if (ViewBag.ls_GeneralProduct != null)
+                    {
+                        foreach (objCombox box in (List<objCombox>)ViewBag.ls_GeneralProduct)
+                        {
+                            <option value="@box.Code">@box.Code</option>
+                        }
+                    }
+                </select>
+
+                <select id="Season" class="form-control selectpicker" data-live-search="true">
+                    <option value=""> Chọn Mùa vụ </option>
+                    @if (ViewBag.ls_Season != null)
+                    {
+                        foreach (objCombox box in (List<objCombox>)ViewBag.ls_Season)
+                        {
+                            <option value="@box.Code">@box.Name</option>
+                        }
+                    }
+                </select>
+
+                <select id="NguonNhap" class="form-control selectpicker" data-live-search="true">
+                    <option value=""> Chọn nguồn nhập </option>
+                    @if (ViewBag.ls_NguonNhap != null)
+                    {
+                        foreach (objCombox box in (List<objCombox>)ViewBag.ls_NguonNhap)
+                        {
+                            <option value="@box.Code">@box.Name</option>
+                        }
+                    }
+                </select>
+                <input class="form-control  OrderValue" onchange="ShowTruVAT()" type="text" id="GiaMuaTruVat" name="GiaMuaTruVat" value="0" />
+                <input class="form-control  OrderValue" type="text" id="LineDiscount" name="LineDiscount" value="0" />
+                <select id="PTVAT" class="form-control" onchange="ShowVAT()">
+                    <option value="VAT-GS8">8 %</option>
+                </select>
+                <input class="form-control  OrderValue" onchange="ShowCongVAT()" type="text" id="GiaMuaCongVAT" name="GiaMuaCongVAT" value="0" />
+            </div>
+
+        </div>
+    </div>
+
+    <div style="clear: both"></div>
+    <fieldset class="BBoderV1">
+        <div class="alerts">
+            <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten1">
+                <div class="col-md-12">
+                    <div class="headerName">
+                        Khai báo sản phẩm
+                    </div>
+                    <div class="col-xs-1 right">
+                        <i class="chevron fa "></i>
+                    </div>
+                </div>
+                <div class="contens">
+                    Barcode được tính riêng cho từng size hoặc màu khác nhau
+                </div>
+            </div>
+            <div style="clear:both"></div>
+            <div class="col-xs-12 collapse in" id="Conten1">
+                <div style=" height: 15px; clear: both"></div>
+                <div class="FullfromV1">
+                    <div class="col-md-6">
+                        <div class="form-horizontal">
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Barcode</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control required notnull" type="text" id="Barcode" name="Barcode" onchange="check_Barcode()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Tên hàng</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control required notnull" id="TenSanPham" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Thương hiệu</label>
+                                    <div class="col-sm-9">
+                                        <select id="brand" class="form-control required selectpicker notnull" data-live-search="true">
+                                            <option value="">Chọn thương hiệu</option>
+                                            @if (ViewBag.ls_brand != null)
+                                            {
+                                                foreach (objCombox i in (List<objCombox>)ViewBag.ls_brand)
+                                                {
+                                                    <option value="@i.Code">@i.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Xuất xứ</label>
+                                    <div class="col-sm-9">
+                                        <select id="manufactureCode" class="form-control required selectpicker notnull" data-live-search="true">
+                                            <option value=""> Chọn Xuất xứ</option>
+                                            @foreach (var i in ViewBag.ls_country)
+                                            {
+                                                <option value="@i.Code">@i.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Giá bán</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control notnull OrderValue required" type="text" id="GiaBanNiemYet" name="GiaBanNiemYet" placeholder="Nhập giá bán (VNĐ)" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Đơn vị tính</label>
+                                    <div class="col-sm-9">
+                                        <select id="DonViTinh" class="form-control selectpicker required notnull" data-live-search="true">
+                                            <option value="">Chọn loại đơn vị</option>
+                                            @foreach (var i in ViewBag.ls_UoM)
+                                            {
+                                                <option value="@i.Code">@i.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Link sản phẩm</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control required notnull" id="LinkSanPham" name="LinkSanPham" placeholder="Vd: https://bibosmart.vn" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal">
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Mô tả sản phẩm</label>
+                                    <div class="col-sm-9">
+                                        @*<textarea name="MoTaSanPham" id="MoTaSanPham"  class="ckeditor" style="max-width: 100% !important; width: 100%; color: #555555; border-radius:0px;border: 1px solid #ccc;"></textarea>*@
+                                        <textarea name="MoTaSanPham" id="MoTaSanPham" maxlength="400" class="required" placeholder="Đặc điểm nổi bật, mô tả sản phẩm..." style="border: 1px solid #ccc; max-width: 100% !important; width: 100%; height: 200px; padding: 5px; color: #555555 "></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Ảnh sản phẩm</label>
+                                    <div class="col-sm-9">
+                                        <div style=" clear:both"></div>
+                                        <div id="img_src">
+                                            <ul id="ShowImgM1"></ul>
+                                        </div>
+                                        <div class="Upload_img" style=" float:left">
+                                            <input class="form-control" type="hidden" id="imgLink">
+                                            <div id="wp_thum_img" onclick="reupimg()" style="text-align: center; width: 125px; height: 78px; border: 1px dashed rgba(0, 0, 0, 0.38); border-radius: 4px; margin-top: 9px;">
+                                                <div class="img_src" style="padding-top: 7px; cursor:pointer">
+                                                    <img id="thum_img" for="fileUpload" src="~/Resources/images/upfiles.png">
+                                                    <div id="upload_theme">
+                                                        <p style="">Up ảnh mô tả</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" class="form-control" name="txtMImage" id="txtMImage" />
+                                            <input type="file" style="width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;" name="fileUpload" id="fileUpload" class="inputfile">
+                                        </div>
+                                        <div style=" clear:both"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </fieldset>
+
+    @*<div style=" height: 4px; clear: both"></div>
+        <fieldset class="BBoderV1">
+            <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten2">
+                <div class="col-md-12">
+                    <div class="headerName">
+                        Thông tin chi tiết
+                    </div>
+                    <div class="col-xs-1 right">
+                        <i class="chevron fa "></i>
+                    </div>
+                </div>
+                <div class="contens">
+                    Những thông tin mô tả sản phẩm
+                </div>
+
+            </div>
+            <div style=" height:0px; clear:both"></div>
+            <div class="col-xs-12 collapse in" id="Conten2">
+                <div class="FullfromV1">
+                    <div style=" height: 20px; clear: both"></div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal">
+                        <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Giá bán</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control notnull OrderValue required" type="text" id="GiaBanNiemYet" name="GiaBanNiemYet" placeholder="Nhập giá bán (VNĐ)" />
+                                        </div>
+                                    </div>
+                                </div>
+                           <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Đơn vị tính</label>
+                                        <div class="col-sm-9">
+                                            <select id="DonViTinh" class="form-control selectpicker required notnull" data-live-search="true">
+                                                <option value="">Chọn loại đơn vị</option>
+                                                @foreach (var i in ViewBag.ls_UoM)
+                                                {
+                                                    <option value="@i.Code">@i.Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Trọng lượng</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control notnull required OrderValue" id="TrongLuong" placeholder="Nhập trọng lượng (gam)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-horizontal Kichthuoc">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Kích thước (Thùng)</label>
+                                <div class="col-sm-9" style=" height: 33px; ">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control notnull OrderValue required" id="KichThuocDaiCm" placeholder="Dài (cm)" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control notnull OrderValue required" id="KichThuocRongCm" placeholder="Rộng (cm)" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control notnull OrderValue required" id="KichThuocCao" placeholder="Cao (cm)" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal Kichthuoc">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Kích thước (cm) </label>
+                                <div class="col-sm-9" style=" height: 33px; ">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control notnull OrderValue required" id="KichThuocDai" placeholder="Dài (cm)" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control notnull OrderValue required" id="KichThuocRong" placeholder="Rộng (cm)" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control notnull OrderValue required" id="KichThuocCao" placeholder="Cao (Cm)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal QuyCachDongGoi">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Quy cách đóng gói </label>
+                                <div class="col-sm-9" style=" height: 77px; ">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <select id="QuyCachDGSanPhamCode" class="form-control selectpicker " data-live-search="true">
+                                                <option value="">Chọn Đơn vị tính</option>
+                                                @foreach (var i in ViewBag.ls_UoM)
+                                                {
+                                                    <option value="@i.Code">@i.Name</option>
+                                                }
+                                            </select>
+                                            <input type="text" class="form-control OrderValue" id="QuyCachDGSanPham" placeholder="Ví dụ: 6 hộp" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <select id="QuyCachDGSanPhamLocCode" class="form-control selectpicker " data-live-search="true">
+                                                <option value="">Chọn Đơn vị tính</option>
+                                                @foreach (var i in ViewBag.ls_UoM)
+                                                {
+                                                    <option value="@i.Code">@i.Name</option>
+                                                }
+                                            </select>
+                                            <input type="text" class="form-control OrderValue " id="QuyCachDGSanPhamLoc" placeholder="Ví dụ: 6 lốc" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <select id="QuyCachDGSanPhamThungCode" class="form-control selectpicker " data-live-search="true">
+                                                <option value="">Chọn Đơn vị tính</option>
+                                                @foreach (var i in ViewBag.ls_UoM)
+                                                {
+                                                    <option value="@i.Code">@i.Name</option>
+                                                }
+                                            </select>
+                                            <input type="text" class="form-control OrderValue " id="QuyCachDGSanPhamThung" placeholder="Ví dụ: 5 thùng" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>*@
+
+
+    <div style=" height: 4px; clear: both"></div>
+    <fieldset class="BBoder" style="padding-bottom:10px">
+        <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten3">
+            <div class="col-md-12">
+                <div class="headerName">
+                    Quy cách đóng gói
+                </div>
+                <div class="col-xs-1 right">
+                    <i class="chevron fa "></i>
+                </div>
+            </div>
+            <div class="contens">
+                Những thông tin mô tả sản phẩm
+            </div>
+
+        </div>
+        <div style=" height:0px; clear:both"></div>
+        <div class="col-xs-12 collapse in" id="Conten3">
+            <div class="Fullfrom">
+                <div style=" height:5px; clear:both"></div>
+                <table id="tbl_itemQuyCachDongGoi" class="table table-bordered tb_detail" style="width: 98%; margin-right: 15px; margin-left: 15px; margin-bottom: 0px;">
+                    <thead>
+                        <tr>
+                            <th class="tieudeKC">
+                                Đơn vị tính
+                            </th>
+                            <th class="tieudeKC">
+                                Số lượng
+                            </th>
+                            <th class="tieudeKC">
+                                Trọng lượng (gam)
+                            </th>
+                            <th class="tieudeKC">
+                                Kích thước dài (cm)
+                            </th>
+                            <th class="tieudeKC">
+                                Kích thước rộng (cm)
+                            </th>
+                            <th class="tieudeKC">
+                                Kích thước cao (cm)
+                            </th>
+                            <th style=" width:100px">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div style=" height:0px; clear:both"></div>
+            </div>
+        </div>
+    </fieldset>
+
+
+
+
+    <div style=" height: 4px; clear: both"></div>
+    <fieldset class="BBoder" style="padding-bottom:10px">
+        <div class="panel-heading" data-toggle="collapse" aria-expanded="true" data-target="#Conten3">
+            <div class="col-md-12">
+                <div class="headerName">
+                    Thông tin size màu
+                </div>
+                <div class="col-xs-1 right">
+                    <i class="chevron fa "></i>
+                </div>
+            </div>
+            <div class="contens">
+                Đảm bảo thông tin chính xác
+            </div>
+
+        </div>
+        <div style=" height:0px; clear:both"></div>
+        <div class="col-xs-12 collapse in" id="Conten3">
+            <div class="Fullfrom">
+                <div style=" height:5px; clear:both"></div>
+                <table id="tbl_itemColor" class="table table-bordered tb_detail" style="width: 98%; margin-right: 15px; margin-left: 15px; margin-bottom: 0px;">
+                    <thead>
+                        <tr>
+                            <th class="tieudeKC">
+                                Size
+                            </th>
+                            <th class="tieudeKC">
+                                Màu
+                            </th>
+                            <th class="tieudeKC">
+                                Barcode
+                            </th>
+                            <th style=" width:100px">
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div style=" height:0px; clear:both"></div>
+            </div>
+        </div>
+    </fieldset>
+    <div style=" height: 20px; clear: both"></div>
+    <a id="guiduyet" onclick="fnSave('news')" class="guiduyet"><img src="~/Resources/images/icduyet.png" style="margin-top: -3px; margin-right: 6px; width: 20px;" /> Gửi duyệt </a>
+    <div style=" height: 50px; clear: both"></div>
+
+</div>
+
+<script type="text/javascript">
+    var lstsizemau = [];
+    var CDFlash = 0;
+    var list_Size = @Html.Raw(json_DOTUOI);
+    var list_MAU = @Html.Raw(json_MAU);
+    var json_ls_UoM = @Html.Raw(json_ls_UoM);
+
+    var QuyCach = 0;
+
+    $(function () {
+        $('#txtHead').html("Chào hàng mới");
+        js_addMau();
+        js_addQuyCachDongGoi();
+
+        $("#fileUpload").change(function () {
+            var vtrUpload = $("#fileUpload").val().toLowerCase();
+            var regexVTRUpload = new RegExp("(.*?)\.(png|jpg|jpeg)$");
+            if (!(regexVTRUpload.test(vtrUpload))) {
+                $("#fileUpload").val("");
+                $.toast({
+                    heading: 'Thông báo',
+                    text: 'File ảnh của bạn không đúng định dạng. Vui lòng kiểm tra lại.!',
+                    showHideTransition: 'fade',
+                    icon: 'error'
+                })
+            } else {
+                UploadMultiple();
+            }
+        });
+    });
+
+    function ShowTruVAT() {
+        var Price = $("#GiaMuaTruVat").val();
+        var VAT = $("#PTVAT").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Product/Get_VAT_TruVAT",
+            data: JSON.stringify({ code: VAT, Price: Price }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (data) {
+                if (data != null) {
+                    $("#GiaMuaCongVAT").val(data[0].Name);
+                    console.log("GiaMuaCongVAT: " + data[0].Name);
+                }
+            }, error: function () {
+            }
+        });
+    }
+
+    function ShowVAT() {
+        $("#GiaMuaCongVAT").val('');
+        $("#GiaMuaTruVat").val('');
+    }
+
+    function ShowCongVAT() {
+        var VAT = $("#PTVAT").val();
+        var Price = $("#GiaMuaCongVAT").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Product/Get_VAT_CongVAT",
+            data: JSON.stringify({ code: VAT, Price: Price }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (data) {
+                if (data != null) {
+                    $("#GiaMuaTruVat").val(data[0].Name);
+                    console.log("GiaMuaTruVat: " + data[0].Name);
+                }
+            }, error: function () {
+            }
+        });
+    }
+
+    function UploadMultipleV1() {
+
+        var data = new FormData();
+        var fileInput = document.getElementById('fileUpload');
+        for (i = 0; i < fileInput.files.length; i++) {
+            data.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+        data.append("foldername", 'Chaohang');
+        $.ajax({
+            url: '@Url.Action("MultipleUploadFile", "Product")',
+            type: 'POST',
+            data: data,
+            beforeSend: function () {
+                js_Loading(true, 0);
+            },
+            success: function (data) {
+                $('#img_src').html(data.link);
+                $('#imgLink').val(data.ImagesUrl);
+                js_Loading(false, 0);
+            },
+            error: function () {
+                js_Loading(false, 0);
+                $.toast({
+                    heading: 'Thông báo',
+                    text: 'Thiết bị không hỗ trợ up ảnh từ camera. Chọn file từ bộ nhớ thiết bị!',
+                    showHideTransition: 'fade',
+                    icon: 'error'
+                })
+
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
+
+    //.dropdown.bootstrap-select.form-control.bs3 { margin-bottom: 6px; border: 1px solid red !important; height: 34px !important; border-radius: 5px; }
+
+    function fnSave(strtype) {
+        var buttons = document.getElementsByClassName('notnull');
+        for (var i = 0; i < buttons.length; i++) {
+            if (buttons[i].value == "") {
+                document.getElementById(buttons[i].id).focus();
+                // alert("Các trường có dấu * là bắt buộc phải nhập. Vui lòng kiểm tra lại");
+                $.toast({
+                    heading: 'Thông báo',
+                    text: 'Vui lòng nhập các trường đầy đủ.',
+                    showHideTransition: 'fade',
+                    icon: 'error'
+                })
+                return false;
+            }
+        }
+
+        if (
+            $('#VendorNo').val().length == 0 ||
+            $('#GiaBanNiemYet').val().length == 0 ||
+            $('#Barcode').val().length == 0 ||
+            $('#GiaBanNiemYet').val().length == 0
+        ) {
+            $('#Detail_modal').modal('hide');
+            $.toast({
+                heading: 'Thông báo',
+                text: 'Vui lòng nhập các trường đầy đủ.',
+                showHideTransition: 'fade',
+                icon: 'error'
+            })
+            return false;
+        }
+        var Urls = $('#LinkSanPham').val();
+        var re = /(http(s)?:\\)?([\w-]+\.)+[\w-]+[.com|.in|.org]+(\[\?%&=]*)?/
+        if (!re.test(Urls)) {
+            $.toast({
+                heading: 'Thông báo',
+                text: 'Link sản phẩm không đúng định dạng. Vui lòng kiểm tra lại.',
+                showHideTransition: 'fade',
+                icon: 'error'
+            })
+            return false;
+        }
+
+        if ($('#txtMImage').val().length > 0) {
+
+            var po = {};
+            po.VendorName = fomart_split($('#VendorNo').val(), 1);
+            po.VendorCode = fomart_split($('#VendorNo').val(), 0);
+            po.TenSanPham = $('#TenSanPham').val();
+            po.Barcode = $('#Barcode').val();
+            po.FunctionName = fomart_split($('#functionCode option:selected').text(), 1);
+            po.FunctionCode = $('#functionCode').val();
+            po.DivisionName = fomart_split($('#divisionCode option:selected').text(), 1);
+            po.DivisionCode = $('#divisionCode').val();
+            po.CategoryName = fomart_split($('#categoryCode option:selected').text(), 1);
+            po.CategoryCode = $('#categoryCode').val();
+            po.GroupName = fomart_split($('#groupCode option:selected').text(), 1);
+            po.GroupCode = $('#groupCode').val();
+
+            po.ThuongHieuCode = $('#brand').val();
+            po.ThuongHieuName = $('#brand option:selected').text();
+            po.NguonNhapCode = $('#NguonNhap').val();
+            po.NguonNhapName = $('#NguonNhap option:selected').text();
+
+            po.XuatXuCode = $('#manufactureCode').val();
+            po.XuatXuName = $('#manufactureCode option:selected').text();
+            po.DonViTinhCode = $('#DonViTinh').val();
+            po.DonViTinhName = $('#brand option:selected').text();
+
+
+            //po.TrongLuong = $('#TrongLuong').val();
+
+            //po.KichThuocDai = $('#KichThuocDai').val();
+            //po.KichThuocRong = $('#KichThuocRong').val();
+            //po.KichThuocCao = $('#KichThuocCao').val();
+
+            //po.QuyCachDGSanPhamCode = $('#QuyCachDGSanPhamCode').val();
+            //po.QuyCachDGSanPhamName = $('#QuyCachDGSanPhamCode option:selected').text();
+            //po.QuyCachDGSanPham = $('#QuyCachDGSanPham').val();
+
+            //po.QuyCachDGSanPhamLocCode = $('#QuyCachDGSanPhamLocCode').val();
+            //po.QuyCachDGSanPhamLocName = $('#QuyCachDGSanPhamLocCode option:selected').text();
+            //po.QuyCachDGSanPhamLoc = $('#QuyCachDGSanPhamLoc').val();
+
+            //po.QuyCachDGSanPhamThungCode = $('#QuyCachDGSanPhamThungCode').val();
+            //po.QuyCachDGSanPhamThungName = $('#QuyCachDGSanPhamThungCode option:selected').text();
+            //po.QuyCachDGSanPhamThung = $('#QuyCachDGSanPhamThung').val();
+
+            //po.KichThuocDaiCm = $('#KichThuocDaiCm').val();
+            //po.KichThuocRongCm = $('#KichThuocRongCm').val();
+            //po.KichThuocCaoCm = $('#KichThuocCaoCm').val();
+
+            po.GiaMuaTruVat = $('#GiaMuaTruVat').val();
+            po.LineDiscount = $('#LineDiscount').val();
+            po.PTVAT = $('#PTVAT').val();
+            po.GiaMuaCongVAT = $('#GiaMuaCongVAT').val();
+            po.GiaBanNiemYet = $('#GiaBanNiemYet').val();
+
+            po.LinkSanPham = $('#LinkSanPham').val();
+            po.MoTaSanPham = $('#MoTaSanPham').val();
+            po.AnhSanPham = $('#txtMImage').val();
+
+            getTable_Line();
+            getTable_QuyCach_DongGoi_Line();
+            //var obj = {};
+            //obj.SourceHeader = JSON.stringify(po);
+            //obj.SourceLine = JSON.stringify(SourceLine);
+
+            console.log(JSON.stringify(po));
+            console.log(JSON.stringify(SourceLine));
+            console.log(JSON.stringify(SourceQuyCach));
+            //console.log(JSON.stringify(obj));
+
+            $.ajax({
+                type: "POST",
+                url: "/Product/addProduct",
+                data: JSON.stringify({ it: po, Size: SourceLine, QuyCachDongGoi: SourceQuyCach }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r1) {
+                    if (r1.RespId == '0') {
+                        $('#Detail_modal').modal('show');
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                    else if (r1.RespId == '2') {
+                        check_Barcode();
+                    }
+                    else {
+                        $.toast({
+                            heading: 'Thông báo',
+                            text: 'Có lỗi xảy ra thử lại sau!',
+                            showHideTransition: 'fade',
+                            icon: 'error'
+                        })
+                    }
+                }
+            });
+
+        } else {
+            $.toast({
+                heading: 'Thông báo',
+                text: 'Vui lòng điền đẩy đủ ảnh sản phẩm.',
+                showHideTransition: 'fade',
+                icon: 'error'
+            })
+        }
+    }
+
+    function js_addMau() {
+        CDFlash++;
+        var chuoi = "";
+        var TTC = CDFlash - 1;
+        $("#row_" + TTC + " .btn_add").empty();
+        $("#row_" + TTC + " .btn_add").html('<a href="javascript:void(0);" onclick="deleteRow(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+        chuoi += '<tr id="row_' + CDFlash + '">';
+
+        chuoi += '<td style=" width: 30%; "><select id="Size" class="form-control selectpicker" name="Size" data-live-search="true">';
+        chuoi += '<option value="">-- Chọn size --</option>';
+        $.each(list_Size, (index, value) => {
+            chuoi += '<option value=' + value.Code + '>'+ value.Name + '</option>';
+        });
+        chuoi += '</select></td>';
+
+        chuoi += '<td style=" width: 30%; "><select id="Mau" class="form-control selectpicker" name="Mau" data-live-search="true">';
+        chuoi += '<option value="">-- Chọn màu --</option>';
+        $.each(list_MAU, (index, value) => {
+            chuoi += '<option value=' + value.Code + '>'+ value.Name + '</option>';
+        });
+        chuoi += '</select></td>';
+        chuoi += '<td style=" width: 30%; "><input class="form-control" type="text" id="Barcode" name="Barcode" value=""></td>';
+        chuoi += '<td style="text-align:center;width: 10%;" class="btn_add"><a class="add" href="javascript:void(0)" onclick="js_addMau(' + CDFlash + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td></tr > ';
+        $("#tbl_itemColor tbody").append(chuoi);
+        $('.selectpicker').selectpicker();
+    }
+
+    function deleteRow(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_itemColor").deleteRow(ri);
+    }
+
+    function getTable_Line() {
+        debugger;
+        SourceLine = [];
+        let trs = $("#tbl_itemColor tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let Size = String($('#' + tr.id + ' select[name="Size"]').val()).trim();
+                var SizeName = String($('#' + tr.id + ' select[name="Size"] option:selected').text()).trim();
+
+                let Mau = String($('#' + tr.id + ' select[name="Mau"]').val()).trim();
+                var MauName = String($('#' + tr.id + ' select[name="Mau"] option:selected').text()).trim();
+                let Barcode = String($('#' + tr.id + ' input[name="Barcode"]').val()).trim();
+               if (Size.length > 0 || Mau.length > 0 || Barcode.length > 0) {
+                    SourceLine.push({
+                        "Size": Size,
+                        "SizeName": SizeName,
+                        "Mau": Mau,
+                        "MauName": MauName,
+                        "Barcode": Barcode,
+                    });
+               }
+            });
+        }
+        console.log(SourceLine);
+    }
+
+    function loadgroup() {
+
+        var functionCode = $("#functionCode").val();
+        var rcf = $("#groupCode").val();
+        $("#groupCode").val('');
+        $('#groupCode').empty();
+        //$('#groupCode').append('<option value="">--Chọn group--</option>');
+        $.ajax({
+            type: "POST",
+            url: "/Product/getfilterbst",
+            data: JSON.stringify({ fillter: 'group', funct: functionCode }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (r) {
+                if (r != null) {
+                    for (i in r) {
+                        $('#groupCode').append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                    }
+                    $('#groupCode').selectpicker('refresh');
+                }
+            }, error: function () {
+            }
+        });
+        $("#groupCode").val(rcf).selectpicker('refresh');
+    }
+
+    function loadcat() {
+
+        var functionCode = $("#functionCode").val();
+        var rcf = $("#categoryCode").val();
+        $("#categoryCode").val('');
+        $('#categoryCode').empty();
+       // $('#categoryCode').append('<option value="">--Chọn cat--</option>');
+        $.ajax({
+            type: "POST",
+            url: "/Product/getfilterbst",
+            data: JSON.stringify({ fillter: 'cat', funct: functionCode }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (r) {
+                if (r != null) {
+                    for (i in r) {
+                        $('#categoryCode').append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                    }
+                    $('#categoryCode').selectpicker('refresh');
+                }
+            }, error: function () {
+            }
+        });
+        $("#categoryCode").val(rcf).selectpicker('refresh');
+    }
+
+    function loaddiv() {
+
+        var functionCode = $("#functionCode").val();
+        var rcf = $("#divisionCode").val();
+        $("#divisionCode").val('');
+        $('#divisionCode').empty();
+        //$('#divisionCode').append('<option value="">--Chọn div--</option>');
+        $.ajax({
+            type: "POST",
+            url: "/Product/getfilterbst",
+            data: JSON.stringify({ fillter: 'div', funct: functionCode }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (r) {
+                if (r != null) {
+                    for (i in r) {
+                        $('#divisionCode').append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                    }
+                    $('#divisionCode').selectpicker('refresh');
+                }
+            }, error: function () {
+            }
+        });
+        $("#divisionCode").val(rcf).selectpicker('refresh');
+    }
+
+    // ERP
+
+    function loadgroupERP() {
+        var functionCode = $("#functionCode").val();
+        var rcf = $("#GroupERP").val();
+        $("#GroupERP").val('');
+        $('#GroupERP').empty();
+       // $('#GroupERP').append('<option value="">--Chọn group--</option>');
+        $.ajax({
+            type: "POST",
+            url: "/Product/getfilterbstERP",
+            data: JSON.stringify({ fillter: 'group', funct: functionCode }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (r) {
+                if (r != null) {
+                    for (i in r) {
+                        $('#GroupERP').append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                    }
+                    $('#GroupERP').selectpicker('refresh');
+                }
+            }, error: function () {
+            }
+        });
+        $("#GroupERP").val(rcf).selectpicker('refresh');
+    }
+
+    function loadcatERP() {
+
+        var funct = $("#functionCode").val();
+        var rcf = $("#CategoryERP").val();
+        $("#CategoryERP").val('');
+        $('#CategoryERP').empty();
+       // $('#CategoryERP').append('<option value="">--Chọn cat--</option>');
+        $.ajax({
+            type: "POST",
+            url: "/Product/getfilterbstERP",
+            data: JSON.stringify({ fillter: 'cat', funct: funct }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (r) {
+                if (r != null) {
+                    for (i in r) {
+                        $('#CategoryERP').append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                    }
+                    $('#CategoryERP').selectpicker('refresh');
+                }
+            }, error: function () {
+            }
+        });
+        $("#CategoryERP").val(rcf).selectpicker('refresh');
+    }
+
+    function loaddivERP() {
+
+        var funct = $("#functionCode").val();
+        var rcf = $("#DivisionERP").val();
+        $("#DivisionERP").val('');
+        $('#DivisionERP').empty();
+      //  $('#DivisionERP').append('<option value="">--Chọn div--</option>');
+        $.ajax({
+            type: "POST",
+            url: "/Product/getfilterbstERP",
+            data: JSON.stringify({ fillter: 'div', funct: funct }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (r) {
+                if (r != null) {
+                    for (i in r) {
+                        $('#DivisionERP').append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                    }
+                    $('#DivisionERP').selectpicker('refresh');
+                }
+            }, error: function () {
+            }
+        });
+        $("#DivisionERP").val(rcf).selectpicker('refresh');
+    }
+
+    function reupimg() {
+        $("#fileUpload").click();
+    }
+
+    function check_Barcode() {
+
+        var Barcode = $("#Barcode").val();
+        if (Barcode != '') {
+            $.ajax({
+                type: "POST",
+                url: "/Product/check_Barcode",
+                data: JSON.stringify({ Barcode: Barcode}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                },
+                success: function (data) {
+                    if (data != null) {
+                        if (data.code == "1") {
+                            $.toast({
+                                heading: 'Thông báo',
+                                text: 'Barcode của bạn đã tồn tại trong hệ thống, Vui lòng kiểm tra lại',
+                                showHideTransition: 'fade',
+                                icon: 'error'
+                            })
+                            $("#Barcode").val('');
+                            $('#Barcode').css('border', '1px solid #d2151e');
+                            $('#Barcode').css('background', '#fff9fa');
+                        } else {
+                            $('#Barcode').css('border', '1px solid #d7d7d7');
+                            $('#Barcode').css('background', '#ffff');
+                        }
+                    }
+                }, error: function () {
+                }
+            });
+        }
+    }
+
+    jQuery(document).ready(function ($) {
+        $(".OrderValue").on('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+        });
+
+        $(".OrderValue").load('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            if (n.toLocaleString() != 'NaN') {
+                $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+            }
+        });
+    });
+
+    $('body').on('keyup', '.OrderValue', function (e) {
+        var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+        if (n.toLocaleString() != 'NaN') {
+            $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+        }
+    });
+
+    ///QuyCachDongGoi
+    function js_addQuyCachDongGoi() {
+        QuyCach++;
+        var chuoi = "";
+        var TTC = QuyCach - 1;
+        $("#row_dg_" + TTC + " .btn_add").empty();
+        $("#row_dg_" + TTC + " .btn_add").html('<a href="javascript:void(0);" onclick="deleteRow_QuyCachDongGoi(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+        chuoi += '<tr id="row_dg_' + QuyCach + '">';
+
+        chuoi += '<td style=" width: 10%; "><select id="DonViTinh" class="form-control selectpicker" name="DonViTinh" data-live-search="true">';
+        chuoi += '<option value="">-- Chọn đơn vị tính --</option>';
+        $.each(json_ls_UoM, (index, value) => {
+            chuoi += '<option value=' + value.Code + '>' + value.Name + '</option>';
+        });
+        chuoi += '</select></td>';
+
+        chuoi += '<td style=" width: 10%; "><input class="form-control" type="text" id="SoLuong" name="SoLuong" value=""></td>';
+        chuoi += '<td style=" width: 10%; "><input class="form-control" type="text" id="TrongLuong" name="TrongLuong" value=""></td>';
+        chuoi += '<td style=" width: 10%; "><input class="form-control" type="text" id="KichThuocDai" name="KichThuocDai" value=""></td>';
+        chuoi += '<td style=" width: 10%; "><input class="form-control" type="text" id="KichThuocRong" name="KichThuocRong" value=""></td>';
+        chuoi += '<td style=" width: 10%; "><input class="form-control" type="text" id="KichThuocCao" name="KichThuocCao" value=""></td>';
+        chuoi += '<td style="text-align:center;width: 5%;" class="btn_add"><a class="add" href="javascript:void(0)" onclick="js_addQuyCachDongGoi(' + QuyCach + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td></tr > ';
+        $("#tbl_itemQuyCachDongGoi tbody").append(chuoi);
+        $('.selectpicker').selectpicker();
+    }
+
+    function deleteRow_QuyCachDongGoi(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_itemQuyCachDongGoi").deleteRow(ri);
+    }
+
+    function getTable_QuyCach_DongGoi_Line() {
+        SourceQuyCach= [];
+        let trs = $("#tbl_itemQuyCachDongGoi tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let DonViTinhCode = String($('#' + tr.id + ' select[name="DonViTinh"]').val()).trim();
+                var DonViTinhName = String($('#' + tr.id + ' select[name="DonViTinh"] option:selected').text()).trim();
+
+                let SoLuong = String($('#' + tr.id + ' input[name="SoLuong"]').val()).trim();
+                var TrongLuong = String($('#' + tr.id + ' input[name="TrongLuong"]').val()).trim();
+                let KichThuocDai = String($('#' + tr.id + ' input[name="KichThuocDai"]').val()).trim();
+                let KichThuocRong = String($('#' + tr.id + ' input[name="KichThuocRong"]').val()).trim();
+                let KichThuocCao = String($('#' + tr.id + ' input[name="KichThuocCao"]').val()).trim();
+
+               if (DonViTinhCode.length > 0 || SoLuong.length > 0 || TrongLuong.length > 0 || KichThuocDai.length > 0 || KichThuocRong.length > 0 || KichThuocCao.length > 0) {
+                    SourceQuyCach.push({
+                        "DonViTinhCode": DonViTinhCode,
+                        "DonViTinhName": DonViTinhName,
+                        "SoLuong": SoLuong.replaceAll(',', ''),
+                        "TrongLuong": TrongLuong.replaceAll(',',''),
+                        "KichThuocDai": KichThuocDai.replaceAll(',', ''),
+                        "KichThuocRong": KichThuocRong.replaceAll(',', ''),
+                        "KichThuocCao": KichThuocCao.replaceAll(',', ''),
+                    });
+                }
+            });
+        }
+        console.log(SourceQuyCach);
+    }
+
+</script>
+
+
+<script type="text/javascript">
+    function UploadMultiple() {
+        var data = new FormData(); //FormData object
+        var fileInput = document.getElementById('fileUpload');
+        for (i = 0; i < fileInput.files.length; i++) {
+            data.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+        data.append("foldername", 'Chaohang');
+        $.ajax({
+            url: '@Url.Action("UploadFile_Multiple", "Product")',
+            type: 'POST',
+            data: data,
+            //async: true,
+            beforeSend: function () {
+            },
+            success: function (data) {
+                LoadImgGetSet(data.ImagesUrl, 'txtMImage');
+            },
+            error: function () {
+                $.toast({
+                    heading: 'Thông báo',
+                    text: 'Thiết bị không hỗ trợ up ảnh từ camera. Chọn file từ bộ nhớ thiết bị!',
+                    showHideTransition: 'fade',
+                    icon: 'error'
+                })
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
+
+    function LoadImgGetSet(strImg, inputimg) {
+        var arr = strImg.split(',');
+        var img = "";
+        arr.forEach(function (item) {
+            img += "<li class='ui-state-default'><div class='boximg'><a href='javascript:void(0)' onclick=\"deleteMuiti($(this),'" + inputimg + "');\" class='btn-close'><span class='Exit'></span></a> <img src='" + item + "' /> </div></li>";
+        })
+        $("#ShowImgM1").html($("#ShowImgM1").html() + img);
+        $('#txtMImage').val(GetMuitiImg());
+    }
+
+    function GetMuitiImg() {
+        var str = "";
+        $(".boximg img").each(function () {
+            str += $(this).attr('src') + ',';
+        })
+        return str;
+    }
+
+    function deleteMuiti(img, inputimg) {
+        img.parent().parent().remove();
+        $('#' + inputimg).val(GetMuitiImg());
+    }
+
+    //Edit
+    //$(function () {
+    //    var txtShowEditImg = $('#txtShowEditImg').val();
+    //    LoadImgGetSet(txtShowEditImg, 'txtMImage');
+    //});
+</script>
+
+<div class="modal" tabindex="-1" role="dialog" id="Detail_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="border-radius: 9px;">
+            <div class="modal-body">
+                <p style=" text-align:center"><img src="~/Resources/images/ic_success1.png" /></p>
+                <p style="font-family: 'SF Pro'; font-style: normal; font-weight: 590; font-size: 20px; line-height: 24px; text-align: center; letter-spacing: 0.15px; color: #558B2F;">Tiếp nhận chào hàng thành công!!!</p>
+                <p style="font-style: normal; font-size: 15px; line-height: 24px; text-align: center; color: rgba(0, 0, 0, 0.6);">
+                    Yêu cầu chào hàng mới của bạn đã được hệ thống ghi nhận,<br />
+                    Cần thêm thông tin vui lòng liên hệ P.Mua hàng.
+                </p>
+                <p style=" height: 1px; border-bottom: 1px solid #d7d7d7; width: 300px; margin: auto;"></p>
+                <p style="font-family: 'SF Pro'; font-style: normal; font-weight: 400; font-size: 16px; line-height: 24px;  text-align: center;  color: rgba(0, 0, 0, 0.6); padding-top:20px">
+                    Hotline: <b style="font-size:16px;color: #000;">024 7309 1168</b><br />
+                    Line: 88889
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,324 @@
+﻿@{
+    ViewBag.Title = "Start";
+    //ViewBag.Title = MP_VendorTool.Resource.Register;
+}
+
+<style>
+    .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+    }
+
+    .wp_menu {
+        margin-top: 30px;
+        margin-left: 67px;
+    }
+
+
+    #bg_vongtron {
+        background-image: url('../../image/Start.png');
+        background-repeat: no-repeat; /* Do not repeat the image */
+        background-size: contain;
+        height: 460px;
+        width: 100%;
+    }
+
+
+
+    .box_01 {
+        border-left: 7px double #545151;
+        margin-top: 373px;
+        margin-left: 17px;
+    }
+
+        .box_01 p {
+            text-transform: uppercase;
+            font-size: 4px;
+            color: #ffffff;
+            padding-left: 23px;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+    .box_2 {
+        color: #eae6e6;
+        margin-top: 55px;
+        margin-left: 17px;
+    }
+
+    .menu_footer ul li {
+        list-style: none;
+        float: left;
+        padding-right: 10px;
+    }
+
+        .menu_footer ul li a {
+            color: #eae6e6;
+            font-size: 14px;
+        }
+
+    .menu_footer ul {
+        width: 500px;
+        margin: 0 auto;
+        margin-top: 35px;
+    }
+
+        .menu_footer ul li span {
+            padding-left: 10px;
+        }
+
+    .menu_login li a:hover {
+        text-decoration: none;
+    }
+
+    .box_2 ul li {
+        list-style: none;
+        font-size: 14px;
+        font-style: italic;
+    }
+
+    .box_2 p {
+        font-size: 14px;
+        font-style: italic;
+    }
+
+    .box_2 ul {
+        margin-left: -25px;
+    }
+
+    .button_start {
+        float: right;
+        margin-top: 83px;
+    }
+
+        .button_start a {
+            background-color: #e9e8e7;
+            padding: 15px 44px;
+            color: #969696;
+            font-size: 14px;
+        }
+
+            .button_start a:hover {
+                text-decoration: none;
+            }
+
+    .wrap-login100 {
+        width: 50%;
+        margin: 0 auto;
+        padding: 0px 60px 53px;
+        /* background-color: #969696;*/
+        margin-top: 133px;
+        margin-bottom: 60px;
+        /*
+         border-radius: 10px;
+        border: 1px solid #dedede;*/
+    }
+
+        .wrap-login100 h3 {
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #ffffff;
+            font-size: 27px;
+            margin-bottom: 42px;
+        }
+
+    .text_change_pass a {
+        color: #fff;
+        padding: 11px;
+        display: block;
+        font-style: italic;
+        font-size: 13px;
+    }
+
+    #myForm label {
+        color: #ffffff;
+        font-size: 15px;
+    }
+
+    .bt_login {
+        text-align: center;
+    }
+
+        .bt_login input {
+            background-color: #fff0;
+            border: 1px solid #eae6e6;
+            color: #ffffff;
+            padding: 8px 190px;
+            text-transform: uppercase;
+            margin-top: 19px;
+        }
+
+    .text_change_pass {
+        text-align: center;
+    }
+
+    .text_menu {
+        /*position: absolute;*/
+    }
+
+        .text_menu a {
+            font-size: 20px;
+            color: #fff;
+            /*font-weight: bold;*/
+        }
+
+    .text_ceco_1 {
+        margin-left: 331px;
+    }
+
+    .text_ceco_2 {
+        margin-top: 33px;
+        margin-left: 409px;
+    }
+
+    .text_ceco_3 {
+        margin-top: 56px;
+        margin-left: 447px;
+    }
+
+    .text_ceco_4 {
+        margin-top: 66px;
+        margin-left: 447px;
+    }
+
+    .text_ceco_5 {
+        margin-top: 58px;
+        margin-left: 410px;
+    }
+
+    .text_ceco_6 {
+        margin-top: 34px;
+        margin-left: 330px;
+    }
+
+
+
+    #bg_vongtron a {
+        text-decoration: none;
+    }
+
+        #bg_vongtron a:hover {
+            font-weight: bold;
+        }
+
+    .text_99 p {
+        font-size: 40px;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: bold;
+        text-align: center;
+        width: 240px;
+    }
+
+    .text_99 {
+        margin-left: 100px;
+        margin-top: -274px;
+    }
+</style>
+
+<style>
+
+    html {
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
+
+    body {
+        position: relative;
+        margin: 0;
+        padding-bottom: 6rem;
+        min-height: 100%;
+        background-image: url('../../image/bg01.png');
+        background-color: #828383;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+
+    .ct {
+        margin: 0 auto;
+    }
+
+    .demo h1 {
+        margin-top: 0;
+    }
+
+    /**
+    * Footer Styles
+    */
+
+    .footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        /* padding: 1rem;*/
+        background-color: #efefef;
+        text-align: center;
+    }
+</style>
+@Html.Partial("~/Views/Shared/_headermenu.cshtml")
+<div class="content_home ct">
+    <div class="container">
+
+        <div class="row">
+            <div class="limiter">
+                <div class="container-login100">
+                    <div class="wp_menu">
+                        <div id="bg_vongtron">
+                            <p class="text_ceco_1 text_menu noselect" style="height:11px"></p>
+                            <p class="text_ceco_1 text_menu noselect"><a href="/Vendor/Create">Giới thiệu sản phẩm</a></p>
+                            <p class="text_ceco_2 text_menu noselect"><a href="/Vendor/Create">Sản xuất (OEM, ODM)</a></p>
+                            <p class="text_ceco_3 text_menu noselect"><a href="/Vendor/Create">Giải pháp công nghệ</a></p>
+                            <p class="text_ceco_4 text_menu noselect"><a href="/Vendor/Create">Giới thiệu dịch vụ</a></p>
+                            <p class="text_ceco_5 text_menu noselect"><a href="/Vendor/Create">Mẹ khởi nghiệp - Nhượng quyền</a></p>
+                            <p class="text_ceco_6 text_menu noselect"><a href="/Vendor/Create">Hợp tác khác</a></p>
+                            <div class="text_99">
+                                <p class="noselect">Nội dung <br> hợp tác</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="menu_footer">
+                <ul>
+                    <li><a href="#">@MP_VendorTool.Resource.textHome_7<span>|</span></a></li>
+                    <li><a href="#">@MP_VendorTool.Resource.textHome_8<span>|</span></a></li>
+                    <li><a href="#">@MP_VendorTool.Resource.textHome_9<span>|</span></a></li>
+                    <li><a href="#">@MP_VendorTool.Resource.textHome_10</a></li>
+                </ul>
+            </div>*@
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script type="text/javascript">
+        //Upload file
+        $(document).ready(function () {
+            $('#sl_lang').val('@(ViewBag.lang)');
+        });
+        function loadLang(strCode) {
+            //var lang = $('#sl_lang').val();
+
+            //Html.ActionLink(i.LanguageFullName, "ChangeLanguage", "", new { lang = i.LanguageCultureName }, null)
+
+            window.location.href = '/Home/ChangeLanguage?lang=' + strCode;
+        }
+</script>

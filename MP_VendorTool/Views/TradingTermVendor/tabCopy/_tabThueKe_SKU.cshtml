@@ -1,0 +1,321 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@using MP_VendorTool.Models.TradingTermVendor
+
+@*<style>
+        ::-webkit-calendar-picker-indicator {
+            margin-left: -0px;
+        }
+        input[type="date"] {
+            width: 94px
+        }
+    </style>*@
+<div style=" clear:both"></div>
+<div class="box_tab_0">
+    <div class="">
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-12" style=" height: 34px; ">
+
+                    <input class="form-check-input" type="radio" name="TabThueKe" id="RadioTabTK1" value="1" checked="checked">
+                    <label class="form-check-label" for="RadioTabTK1" style=" margin-right:20px">SKU</label>
+                    @*<input class="form-check-input" type="radio" name="TabThueKe" id="RadioTabTK2" value="2">
+                        <label class="form-check-label" for="RadioTabTK2" style=" margin-right:20px">Function</label>
+                        <input class="form-check-input" type="radio" name="TabThueKe" id="RadioTabTK3" value="3">
+                        <label class="form-check-label" for="RadioTabTK3" style=" margin-right:20px">Brand</label>*@
+
+                    <input class="form-check-input" type="radio" name="TabThueKe" id="RadioTabTK4" value="4">
+                    <label class="form-check-label" for="RadioTabTK4" style=" margin-right:20px">Thông tin chung</label>
+
+                    <script>
+                        $('#RadioTabTK1').click(function () {
+                            $('#tab10').show()
+                            $('#tab11').removeClass("active")
+                            $('#tab12').hide();
+                            $('#tab13').hide();
+                        })
+                        $('#RadioTabTK2').click(function () {
+                            $('#tab11').addClass("active");
+                            $('#tab10').hide();
+                            $('#tab12').hide();
+                            $('#tab13').hide();
+                        })
+                        $('#RadioTabTK3').click(function () {
+                            $('#tab10').hide();
+                            $('#tab11').removeClass("active")
+                            $('#tab12').show();
+                            $('#tab13').hide();
+                        })
+                        $('#RadioTabTK4').click(function () {
+                            $('#tab10').hide();
+                            $('#tab11').removeClass("active")
+                            $('#tab12').hide();
+                            $('#tab13').show()
+                        })
+                    </script>
+
+                    <div class="tab-content" style=" padding-left: 0px; padding-right: 0px; padding: 10px 2px 0px; ">
+                        <div class="tab-pane" id="tab11">
+                            @*<a onclick="ApDungFunctionThueKe()" class="form-control btn btn-info" style=" width: 93px;"><i class="fas fa-hand-point-right" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Upload </a>*@
+                            <table class="table table-bordered" id="table_FunctionThueKe">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="width: 230px; max-width: 230px ">Function</th>
+                                        <th scope="col" style="width: 230px; max-width: 230px ">Function</th>
+                                        <th scope="col" style=" width:140px;max-width:140px">Barcode</th>
+                                        <th scope="col" style=" width:100px;max-width:100px">M2F net/SP</th>
+                                        <th scope="col" style=" width:100px;max-width:100px">M2F Gross/SP</th>
+
+                                        <th scope="col" style=" width:100px;max-width:100px">Số CH phủ<span style="color:red">(*)</span></th>
+                                        <th scope="col" style=" width:100px;max-width:100px">Số mặt TB/CH</th>
+                                        <th scope="col" style=" width:140px;max-width:140px">Ngày bắt đầu</th>
+                                        <th scope="col" style=" width:140px;max-width:140px">Ngày kết thúc</th>
+                                        <th scope="col" style="width: 80px; max-width: 80px ">Hiệu lực</th>
+                                        <th scope="col" style=" width:140px;max-width:140px">Thêm SP</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab12" style="padding-left: 4px;padding-right: 23px;width: 100%;overflow-x: scroll; display:none">
+            @*<a onclick="ApDungBrandThueKe()" class="form-control btn btn-info" style=" width: 93px;"><i class="fas fa-hand-point-right" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Upload </a>*@
+            <table class="table table-bordered" id="table_BrandThueKe" style=" width: 100%; ">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 230px; max-width: 230px ">Brand</th>
+                        <th scope="col" style="width: 140px; max-width: 140px ">Số CH Thuê<span style="color:red">(*)</span></th>
+                        <th scope="col" style=" width:140px;max-width:140px">Số tháng</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">M2F Thuê<br />/CH/tháng</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">Cp thuê <br />/CH/tháng/<br />(+VAT)</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">Tổng phí thuê<br />/tháng/<br />(+VAT)</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">Tổng phí <br />thuê/<br />năm</th>
+
+                        <th scope="col" style="width: 100px; max-width: 100px ">DS cam kết/<br />tháng/CH</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">Ngày ký HD</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">Ngày hết hạn</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">Ngày bắt<br /> đầu tính tiền<br /> thuê</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">Điều chỉnh ngày<br /> kết thúc<br /> thuê</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">Tự động gia hạn</th>
+                        <th scope="col" style="width: 80px; max-width: 80px ">Hiệu lực</th>
+                        <th scope="col" style=" width: 30px; max-width: 30px">Thêm SP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="tab10" style="">
+            @*<a onclick="ApDungSanPhamThueKe()" class="form-control btn btn-info" style=" width: 93px;"><i class="fas fa-hand-point-right" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Upload </a>*@
+            <table class="table table-bordered" id="table_hangthuekes" style=" width: 100%; ">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 65px; max-width: 65px ">Mã hàng</th>
+                        <th scope="col" style="width: 230px; max-width: 230px ">Tên hàng</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">Barcode</th>
+                        <th scope="col" style="width: 65px; max-width: 65px ">M2F net/SP</th>
+                        <th scope="col" style="width: 65px; max-width: 65px ">M2F Gross/SP</th>
+                        <th scope="col" style="width: 63px; max-width: 63px ">Số CH<span style="color:red">(*)</span> <br /><input style=" margin-top: 17px !important; text-align: right;" type="number" name="HSoCHPhu" id="HSoCHPhu" class="form-control" /></th>
+                        <th scope="col" style="width: 63px; max-width: 63px ">Số mặt<br /> TB/CH  <input style="text-align: right;" type="number" name="HNumberFace" id="HNumberFace" class="form-control" /></th>
+                        <th scope="col" style=" width: 70px; max-width: 70px">Miền  <br /><input style=" margin-top: 17px !important; " type="search" list="Mien_datalist" name="HMien" id="HMien" class="form-control" /></th>
+                        <th scope="col" style="width: 90px; max-width: 90px ">Ngày bắt đầu <br /> <input style=" margin-top: 17px !important; text-align: right;" type="date" name="HNgayBatDau" id="HNgayBatDau" class="form-control" /></th>
+                        <th scope="col" style="width: 90px; max-width: 90px ">Ngày kết thúc  <br /><input style=" margin-top: 17px !important; text-align: right;" type="date" name="HNgayKetThuc" id="HNgayKetThuc" class="form-control" /></th>
+                        <th scope="col" style="width: 90px; max-width: 90px ">Ngày bắt đầu<br />thực tế  <input style="text-align: right;" type="date" name="HNgaybatDauThue" id="HNgaybatDauThue" class="form-control" /></th>
+                        <th scope="col" style="width: 90px; max-width: 90px ">Ngày kết thúc<br />thực tế  <input style="text-align: right;" type="date" name="HNgayDieuChinhKetThuc" id="HNgayDieuChinhKetThuc" class="form-control" /></th>
+                        <th scope="col" style="width: 60px; max-width: 60px ">Tự động<br /> gia hạn</th>
+                        <th scope="col" style="width: 60px; max-width: 60px; display: none ">Hiệu lực</th>
+                        <th scope="col" style="width: 50px; max-width: 50px ">Thêm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*@if (ViewBag.list_DanhMucSanPham_ThueKe_AD != null)
+                        {
+                            var ri_1 = 0;
+                            foreach (DanhMucSanPham_ApDung box in (List<DanhMucSanPham_ApDung>)ViewBag.list_DanhMucSanPham_ThueKe_AD)
+                            {
+                                ri_1++;
+                                <tr id="row_@ri_1">
+                                    <td class="text-left"  style="width: 65px; max-width: 65px ">
+                                        <span class="MaSP">@box.MaSP</span>
+                                    </td>
+                                    <td class="text-left" style="width: 230px; max-width: 230px ">
+                                        <span class="NameProduct">@box.NameProduct</span>
+                                    </td>
+                                    <td class="text-center" style="width: 100px; max-width: 100px ">
+                                        <span class="Barcode">@box.Barcode</span>
+                                    </td>
+                                    <td class="text-right" style="width: 65px; max-width: 65px ">
+                                        <span class="M2netSP">@box.M2netSP</span>
+                                    </td>
+                                    <td class="text-right" style="width: 65px; max-width: 65px ">
+                                        <span class="M2FGrossSP">@box.M2FGrossSP</span>
+                                    </td>
+                                    <td class="text-right" style="width: 63px; max-width: 63px ">
+                                        <span class="SoCHPhu">@box.SoCHPhu</span>
+                                    </td>
+                                    <td class="text-right" style="width: 63px; max-width: 63px ">
+                                        <span class="SoMatTBCH">@box.SoMatTBCH</span>
+                                    </td>
+                                    <td class="text-right" style="width: 70px; max-width: 70px ">
+                                        <span class="Mien">@box.Mien</span>
+                                    </td>
+                                    <td class="text-right" style="width: 90px; max-width: 90px ">
+                                        <span class="NgayBatDau">@box.NgayBatDau</span>
+                                    </td>
+                                    <td class="text-right" style="width: 90px; max-width: 90px ">
+                                        <span class="NgayKetThuc">@box.NgayKetThuc</span>
+                                    </td>
+                                    <td class="text-right" style="width: 90px; max-width: 90px ">
+                                        <span class="NgaybatDauThue">@box.NgaybatDauThue</span>
+                                    </td>
+                                    <td class="text-right" style="width: 90px; max-width: 90px ">
+                                        <span class="NgayDieuChinhKetThuc">@box.NgayDieuChinhKetThuc</span>
+                                    </td>
+                                    <td style="text-align: center; width: 60px; max-width: 60px ">
+                                        <input type="checkbox" class="form-check-input" name="checkTuDongGiaHan" disabled value="@box.TuDongGiaHan" @(box.TuDongGiaHan == "1" ? "checked" : "")>
+                                    </td>
+                                    <td style="text-align: center; width: 60px; max-width: 60px ; display:none">
+                                        <input type="checkbox" class="form-check-input" name="checkHieuLuc" disabled value="@box.HieuLuc" @(box.HieuLuc == "1" ? "checked" : "")>
+                                    </td>
+                                </tr>
+                            }
+                        }*@
+                </tbody>
+            </table>
+        </div>
+
+        <div id="tab13" style=" display:none">
+            @*<a onclick="ApDungTTChungThueKe()" class="form-control btn btn-info"><i class="fas fa-hand-point-right" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Khai báo </a>*@
+            <table class="table table-bordered" id="table_TTCChungThueKe" style=" width: 100%; ">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 63px; max-width: 63px ">Số CH<span style="color:red">(*)</span></th>
+                        <th scope="col" style="width: 60px; max-width: 60px ">Số tháng</th>
+                        <th scope="col" style="width: 60px; max-width: 60px ">M2F Thuê<br />/CH/tháng</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">CP thuê <br />/CH/tháng/<br />(+VAT)</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">Tổng CP thuê<br />/tháng/<br />(+VAT)</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">Tổng CP<br />thuê/<br />năm</th>
+                        <th scope="col" style="width: 100px; max-width: 100px ">DS cam kết/<br />tháng/CH</th>
+                        <th scope="col" style="width: 60px; max-width: 60px ">Miền</th>
+                        <th scope="col" style="width: 70px; max-width: 70px ">Ngày bắt đầu</th>
+                        <th scope="col" style="width: 70px; max-width: 70px ">Ngày kết thúc</th>
+                        <th scope="col" style="width: 70px; max-width: 70px ">Ngày bắt đầu<br /> thực tế</th>
+                        <th scope="col" style="width: 70px; max-width: 120px">Ngày kết thúc<br /> thực tế</th>
+                        <th scope="col" style="width: 60px; max-width: 60px ">Tự động<br /> gia hạn</th>
+                        <th scope="col" style="width: 50px; max-width: 50px ">Thêm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*@if (ViewBag.list_ThongTinChungAD != null)
+                        {
+                            var ri_1 = 0;
+                            foreach (ThongTinChung box in (List<ThongTinChung>)ViewBag.list_ThongTinChungAD)
+                            {
+                                ri_1++;
+                                <tr id="row_@ri_1">
+                                    <td style=" text-align: right">
+                                        <span class="SoCuaHangThue">@box.SoCHThue</span>
+                                    </td>
+                                    <td style="  text-align: right">
+                                        <span class="SoThang">@box.SoThang</span>
+                                    </td>
+                                    <td style=" text-align: right">
+                                        <span class="M2FThueCuaHang">@box.M2FThue</span>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <span class="ChiPhiThueThangVAT">@box.CpThueCHThang</span>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <span class="TongChiPhiThueThangVAT">@box.TongPhiThueThang</span>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <span class="TongChiPhiThueNam">@box.TongPhiThueNam</span>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <span class="DSCamKetCuaHang">@box.DScamketThangCH</span>
+                                    </td>
+                                    <td style=" text-align: right">
+                                        <span class="Mien">@box.Mien</span>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <span class="NgayKyHD">@box.NgayKyHD</span>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <span class="NgayHetHanHD">@box.NgayHetHan</span>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <span class="NgaybatDauThue">@box.NgayBatDauTinhTienThue</span>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <span class="NgayDieuChinhKetThuc">@box.NgayDieuChinhKetThuc</span>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <input type="checkbox" class="form-check-input" name="checkTuDongGiaHan" disabled value="@box.TuDongGiaHan" @(box.TuDongGiaHan == "1" ? "checked" : "")>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <input type="checkbox" class="form-check-input" name="checkHieuLuc" disabled value="@box.HieuLuc" @(box.HieuLuc == "1" ? "checked" : "")>
+                                    </td>
+                                </tr>
+                            }
+                        }*@
+                </tbody>
+            </table>
+        </div>
+        <datalist id="Products_datalist_ThueKe">
+        </datalist>
+
+        <datalist id="Brand_datalist_ThueKe">
+        </datalist>
+
+        <datalist id="Function_datalist_ThueKe">
+        </datalist>
+
+        <datalist id="Mien_datalist">
+            @if (ViewBag.list_datalist_Mien != null)
+            {
+                foreach (objCombox box in (List<objCombox>)ViewBag.list_datalist_Mien)
+                {
+                    <option value="@box.Name" />
+                }
+            }
+        </datalist>
+
+    </div>
+</div>
+
+<script>
+    $("#HSoCHPhu").change(function () {
+        var item = $('#HSoCHPhu').val().trim();
+        $('.CoatingShop').val(item)
+    });
+    $("#HNumberFace").change(function () {
+        var item = $('#HNumberFace').val().trim();
+        $('.NumberFace').val(item)
+    });
+    $("#HMien").change(function () {
+        var item = $('#HMien').val().trim();
+        $('.Mien').val(item)
+    });
+    $("#HNgayBatDau").change(function () {
+        var item = $('#HNgayBatDau').val().trim();
+        $('.NgayBatDau').val(item)
+    });
+    $("#HNgayKetThuc").change(function () {
+        var item = $('#HNgayKetThuc').val().trim();
+        $('.NgayKetThuc').val(item)
+    });
+    $("#HNgaybatDauThue").change(function () {
+        var item = $('#HNgaybatDauThue').val().trim();
+        $('.NgaybatDauThue').val(item)
+    });
+    $("#HNgayDieuChinhKetThuc").change(function () {
+        var item = $('#HNgayDieuChinhKetThuc').val().trim();
+        $('.NgayDieuChinhKetThuc').val(item)
+    });
+</script>

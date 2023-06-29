@@ -1,0 +1,94 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+<div class="bglogin">
+    <div id="logo_login"><a href="/Home/Index"><img src="~/Resources/images/Logo.png" /></a></div>
+    <div class="Vendors"> BIBO SMART</div>
+    <div class="sologan">
+        Vendors - Gateway
+    </div>
+    <div class="wrap-login100">
+        <form method="POST" id="myForm">
+            @if (Session["err"] != null)
+            {
+                <p style="color: red;text-align: center;font-style: italic;">@Html.Raw(Session["err"].ToString())</p>
+            }
+            @Html.AntiForgeryToken()
+            <p><input class="controllg" type="text" id="uid" name="uid" placeholder="Tài khoản"></p>
+            <p>
+                <input type="password" class="controllg" id="pwd" name="pwd" placeholder="Mật khẩu">
+                <i class="fa fa-eye" id="showPassword" style=" color:#fff"></i>
+
+            <p><input style="width:100%" type="submit" class="loginbtn" value="@MP_VendorTool.Resource.textlogin_1" /></p>
+            <div class="text_change_pass"><a href="/Account/ForgotPassword">@MP_VendorTool.Resource.textchangePass ?</a> <a style="color:#fff" onclick="Register()">Đăng ký hợp tác</a></div>
+            <div style=" clear:both"></div>
+            <div style="color:#fff; display:none"><input type="text" name="IsChekIPV4" id="IsChekIPV4" /></div>
+            <script>
+                $(function () {
+                    js_checkip();
+                });
+            </script>
+        </form>
+        <div style=" clear:both"></div>
+    </div>
+</div>
+
+<div style=" clear:both"></div>
+@Html.Partial("~/Views/Shared/_footer.cshtml")
+
+
+<style>
+    #showPassword {
+        float: right;
+        margin-left: -25px;
+        margin-top: -20px;
+        position: relative;
+        z-index: 2;
+        padding-right: 8px;
+    }
+</style>
+
+<script>
+    function Register() {
+        $('#Register_modal').modal('show');
+    }
+    const passwordInput = document.getElementById('pwd');
+    const showPasswordButton = document.getElementById('showPassword');
+
+    showPasswordButton.addEventListener('click', function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+
+        // Thay đổi icon
+        this.classList.toggle('fa-eye-slash');
+    });
+
+</script>
+
+<div class="modal Registermodal" id="Register_modal">
+    <div class="modal-dialog Registerdia" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center; margin: auto; margin-left: 53px; ">
+                <h5 class="modal-title" id="shift_detail_modal_label" style="font-size:18px;display: contents; text-align:center">
+                    LOẠI HÌNH HỢP TÁC
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="margin-left: 80px;">×</span>
+                </button>
+
+            </div>
+            <div style=" clear:both; height:10px"></div>
+            <div class="LoaiHinhHH">
+                <div class="col-md-12">
+                    <a href="/Vendors/RegisterPartner">Cung cấp hàng hóa</a>
+                    <a href="#">Cho thuê mặt bằng</a>
+                    <a href="#">Dịch vụ tài chính</a>
+                    <a href="#">Truyền thông tiếp thị</a>
+                </div>
+            </div>
+            <div style=" clear:both; height:10px"></div>
+        </div>
+    </div>
+</div>

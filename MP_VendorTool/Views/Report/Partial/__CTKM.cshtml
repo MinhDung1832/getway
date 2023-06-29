@@ -1,0 +1,118 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+        <thead>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+
+                        <tr style="background: #f3f3f3; border: none !important;">
+                            <td class="text-left" style="border: none !important;"></td>
+                            <td class="text-left" style="border: none !important;"></td>
+                            <td class="text-right" style="border: none !important;"></td>
+                            <td class="text-right" style="border: none !important;"></td>
+                            <td class="text-right" style="border: none !important;">
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumPhiTong"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+            <tr>
+                <th scope="col" style="text-align: left; width: 100px; max-width: 100px; ">
+                    Mã hàng
+                </th>
+                <th scope="col">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 100px; max-width: 100px; ">
+                    SL bán
+                </th>
+                <th scope="col">
+                    Loại CTKM
+                </th>
+                <th scope="col" style="text-align: left; width: 70px; max-width: 70px; ">
+                    Giảm giá
+                </th>
+                <th scope="col" style="text-align: left; width: 70px; max-width: 70px; ">
+                    Hàng tặng
+                </th>
+                <th scope="col" style="text-align: left; width: 70px; max-width: 70px; ">
+                    Số lượng<br /> tặng
+                </th>
+                <th scope="col" style="text-align: left; width: 70px; max-width: 70px; ">
+                    Số lượng <br />
+                    Coupon
+                </th>
+                <th scope="col" style="text-align: left; width: 70px; max-width: 70px; ">
+                    Giá trị <br />
+                    Coupon
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        var i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            var k = i + "_Row";
+                            <tr>
+                                <td style="text-align: left; width: 100px; max-width: 100px; ">
+                                    @item["MaHang"]
+                                </td>
+                                <td style="text-align: left; width: 300px; max-width: 300px; overflow: hidden; white-space: nowrap " title="@item["NccName"]">
+                                    @item["Tenhang"]
+                                </td>
+                                <td style="text-align: left; width: 100px; max-width: 100px; ">
+                                    @item["MaNCC"]
+                                </td>
+                                <td style="text-align: left; width: 350px; max-width: 350px; overflow: hidden; white-space: nowrap " title="@item["NccName"]">
+                                    @item["NccName"]
+                                </td>
+                                <td style="text-align: right; width: 70px; max-width: 70px; ">
+                                    @item["QuantityMB"]
+                                </td>
+                                <td style="text-align: right; width: 70px; max-width: 70px; ">
+                                    @item["QuantityMN"]
+                                </td>
+                                <td style="text-align: right; width: 70px; max-width: 70px; ">
+                                    @item["SLTong"]
+                                </td>
+                                <td class="text-right" style=" width: 70px; max-width: 70px; ">
+                                    @item["AmountMB"]
+                                </td>
+                                <td class="text-right" style=" width: 70px; max-width: 70px; ">
+                                    @item["AmountMN"]
+                                </td>
+                                @*<td style="text-align: center; width: 60px; max-width: 60px; ">
+                                        @item["TrangThai"]
+                                        <br />
+                                        @Html.CheckBox(i + "_Row", false, new { @class = "cb-element", value = @item["MaHang"] })
+                                    </td>*@
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>

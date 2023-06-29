@@ -1,0 +1,172 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left; width: 100px; max-width: 100px; ">
+                    Mã hàng
+                </th>
+                <th scope="col">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 100px; max-width: 100px; ">
+                    Tên NCC
+                </th>
+                <th scope="col" style="text-align: left;">
+                    SL Bán MB
+                </th>
+                <th scope="col" style="text-align: left;">
+                    SL Bán MN
+                </th>
+                <th scope="col" style="text-align: left;">
+                    SL Tổng
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Doanh thu MB
+                </th>
+                <th scope="col" style="text-align: left;">
+                    Doanh thu MN
+                </th>
+                <th scope="col" style="text-align: left;">
+                    Doanh thu tổng
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Chi phí <br>CTKM MB
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Chi phí <br>CTKM MN
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Chi phí <br>CTKM Tổng
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Thưởng ĐH MB
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Thưởng ĐH MN
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Thưởng ĐH tổng
+                </th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        var i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            var k = i + "_Row";
+                            <tr style="height:20px">
+                                <td style="text-align: left;">
+                                    @item["MaHang"]
+                                </td>
+                                <td style="text-align: left; width: 200px; max-width: 200px; overflow: hidden; white-space: nowrap " title="@item["Tenhang"]">
+                                    @item["Tenhang"]
+                                </td>
+                                <td style="text-align: center;">
+                                    @item["MaNCC"]
+                                </td>
+                                <td style="text-align: right; ">
+                                    @item["QuantityMB"]
+                                </td>
+                                <td style="text-align: right; ">
+                                    @item["QuantityMN"]
+                                </td>
+                                <td style="text-align: right; ">
+                                    @item["Quantity"]
+                                </td>
+                                <td style="text-align: right;">
+                                    @item["AmountMB"]
+                                </td>
+                                <td style="text-align: right; ">
+                                    @item["AmountMN"]
+                                </td>
+                                <td style="text-align: right;">
+                                    @item["Amount"]
+                                </td>
+                                <td class="text-right" style="">
+                                    @item["DiscountAmountMB"]
+                                </td>
+                                <td class="text-right" style="">
+                                    @item["DiscountAmountMN"]
+                                </td>
+                                <td class="text-right" style=" ">
+                                    @item["DiscountAmount"]
+                                </td>
+                                <td class="text-right" style=" ">
+                                    @item["AmountDHMB"]
+                                </td>
+                                <td class="text-right" style=" ">
+                                    @item["AmountDHMN"]
+                                </td>
+                                <td style="text-align: right ">
+                                    @item["AmountDH"]
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        <tr style="background: #ffffff; border-bottom: 1px solid #ddd !important; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #fff !important;">
+                            <td class="text-left" style="border: none !important;"></td>
+                            <td class="text-left" style="border: none !important;"></td>
+                            <td class="text-right" style="border: none !important;"></td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumQuantityMB"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumQuantityMN"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["SumSLTong"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumAmountMB"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumAmountMN"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["SumDTTong"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumChiPhiKMMB"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumChiPhiKMMN"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["SumTongChiPhiKM"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumAmountMBDH"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumAmountMNDH"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["SumTDTong"]
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tfoot>
+    </table>
+</div>

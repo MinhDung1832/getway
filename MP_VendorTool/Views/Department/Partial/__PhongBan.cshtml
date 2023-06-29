@@ -1,0 +1,75 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item_VaiTro" class="table table-bordered" style=" width:97%">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 150px; max-width: 150px; ">
+                    Vai trò
+                </th>
+                <th scope="col" style=" width: 250px; max-width: 250px; ">
+                    Mô tả
+                </th>
+                <th scope="col" style="width: 150px; max-width: 150px; ">
+                    Ngày tạo
+                </th>
+                <th scope="col" style="width: 150px; max-width: 150px; ">
+                    Người tạo
+                </th>
+                <th scope="col" style="text-align: center; width: 150px; max-width: 150px; ">
+                    Trạng thái
+                </th>
+                <th scope="col" style="text-align: center; width: 150px; max-width: 150px; ">
+                    Chỉnh sửa
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        var i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            var k = i;
+
+                            <tr style=" height:20px" id="Row_@i">
+                                <td style="text-align: left;">
+                                    @item["VaiTro"]
+                                </td>
+                                <td style="text-align: left; width: 250px; max-width: 250px; overflow: hidden; white-space: nowrap ">
+                                    @item["MoTa"]
+                                </td>
+                                <td style="text-align: right;">
+                                    @item["CreateDate"]
+                                </td>
+                                <td style="text-align: left;">
+                                    @item["CreateBy"]
+                                </td>
+                                <td style="text-align: center;">
+                                    @Html.Raw(item["Status"])
+                                    <span class="hidden">@item["TrangThai"]</span>
+                                </td>
+                                <td style="text-align: center;">
+                                    @if (item["TrangThai"].ToString() == "NEW")
+                                    {
+                                        <a class="btn_detail btn btn-secondary" onclick="load_VaiTro('@item["ID"]')" style="color: #fff; padding: 4px; font-size: 12px;">Chỉnh sửa</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn_detail btn btn-secondary" style="color: #fff; padding: 4px; font-size: 12px; pointer-events: none; opacity: 0.6; ">Chỉnh sửa</a>
+                                    }
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>

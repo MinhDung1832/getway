@@ -1,0 +1,144 @@
+﻿@using System.Data
+<link href="~/Content/css/thickbox.css" rel="stylesheet" />
+<script src="~/Scripts/thickbox.js"></script>
+<table id="tbl_Item" class="table table-bordered tb_detail" style="width:99.9%">
+    <thead>
+        <tr style="background: #f3f3f3; border: none !important;">
+            <td class="text-right" style="border: none !important;"></td>
+            <td class="text-right" style="border: none !important;"></td>
+            <td class="text-right" style="border: none !important;"></td>
+            <td class="text-right" style="border: none !important;"></td>
+            <td class="text-right" style="border: none !important;"></td>
+
+            <td class="text-right" style="border: none !important;"></td>
+            <td class="text-right" style="border: none !important;">@ViewBag.totalL4LSL</td>
+            <td class="text-right" style="border: none !important;">@ViewBag.totalL4LDT</td>
+            <td class="text-right" style="border: none !important;">@ViewBag.totalL4LGP</td>
+            <td class="text-right" style="border: none !important;"></td>
+
+            <td class="text-right" style="border: none !important;"></td>
+            <td class="text-right" style="border: none !important;"></td>
+            <td class="text-right" style="border: none !important;"></td>
+            <td class="text-right" style="border: none !important;"></td>
+            <td class="text-right" style="border: none !important;"></td>
+
+        </tr>
+        <tr>
+            <th class="text-left" style="vertical-align:top">
+                Loại CTKM
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                Số ngày <br> CTKM
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                Mã CTKM
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                Tên CTKM
+            </th>
+
+            <th class="text-left" style="vertical-align:top">
+                Ngày bắt đầu
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                Ngày kết thúc
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                L4L SL
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                L4L DS
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                L4L GP
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                Đánh giá <br> hiệu quả
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                Trạng thái
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                Ngày tạo
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                Người tạo
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                Chi tiết
+            </th>
+            <th class="text-left" style="vertical-align:top">
+                Hành động
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        <tr id="row_@i">
+                            <td class="text-left">
+                                @item["TypeName"]
+                            </td>
+                            <td class="text-center">
+                                @item["SoNgayCTKM"]
+                            </td>
+                            <td class="text-left">
+                                @item["CodeKM"]
+                            </td>
+                            <td class="text-left">
+                                @item["NameKM"]
+                            </td>
+                            <td class="text-center">
+                                @item["FrDate"]
+                            </td>
+                            <td class="text-center">
+                                @item["ToDate"]
+                            </td>
+                            <td class="text-left">
+                            </td>
+                            <td class="text-left">
+                            </td>
+                            <td class="text-right">
+                            </td>
+                            <td class="text-right">
+                            </td>
+                            <td class="text-center">
+                                @Html.Raw(item["TrangThai"])
+                            </td>
+                            <td class="text-center">
+                                @item["createDate"]
+                            </td>
+                            <td class="text-center">
+                                @item["createBy"]
+                            </td>
+                            <td class="text-center">
+                                <a href="/promotion/PromotionSetEdit?id=@item["CodeKM"]" class="btn_detail">Chi tiết</a>
+                            </td>
+                            <td class="text-center">
+                                @if (item["Status"].ToString() == "2" || item["Status"].ToString() == "3")
+                                {
+                                    <input class="form-check-input" id="_@i" disabled type="checkbox" name="check[]" value="@item["CodeKM"]">
+                                }
+                                else
+                                {
+                                    <input class="form-check-input" id="_@i" type="checkbox" name="check[]" value="@item["CodeKM"]">
+                                }
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>

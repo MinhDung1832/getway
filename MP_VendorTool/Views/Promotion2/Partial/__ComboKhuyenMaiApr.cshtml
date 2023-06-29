@@ -1,0 +1,143 @@
+﻿@using System.Data
+
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Mã CTKM
+                </th>
+                <th scope="col" style="text-align: left; width: 350px; max-width: 350px; ">
+                    Tên CTKM
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    SL <br />hàng mua
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Tổng tiền<br /> hàng mua
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Tổng % quà
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    SL <br />hàng tặng
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Tổng giá<br /> trị quà
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Từ ngày
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Đến ngày
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Ngày tạo
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Ngày duyệt
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Trạng thái
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Chi tiết
+                </th>
+                <th scope="col" style="text-align: center; width: 100px; max-width: 100px; ">
+                    Hành động<br />
+                    <span style="text-align:center !important"><input type="checkbox" style="text-align: center; width: 100%; " id="checkall" onchange="checkall()"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model;
+                    {
+                        var i = 0;
+                        foreach (MP_VendorTool.Models.Promotion2.Header_Detail item in dt)
+                        {
+                            var k = i;
+                            <tr style=" height:20px" id="Row_@i">
+                                <td>
+                                    @item.MaCT
+                                </td>
+                                <td>
+                                    @item.TenCT
+                                </td>
+                                <td style="text-align: center">
+                                    @item.SumSoLuongApDung
+                                </td>
+                                <td style="text-align:center">
+                                    @item.SumGiaBanNTD
+                                </td>
+                                <td style="text-align: center">
+                                    @item.SumPhanTramQua
+                                </td>
+                                <td style="text-align: center">
+                                    @item.SumSoLuongApDungMH
+                                </td>
+                                <td style="text-align: center">
+                                    @item.SumGiaQua
+                                </td>
+                                <td style="text-align: center">
+                                    @item.TuNgay
+                                </td>
+                                <td style="text-align: center">
+                                    @item.DenNgay
+                                </td>
+                                <td style="text-align: center">
+                                    @item.CreateDate
+                                </td>
+                                <td style="text-align: center">
+                                    @item.ModifyDate
+                                </td>
+                                <td style="text-align: center">
+                                    @Html.Raw(item.TrangThai)
+                                </td>
+                                <td style="text-align: center">
+                                    <a onclick="js_showpopup('@item.MaCT','@item.MaNCC','@item.TenCT','@item.TuNgay','@item.DenNgay')" style="color:#fff" class="btn btn-primary btn-xs">Chi tiết</a>
+                                </td>
+                                <td id="CheckID" style="text-align: center">
+                                    @{
+                                        if (item.Status.ToString() == "GuiDuyet")
+                                        {
+                                            <input class="cb-element" style="width:100% !important" name="check[]" id="_@i" value="@item.MaCT" type="checkbox">
+                                        }
+                                        else
+                                        {
+                                            <input class="cb-element" disabled style="width:100% !important" name="checkNo" id="_@i" type="checkbox">
+                                        }
+                                    }
+                                    <input type="hidden" name="ID" id="ID" class="form-control" value="@item.MaCT" />
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    function checkall() {
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if ($('#checkall').is(":checked")) {
+                cboxes[i].checked = true;
+            } else { cboxes[i].checked = false; }
+        }
+    }
+</script>
+

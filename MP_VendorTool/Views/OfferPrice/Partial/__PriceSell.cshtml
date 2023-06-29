@@ -1,0 +1,281 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Mã Hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 400px; max-width: 400px; ">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Hình ảnh
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Barcode
+                </th>
+                <th scope="col" style="text-align: left; width: 100px; max-width: 100px; ">
+                    Giá bán
+                </th>
+                <th scope="col" style="text-align: left; width: 150px; max-width: 150px; ">
+                    Giá mới
+                </th>
+                <th scope="col" style="text-align: left; width: 150px; max-width: 150px; ">
+                    Ngày bắt đầu
+                    <br />  <input type="date" name="HNgayBatDau" id="HNgayBatDau" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" onchange="js_check_HNgayBatDau()" />
+                </th>
+                <th scope="col" style="text-align: left; width: 150px; max-width: 150px; ">
+                    Ngày kết thúc
+                    <br />  <input type="date" name="HNgayKetThuc" id="HNgayKetThuc" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" onchange="js_check_HNgayKetThuc()" />
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Chọn<br />
+                    <span style="text-align:center !important"><input type="checkbox" style="text-align: center; width: 100%; " id="checkall" onchange="checkall()"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model;
+                    {
+                        var i = 0;
+                        foreach (MP_VendorTool.Models.PriceSell.Obj_PriceSell_GetAll item in dt)
+                        {
+                            var k = i;
+                            <tr style=" height:20px" id="Row_@i">
+                                <td>
+                                    @item.MaSP
+                                </td>
+                                <td>
+                                    @item.TenSP
+                                </td>
+                                <td style="text-align:center">
+                                    @if (item.Images != null)
+                                    {
+                                        if (item.Images.ToString().Contains("no_selection"))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            <a target="_blank" href="@item.Images" class="thickbox"><img style="height: 60px" src=" @item.Images" class="content"></a>
+                                        }
+                                    }
+                                </td>
+                                <td style="text-align: left">
+                                    @item.Barcode
+                                </td>
+                                <td style="text-align: right; width: 100px; max-width: 100px; ">
+                                    @item.Price
+                                    <input type="hidden" name="Price" id="Price" class="form-control " value="@item.Price" />
+                                </td>
+                                <td style="text-align: right; width: 150px; max-width: 150px; ">
+                                    @{
+                                        if (item.IDPriceSell.ToString() != "0")
+                                        {
+                                            <input type="text" disabled name="PriceNew" id="PriceNew" class="form-control OrderValue" value="@item.PriceNew" placeholder="Nhập giá" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" name="PriceNew" id="PriceNew" class="form-control PriceNew OrderValue" placeholder="Nhập giá" />
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @{
+                                        if (item.IDPriceSell.ToString() != "0")
+                                        {
+                                            <input type="date" name="NgayBatDau" disabled id="NgayBatDau" class="form-control" value="@item.ttNgayBatDau" />
+                                        }
+                                        else
+                                        {
+                                            <input type="date" name="NgayBatDau" id="NgayBatDau" min="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control NgayBatDau" />
+                                        }
+                                    }
+                                </td>
+                                <td>
+
+                                    @{
+                                        if (item.IDPriceSell.ToString() != "0")
+                                        {
+                                            <input type="date" name="NgayKetThuc" disabled id="NgayKetThuc" onchange="js_checkNBD(@i)" class="form-control" value="@item.ttNgayKetThuc" />
+                                        }
+                                        else
+                                        {
+                                            <input type="date" name="NgayKetThuc" id="NgayKetThuc" min="@DateTime.Today.ToString("yyyy-MM-dd")" onchange="js_checkNBD(@i)" class="form-control NgayKetThuc" />
+                                        }
+                                    }
+                                </td>
+                                <td id="CheckID">
+                                    <input type="hidden" name="MaHang" id="MaHang" class="form-control" value="@item.MaSP" />
+                                    <input type="hidden" name="TenHang" id="TenHang" class="form-control" value="@item.TenSP" />
+                                    @{
+                                        if (item.IDPriceSell.ToString() != "0")
+                                        {
+                                            <input disabled class="cb-element" style="width:100% !important" name="checkNo[]" id="0" type="checkbox">
+                                        }
+                                        else
+                                        {
+                                            <input class="cb-element" style="width:100% !important" name="check[]" id="_@i" type="checkbox">
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    function checkall() {
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if ($('#checkall').is(":checked")) {
+                cboxes[i].checked = true;
+            } else { cboxes[i].checked = false; }
+        }
+    }
+    function js_saveCheck() {
+        debugger;
+        var CheckId = "0";
+        var cboxes = document.getElementsByName('check[]');
+        var arrCheckbox = [];
+        var i = 0;
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+
+                CheckId = "1";
+                var po = {};
+                // alert(cboxes[i].id);
+
+                po.Price = $('#Row' + cboxes[i].id + ' #Price').val();
+                po.PriceNew = $('#Row' + cboxes[i].id + ' #PriceNew').val();
+                po.NgayBatDau = $('#Row' + cboxes[i].id + ' #NgayBatDau').val();
+                po.NgayKetThuc = $('#Row' + cboxes[i].id + ' #NgayKetThuc').val();
+                po.ischeck = $('#Row' + cboxes[i].id + ' #ischeck').val();
+                po.IDPriceSell = $('#Row' + cboxes[i].id + ' #IDPriceSell').val();
+
+                po.MaHang = $('#Row' + cboxes[i].id + ' #MaHang').val();
+                po.TenHang = $('#Row' + cboxes[i].id + ' #TenHang').val();
+
+                po.TenNCC = fomart_split($("#NhaCCFull").val(), 1);
+                po.MaNCC = fomart_split($("#NhaCCFull").val(), 0);
+
+                console.log(po);
+                arrCheckbox.push(po);
+
+                // $('#Row_' + i + ' #NgayKetThuc').css('border', '1px solid #d7d7d7');
+                $('#Row_' + i + ' #NgayBatDau').css('border', '1px solid #d7d7d7');
+
+                var NgayBatDau = $('#Row' + cboxes[i].id + ' #NgayBatDau').val();
+                var NgayKetThuc = $('#Row' + cboxes[i].id + ' #NgayKetThuc').val();
+                if (NgayBatDau != "" && NgayKetThuc != "") {
+                    if (NgayBatDau > NgayKetThuc) {
+                        alert("Ngày bắt đầu không thể lớn hơn ngày kết thúc. Vui lòng nhập lại !");
+                        $('#Row' + cboxes[i].id + ' #NgayBatDau').val('');
+                        $('#Row' + cboxes[i].id + ' #NgayKetThuc').val('');
+                        return;
+                    }
+                }
+                if (NgayBatDau == '' || NgayBatDau == "undefined") {
+                    alert("Vui lòng nhập ngày bắt đầu!");
+                    $('#Row' + cboxes[i].id + ' #NgayBatDau').val('');
+                    $('#Row' + cboxes[i].id + ' #NgayBatDau').css('border', '1px solid #ffa903');
+                    return;
+                }
+            }
+        }
+        console.log('1');
+        console.log(arrCheckbox);
+
+        if (CheckId == "0") {
+            alert("Bạn chưa chọn hành động");
+            return;
+        }
+        console.log(JSON.stringify(arrCheckbox));
+        if (arrCheckbox.length > 0) {
+            $.ajax({
+                url: '/OfferPrice/Save_PriceSell_Vender_Item',
+                type: 'POST',
+                data: JSON.stringify({ lst: arrCheckbox }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    if (data.code == 0) {
+                        alert("Vui lòng chọn ngày bắt đầu lớn hơn ngày hiện tại!.");
+                    } else {
+                        jAlert("Xác nhận thành công");
+                        location.reload();
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+    function js_checkNBD(d) {
+        var NgayBatDau = $('#Row_' + d + ' #NgayKetThuc').val();
+        var date1 = new Date(NgayBatDau);
+        var NBD = date1.getTime();
+        var NBDres = NBD.toString().substring(0, 6);
+        var today = new Date();
+        var now = today.getTime();
+        var NBDnow = now.toString().substring(0, 6);
+
+        if (NBDres < NBDnow) {
+            alert("Vui lòng chọn ngày bắt đầu lớn hơn ngày hiện tại!");
+            $('#Row_' + d + ' #NgayKetThuc').val('');
+            $('#Row_' + d + ' #NgayKetThuc').css('border', '1px solid #ffa903');
+            return;
+        }
+    }
+
+    function js_checkNBD_HNgayKetThuc(d) {
+        var NgayBatDau = $('#HNgayKetThuc').val();
+        var date1 = new Date(NgayBatDau);
+        var NBD = date1.getTime();
+        var NBDres = NBD.toString().substring(0, 6);
+        var today = new Date();
+        var now = today.getTime();
+        var NBDnow = now.toString().substring(0, 6);
+
+        if (NBDres < NBDnow) {
+            alert("Vui lòng chọn ngày bắt đầu lớn hơn ngày hiện tại!");
+            $('#HNgayKetThuc').val('');
+            $('#HNgayKetThuc').css('border', '1px solid #ffa903');
+            return;
+        }
+    }
+    function js_check_HNgayBatDau() {
+        var dr = $("#HNgayBatDau").val();
+        $(".NgayBatDau").val(dr);
+    }
+    function js_check_HNgayKetThuc() {
+        js_checkNBD_HNgayKetThuc();
+        var dr = $("#HNgayKetThuc").val();
+        $(".NgayKetThuc").val(dr);
+    }
+
+
+</script>
+

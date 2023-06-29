@@ -1,0 +1,128 @@
+﻿@using System.Data
+
+<table id="tbl_ItemTang" class="table table-bordered tb_detail" style="width:99.5%">
+    <thead>
+        <tr style="background: #f3f3f3; border: none !important;">
+            <td class="text-left" colspan="2" style="vertical-align: top; border: none !important;">
+                <h4 class="text_title">Tặng hàng</h4>
+            </td>
+            <td class="text-left" style="vertical-align: top;  border: none !important;">
+            </td>
+            <td class="text-left" style="vertical-align: top; border: none !important;">
+                <span id="TotalGiaNhapTang"></span>
+                <input type="hidden" name="TotalGiaNhapTangNoF" id="TotalGiaNhapTangNoF" />
+            </td>
+            <td class="text-left" style="vertical-align: top; border: none !important;">
+                <span id="TotalSL"></span>
+            </td>
+        </tr>
+        <tr>
+            <th class="text-left" style="vertical-align: top; width: 100px">
+                Mã hàng
+            </th>
+            <th class="text-left" style="text-align: left; width: 250px; max-width: 250px; overflow: hidden; white-space: nowrap ">
+                Tên hàng
+            </th>
+            <th class="text-left" style="vertical-align: top; width: 80px">
+                Hình ảnh
+            </th>
+            <th class="text-left" style="vertical-align: top; width: 100px">
+                Giá quà
+            </th>
+            <th class="text-left" style="vertical-align: top; width: 80px">
+                SL Áp dụng
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            if (Model != null)
+            {
+                var dt = Model;
+                {
+                    var i = 0;
+                    foreach (MP_VendorTool.Models.Promotion2.TangHang_GetWay_HHOA_KGUI item in dt)
+                    {
+                        <tr id="row_@i">
+                            <td class="text-center">
+                                <input type="hidden" id="MaHang_@i" name="MaHang" value="@item.MaHang" />
+                                @item.MaHang
+                            </td>
+                            <td class="text-left" style="text-align: left; width: 250px; max-width: 250px; overflow: hidden; white-space: nowrap ">
+                                <input type="hidden" id="TenHang_@i" name="TenHang" value="@item.TenHang" />
+                                @item.TenHang
+                            </td>
+                            <td class="text-center">
+                                <input type="hidden" id="HinhAnh_@i" name="HinhAnh" value="@item.HinhAnh" />
+                                <a href="@item.HinhAnh" title="" class="thickbox"><img height="60px" src="@item.HinhAnh" alt="" class="content" /></a>
+                            </td>
+                            <td class="text-right">
+                                @item.Price
+                                <input id="Price_@i" type="hidden" name="Price" min="0" value="@item.Price" />
+                            </td>
+                            <td class="text-center checkTang">
+                                <input id="SLTang_@i" name="SLTang" class="form-control" style="width: 100px; max-width: 100px; display: inline " min="0" onchange="js_sumTotalTang(@i)" type="number" />
+                                <span style=" display:none"><input class="form-check-input" id="_@i" type="checkbox" name="checkTang[]" value="@item.MaHang"></span>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
+<script>
+    // check giá trị quà vượt quá điểm
+    function js_checkHangTang(r) {
+        let TotalNextStep = $('#TotalNextStep').val();
+        var TotalGiaNhapTang = $('#TotalGiaNhapTangNoF').val();
+        if (parseInt(TotalNextStep) < parseInt(TotalGiaNhapTang)) {
+            jAlert("Giá trị quà tặng vượt quá tổng giá trị quà. Vui lòng chọn lại quà tặng !", 'Thông báo');
+            $("#SLTang_" + r + "").val('');
+            $("#row_" + r + " .checkTang #_" + r + "").prop("checked", false);
+            js_sumTotalTang(r);
+        }
+    }
+    function js_sumTotalTang(r) {
+        debugger;
+        let SLTangs = $('#row_' + r + '  #SLTang_' + r + '').val();
+        if (parseInt(SLTangs) > 0) {
+            $("#row_" + r + " .checkTang #_" + r + "").prop("checked", true);
+        }
+        else {
+            $("#row_" + r + " .checkTang #_" + r + "").prop("checked", false);
+        }
+
+        let trs = $("#tbl_ItemTang tbody tr");
+        let TotalSL = 0;
+        let TotalGiaNhap = 0;
+        if (trs.length > 0) {
+            trs.each((index, tr) => {
+                console.log(tr.id);
+                let ischeck = $('#' + tr.id + '  .checkTang  input[name="checkTang[]"').length > 0;
+                if (ischeck == true) {
+                    let SLTang = String($('#' + tr.id + ' input[name="SLTang"').val()).trim();
+                    let Price = String($('#' + tr.id + ' input[name="Price"').val()).trim().replace(",", "");
+
+                    if (SLTang.length > 0 && parseInt(Price) > 0) {
+                        TotalGiaNhap += parseInt(Price) * SLTang;
+                        TotalSL += parseInt(SLTang);
+                    }
+                }
+            });
+        }
+        let TotalAmount = TotalGiaNhap.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).replace('₫', "");
+        $('#TotalGiaNhapTangNoF').val(TotalGiaNhap);
+        $('#TotalGiaNhapTang').html(TotalAmount);
+        $('#TotalSL').html(TotalSL);
+        js_checkHangTang(r);
+    }
+
+</script>

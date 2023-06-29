@@ -1,0 +1,1132 @@
+﻿@using MP_VendorTool.Common;
+@using MP_VendorTool.Models.Order;
+@using MP_VendorTool.Models.Refund;
+
+@{
+    ViewBag.Title = "Chi tiết đơn hoàn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .modal-dialog {
+        max-width: 480px !important;
+    }
+
+    .BBoder {
+        padding-bottom: 14px !important;
+    }
+
+    .form-group {
+        margin-bottom: 0px;
+    }
+
+    /*    .FrDetail b {
+            font-weight: 510;
+            font-size: 16px;
+            border: 1px solid #e3e3e3;
+            width: 94%;
+            padding: 3px;
+        }
+    */
+
+    .ThongTinXe {
+        margin-left: -16px;
+    }
+
+    .hoanthanh {
+        justify-content: center;
+        align-items: center;
+        padding: 8px 32px 8px 32px;
+        width: 153px;
+        height: 40px;
+        background: #D2151E;
+        border-radius: 8px;
+        color: #fff !important;
+    }
+
+    .NameV2 label {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.15px;
+        color: rgba(0, 0, 0, 0.87);
+        margin-top: 13px;
+    }
+
+    .hoathanhguiFile {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #e0e0e0;
+        border-radius: 8px;
+        color: #000 !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+    }
+
+    .DuyetguiFile {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #558B2F;
+        border-radius: 8px;
+        color: #fff !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+    }
+
+    .DuyetguiFileV2 {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #FFFFFF;
+        border-radius: 8px;
+        color: rgba(0, 0, 0, 0.6) !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.6);
+    }
+
+    .MauDaDuocDuyet {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #FFFFFF;
+        border-radius: 8px;
+        color: #558B2F99 !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+        border: 1px solid #558B2F99;
+    }
+
+    .TuChoiguiFile {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 32px;
+        height: 45px;
+        background: #FFFFFF;
+        border-radius: 8px;
+        color: #D2151E99 !important;
+        font-size: 15px;
+        margin-top: 14px;
+        float: left;
+        margin-right: 10px;
+        border: 1px solid #D2151E99;
+    }
+
+    .FullfromV1 b {
+        float: none !important;
+    }
+
+    /*    .hoanthanh {
+                justify-content: center;
+                align-items: center;
+                padding: 8px 28px 8px 20px;
+                width: 153px;
+                height: 40px;
+                background: #D2151E;
+                border-radius: 8px;
+                color: #fff;
+            }
+        */
+    body.fixed-layout .content-wrapper, body.fixed-navbar .content-wrapper {
+        padding-top: 46px;
+    }
+
+    .FrDetail b {
+        font-weight: 510;
+        font-size: 16px;
+    }
+
+    .labelChoDuyet {
+        background-color: #f2c970;
+        margin: 105px;
+        padding-top: 3px;
+        display: inline;
+        padding: 0.2em 0.6em 0.3em;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        color: #000;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25em;
+    }
+
+    .labelDaDuyet {
+        background-color: #a3c08f;
+        margin: 105px;
+        padding-top: 3px;
+        display: inline;
+        padding: 0.2em 0.6em 0.3em;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        color: #000;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25em;
+    }
+
+    .dropup .dropdown-menu, .navbar-fixed-bottom .dropdown .dropdown-menu {
+        margin-bottom: 2px;
+    }
+
+    .col-md-8.box_sizeProduct {
+        padding-left: 19px;
+        padding-right: 17px;
+    }
+
+    i.fa.fa-trash {
+        font-size: 17px;
+        padding-top: 5px;
+    }
+
+    .ibox-head {
+        padding: 0px 0px !important;
+        margin-bottom: 28px !important;
+    }
+
+    .container {
+        margin-left: 0px;
+    }
+
+    .form-control {
+        font-size: 12px !important;
+        margin-bottom: 4px;
+    }
+
+    .dropdown.bootstrap-select.form-control {
+        font-size: 12px !important;
+        margin-bottom: 4px;
+    }
+
+    img.MultipleImg {
+        float: left;
+        width: 47%;
+        margin: 4px;
+        height: 130px;
+        border: 1px solid #d7d7d7;
+    }
+
+    .dropdown.bootstrap-select.form-control.bs3 {
+        margin-bottom: 6px;
+    }
+
+    img.MultipleImgFull {
+        width: 100%;
+    }
+
+    .btn_add .add i {
+        font-size: 18px;
+        color: #337ab7;
+        padding-top: 4px;
+    }
+
+
+    #wp_thum_img {
+        background-color: #fff;
+        text-align: center;
+    }
+
+    #img_src img {
+        width: 52px;
+        height: 52px;
+        border-radius: 5px;
+        margin-right: 7px;
+    }
+
+    .img_src p {
+        font-size: 14px;
+        color: #000;
+    }
+
+    div#img_src {
+        margin-left: 11px;
+    }
+
+    #btn_Guis {
+        background-color: #868686;
+        color: #fff;
+        padding: 7px 38px;
+        margin-top: 2px;
+        text-align: left;
+    }
+
+    .box_sizeProduct .form-group {
+        padding-left: 0px;
+        padding-right: 3px;
+    }
+
+    .chiadeu {
+        width: 33%;
+        display: inline-block;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .Themmoi:hover {
+        background-color: #0f4c81 !important;
+        color: #e9e8e6 !important;
+    }
+
+    .col-md-8.box_sizeProduct .form-group {
+        margin-bottom: 0px;
+    }
+
+    .modal {
+        top: 20%;
+    }
+
+    .page-content {
+        padding-top: 2px;
+    }
+
+    .khoangcach {
+        margin-top: 10px;
+    }
+
+    a#guiduyet:hover {
+        color: #fff;
+    }
+
+    .panel-heading .chevron:after {
+        content: "\f078";
+    }
+
+    .panel-heading.collapsed .chevron:after {
+        content: "\f054";
+    }
+
+    .col-xs-1.right {
+        float: right;
+        margin-right: 34px;
+        margin-top: -17px;
+    }
+
+    .images img {
+        border-radius: 5px;
+        border: 1px solid #d7d7d7;
+        width: 99px;
+        margin: 9px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .images {
+        margin-left: 6px;
+        margin-top: 8px;
+    }
+
+    body {
+        font-size: 13px !important;
+    }
+
+    .BoderEdit {
+        border-radius: 6px;
+        /*background: #ededed;*/
+        color: #000;
+        padding: 6px;
+        margin-bottom: 5px;
+        padding-left: 15px;
+        width: 82% !important;
+        padding-top: 6px !important;
+        font-size: 12px !important;
+    }
+
+    .BBoder strong {
+        font-weight: 600;
+        font-size: 14px;
+    }
+</style>
+
+<div class="content-wrapper FrDetail">
+    <div style="clear: both; height:20px;"></div>
+    <div><a href="/Refund/ProductRecall"><img src="/image/ArrowLeft.png" /></a></div>
+    <div style="clear: both; height:20px;"></div>
+    <fieldset class="BBoder">
+        <div class="alerts">
+            <div class="col-md-12">
+                <div class="headerName">
+                    <div class="col-sm-8">
+                        ĐƠN HOÀN HÀNG @ViewBag.info.PoNoHH
+                        <p style="font-style: italic; font-weight: 400; font-size: 15px; line-height: 19px; color: rgba(0, 0, 0, 0.87); padding-top: 5px; ">Những thông tin mô tả đơn hoàn hàng</p>
+                    </div>
+                    <div class="col-sm-4" style=" text-align:right">
+                        <span style=" margin-right: -9px; "> @Html.Raw(ViewBag.info.Trangthai)</span>
+                    </div>
+                </div>
+            </div>
+            <div style="clear: both; height: 7px"></div>
+            <div class="col-xs-12">
+                <div style=" height:0px; clear:both"></div>
+                <div class="FullfromV1">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="form-horizontal">
+                                <div class="form-group ">
+                                    <div class="col-sm-2">
+                                        <span style="font-size: 15px;">Ngày tạo đơn: </span><strong>@ViewBag.info.CreateDate</strong>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span style="font-size: 15px;">Số mã sản phẩm hoàn: </span><strong class="tongsl">@ViewBag.info.TongMaHang</strong>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span style="font-size: 15px;">Số lượng đặt: </span><strong class="tongsl">@ViewBag.info.TotalQuantity</strong>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span style="font-size: 15px;">Số lượng xác nhận: </span><strong class="tongsl">@ViewBag.info.SLXacNhan</strong>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span style="font-size: 15px;">Giá trị đơn: </span><strong class="tongsl">@ViewBag.info.TotalAmount đ</strong>
+                                    </div>
+                                    <div class="col-sm-4" style=" text-align:right">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear: both; height: 15px"></div>
+                    <div class="col-sm-12" style=" text-align:left">
+                        <span style=" margin-left: 13px;font-size: 15px;">Lý do thu hồi: <strong>@Html.Raw(ViewBag.info.LyDoHoanHang)</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <div style="clear: both; height: 10px"></div>
+    <div style=" padding-top:0px;  width:100%; margin:auto">
+        <fieldset class="BBoder">
+            <div class="col-md-12">
+                <div class="panel-heading">
+                    <div class="col-md-9">
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="headerName">
+                                    Địa điểm lấy hàng hoàn: <b>@ViewBag.info.StoreNhan</b>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div style=" padding-top:10px"> <span style="font-size: 15px;">Số mã sản phẩm hoàn: </span><strong class="tongsl">@ViewBag.info.TongMaHang</strong></div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div style=" padding-top:10px"> <span style="font-size: 15px;">Tổng số lượng: </span><strong class="tongsl">@ViewBag.info.TotalQuantity</strong></div>
+                            </div>
+                            <div class="col-sm-3" style=" text-align:right">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3">
+                        @*<div class="col-xs-1 right" style="margin-top: 9px !important">
+                                <i class="chevron fa "></i>
+                            </div>*@
+                    </div>
+                </div>
+
+                @*Sau khi BBM xác nhận và chuyển trạng thái sang đã duyệt thì mới hiển thị*@
+                @{
+                    if (ViewBag.info.Status == "APPROVED")
+                    {
+                        <div class="XacNhanLaiXe" onclick="js_XacNhanDon()">
+                            <div class="col-sm-9">
+                                <div class="headerName" style="padding-top: 1px;">
+                                    <img src="~/image/Shape.png" /> Thông tin lịch nhận hàng
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="text-align: right; padding-top: 2px; font-style: italic;">
+                                (Nhận hàng sau khi đơn PO hoàn thành)
+                            </div>
+                        </div>
+                    }
+                }
+
+                @{
+                    if (ViewBag.info.Status == "WAITINGREFUND" || ViewBag.info.Status == "INPROGRESS" || ViewBag.info.Status == "REFUNDED" || ViewBag.info.Status == "REFUNDREJECTED")
+                    {
+                        <div class="col-md-12" style=" height: 10px;"></div>
+                        <div class="XacNhanLaiXe_info">
+
+                            <div class="col-sm-9">
+                                <div class="headerName" style="padding-top: 1px;">
+                                    <img src="~/image/Shape.png" /> Thông tin lịch nhận hàng
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="text-align: right; padding-top: 2px; font-style: italic;">
+                                @*(Cập nhật nếu có)*@
+                            </div>
+                            <div class="ThongTinXe">
+                                <div class="col-md-12" style=" height:7px;"></div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <label> Thời gian nhận hàng</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span class="infoxe">@ViewBag.info.NgayHoanHangNew</span>
+                                    </div>
+                                </div>
+                                @if (ViewBag.info.TaiXe.Length > 1)
+                                {
+                                    <div class="col-md-12" style=" height:7px;"></div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <label> Tên tài xế</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span class="infoxe">@ViewBag.info.TaiXe</span>
+                                        </div>
+                                    </div>
+                                }
+                                @if (ViewBag.info.XeVanChuyen.Length > 1)
+                                {
+                                    <div class="col-md-12" style=" height:7px;"></div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <label> Biển số xe</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span class="infoxe">@ViewBag.info.XeVanChuyen</span>
+                                        </div>
+                                    </div>
+                                }
+                                @if (ViewBag.info.SdtTaixe.Length > 1)
+                                {
+                                    <div class="col-md-12" style=" height:7px;"></div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <label>Số điện thoại</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span class="infoxe">@ViewBag.info.SdtTaixe</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style=" height:7px;"></div>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+
+                @{
+                    if (ViewBag.info.Status == "INPROGRESS")
+                    {
+                        <div class="XacNhanthoigian">
+                            <div class="col-sm-6">
+                                <div class="header1">
+                                    <img src="~/image/RefundXn.png" /> Xác nhận thông tin đơn hàng
+                                </div>
+                                <div style="font-style: italic; font-weight: 400; font-size: 15px; line-height: 19px; color: rgba(0, 0, 0, 0.87); padding-top: 5px; ">
+                                    <p style="font-style: italic; font-weight: 400; font-size: 15px; line-height: 19px; color: rgba(0, 0, 0, 0.87); padding-top: 5px; ">Vui lòng xác nhận đã đủ hàng hoặc không đủ hàng.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" style="text-align:right">
+                                @{
+                                    if (ViewBag.info.Status == "INPROGRESS")
+                                    {
+                                        <div style="padding: 5px; margin-top: 18px;">
+                                            <a class="btn btn-success" onclick="js_XacNhanNhanDuHang()" style="background: #F26B2A; color: #fff; border: none !important; padding-right: 44px; padding-left: 40px; margin-right: 15px; ">
+                                                Đã nhận đủ đơn hoàn hàng
+                                            </a>
+                                            <a class="btn btn-success" onclick="js_TuChoi()" style="background: #959595; color: #fff; border: none !important; padding-right: 44px; padding-left: 40px; margin-right: 10px; ">
+                                                Nhận không đủ hàng
+                                            </a>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+
+                <div style="clear:both; height:10px"></div>
+                <div class="col-xs-12  ">
+                    <div style=" height:0px; clear:both"></div>
+
+                    <div class="FullfromV1">
+                        <div id="div-content" style=" padding-top: 15px;">
+                            @Html.Partial("~/Views/Refund/Partial/__DetailRequest.cshtml")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+</div>
+
+<input type="hidden" name="MaNCC" id="MaNCC" value="@ViewBag.info.VendorNo" />
+<input type="hidden" name="PoNo" id="PoNo" value="@ViewBag.info.PoNoHH" />
+<input type="hidden" name="ID" id="ID" value="@ViewBag.info.ID" />
+<input type="hidden" name="IDHeaders" id="IDHeaders" value="@ViewBag.info.IDHeader" />
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtHead').html("Chi tiết đơn hoàn hàng");
+        // var url = new URL(window.location);
+        // if (url.searchParams.get("PoNo")) $("#PoNo").val(url.searchParams.get("PoNo"));
+        js_DetailRequest();
+
+    });
+    function js_DetailRequest() {
+        var MaNCC = $("#MaNCC").val();
+        var PoNo = $("#PoNo").val();
+        $.ajax({
+            url: '/Refund/GetList_DetailRequest',//Web_REFUND_2023_DetailRequest
+            type: 'POST',
+            data: JSON.stringify({ PoNo: PoNo, MaNCC: MaNCC }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_ReloadTable() {
+        imgrecall();
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[20, 70, 100, -1], [20, 70, 100, 'All']],
+            "searching": false,
+            autoWidth: false,
+            fixedHeader: false,
+            //fixedHeader: {
+            //    headerOffset: 249
+            //},
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            },
+        });
+    }
+
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+
+        //$('img.content').hover(function () {
+        //    $(this).addClass('transition');
+
+        //}, function () {
+        //    $(this).removeClass('transition');
+        //});
+    }
+
+
+</script>
+
+<div class="modal" id="ThongTinNhanHang_modal">
+    <div class="modal-dialog" role="document" style="width:500px; border-radius:0; ">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style="font-size:18px;display: contents; text-transform:uppercase">Thời gian nhận hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="row DonHangPoNo ">
+                <fieldset>
+
+                    @{
+                        List<DonHangPoNo> Otherss = ViewBag.list_DonPo as List<DonHangPoNo>;
+                        if (Otherss.Count > 0)
+                        {
+                            <div class="col-md-12">
+                                <p style="font-weight: 600; font-size: 17px; line-height: 3px; color: rgba(0, 0, 0, 0.87); padding-top: 21px; margin-left: 26px;">Thời gian nhận hàng</p>
+                                <p style="font-style: italic; font-weight: 400; font-size: 15px; line-height: 19px; color: rgba(0, 0, 0, 0.87); padding-top: 0px; margin-left: 26px; ">Nhận hàng khi giao đơn PO</p>
+                            </div>
+                            int i = 0;
+                            foreach (var item in Otherss)
+                            {
+                                if (i == 0)
+                                {
+                                    <div class="col-md-12 active_@i clearcheck" onclick="clearcheck(@i)">
+                                        <div class="card radius-10 clearcard" style="background-color: rgb(242, 107, 42); color: rgb(255, 255, 255);">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="">
+                                                        <p class="mb-1"><b class="PoNo">@item.PoNoGiao</b></p>
+                                                        <h4 class="mb-0 text-tiffany"><span class="TaiXe">@item.TaiXe</span> / <span class="XeVanChuyen">@item.XeVanChuyen</span></h4>
+                                                    </div>
+                                                    <div class="ms-auto widget-icon bg-light-tiffany text-tiffany">
+                                                        <span class="">@item.NgayGiaoHang</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="hidden">
+                                            <span class="NgayGiaoHang">@item.NgayGiaoHangv1</span>
+                                            <span class="sdtTaiXe">@item.sdtTaixe</span>
+                                            <span class="IDHeader">@item.IDHeader</span>
+                                            <input type="checkbox" checked id="_@i" name="check[]" class="form-check-input" value="@i" />
+                                        </div>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-12 active_@i clearcheck" onclick="clearcheck(@i)">
+                                        <div class="card radius-10 clearcard">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="">
+                                                        <p class="mb-1"><b class="PoNo">@item.PoNoGiao</b></p>
+                                                        <h4 class="mb-0 text-tiffany"><span class="TaiXe">@item.TaiXe</span> / <span class="XeVanChuyen">@item.XeVanChuyen</span></h4>
+                                                    </div>
+                                                    <div class="ms-auto widget-icon bg-light-tiffany text-tiffany">
+                                                        <span class="">@item.NgayGiaoHang</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="hidden">
+                                            <span class="NgayGiaoHang">@item.NgayGiaoHangv1</span>
+                                            <span class="sdtTaiXe">@item.sdtTaixe</span>
+                                            <span class="IDHeader">@item.IDHeader</span>
+                                            <input type="checkbox" id="_@i" name="check[]" class="form-check-input" value="@i" />
+                                        </div>
+                                    </div>
+                                }
+
+                                i++;
+                            }
+                            <div class="col-md-12" style=" height:7px;"></div>
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="hidden" name="GioGiao" id="GioGiao" placeholder="Giờ giao" class="form-control" />
+                                    <a href="#" onclick="fn_save_NhanHang_PoNo()" id="btn_Gui" class="btn btn-success px-5 rounded-0 btgetw" style="color:#fff"><i class="fa fa-save"></i> Xác nhận </a>
+                                    <div style=" height: 10px"></div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-12">
+                                <p style="font-weight: 600; font-size: 17px; line-height: 3px; color: rgba(0, 0, 0, 0.87); padding-top: 21px; margin-left: 26px;">Thời gian nhận hàng</p>
+                                <p style="font-style: italic; font-weight: 400; font-size: 15px; line-height: 19px; color: rgba(0, 0, 0, 0.87); padding-top: 0px; margin-left: 26px; ">Vui lòng điền đầy đủ ngày, giờ nhận hàng</p>
+                            </div>
+                            <div class="DatePO">
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <label>Ngày giao</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="date" name="NgayGiao" id="NgayGiao" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style=" height:7px;"></div>
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <label>Giờ giao</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" name="GioGiao" id="GioGiao" placeholder="Giờ giao" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style=" height:7px;"></div>
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+
+                                    </div>
+                                    <div class="col-md-9">
+                                        <a href="#" onclick="fn_save_NhanHang()" id="btn_Gui" class="btn btn-success px-5 rounded-0 btgetw" style="color:#fff"><i class="fa fa-save"></i> Xác nhận </a>
+                                        <div style=" height: 20px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card.radius-10 {
+        width: 90%;
+        margin: auto !important;
+        margin-bottom: 9px !important;
+    }
+
+    .radius-10 {
+        border-radius: 10px !important;
+    }
+
+    .ms-auto {
+        margin-left: auto !important;
+    }
+
+    .card {
+        border: 0;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, .075);
+    }
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, .125);
+        border-radius: 0.25rem;
+    }
+
+        .card:hover {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #F26B2A;
+            background-clip: border-box;
+            border: 1px solid rgba(0, 0, 0, .125);
+            border-radius: 0.25rem;
+            color: #fff;
+        }
+
+    .mb-1 b {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .DatePO {
+        padding-left: 20px;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+<link href="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet" />
+
+<script>
+
+    $(function () {
+        var timepicker = new TimePicker(['GioGiao'], {
+            lang: 'en',
+            theme: 'dark'
+        });
+        timepicker.on('change', function (evt) {
+            var texthour = '';
+
+            switch (evt.hour) {
+                case '0':
+                    texthour = "00";
+                    break;
+                case '1':
+                    texthour = "01";
+                    break;
+                case '2':
+                    texthour = "02";
+                    break;
+                case '3':
+                    texthour = "03";
+                    break;
+                case '4':
+                    texthour = "04";
+                    break;
+                case '5':
+                    texthour = "05";
+                    break;
+                case '6':
+                    texthour = "06";
+                    break;
+                case '7':
+                    texthour = "07";
+                    break;
+                case '8':
+                    texthour = "08";
+                    break;
+                case '9':
+                    texthour = "09";
+                    break;
+                default:
+                    texthour = evt.hour;
+            }
+
+            var value = (texthour || '00') + ':' + (evt.minute || '00');
+            evt.element.value = value;
+
+        });
+    });
+
+    function clearcheck(k) {
+        $(".clearcard").css({
+            'background-color': '#fff',
+            'color': '#333'
+        });
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                cboxes[i].checked = false;
+            }
+        }
+        $("#_" + k).prop('checked', true);
+        $(".active_" + k + " .clearcard").css({
+            'background-color': '#F26B2A',
+            'color': '#fff'
+        });
+    }
+
+    function js_XacNhanDon() {
+        //$('#SetID').val(r);
+        //$('#SetDotGiao').val(DotGiao);
+
+        //$('#BienSoXe').val('');
+        //$('#TenTaiXe').val('');
+        //$('#SoDienThoai_LX').val('');
+        //$('#CCCD').val('');
+        $('#ThongTinNhanHang_modal').modal('show');
+    }
+    function fn_save_NhanHang_PoNo() {
+
+        $('.DonHangPoNo input[name="check[]"]:checked').each(function (index, value) {
+            console.log($(value).val());
+            var i = $(value).val();
+            //active_0
+            let IDHeader = $('.active_' + i + ' .IDHeader').html().trim();
+            let PoNo = $('.active_' + i + ' .PoNo').html().trim();
+            let TaiXe = $('.active_' + i + ' .TaiXe').html().trim();
+            let sdtTaiXe = $('.active_' + i + ' .sdtTaiXe').html().trim();
+            let NgayGiaoHang = $('.active_' + i + ' .NgayGiaoHang').html().trim();
+            let XeVanChuyen = $('.active_' + i + ' .XeVanChuyen').html().trim();
+            var VendorNo = $("#MaNCC").val();
+            console.log(IDHeader + '-' + PoNo + '-' + TaiXe + '-' + sdtTaiXe + '-' + NgayGiaoHang + '-' + XeVanChuyen);
+
+            let PoNoHH = $('#PoNo').val().trim();
+
+            $.ajax({
+                url: '/Refund/Save_NhanHang_PoNo',
+                type: 'POST',
+                data: JSON.stringify({ IDHeader: IDHeader, PoNo: PoNo, TaiXe: TaiXe, sdtTaiXe: sdtTaiXe, NgayGiaoHang: NgayGiaoHang, XeVanChuyen: XeVanChuyen, VendorNo: VendorNo }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        jAlert("Đơn hàng '" + PoNoHH + "' đã được hệ thống ghi nhận.", 'Xác nhận thành công', (r) => {
+                            location.reload();
+                        });
+                        $('#ThongTinNhanHang_modal').modal('hide');
+                        js_Loading(false, 1);
+                    } else {
+                        alert("Có lỗi xảy ra.");
+                    }
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        });
+    }
+
+    function fn_save_NhanHang() {
+        debugger;
+        if (
+            $('#NgayGiao').val().length == 0 ||
+            $('#GioGiao').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ');
+            return;
+        }
+        var NgayGiao = $('#NgayGiao').val();
+        var GioGiao = $('#GioGiao').val();
+        var VendorNo = $("#MaNCC").val();
+        var IDHeader = $("#IDHeaders").val();
+        let PoNoHH = $('#PoNo').val().trim();
+        var NgayGiaoHang = NgayGiao + " " + GioGiao;
+
+        $.ajax({
+            url: '/Refund/Save_NhanHang_Date',
+            type: 'POST',
+            data: JSON.stringify({ IDHeader: IDHeader, PoNo: '', TaiXe: '', sdtTaiXe: '', NgayGiaoHang: NgayGiaoHang, XeVanChuyen: '', VendorNo: VendorNo }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data == 1) {
+                    jAlert("Đơn hàng '" + PoNoHH + "' đã được hệ thống ghi nhận.", 'Xác nhận thành công', (r) => {
+                        location.reload();
+                    });
+                    $('#ThongTinNhanHang_modal').modal('hide');
+                    js_Loading(false, 1);
+                } else {
+                    alert("Có lỗi xảy ra.");
+                }
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+</script>
+
+
+
+<script>
+    function js_TuChoi() {
+        $('#LyDo').val('');
+        $('#SoDienThoai').val('');
+        $('#XacNhan_TuChoi_modal').modal('show');
+    }
+    function fn_save_TuChoi() {
+        debugger;
+        if (
+            $('#LyDo').val().length == 0 ||
+            $('#SoDienThoai').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ');
+            $('#XacNhan_TuChoi_modal').modal('show');
+            return;
+        }
+        var LyDo = $('#LyDo').val();
+        var SoDienThoai = $('#SoDienThoai').val();
+        var PoNo = $('#PoNo').val();
+        var IDHeaders = $('#IDHeaders').val();
+
+        jConfirm('Bạn chắc chắn muốn từ chối ?', 'THÔNG BÁO', function (r) {
+            if (r) {
+                $.ajax({
+                    url: '/Refund/Save_TuChoiXacNhan',
+                    type: 'POST',
+                    data: JSON.stringify({ IDHeaders: IDHeaders, LyDo: LyDo, SoDienThoai: SoDienThoai }),
+                    contentType: 'application/json, charset=utf-8',
+                    beforeSend: function () {
+                        js_Loading(true, 1);
+                    },
+                    success: function (data) {
+                        if (data == 1) {
+                            jAlert("Đơn hàng '" + PoNo + "' đã được hệ thống ghi nhận.", 'Bạn đã từ chối đơn hàng', (r) => {
+                                location.reload();
+                            });
+                            $('#XacNhan_TuChoi_modal').modal('hide');
+                            js_Loading(false, 1);
+                        } else {
+                            alert("Có lỗi xảy ra.");
+                        }
+                    },
+                    error: function () {
+                        js_Loading(false, 1);
+                    }
+                });
+            }
+        });
+    }
+
+    function js_XacNhanNhanDuHang() {
+        debugger;
+        var IDHeaders = $('#IDHeaders').val();
+        var PoNo = $('#PoNo').val();
+
+
+        $.ajax({
+            url: '/Refund/Save_XacNhan_DonHang',
+            type: 'POST',
+            data: JSON.stringify({ IDHeaders: IDHeaders }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data == 1) {
+                    jAlert("Đơn hàng '" + PoNo + "' đã được hệ thống ghi nhận.", 'Tiếp nhận lịch giao hàng thành công', (r) => {
+                        location.reload();
+                    });
+                    js_Loading(false, 1);
+                } else {
+                    alert("Có lỗi xảy ra.");
+                }
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+</script>
+
+<div class="modal" id="XacNhan_TuChoi_modal">
+    <div class="modal-dialog" role="document" style="width:500px; border-radius:0; ">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style="font-size:18px;display: contents; text-transform:uppercase">Từ chối nhận hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="row from_vender frominput">
+                <fieldset>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label> Lý do từ chối </label>
+                        </div>
+                        <div class="col-md-9">
+                            <textarea name="LyDo" id="LyDo" style="width: 100%; max-width: 100%; height: 100px; border: 1px solid #d7d7d7; padding: 10px; " placeholder="Lý do từ chối"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label> Số điện thoại</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" name="SoDienThoai" id="SoDienThoai" placeholder="Số điện thoại" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+                </fieldset>
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-9">
+                        <div style=" clear:both; height:10px"></div>
+                        <a href="#" onclick="fn_save_TuChoi()" id="btn_Gui" class="btn btn-success px-5 rounded-0 btgetw" style="color:#fff"><i class="fa fa-save"></i> Lưu & đóng</a>
+                        <div style=" height: 20px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

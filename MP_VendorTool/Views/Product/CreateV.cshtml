@@ -1,0 +1,1077 @@
+﻿@using MP_VendorTool.Models.Order
+@using MP_VendorTool.Common;
+@using Newtonsoft.Json;
+@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Chào hàng mới";
+
+    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+
+    var json_MAU = serializer.Serialize(ViewBag.ls_MAU);
+    var json_DOTUOI = serializer.Serialize(ViewBag.ls_DOTUOI);
+}
+
+<style>
+    .dropup .dropdown-menu, .navbar-fixed-bottom .dropdown .dropdown-menu {
+        bottom: auto !important;
+        margin-bottom: 2px;
+    }
+
+    .col-md-8.box_sizeProduct {
+        padding-left: 19px;
+        padding-right: 17px;
+    }
+
+    i.fa.fa-trash {
+        font-size: 17px;
+        padding-top: 5px;
+    }
+
+    .ibox-head {
+        padding: 0px 0px !important;
+        margin-bottom: 28px !important;
+    }
+
+    .container {
+        margin-left: 0px;
+    }
+
+    .form-control {
+        font-size: 12px !important;
+        margin-bottom: 4px;
+    }
+
+    .dropdown.bootstrap-select.form-control {
+        font-size: 12px !important;
+        margin-bottom: 4px;
+    }
+
+    img.MultipleImg {
+        float: left;
+        width: 47%;
+        margin: 4px;
+        height: 130px;
+        border: 1px solid #d7d7d7;
+    }
+
+    .dropdown.bootstrap-select.form-control.bs3 {
+        margin-bottom: 6px;
+    }
+
+    img.MultipleImgFull {
+        width: 100%;
+    }
+
+    .btn_add .add i {
+        font-size: 18px;
+        color: #337ab7;
+        padding-top: 4px;
+    }
+
+    .img_src {
+        padding: 10px 10px 43px;
+    }
+
+    #wp_thum_img {
+        background-color: #fff;
+        text-align: center;
+    }
+
+    #thum_img {
+        padding-bottom: 10px;
+        /*height: 367px;*/
+        margin-top: 103px;
+    }
+
+    .img_src p {
+        font-style: italic;
+        font-size: 12px;
+        color: #868686;
+    }
+
+    #btn_Guis {
+        background-color: #868686;
+        color: #fff;
+        padding: 7px 38px;
+        margin-top: 2px;
+        text-align: left;
+    }
+
+    .box_sizeProduct .form-group {
+        padding-left: 0px;
+        padding-right: 3px;
+    }
+
+    .chiadeu {
+        width: 33%;
+        display: inline-block;
+    }
+
+
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+
+
+
+    .Themmoi:hover {
+        background-color: #0f4c81 !important;
+        color: #e9e8e6 !important;
+    }
+
+    .col-md-8.box_sizeProduct .form-group {
+        margin-bottom: 0px;
+    }
+</style>
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ViewtabNew" style="margin-left: 0px !important">
+                <button class="btn tabbt btn-danger" onclick="window.location = '/Product/Create'">Chào hàng mới</button>
+                <button class="btn tabbt btntab" onclick="window.location = '/Product/ProInfo'">Thông tin sản phẩm</button>
+            </div>
+            <div class="ibox-body">
+                <div class="row from_vender">
+                    <div class="row_1">
+                        <fieldset>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="ibox-head">
+                                        <div class="ibox-title">
+                                            THÔNG TIN HÀNG HÓA - DỊCH VỤ
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Nhà cung <span style=" color:red">*</span></label>
+                                </div>
+                                <div class="col-md-8">
+                                    @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                    {
+                                        <input type="text" class="form-control" id="VendorNo" name="VendorNo" value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                                    }
+                                    else
+                                    {
+                                        <select id="VendorNo" class="form-control selectpicker" data-live-search="true">
+                                            @if (ViewBag.list_vendor != null)
+                                            {
+                                                <option value="">--- Chọn NCC ---</option>
+                                                foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                {
+                                                    <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    }
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="name">Tên sản phẩm</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control notnull" id="TenSanPham" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="barcode">Barcode</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control" type="text" id="Barcode" name="Barcode">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>Function</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="functionCode" class="form-control selectpicker" data-live-search="true" onchange="loadgroup();loaddiv(); loadcat();  loadgroupERP(); loaddivERP(); loadcatERP();">
+                                        <option value="">--- Chọn Function ---</option>
+                                        @foreach (var i in ViewBag.listFunction)
+                                        {
+                                            <option value="@i.Code">@i.Code - @i.Name</option>
+                                        }
+                                    </select>
+                                    @*<div style=" float: right; margin-right: 217px; "> <a class="add" href="javascript:void(0)" onclick="PopUp_Function_ERP_MDS();"><i class="fa fa-plus" aria-hidden="true" style=" font-size: 26px; "></i></a></div>*@
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>Division ERP</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="DivisionERP" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">--- Chọn Division ERP ---</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Category ERP</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="CategoryERP" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">--- Chọn Category ERP ---</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Group ERP</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="GroupERP" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">--- Chọn Group ERP ---</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label>Division 18</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="divisionCode" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">--- Chọn Division 18 ---</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>Category 18</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="categoryCode" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">--- Chọn Category 18 ---</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>Group 18</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="groupCode" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">--- Chọn Group 18 ---</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label>HH/KG</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="GenProPostingGroup" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">--- Chọn HH/KG ---</option>
+                                        @if (ViewBag.ls_GeneralProduct != null)
+                                        {
+                                            foreach (objCombox box in (List<objCombox>)ViewBag.ls_GeneralProduct)
+                                            {
+                                                <option value="@box.Code">@box.Code</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>Mùa vụ</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="Season" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">--- Chọn Mùa vụ ---</option>
+                                        @if (ViewBag.ls_Season != null)
+                                        {
+                                            foreach (objCombox box in (List<objCombox>)ViewBag.ls_Season)
+                                            {
+                                                <option value="@box.Code">@box.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="brand">Thương hiệu</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="brand" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">--- Chọn thương hiệu ---</option>
+                                        @if (ViewBag.ls_brand != null)
+                                        {
+                                            foreach (objCombox box in (List<objCombox>)ViewBag.ls_brand)
+                                            {
+                                                <option value="@box.Code">@box.Code - @box.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                    @*<div style=" float: right; margin-right: 217px; "> <a class="add" href="javascript:void(0)" onclick="PopUp_Brand_ERP_MDS();"><i class="fa fa-plus" aria-hidden="true" style=" font-size: 26px; "></i></a></div>*@
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label> Nguồn nhập</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="NguonNhap" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">--- Chọn nguồn nhập ---</option>
+                                        @if (ViewBag.ls_NguonNhap != null)
+                                        {
+                                            foreach (objCombox box in (List<objCombox>)ViewBag.ls_NguonNhap)
+                                            {
+                                                <option value="@box.Code">@box.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label>Xuất xứ</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="manufactureCode" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">--- Chọn Xuất xứ ---</option>
+                                        @foreach (var i in ViewBag.ls_country)
+                                        {
+                                            <option value="@i.Code">@i.Code - @i.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Đơn vị tính</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="DonViTinh" class="form-control selectpicker" data-live-search="true">
+                                        @*UoM*@
+                                        <option value="">--- Chọn đơn vị tính ---</option>
+                                        @foreach (var i in ViewBag.ls_UoM)
+                                        {
+                                            <option value="@i.Code">@i.Name</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="weight">Trọng lượng (Gram)</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control notnull" id="TrongLuong" value="0" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="dimensionHeight">Kích thước(cm)</label>
+                                    <label for="dimensionWidth" class="hidden">@MP_VendorTool.Resource.dimension</label>
+                                    <label for="dimensionLength" class="hidden">@MP_VendorTool.Resource.dimension</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8 box_sizeProduct">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control notnull " id="KichThuocDai" placeholder="Dài (Cm)" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control notnull " id="KichThuocRong" placeholder="Rộng (Cm)" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control notnull " id="KichThuocCao" placeholder="Cao (Cm)" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-4">
+                                    <label for="QtyBox1">Quy cách đóng gói </label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8 box_sizeProduct">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <select id="QuyCachDGSanPhamCode" class="form-control selectpicker" data-live-search="true">
+                                                <option value="">--- Chọn Đơn vị tính ---</option>
+                                                @foreach (var i in ViewBag.ls_UoM)
+                                                {
+                                                    <option value="@i.Code">@i.Name</option>
+                                                }
+                                            </select>
+                                            <input type="text" class="form-control notnull" id="QuyCachDGSanPham" placeholder="Số sản phẩm" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <select id="QuyCachDGSanPhamLocCode" class="form-control selectpicker" data-live-search="true">
+                                                <option value="">--- Chọn Đơn vị tính ---</option>
+                                                @foreach (var i in ViewBag.ls_UoM)
+                                                {
+                                                    <option value="@i.Code">@i.Name</option>
+                                                }
+                                            </select>
+                                            <input type="text" class="form-control" id="QuyCachDGSanPhamLoc" placeholder="Ví dụ: 6 lốc" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <select id="QuyCachDGSanPhamThungCode" class="form-control selectpicker" data-live-search="true">
+                                                <option value="">--- Chọn Đơn vị tính ---</option>
+                                                @foreach (var i in ViewBag.ls_UoM)
+                                                {
+                                                    <option value="@i.Code">@i.Name</option>
+                                                }
+                                            </select>
+                                            <input type="text" class="form-control" id="QuyCachDGSanPhamThung" placeholder="Ví dụ: thùng" />
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="boxHeight">Kích thước(Thùng)</label>
+                                    <label for="boxWidth" class="hidden">@MP_VendorTool.Resource.boxSize</label>
+                                    <label for="boxLength" class="hidden">@MP_VendorTool.Resource.boxSize</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8 box_sizeProduct">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control notnull " id="KichThuocDaiCm" placeholder="Dài (Cm)" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control notnull " id="KichThuocRongCm" placeholder="Rộng (Cm)" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input type="text" class="form-control notnull " id="KichThuocCaoCm" placeholder="Cao (Cm)" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="ibox-head">
+                                        <div class="ibox-title">
+                                            GIÁ - CHIẾT KHẤU
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="priceRetail">Giá mua (-VAT)</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control notnull OrderValue" onchange="ShowTruVAT()" type="text" id="GiaMuaTruVat" name="GiaMuaTruVat" value="0" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="priceRetail">Line Discount(%)</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control notnull OrderValue" type="text" id="LineDiscount" name="LineDiscount" value="0" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="VAT">VAT (%)</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    @*<select id="PTVAT" class="form-control" onchange="ShowVAT()">
+                                    @if (ViewBag.ls_vat != null)
+                                    {
+                                        foreach (objCombox box in (List<objCombox>)ViewBag.ls_vat)
+                                        {
+                                            <option value="@box.Code">@box.Name</option>
+                                        }
+                                    }
+                                </select>*@
+
+                                    <select id="PTVAT" class="form-control" onchange="ShowVAT()">
+                                        <option value="VAT-GS8">8 %</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="priceRetail">Giá mua (+VAT)</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control notnull OrderValue" onchange="ShowCongVAT()" type="text" id="GiaMuaCongVAT" name="GiaMuaCongVAT" value="0" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="priceRetail">Giá bán niêm yết</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control notnull OrderValue" type="text" id="GiaBanNiemYet" name="GiaBanNiemYet" value="0" />
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="ibox-head">
+                                        <div class="ibox-title">
+                                            THÔNG TIN SIZE - MÀU
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <table id="tbl_itemColor" class="table table-bordered tb_detail" style="margin-bottom:5px; width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Size
+                                                </th>
+                                                <th>
+                                                    Màu
+                                                </th>
+                                                <th>
+                                                    Barcode
+                                                </th>
+                                                <th style=" width:100px">
+                                                    Chức năng
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <p style="color: red;font-style: italic;font-size:smaller; margin-top: 10px;">*: Các trường thông tin bắt buộc phải nhập</p>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="ibox-head">
+                                        <div class="ibox-title">
+                                            THÔNG TIN CHI TIẾT
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="url">Link sản phẩm</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control notnull" type="text" id="LinkSanPham" name="LinkSanPham" style=" width: 100%; max-width: 100%; ">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="barcode">
+                                        <br /><br />Mô tả
+                                    </label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <textarea name="MoTaSanPham" id="MoTaSanPham" rows="10" cols="50" class="ckeditor " style="border: 1px solid #ccc; max-width: 100% !important; width: 100%; color: #555555 "> </textarea>
+                                </div>
+
+                                <div style=" clear:both"></div>
+
+                                <div class="col-md-4">
+                                    <div style=" height: 70px"></div>
+                                    <label>@MP_VendorTool.Resource.imgLink</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control" type="hidden" id="imgLink">
+                                    <div id="wp_thum_img">
+                                        <div class="img_src" id="img_src"></div>
+                                    </div>
+                                    <input type="file" multiple="multiple" style="width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;" name="fileUpload" id="fileUpload" class="inputfile">
+                                    <label class="btn btn-success" for="fileUpload" style="width:100%;margin: 10px 0px;font-size:12px"><i class="fa fa-upload" aria-hidden="true"></i>@MP_VendorTool.Resource.lb_ImgUpload</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-md-6" style="text-align: left; padding-left: 28px;">
+                        <div style=" padding-top: 32px">
+                            <a href="#" id="btn_Gui" onclick="fnSave('news')" class="btn btn-success px-5 rounded-0 btgetw"><i class="fa fa-save"></i> Lưu lại</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+                <div style=" height:20px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var lstsizemau = [];
+    var CDFlash = 0;
+    var list_Size = @Html.Raw(json_DOTUOI);
+    var list_MAU = @Html.Raw(json_MAU);
+
+    $(function () {
+        $('#txtHead').html("Chào hàng mới");
+        js_addMau();
+        $("#fileUpload").change(function () {
+            var vtrUpload = $("#fileUpload").val().toLowerCase();
+            var regexVTRUpload = new RegExp("(.*?)\.(png|jpg|jpeg)$");
+            if (!(regexVTRUpload.test(vtrUpload))) {
+                $("#fileUpload").val("");
+
+                alert("file false");
+            } else {
+                UploadMultiple();
+            }
+        });
+    });
+
+    function ShowTruVAT() {
+        var Price = $("#GiaMuaTruVat").val();
+        var VAT = $("#PTVAT").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Product/Get_VAT_TruVAT",
+            data: JSON.stringify({ code: VAT, Price: Price }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (data) {
+                if (data != null) {
+                    $("#GiaMuaCongVAT").val(data[0].Name);
+                    console.log("GiaMuaCongVAT: " + data[0].Name);
+                }
+            }, error: function () {
+            }
+        });
+    }
+
+    function ShowVAT() {
+        $("#GiaMuaCongVAT").val('');
+        $("#GiaMuaTruVat").val('');
+    }
+
+   function ShowCongVAT() {
+       var VAT = $("#PTVAT").val();
+        var Price = $("#GiaMuaCongVAT").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Product/Get_VAT_CongVAT",
+            data: JSON.stringify({ code: VAT, Price: Price }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (data) {
+                if (data != null) {
+                    $("#GiaMuaTruVat").val(data[0].Name);
+                    console.log("GiaMuaTruVat: "+data[0].Name);
+                }
+            }, error: function () {
+            }
+        });
+
+    }
+
+   function UploadMultiple()
+    {
+        var data = new FormData();
+       var fileInput = document.getElementById('fileUpload');
+        for (i = 0; i < fileInput.files.length; i++) {
+            data.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+       data.append("foldername", 'Product');
+        $.ajax({
+            url: '@Url.Action("MultipleUploadFile", "Product")',
+            type: 'POST',
+            data: data,
+            beforeSend: function () {
+              js_Loading(true, 0);
+            },
+            success: function (data) {
+                $('#img_src').html(data.link);
+                $('#imgLink').val(data.ImagesUrl);
+                js_Loading(false, 0);
+            },
+            error: function () {
+                js_Loading(false, 0);
+                alert("Thiết bị không hỗ trợ up ảnh từ camera. Chọn file từ bộ nhớ thiết bị!");
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
+
+    function fomart_split(input, number) { try { var value = input; if (value != null && !value.length < 1) { return value.split(" - ")[number]; } else { return ""; } } catch (e) { } }
+
+    function fnSave(strtype) {
+            var buttons = document.getElementsByClassName('notnull');
+            for (var i = 0; i < buttons.length; i++) {
+                if (buttons[i].value.length == 0) {
+                    document.getElementById(buttons[i].id).focus();
+                    alert("Các trường có dấu * là bắt buộc phải nhập. Vui lòng kiểm tra lại");
+                    return false;
+                }
+            }
+
+        if (
+            $('#VendorNo').val().length == 0 ||
+            $('#GenProPostingGroup').val().length == 0 ||
+            $('#Season').val().length == 0 ||
+            $('#functionCode').val().length == 0 ||
+            $('#GiaBanNiemYet').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ.');
+            return false;
+            }
+
+       if ($('#imgLink').val().length > 0) {
+
+        var po = {};
+        po.VendorName = fomart_split($('#VendorNo option:selected').text(), 1);
+        po.VendorCode = $('#VendorNo').val();
+        po.TenSanPham = $('#TenSanPham').val();
+        po.Barcode = $('#Barcode').val();
+        po.FunctionName = fomart_split($('#functionCode option:selected').text(), 1);
+        po.FunctionCode = $('#functionCode').val();
+        po.DivisionName = fomart_split($('#divisionCode option:selected').text(), 1);
+        po.DivisionCode = $('#divisionCode').val();
+        po.CategoryName = fomart_split($('#categoryCode option:selected').text(), 1);
+        po.CategoryCode = $('#categoryCode').val();
+        po.GroupName = fomart_split($('#groupCode option:selected').text(), 1);
+        po.GroupCode = $('#groupCode').val();
+
+        po.DivisionERPName = fomart_split($('#DivisionERP option:selected').text(), 1);
+        po.DivisionERPCode = $('#DivisionERP').val();
+        po.CategoryERPName = fomart_split($('#CategoryERP option:selected').text(), 1);
+        po.CategoryERPCode = $('#CategoryERP').val();
+        po.GroupERPCode = $('#GroupERP').text();
+        po.GroupERPName = fomart_split($('#GroupERP option:selected').text(), 1);
+        po.HHKG = $('#GenProPostingGroup').val();
+
+        po.MuaVuCode = $('#Season').val();
+        po.MuaVuName = $('#Season option:selected').text();
+
+        po.ThuongHieuCode = $('#brand').val();
+        po.ThuongHieuName = fomart_split($('#brand option:selected').text(), 1);
+        po.NguonNhapCode = $('#NguonNhap').val();
+        po.NguonNhapName = $('#NguonNhap option:selected').text();
+
+        po.XuatXuCode = $('#manufactureCode').val();
+        po.XuatXuName = fomart_split($('#manufactureCode option:selected').text(), 1);
+        po.DonViTinhCode = $('#DonViTinh').val();
+        po.DonViTinhName = $('#DonViTinh option:selected').text();
+        po.TrongLuong = $('#TrongLuong').val();
+        po.KichThuocDai = $('#KichThuocDai').val();
+        po.KichThuocRong = $('#KichThuocRong').val();
+        po.KichThuocCao = $('#KichThuocCao').val();
+
+        po.QuyCachDGSanPhamCode = $('#QuyCachDGSanPhamCode').val();
+        po.QuyCachDGSanPhamName = $('#QuyCachDGSanPhamCode option:selected').text();
+        po.QuyCachDGSanPham = $('#QuyCachDGSanPham').val();
+        po.QuyCachDGSanPhamLocCode = $('#QuyCachDGSanPhamLocCode').val();
+        po.QuyCachDGSanPhamLocName = $('#QuyCachDGSanPhamLocCode option:selected').text();
+        po.QuyCachDGSanPhamLoc = $('#QuyCachDGSanPhamLoc').val();
+        po.QuyCachDGSanPhamThungCode = $('#QuyCachDGSanPhamThungCode').val();
+        po.QuyCachDGSanPhamThungName = $('#QuyCachDGSanPhamThungCode option:selected').text();
+        po.QuyCachDGSanPhamThung = $('#QuyCachDGSanPhamThung').val();
+
+        po.KichThuocDaiCm = $('#KichThuocDaiCm').val();
+        po.KichThuocRongCm = $('#KichThuocRongCm').val();
+        po.KichThuocCaoCm = $('#KichThuocCaoCm').val();
+
+        po.GiaMuaTruVat = $('#GiaMuaTruVat').val();
+        po.LineDiscount = $('#LineDiscount').val();
+        po.PTVAT = $('#PTVAT').val();
+        po.GiaMuaCongVAT = $('#GiaMuaCongVAT').val();
+        po.GiaBanNiemYet = $('#GiaBanNiemYet').val();
+
+        po.LinkSanPham = $('#LinkSanPham').val();
+        po.MoTaSanPham = $('#MoTaSanPham').val();
+        po.AnhSanPham = $('#imgLink').val();
+
+        getTable_Line();
+        //var obj = {};
+        //obj.SourceHeader = JSON.stringify(po);
+        //obj.SourceLine = JSON.stringify(SourceLine);
+
+        console.log(JSON.stringify(po));
+        console.log(JSON.stringify(SourceLine));
+        //console.log(JSON.stringify(obj));
+
+        $.ajax({
+            type: "POST",
+            url: "/Product/addProduct",
+            data: JSON.stringify({ it: po, Size: SourceLine }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r1) {
+                if (r1.RespId == '0') {
+                    jAlert('Thêm mới sản phẩm thành công.!', 'Thông báo', (r) => {
+                        window.location.href = '/Product/ProInfo';
+                    });
+                } else {
+                    alert("Có lỗi xảy ra thử lại sau!");
+                }
+            }
+        });
+
+
+        } else {
+             alert("Chưa đăng ảnh thực tế tại cửa hàng!");
+         }
+    }
+
+
+    function js_addMau() {
+        CDFlash++;
+        var chuoi = "";
+        var TTC = CDFlash - 1;
+        $("#row_" + TTC + " .btn_add").empty();
+        $("#row_" + TTC + " .btn_add").html('<a href="javascript:void(0);" onclick="deleteRow(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+        chuoi += '<tr id="row_' + CDFlash + '">';
+
+        chuoi += '<td><select id="Size" class="form-control selectpicker" name="Size" data-live-search="true">';
+        chuoi += '<option value="">-- Chọn size --</option>';
+        $.each(list_Size, (index, value) => {
+            chuoi += '<option value=' + value.Code + '>' + value.Code + ' - ' + value.Name + '</option>';
+        });
+        chuoi += '</select></td>';
+
+        chuoi += '<td><select id="Mau" class="form-control selectpicker" name="Mau" data-live-search="true">';
+        chuoi += '<option value="">-- Chọn mầu --</option>';
+        $.each(list_MAU, (index, value) => {
+            chuoi += '<option value=' + value.Code + '>' + value.Code + ' - ' + value.Name + '</option>';
+        });
+        chuoi += '</select></td>';
+        chuoi += '<td><input class="form-control" type="text" id="Barcode" name="Barcode" value=""></td>';
+        chuoi += '<td style="text-align:center;" class="btn_add"><a class="add" href="javascript:void(0)" onclick="js_addMau(' + CDFlash + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td></tr > ';
+        $("#tbl_itemColor tbody").append(chuoi);
+        $('.selectpicker').selectpicker();
+    }
+
+    function deleteRow(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_itemColor").deleteRow(ri);
+    }
+
+    function getTable_Line() {
+        SourceLine = [];
+        let trs = $("#tbl_itemColor tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let Size = String($('#' + tr.id + ' select[name="Size"]').val()).trim();
+                var SizeName = String($('#' + tr.id + ' select[name="Size"] option:selected').text()).trim();
+
+                let Mau = String($('#' + tr.id + ' select[name="Mau"]').val()).trim();
+                var MauName = String($('#' + tr.id + ' select[name="Mau"] option:selected').text()).trim();
+                let Barcode = String($('#' + tr.id + ' input[name="Barcode"]').val()).trim();
+                if (Size.length > 0 || Mau.length > 0 || Barcode.length > 0) {
+                    SourceLine.push({
+                        "Size": Size,
+                        "SizeName": fomart_split(SizeName, 1),
+                        "Mau": Mau,
+                        "MauName": fomart_split(MauName, 1),
+                        "Barcode": Barcode,
+                    });
+                }
+            });
+        }
+        console.log(SourceLine);
+    }
+
+    function loadgroup() {
+
+        var functionCode = $("#functionCode").val();
+        var rcf = $("#groupCode").val();
+        $("#groupCode").val('');
+        $('#groupCode').empty();
+        //$('#groupCode').append('<option value="">--Chọn group--</option>');
+        $.ajax({
+            type: "POST",
+            url: "/Product/getfilterbst",
+            data: JSON.stringify({ fillter: 'group', funct: functionCode }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (r) {
+                if (r != null) {
+                    for (i in r) {
+                        $('#groupCode').append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                    }
+                    $('#groupCode').selectpicker('refresh');
+                }
+            }, error: function () {
+            }
+        });
+        $("#groupCode").val(rcf).selectpicker('refresh');
+    }
+
+    function loadcat() {
+
+        var functionCode = $("#functionCode").val();
+        var rcf = $("#categoryCode").val();
+        $("#categoryCode").val('');
+        $('#categoryCode').empty();
+       // $('#categoryCode').append('<option value="">--Chọn cat--</option>');
+        $.ajax({
+            type: "POST",
+            url: "/Product/getfilterbst",
+            data: JSON.stringify({ fillter: 'cat', funct: functionCode }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (r) {
+                if (r != null) {
+                    for (i in r) {
+                        $('#categoryCode').append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                    }
+                    $('#categoryCode').selectpicker('refresh');
+                }
+            }, error: function () {
+            }
+        });
+        $("#categoryCode").val(rcf).selectpicker('refresh');
+    }
+
+    function loaddiv() {
+
+        var functionCode = $("#functionCode").val();
+        var rcf = $("#divisionCode").val();
+        $("#divisionCode").val('');
+        $('#divisionCode').empty();
+        //$('#divisionCode').append('<option value="">--Chọn div--</option>');
+        $.ajax({
+            type: "POST",
+            url: "/Product/getfilterbst",
+            data: JSON.stringify({ fillter: 'div', funct: functionCode }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (r) {
+                if (r != null) {
+                    for (i in r) {
+                        $('#divisionCode').append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                    }
+                    $('#divisionCode').selectpicker('refresh');
+                }
+            }, error: function () {
+            }
+        });
+        $("#divisionCode").val(rcf).selectpicker('refresh');
+    }
+
+    // ERP
+
+    function loadgroupERP() {
+        var functionCode = $("#functionCode").val();
+        var rcf = $("#GroupERP").val();
+        $("#GroupERP").val('');
+        $('#GroupERP').empty();
+       // $('#GroupERP').append('<option value="">--Chọn group--</option>');
+        $.ajax({
+            type: "POST",
+            url: "/Product/getfilterbstERP",
+            data: JSON.stringify({ fillter: 'group', funct: functionCode }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (r) {
+                if (r != null) {
+                    for (i in r) {
+                        $('#GroupERP').append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                    }
+                    $('#GroupERP').selectpicker('refresh');
+                }
+            }, error: function () {
+            }
+        });
+        $("#GroupERP").val(rcf).selectpicker('refresh');
+    }
+
+    function loadcatERP() {
+
+        var funct = $("#functionCode").val();
+        var rcf = $("#CategoryERP").val();
+        $("#CategoryERP").val('');
+        $('#CategoryERP').empty();
+       // $('#CategoryERP').append('<option value="">--Chọn cat--</option>');
+        $.ajax({
+            type: "POST",
+            url: "/Product/getfilterbstERP",
+            data: JSON.stringify({ fillter: 'cat', funct: funct }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (r) {
+                if (r != null) {
+                    for (i in r) {
+                        $('#CategoryERP').append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                    }
+                    $('#CategoryERP').selectpicker('refresh');
+                }
+            }, error: function () {
+            }
+        });
+        $("#CategoryERP").val(rcf).selectpicker('refresh');
+    }
+
+    function loaddivERP() {
+
+        var funct = $("#functionCode").val();
+        var rcf = $("#DivisionERP").val();
+        $("#DivisionERP").val('');
+        $('#DivisionERP').empty();
+      //  $('#DivisionERP').append('<option value="">--Chọn div--</option>');
+        $.ajax({
+            type: "POST",
+            url: "/Product/getfilterbstERP",
+            data: JSON.stringify({ fillter: 'div', funct: funct }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (r) {
+                if (r != null) {
+                    for (i in r) {
+                        $('#DivisionERP').append('<option value="' + r[i].Code + '">' + r[i].Code + ' - ' + r[i].Name + '</option>');
+                    }
+                    $('#DivisionERP').selectpicker('refresh');
+                }
+            }, error: function () {
+            }
+        });
+        $("#DivisionERP").val(rcf).selectpicker('refresh');
+    }
+
+    jQuery(document).ready(function ($) {
+        $(".OrderValue").on('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+        });
+
+        $(".OrderValue").load('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            if (n.toLocaleString() != 'NaN') {
+                $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+            }
+        });
+    });
+
+    $('body').on('keyup', '.OrderValue', function (e) {
+        var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+        if (n.toLocaleString() != 'NaN') {
+            $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+        }
+    });
+</script>
+<style>
+    .modal {
+        top: 20%;
+    }
+</style>

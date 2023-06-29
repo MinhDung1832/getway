@@ -1,0 +1,93 @@
+﻿@*<div class="menu_footer footer">
+        <ul>
+            <li><a href="#" onclick="showpopup()">@MP_VendorTool.Resource.textHome_7<span>|</span></a></li>
+            <li><a href="/Newoffer/Index">@MP_VendorTool.Resource.textHome_8<span>|</span></a></li>
+            <li><a onclick="opennewtab('https://bibomart.com.vn/maplist/index/index/id/1/')" href="#">@MP_VendorTool.Resource.textHome_9<span>|</span></a></li>
+            <li><a onclick="opennewtab('https://bibomart.com.vn/lien-he-bibomart')" href="#">@MP_VendorTool.Resource.textHome_10<span>|</span></a></li>
+            <li>
+                <div class="text_home_2">
+                    <a href="#">Ngôn ngữ</a>
+                    <span>
+                        <a href="#" onclick="loadLang('vi')">
+                            <img src="~/Resources/images/VIE.png" style="width: 23px; border: 1px solid #fff; border-radius: 23px; margin-top: -4px;" />
+                        </a>
+                    </span>
+                    <span>
+                        <a href="#" onclick="loadLang('En')">
+                            <img src="~/Resources/images/ENG.png" style="width: 23px; border: 1px solid #fff; border-radius: 23px; margin-top: -4px;" />
+                        </a>
+                    </span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+*@
+
+<script type="text/javascript">
+    function opennewtab(url) {
+        window.open(url, '_blank');
+    }
+    function showpopup() {
+        jQuery.noConflict();
+        $('#Vieteco_modal').modal('show');
+    }
+
+</script>
+<div class="menu_footer footer">
+    <ul>
+        <li><a href="#" onclick="showpopup()">@MP_VendorTool.Resource.textHome_7<span>|</span></a></li>
+        <li><a href="/Newoffer/Index">@MP_VendorTool.Resource.textHome_8<span>|</span></a></li>
+        <li><a onclick="opennewtab('https://bibomart.com.vn/maplist/index/index/id/1/')" href="#">@MP_VendorTool.Resource.textHome_9<span>|</span></a></li>
+        <li><a onclick="opennewtab('https://bibomart.com.vn/lien-he-bibomart')" href="#">@MP_VendorTool.Resource.textHome_10@*<span>|</span>*@</a></li>
+        @*<li>
+            <div class="text_home_2">
+                <a href="#">Ngôn ngữ</a>
+                <span>
+                    <a href="#" onclick="loadLang('vi')">
+                        <img src="~/Resources/images/VIE.png" style="width: 23px; border: 1px solid #fff; border-radius: 23px; margin-top: -4px;" />
+                    </a>
+                </span>
+                <span>
+                    <a href="#" onclick="loadLang('En')">
+                        <img src="~/Resources/images/ENG.png" style="width: 23px; border: 1px solid #fff; border-radius: 23px; margin-top: -4px;" />
+                    </a>
+                </span>
+            </div>
+        </li>*@
+
+    </ul>
+</div>
+<style>
+    .menu_footer ul li {
+        list-style: none;
+        float: left;
+        padding-right: 10px;
+    }
+
+        .menu_footer ul li a {
+            color: #eae6e6;
+            font-size: 14px;
+        }
+
+    .menu_footer ul {
+        width: 433px;
+        margin: 0 auto;
+        margin-top: -10px;
+    }
+
+        .menu_footer ul li span {
+            padding-left: 10px;
+        }
+
+    .footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 1rem;
+        background-color: transparent;
+        text-align: center;
+    }
+</style>
+

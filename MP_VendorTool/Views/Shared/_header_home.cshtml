@@ -1,0 +1,385 @@
+﻿<style>
+
+    #menuToggle {
+        display: block;
+        position: relative;
+        z-index: 1;
+        -webkit-user-select: none;
+        user-select: none;
+        top: 0px;
+        float: right;
+    }
+
+        #menuToggle input {
+            display: block;
+            width: 44px;
+            height: 32px;
+            position: relative;
+            cursor: pointer;
+            opacity: 0; /* hide this */
+            z-index: 2; /* and place it over the hamburger */
+            -webkit-touch-callout: none;
+            float: right;
+        }
+
+        #menuToggle span {
+            display: block;
+            width: 20px;
+            height: 4px;
+            margin-bottom: 3px;
+            position: relative;
+            /*background: #cdcdcd;*/
+            background: #fff;
+            z-index: 1;
+            transform-origin: 4px 0px;
+            transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0), background 0.5s cubic-bezier(0.77,0.2,0.05,1.0), opacity 0.55s ease;
+        }
+
+            #menuToggle span:first-child {
+                transform-origin: 0% 0%;
+            }
+
+            #menuToggle span:nth-last-child(2) {
+                transform-origin: 0% 100%;
+            }
+
+        #menuToggle input:checked ~ span {
+            opacity: 0;
+            /*transform: rotate(45deg) translate(-2px, -1px);
+                background: #4f4f4f;*/
+        }
+
+            #menuToggle input:checked ~ span:nth-last-child(3) {
+                opacity: 0;
+                /*transform: rotate(0deg) scale(0.2, 0.2);*/
+            }
+
+            #menuToggle input:checked ~ span:nth-last-child(2) {
+                /* transform: rotate(-45deg) translate(0, -1px);*/
+            }
+
+    #menu {
+        position: absolute;
+        width: 254px;
+        margin: -32px 0 0 -203px;
+        padding: 30px 7px 11px 13px;
+        display: none;
+        /*50px*/
+        /*padding-top: 125px;*/
+        background: #ededed;
+        list-style-type: disc;
+        -webkit-font-smoothing: antialiased;
+        /* to stop flickering of text in safari */
+        transform-origin: 0% 0%;
+        transform: translate(-100%, 0);
+        transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+    }
+
+        #menu li {
+            padding: 2px 0px;
+            font-size: 14px;
+            color: #4a4a4a !important;
+            margin-left: 28px;
+        }
+
+            #menu li > a, #menu a {
+                font-size: 14px;
+                color: #4a4a4a !important;
+            }
+
+            #menu li.children > a {
+                font-size: 14px;
+                color: #4a4a4a !important;
+                font-weight: normal;
+            }
+
+    #menuToggle input:checked ~ ul {
+        transform: none;
+        display: block;
+    }
+
+    navbar-header {
+        display: none !important;
+        width: 100% !important;
+    }
+
+    .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+        background-color: none !important;
+        border-color: none !important;
+    }
+
+    .text_date {
+        margin-top: 0px;
+        color: #0F4C81;
+        font-size: 14px;
+        font-weight: bold;
+        font-style: italic;
+    }
+
+    #txtHead {
+        font-size: 25px;
+        font-weight: normal;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 0px;
+        margin-top: 11px;
+        text-transform: uppercase;
+        font-family: system-ui;
+    }
+
+    .wp_hearder {
+        padding: 5px 0px;
+        background-color: #868686;
+        height: 65px;
+        width: 100%;
+    }
+
+    .title_01 {
+        text-transform: uppercase;
+        font-size: 20px;
+        padding-left: 24px;
+    }
+
+    .btn-left ul li {
+        padding-bottom: 10px;
+    }
+
+    #menu_main {
+        list-style: none;
+        padding-left: 0px;
+        margin-top: 19px;
+        background-color: Highlight;
+    }
+
+        #menu_main li {
+            display: inline-block;
+            padding: 10px 0px;
+        }
+
+            #menu_main li a {
+                padding: 10px;
+                color: #fff;
+                text-transform: uppercase;
+            }
+</style>
+
+<style>
+
+    #form_search .form-control {
+        height: 30px !important;
+        height: 30px !important;
+        padding: 0 5px;
+        font-size: 12px !important;
+    }
+
+    /*.form-control {
+        height: 30px !important;
+        padding: 0 5px;
+        font-size: 12px !important;
+    }*/
+
+
+    .menu_logout {
+        padding: 11px 0px;
+        border-bottom: 1px solid #8e8e8e;
+        margin-bottom: 7px;
+    }
+
+    .bt_loglout {
+        float: right;
+        margin-right: 32px;
+        color: #272727;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    #icon_home {
+        position: absolute;
+        right: 69px;
+        top: 11px;
+    }
+
+        #icon_home a {
+            font-size: 21px;
+            color: #fff;
+        }
+
+    .container_header {
+        width: 98%;
+        margin: 0 auto;
+    }
+
+    #icon_noti {
+        position: absolute;
+        right: 103px;
+        top: 11px;
+    }
+
+        #icon_noti a {
+            font-size: 21px;
+            color: #fff;
+        }
+</style>
+<div class="wp_hearder" id="lheader">
+    <div class="container_header">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="/"><img style="width: 209px; margin-top: 6px; margin-left: 24px; " src="~/image/bibologo.png" /></a>
+            </div>
+            <div class="col-md-6">
+                <h3 id="txtHead"></h3>
+                <div class="text_date" style="width:100%; text-align:center; display:none">Ngày: @DateTime.Now.ToString("dd/MM/yyyy")</div>
+            </div>
+            <div class="col-md-3">
+                <ul class="nav navbar-nav" style=" float: right; display:none;margin-top: 14px;">
+                    <li class="dropdown ignore-override" id="li-bl-dt">
+                        <a href="#" data-toggle="dropdown" style="margin-right:50px">
+                            <i class="fas fa-user-circle" aria-hidden="true"></i>  @Session["uid"]
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.Action("Logout", "Account")">Đăng xuất</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <div class="wp_menu">
+                        <div id="icon_noti"><a href="#"><i class="fa fa-bell" aria-hidden="true"></i></a></div>
+                        <div id="icon_home"><a href="/"><i class="fas fa-home" aria-hidden="true"></i></a></div>
+                        <div>
+                            <nav role="navigation" style="max-height: 0px ">
+                                <div id="menuToggle">
+                                    <input type="checkbox" id="cb01" />
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+
+                                    <ul id="menu">
+                                        <div class="menu_logout">
+                                            <i class="fas fa-user-circle" aria-hidden="true" style="margin-left: 10px; color:#4f4f4f"></i>
+                                            <p style="color:#272727; display:inline;font-weight: bold;">@Session["Admin"]</p>
+                                            <a href="@Url.Action("Logout", "Account")" class="bt_loglout">Đăng xuất</a>
+                                        </div>
+                                        @*@if (Session["URole"] != null && Session["URole"].ToString().Length > 0)
+                                        {
+                                            string FullQuyen = Session["URole"].ToString();
+                                            if (FullQuyen.Contains("|4|"))//4 là Admin
+                                            {
+                                                <li><a href="/Account/CreateInfoUser">Khai báo thông tin người dùng</a></li>
+                                            }
+                                        }*@
+
+                                        <li><a href="/Account/ChangePassword">Đổi mật khẩu</a></li>
+                                        @*<li><a href="#" onclick="menuload(1)">Nhà cung cấp</a></li>
+                                            <li><a href="#" onclick="menuload(2)">Nhà sản xuất</a></li>
+                                            <li><a href="#" onclick="menuload(2)">Nhà bán lẻ</a></li>
+                                            <li><a href="#" onclick="menuload(2)">Tài chính - Ngân hàng</a></li>
+                                            <li><a href="#" onclick="menuload(2)">Bất động sản</a></li>
+                                            <li><a href="#" onclick="menuload(2)">Công nghệ</a></li>
+                                            <li><a href="#" onclick="menuload(2)">Truyền thông - Quảng cáo</a></li>
+                                            <li><a href="#" onclick="menuload(2)">Đào tạo - Giáo dục</a></li>
+                                            <li><a href="#" onclick="menuload(2)">Y tế - Fitness - Làm đẹp</a></li>
+                                            <li><a href="#" onclick="menuload(2)">Khác</a></li>*@
+
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                        <ul id="menu_main"></ul>
+                    </div>
+                </ul>
+            </div>
+
+
+            @*<div class="col-md-10">
+                    <div class="row">
+                        <div class="logo_img col-md-3"><a href="/"><img style="width: 62%; margin-top: 2px; margin-left: 24px; " src="~/image/bibologo.png" /></a></div>
+                        <div class="col-md-8" style="padding-left: 0px; padding-right: 0px; margin-top: 10px;">
+                            <h3 id="txtHead"></h3>
+                            <div class="text_date" style="width:100%; text-align:center; display:none">Ngày: @DateTime.Now.ToString("dd/MM/yyyy")</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="row">
+                        <div class="col-md-6">
+
+                        </div>
+                        <div class="col-md-6">
+
+                            <ul class="nav navbar-nav" style=" float: right; display:none;margin-top: 14px;">
+                                <li class="dropdown ignore-override" id="li-bl-dt">
+                                    <a href="#" data-toggle="dropdown" style="margin-right:50px">
+                                        <i class="fas fa-user-circle" aria-hidden="true"></i>  @Session["uid"]
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="@Url.Action("Logout", "Account")">Đăng xuất</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul>
+                                <div class="wp_menu">
+                                    <div id="icon_noti"><a href="#"><i class="fa fa-bell" aria-hidden="true"></i></a></div>
+                                    <div id="icon_home"><a href="/"><i class="fas fa-home" aria-hidden="true"></i></a></div>
+                                    <div>
+                                        <nav role="navigation" style="max-height: 0px ">
+                                            <div id="menuToggle">
+                                                <input type="checkbox" id="cb01" />
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+
+                                                <ul id="menu">
+                                                    <div class="menu_logout">
+                                                        <i class="fas fa-user-circle" aria-hidden="true" style="margin-left: 10px; color:#4f4f4f"></i>
+                                                        <p style="color:#272727; display:inline;font-weight: bold;">@Session["uid"]</p>
+                                                        <a href="@Url.Action("Logout", "Account")" class="bt_loglout">Đăng xuất</a>
+                                                    </div>
+
+                                                    <li><a href="#" onclick="menuload(1)">Nhà cung cấp</a></li>
+                                                    <li><a href="#" onclick="menuload(2)">Nhà sản xuất</a></li>
+                                                    <li><a href="#" onclick="menuload(2)">Nhà bán lẻ</a></li>
+                                                    <li><a href="#" onclick="menuload(2)">Tài chính - Ngân hàng</a></li>
+                                                    <li><a href="#" onclick="menuload(2)">Bất động sản</a></li>
+                                                    <li><a href="#" onclick="menuload(2)">Công nghệ</a></li>
+                                                    <li><a href="#" onclick="menuload(2)">Truyền thông - Quảng cáo</a></li>
+                                                    <li><a href="#" onclick="menuload(2)">Đào tạo - Giáo dục</a></li>
+                                                    <li><a href="#" onclick="menuload(2)">Y tế - Fitness - Làm đẹp</a></li>
+                                                    <li><a href="#" onclick="menuload(2)">Khác</a></li>
+
+
+                                                </ul>
+                                            </div>
+                                        </nav>
+                                    </div>
+
+                                    <ul id="menu_main"></ul>
+
+                                </div>
+
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $("#menu").hover(
+        function () {
+            //$('.collapse').collapse('show');
+            //$("#cb01").prop('checked', true);
+        }, function () {
+            // $('.collapse').collapse('hide');
+            $("#cb01").prop('checked', false);
+        }
+    );
+</script>

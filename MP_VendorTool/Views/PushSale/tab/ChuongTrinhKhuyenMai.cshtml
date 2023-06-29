@@ -1,0 +1,92 @@
+﻿@using MP_VendorTool.Models.Order
+@using Newtonsoft.Json;
+@{
+    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+    var jsonItems = serializer.Serialize(ViewBag.lstItem);
+}
+<style>
+    .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+        overflow: hidden;
+    }
+
+    .spname button.btn.dropdown-toggle.btn-default {
+        height: 25px;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 2px;
+    }
+
+    .input_left {
+        float: left;
+    }
+
+    #btn_add_Code {
+        padding: 4px;
+        background-color: #868686;
+        color: #fff !important;
+    }
+
+    .filter-option-inner-inner {
+        font-size: 12px;
+    }
+</style>
+<div style=" margin-left: 10px">
+    <div class="col-md-12">
+        <div style=" padding-bottom: 20px; padding-top: 15px ">
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="form-group row">
+            <label for="MaCTKM" class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-9">
+                <div class="box_loaihinh">
+                    <div class="form-check form-check-inline" style=" padding: 0px; ">
+                        <input class="form-check-input" type="radio" name="CTKM" id="DiscountOffer" value="Discount Offer" checked>
+                        <label class="form-check-label" for="DiscountOffer">Discount Offer </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="CTKM" id="MixMatch" value="Mix & Match">
+                        <label class="form-check-label" for="MixMatch">Mix & Match</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="CTKM" id="TotalDiscount" value="Total Discount">
+                        <label class="form-check-label" for="TotalDiscount">Total Discount </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+    </div>
+    <div style="height: 10px; clear: both; "></div>
+</div>
+<div id="tab10" style=" display: block">
+    @Html.Partial("~/Views/PushSale/TabCTKKM/DiscountOffer.cshtml")
+</div>
+<div id="tab11" style=" display: none">
+    @Html.Partial("~/Views/PushSale/TabCTKKM/MixMatch.cshtml")
+</div>
+<div id="tab12" style="display: none ">
+    @Html.Partial("~/Views/PushSale/TabCTKKM/TotalDiscount.cshtml")
+</div>
+<div style=" clear:both; height:20px"></div>
+
+<script>
+    $('#DiscountOffer').click(function () {
+        $('#tab10').show();
+        $('#tab11').hide();
+        $('#tab12').hide();
+    })
+    $('#MixMatch').click(function () {
+        $('#tab11').show();
+        $('#tab10').hide();
+        $('#tab12').hide();
+    })
+    $('#TotalDiscount').click(function () {
+        $('#tab12').show();
+        $('#tab11').hide();
+        $('#tab10').hide();
+    })
+</script>
+

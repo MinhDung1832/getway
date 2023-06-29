@@ -1,0 +1,195 @@
+﻿@using System.Data
+
+<table id="tbl_Item" class="table table-bordered tb_detail" style="width:99%">
+    <thead>
+
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+
+                <tr style="background: #ffffff; border-bottom: 1px solid #ddd !important; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #fff !important;">
+                    <td class="text-left" style="border: none !important;"></td>
+                    <td class="text-left" style="border: none !important;"></td>
+                    <td class="text-left" style="border: none !important;"></td>
+                    <td class="text-left" style="border: none !important;"></td>
+                    <td class="text-right" style="border: none !important;">@dt.Rows[0]["sumSLTONMB"]</td>
+                    <td class="text-right" style="border: none !important;">@dt.Rows[0]["sumSLTONMN"]</td>
+                    <td class="text-right" style="border: none !important;">@dt.Rows[0]["sumIntransitMB"]</td>
+                    <td class="text-right" style="border: none !important;">@dt.Rows[0]["sumIntransitMN"]</td>
+                    <td class="text-right" style="border: none !important;">@dt.Rows[0]["sumCanDatMB"]</td>
+                    <td class="text-right" style="border: none !important;">@dt.Rows[0]["sumCanDatMN"]</td>
+                    <td class="text-left" style="border: none !important;"></td>
+                    <td class="text-left" style="border: none !important;"></td>
+                    <td class="text-left" style="border: none !important;"></td>
+                    <td class="text-left" style="border: none !important;"></td>
+                    <td class="text-left" style="border: none !important;"></td>
+                    <td class="text-left" style="border: none !important;"></td>
+
+                </tr>
+                }
+            }
+        }
+    <tr>
+        @*<th class="text-left" style="vertical-align:top;" rowspan="2">
+            Function
+        </th>
+        <th class="text-left" style="vertical-align:top;" rowspan="2">
+            Brand
+        </th>
+        <th class="text-left" style="vertical-align:top;" rowspan="2">
+            NCC
+        </th>*@
+        <th class="text-left" style="vertical-align:top;" rowspan="2">
+            Mã hàng
+        </th>
+        <th class="text-left" style="vertical-align:top;" rowspan="2">
+            Tên hàng
+        </th>
+        <th class="text-left" style="vertical-align: top; max-width: 60px; width: 60px;" rowspan="2">
+            Hình ảnh
+        </th>
+        <th class="text-left" style="vertical-align:top;" rowspan="2">
+            Giá nhập
+        </th>
+        <th class="text-center" style="vertical-align:top" colspan="2">
+            SL tồn
+        </th>
+        <th class="text-center" style="vertical-align:top" colspan="2">
+            Hàng đi đường
+        </th>
+        <th class="text-left" style="vertical-align:top" colspan="2">
+            SL cần đặt
+        </th>
+        <th class="text-left" style="vertical-align:top" rowspan="2">
+            Ngày PO gần nhất
+        </th>
+
+        <th class="text-left" style="vertical-align:top" rowspan="2">
+            Giá ưu đãi
+        </th>
+        <th class="text-left" style="vertical-align:top" rowspan="2">
+            Sl tồn kho
+        </th>
+        <th class="text-left" style="vertical-align:top" rowspan="2">
+            Ngày sản xuất
+        </th>
+        <th class="text-left" style="vertical-align:top" rowspan="2">
+            Ngày hết hạn
+        </th>
+        <th class="text-left" style="vertical-align:top" rowspan="2">
+            Ngày cập nhật
+        </th>
+    </tr>
+        <tr>
+            <th class="text-left" style="vertical-align:top;">
+                Miền Bắc
+            </th>
+            <th class="text-left" style="vertical-align:top;">
+                Miền Nam
+            </th>
+            <th class="text-left" style="vertical-align:top;">
+                Miền Bắc
+            </th>
+            <th class="text-left" style="vertical-align:top;">
+                Miền Nam
+            </th>
+            <th class="text-left" style="vertical-align:top;">
+                Miền Bắc
+            </th>
+            <th class="text-left" style="vertical-align:top;">
+                Miền Nam
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                <tr>
+                    @*<td class="text-left" style=" max-width: 50px; width: 50px;  overflow: hidden; white-space: nowrap;">
+            <span>@item["Function"]</span>
+        </td>
+        <td class="text-left" style=" max-width: 30px; width: 30px;  overflow: hidden; white-space: nowrap;">
+            <span ondblclick="js_setbrand('@item["BrandCode"]')">@item["Brand"]</span>
+        </td>
+        <td class="text-left" style="width:30px;">
+            <span>@item["MaNCC"]</span>
+        </td>*@
+                    <td class="text-left" style="width:50px;">
+                        <span>@item["MaHang"]</span>
+                    </td>
+                    <td class="text-left" style=" max-width: 150px; width: 150px; ">
+                        <span>@item["Name"]</span>
+                    </td>
+                    <td class="text-left" style=" max-width: 60px; width: 60px; ">
+                        @if (item["Images"].ToString() != "")
+                        {
+                            if (item["Images"].ToString().Contains("no_selection"))
+                            {
+                            }
+                            else
+                            {
+                                <a target="_blank" href="@item["Images"]" class="thickbox"><img style="height: auto; width: 60px; border: 1px solid #d7d7d7 !important " src="@item["Images"]" class="content"></a>
+                            }
+                        }
+                    </td>
+                    <td class="text-right" style="width:50px;">
+                        <span>@item["Gianhap"]</span>
+                    </td>
+                    <td class="text-right" style="width:50px;">
+                        <span>@item["SLTONMB"]</span>
+                    </td>
+                    <td class="text-right" style="width:50px;">
+                        <span>@item["SLTONMN"]</span>
+                    </td>
+                    <td class="text-right" style="width:50px;">
+                        @item["IntransitMB"]
+                    </td>
+                    <td class="text-right" style="width:50px;">
+                        @item["IntransitMN"]
+                    </td>
+                    <td class="text-right" style="width:50px;">
+                        <span style="color:@item["CanDatMBColor"]">@item["CanDatMB"]</span>
+                    </td>
+                    <td class="text-right" style="width:50px;">
+                        <span style="color:@item["CanDatMNColor"]">@item["CanDatMN"]</span>
+                    </td>
+                    <td class="text-center" style="width:50px;">
+                        @item["LastUpdate"]
+                    </td>
+                    <td class="text-center" style="width:50px;">
+                        @item["Giauudai"]
+                    </td>
+                    <td class="text-center" style="width:50px;">
+                        @item["SLtonkho"]
+                    </td>
+                    <td class="text-center" style="width:50px;">
+                        @item["NgaySanXuat"]
+                    </td>
+                    <td class="text-center" style="width:50px;">
+                        @item["NgayHetHan"]
+                    </td>
+                    <td class="text-center" style="width:50px;">
+                        <a id="lastupdate_@i" style="color: #1565C0; " onclick="js_detail(`@item["MaHang"]`,`@item["Name"]`,`@item["MaNCC"]`)">@item["NgayCapnhat"]</a>
+                    </td>
+
+                </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>

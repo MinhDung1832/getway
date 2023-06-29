@@ -1,0 +1,249 @@
+﻿@{
+    ViewBag.Title = "Vendors - Gateway";
+}
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="from_vender frominput">
+                    <fieldset>
+                        @{
+                            if ((Convert.ToDouble(DateTime.Now.Hour) <= 12))
+                            {
+                                <div class="Heloword">Chào buổi sáng </div>
+                            }
+                            else if ((Convert.ToDouble(DateTime.Now.Hour) >= 13) || Convert.ToDouble(DateTime.Now.Hour) <= 17)
+                            {
+                                <div class="Heloword">Chào buổi chiều </div>
+                            }
+                            else
+                            {
+                                <div class="Heloword">Chào buổi tối </div>
+                            }
+                        }
+                        <p class="chaoBibosmart">Chào mừng bạn quay trở lại với Bibosmart</p>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="Mbody">
+                                    <div class="ibox-head">
+                                        <div class="conmanyinffo">GIÁ TRỊ CỐT LÕI</div>
+                                    </div>
+                                    <div class="Mconten">
+                                        <div class="MSologan 01 active" onmousemove="ShowTile('01')">
+                                            <div class="form-group row">
+                                                <div class="col-sm-4 MNumber">01</div>
+                                                <div class="col-sm-8 Mimages">
+                                                    <img src="~/Resources/images/h1.png" />
+                                                </div>
+                                                <div class="col-sm-12 Mtext">TÍCH CỰC</div>
+                                            </div>
+                                        </div>
+                                        <div class="MSologan 02" onmousemove="ShowTile('02')">
+                                            <div class="form-group row">
+                                                <div class="col-sm-4 MNumber">02</div>
+                                                <div class="col-sm-8 Mimages">
+                                                    <img src="~/Resources/images/h2.png" />
+                                                </div>
+                                                <div class="col-sm-12 Mtext">INTEGRITY</div>
+                                            </div>
+                                        </div>
+                                        <div class="MSologan 03" onmousemove="ShowTile('03')">
+                                            <div class="form-group row">
+                                                <div class="col-sm-4 MNumber">03</div>
+                                                <div class="col-sm-8 Mimages">
+                                                    <img src="~/Resources/images/h3.png" />
+                                                </div>
+                                                <div class="col-sm-12 Mtext">CHUYÊN NGHIỆP</div>
+                                            </div>
+                                        </div>
+                                        <div class="MSologan 04" onmousemove="ShowTile('04')">
+                                            <div class="form-group row">
+                                                <div class="col-sm-4 MNumber">04</div>
+                                                <div class="col-sm-8 Mimages">
+                                                    <img src="~/Resources/images/h4.png" />
+                                                </div>
+                                                <div class="col-sm-12 Mtext">TRÁCH NHIỆM</div>
+                                            </div>
+                                        </div>
+                                        <div class="MSologan 05" onmousemove="ShowTile('05')">
+                                            <div class="form-group row">
+                                                <div class="col-sm-4 MNumber">05</div>
+                                                <div class="col-sm-8 Mimages">
+                                                    <img src="~/Resources/images/h5.png" />
+                                                </div>
+                                                <div class="col-sm-12 Mtext">SÁNG TẠO</div>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            function ShowTile(s) {
+                                                $(".activeslo").html('');
+                                                $(".MSologan").removeClass("active");
+                                                if (s == '01') {
+                                                    $(".activeslo").html('<p>"TÂM THẾ LUÔN SẴN SÀNG"<br />"NHIỆT HUYẾT VÀ TRUYỀN CẢM HỨNG"</p>');
+                                                    $(".MSologan.01").addClass("active");
+                                                }
+                                                if (s == '02') {
+                                                    $(".activeslo").html('<p>"TÔI NÓI LÀ TÔI LÀM ĐƯỢC"</p>');
+                                                    $(".MSologan.02").addClass("active");
+                                                }
+                                                if (s == '03') {
+                                                    $(".activeslo").html('<p>"CAM KẾT TUÂN THỦ VÀ KỶ LUẬT"<br />"LÀ ĐẠI SỨ THƯƠNG HIỆU"</p>');
+                                                    $(".MSologan.03").addClass("active");
+                                                }
+                                                if (s == '04') {
+                                                    $(".activeslo").html('<p>"ĐỨNG TRƯỚC MỖI VẤN ĐỀ HÃY XEM MÌNH LÀ NGUYÊN NHÂN THAY VÌ GIẢI THÍCH BIỆN MINH HÃY ĐƯA RA GIẢI PHÁP"</p>');
+                                                    $(".MSologan.04").addClass("active");
+                                                }
+                                                if (s == '05') {
+                                                    $(".activeslo").html('<p>"LẮNG NGHE VÀ HỌC HỎI KHÔNG NGỪNG"<br />"LUÔN NỖ LỰC TÌM KIẾM GIẢI PHÁP TỐT HƠN"</p>');
+                                                    $(".MSologan.05").addClass("active");
+                                                }
+                                            }
+                                        </script>
+                                        <div style="height:30px;"></div>
+                                        <div class="col-md-12">
+                                            <div class="activeslo"><p>"TÂM THẾ LUÔN SẴN SÀNG"<br />"NHIỆT HUYẾT VÀ TRUYỀN CẢM HỨNG"</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="height:30px;"></div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="ibox Mbody" style="width:100%">
+                                            <div class="ibox-head">
+                                                <div class="conmanyinffo">GIÁ TRỊ CỐT LÕI</div>
+                                            </div>
+                                            <div class="ibox-body ">
+                                                <p style="color: red; font-weight: bold; text-align: center; font-family: 'SF-Pro-Text-Regular'; font-size: 13px;">
+                                                    Dữ liệu đang cập nhật
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-4">
+
+                                <div class="col-md-12">
+
+                                    @{
+
+                                        try
+                                        {
+                                            <div class="ibox Mbody">
+                                                <div class="ibox-body ">
+                                                    <div class="ibox-title conmanyinffo">@ViewBag.ls_Company.TenNCC</div>
+                                                    <p></p>
+                                                    <p class="Address">
+                                                        @ViewBag.ls_Company.Address
+                                                    </p>
+                                                </div>
+                                                <div class="ihead">
+                                                    <div class="ibox-title">THÔNG TIN DOANH NGHIỆP</div>
+                                                </div>
+                                                <div class="ibox-body ">
+                                                    <div class="row">
+                                                        <div class="formhorizontalM" style="width:100%">
+                                                            @*<div class="form-group row">
+                                                <label class="col-sm-4 col-form-label">Loại hình DN</label>
+                                                <div class="col-sm-6">
+                                                    <label>@ViewBag.ls_Company</label>
+                                                </div>
+                                            </div>*@
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-4 col-form-label">Mã số thuế</label>
+                                                                <div class="col-sm-6">
+                                                                    <label>@ViewBag.ls_Company.Masothue</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-4 col-form-label">Số ĐKKD</label>
+                                                                <div class="col-sm-6">
+                                                                    <label></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-4 col-form-label">Người liên hệ</label>
+                                                                <div class="col-sm-6">
+                                                                    <label>@ViewBag.ls_Company.NguoiLienHe</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-4 col-form-label">Số điện thoại</label>
+                                                                <div class="col-sm-6">
+                                                                    <label>@ViewBag.ls_Company.Dienthoai</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-4 col-form-label">Email</label>
+                                                                <div class="col-sm-6">
+                                                                    <label>@ViewBag.ls_Company.Email</label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-4 col-form-label">Website</label>
+                                                                <div class="col-sm-6">
+                                                                    <label>@ViewBag.ls_Company.website</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="ihead">
+                                                    <div class="ibox-title">THÔNG TIN HÀNG HÓA</div>
+                                                </div>
+                                                <div class="ibox-body ">
+                                                    <div class="row">
+                                                        <div class="formhorizontalM" style="width:100%">
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-4 col-form-label">SL sản phẩm</label>
+                                                                <div class="col-sm-6">
+                                                                    <label> @Html.Raw(ViewBag.ls_SLSP)</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-4 col-form-label">Ngành hàng</label>
+                                                                <div class="col-sm-6">
+                                                                    @Html.Raw(ViewBag.ls_sem)
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+
+                                            </div>
+                                        }
+                                        catch (Exception)
+                                        { }
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </fieldset>
+                </div>
+                <div style="height:100px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtHead').html("Vendors - Gateway");
+    });
+</script>
+
+

@@ -1,0 +1,668 @@
+﻿@using MP_VendorTool.Models.Order
+@using MP_VendorTool.Common;
+@using MP_VendorTool.Models.Dashboard;
+@{
+    ViewBag.Title = "Demand Forcasting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .content_search .form-control {
+        height: 34px !important;
+    }
+    .ibox .ibox-body {
+        padding: 0px !important;
+    }
+
+    .item.active {
+        background-color: yellow;
+    }
+
+    .ibox .ibox-body {
+        padding: 0px !important;
+    }
+    .thelink {
+        color: #313131;
+        margin-left: -9px;
+        text-align: left;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    tr.item.active span.thelink {
+        color: #51a9ff;
+        margin-left: -9px;
+    }
+
+    tr.item.active span.progress-parcent {
+        color: #51a9ff;
+    }
+
+    .BBoder_V1 {
+        background: #fff;
+        padding: 30px;
+        float: left;
+        width: 100%;
+    }
+
+    .BBoder_V2 {
+        background: #fff;
+        padding: 30px;
+        float: left;
+        width: 100%;
+    }
+
+    .chartsk .dropdown.bootstrap-select.form-control.bs3 {
+        width: 110px;
+        float: right;
+    }
+
+    .filllter .dropdown.bootstrap-select.form-control.bs3 {
+        width: 430px;
+    }
+
+    .progress .progress-bar.progress-bar-success {
+        background-color: #ff864b !important
+    }
+
+    .progress {
+        margin-top: 8px;
+    }
+
+    .Title_parant {
+        font-family: 'SF-Pro-Text-Regular',sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: 0.15px;
+        color: #000000;
+        padding-top: 6px
+    }
+
+    .doanhsonam {
+        font-family: 'SF-Pro-Text-Regular',sans-serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: #000000;
+        opacity: 0.5;
+    }
+
+    .mota {
+        font-family: 'SF-Pro-Text-Regular',sans-serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        color: #000000;
+        opacity: 0.5;
+        text-align: left;
+    }
+
+    .mota1 {
+        font-family: 'SF-Pro-Text-Regular',sans-serif;
+        font-style: italic;
+        font-size: 15px;
+        line-height: 19px;
+        color: rgba(0, 0, 0, 0.87);
+        text-align: left;
+    }
+
+    .iboxbody {
+        padding: 13px;
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+
+    .Dulieutrong {
+        font-family: 'SF-Pro-Text-Regular',sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 24px;
+        letter-spacing: 0.15px;
+        color: red;
+        padding-top: 34px;
+        text-align: center;
+        display: block;
+    }
+
+    .Masp {
+        font-family: 'SF-Pro-Text-Regular',sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 21px;
+        color: #000000;
+        opacity: 0.2;
+        border: none;
+        padding: 0px;
+        padding-left: 1px;
+        border: none !important;
+        padding-top: 9px;
+    }
+
+    .Tensp {
+        font-family: 'SF-Pro-Text-Regular',sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 29px;
+        color: #000000;
+    }
+
+    .scrollbar {
+        float: left;
+        height: 700px;
+        width: 100%;
+        overflow-y: scroll;
+        margin-bottom: 25px;
+    }
+
+    .scrollbarV2 {
+        float: left;
+        height: 437px;
+        width: 100%;
+        overflow-y: scroll;
+        margin-bottom: 25px;
+    }
+
+    #wrapper {
+        text-align: center;
+        margin: auto;
+    }
+
+    #style-1::-webkit-scrollbar,
+    #style-2::-webkit-scrollbar {
+        width: 12px;
+        background-color: #F5F5F5;
+    }
+
+    #style-4::-webkit-scrollbar,
+    #style-5::-webkit-scrollbar,
+    #style-6::-webkit-scrollbar,
+    #style-7::-webkit-scrollbar,
+    #style-8::-webkit-scrollbar,
+    #style-9::-webkit-scrollbar,
+    #style-10::-webkit-scrollbar,
+    #style-11::-webkit-scrollbar {
+        width: 10px;
+        background-color: #F5F5F5;
+    }
+
+    /**  STYLE 11 */
+    #style-11::-webkit-scrollbar-track {
+        border-radius: 10px;
+        background: rgba(0,0,0,0.1);
+        border: 1px solid #ccc;
+    }
+
+    #style-11::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: linear-gradient(left, #fff, #e4e4e4);
+        border: 1px solid #aaa;
+    }
+
+        #style-11::-webkit-scrollbar-thumb:hover {
+            background: #fff;
+        }
+
+        #style-11::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(left, #22ADD4, #1E98BA);
+        }
+
+    .KhaiBao {
+        background: #F5F5F5;
+        padding: 20px;
+    }
+
+    .KhaiBaoList tr, .KhaiBaoList tr td {
+        background: none !important;
+        border: none !important;
+        line-height: 11px;
+    }
+
+    .frominput .col-md-12 {
+        padding-bottom: 10px;
+    }
+    .thelink:hover {
+        color: #51a9ff !important;
+        cursor: pointer;
+    }
+
+    .btn-success:hover {
+        background: #ff864b !important;
+    }
+
+    
+</style>
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox" style=" background-color: #f1f1f1 !important">
+            <div class="ibox-body">
+                @{
+                    int result = (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0) ? 0 : 1;
+                    if (result == 1)
+                    {
+                        <div class="form-group row filllter" style=" background: #f1f1f1 !important">
+                            <label for="vendorName" class="col-sm-2 col-form-label">Nhà cung cấp <span style=" color:red">(*)</span></label>
+                            <div class="col-sm-8">
+                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                {
+                                }
+                                else
+                                {
+                                    <select id="VendorCode" class="form-control selectpicker" data-live-search="true" onchange="js_SetVendorCode();">
+                                        @if (ViewBag.list_vendor != null)
+                                        {
+                                            <option value="">--- Chọn NCC ---</option>
+                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                            {
+                                                <option @(@box.Code == ViewBag.VendorCode ? "selected" : "") value="@box.Code">@box.Code - @box.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div style=" display:none">
+                            @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                            {
+                                <input type="text" class="form-control" id="VendorCode" name="VendorCode" value="@Session["VendorCode"]" disabled style=" padding-left: 7px !important; width: 430px;">
+                            }
+                        </div>
+                    }
+                }
+
+                <div class="row chartsk">
+                    <div class="col-md-6">
+                        <div class="BBoder_V2 oother">
+                            <div class="col-md-6">
+                                <div class="headerName" style="margin-left: -13px;">
+                                    Demand Forcasting - Kỳ D+30
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="headerName">
+                                    <select id="MienDemand" class="form-control selectpicker" name="MienDemand" onchange="js_MienDemand()">
+                                        <option value="MB">Miền bắc</option>
+                                        <option value="MN">Miền nam</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div style="clear: both; height: 10px;"></div>
+                            <div class="doanhsonam">
+                                Số lượng cần đặt
+                            </div>
+                            <div style="clear: both; height: 18px;"></div>
+                            <div class="Title_parant">Sản phẩm</div>
+                            <div style="clear:both; height:5px;"></div>
+
+                            <div class="scrollbar" id="style-11">
+                                <div class="force-overflow">
+                                    <div id="Dasboard_D30_Item" style=" padding-top: 2px; ">
+                                        @Html.Partial("~/Views/Po/Partial/__DemandForcasting.cshtml")
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="BBoder_V2 oother">
+
+                            <div class="col-md-6">
+                                <div class="headerName" style="margin-left: -13px;">
+                                    Cập nhật tồn kho - Kỳ D+30
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="headerName">
+                                    <select id="MienKhaiBao" class="form-control selectpicker" name="MienKhaiBao" onchange="js_MienKhaiBao('NEW')">
+                                        <option value="MB">Miền bắc</option>
+                                        <option value="MN">Miền nam</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div style="clear: both; height: 10px;"></div>
+                            <div id="DemandForcasting_KhaiBao" style=" padding-top: 2px; ">
+                                @Html.Partial("~/Views/Po/Partial/__DemandForcasting_KhaiBao.cshtml")
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtHead').html('Demand Forcasting');
+        js_MienDemand();
+    });
+
+    function js_SetVendorCode() {
+        var VendorCode = fomart_split($('#VendorCode').val(), 0);
+        if (VendorCode.length == 0) {
+            alert('Vui lòng chọn nhà cung cấp.');
+            return;
+        }
+        $.ajax({
+            url: '/Po/js_SetVendorCode',
+            type: 'POST',
+            data: JSON.stringify({ Vendor: VendorCode }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data.code > 0) {
+                    js_MienDemand();
+
+                } else {
+                    alert('Có lỗi xẩy ra. Vui lòng thử lại sau !');
+                }
+            }
+        });
+    }
+
+    function js_MienDemand() {
+        var VendorCode = $('#VendorCode').val();
+        var MienDemand = fomart_split($('#MienDemand').val(), 0);
+        if (VendorCode.length == 0 || MienDemand.length == 0) {
+            alert('Vui lòng chọn bộ lọc.');
+            return;
+        }
+        $.ajax({
+            url: '/Po/GetData_Dasboard_D30_Item',
+            type: 'POST',
+            data: JSON.stringify({ VendorCode: VendorCode, Mien: MienDemand }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#Dasboard_D30_Item").find('tbody').empty();
+                $('#Dasboard_D30_Item').html(data);
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_MienKhaiBao(MaHang) {
+        var MaHangS = "";
+        if (MaHang == 'NEW') {
+            MaHangS = $('#MaHang_load').val();
+        } else {
+            MaHangS = MaHang
+        }
+        var VendorCode = $('#VendorCode').val();
+        var MienKhaiBao = fomart_split($('#MienKhaiBao').val(), 0);
+        if (VendorCode.length == 0 || MienKhaiBao.length == 0) {
+            alert('Vui lòng chọn bộ lọc.');
+            return;
+        }
+        $.ajax({
+            url: '/Po/DemandForcasting_KhaiBao',
+            type: 'POST',
+            data: JSON.stringify({ VendorCode: VendorCode, MaHang: MaHangS, Mien: MienKhaiBao }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#DemandForcasting_KhaiBao").find('tbody').empty();
+                $('#DemandForcasting_KhaiBao').html(data);
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_Load(MaHang) {
+        const items = document.querySelectorAll('.item');
+        items.forEach(item => {
+            item.addEventListener('click', () => {
+                items.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+                item.classList.add('active');
+            });
+        });
+        $('#MaHang_load').val(MaHang);
+        js_MienKhaiBao(MaHang);
+    }
+
+    // Popup
+
+    // Khai báo
+    function AddPopUp_KhaiBao() {
+        $('#ID_KhaiBao').val('0');
+        $('#NgayGiao').val('');
+        $('#NgaySanXuat').val('');
+        $('#KhoXuat').val('');
+        $('#HanSuDung').val('');
+        $("#shift_detail_modal_label").html('Thêm mới khai báo');
+        $('#PopUp_modal').modal('show');
+    }
+
+    function fn_save_KhaiBao() {
+        debugger;
+        if (
+            $('#TonHienCo').val().length == 0 ||
+            $('#NgayGiao').val().length == 0 ||
+            $('#NgaySanXuat').val().length == 0 ||
+            $('#KhoXuat').val().length == 0 ||
+            // $('#HanSuDung').val().length == 0 ||
+            $('#GiaBan').val().length == 0 ||
+            $('#MaHang_P').val().length == 0 ||
+            $('#MienKhaiBao').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ');
+            $('#PopUp_modal').modal('show');
+            return;
+        }
+        var ID = $('#ID_KhaiBao').val();
+        var TonHienCo = $('#TonHienCo').val();
+        var NgayGiao = $('#NgayGiao').val();
+        var NgaySanXuat = $('#NgaySanXuat').val();
+        var KhoXuat = $('#KhoXuat').val();
+        var HanSuDung = $('#HanSuDung').val();
+        var GiaBan = $('#GiaBan').val();
+        var VendorCode = $('#VendorCode').val();
+        var MaHang = $('#MaHang_P').val();
+        var Mien = $('#MienKhaiBao').val();
+
+        $.ajax({
+            url: '/po/Save_KhaiBao_NCC',
+            type: 'POST',
+            data: JSON.stringify({ ID: ID, MaHang: MaHang, Mien: Mien, TonHienCo: TonHienCo, NgayGiao: NgayGiao, NgaySanXuat: NgaySanXuat, KhoXuat: KhoXuat, HanSuDung: HanSuDung, GiaBan: GiaBan, Vendor: VendorCode }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data == 1) {
+                    alert("Thành công");
+                    $('#PopUp_modal').modal('hide');
+                    // location.reload();
+                    js_MienKhaiBao(MaHang);
+                    js_Loading(false, 1);
+                } else {
+                    alert("Có lỗi xảy ra.");
+                }
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function Edit_khaiBao(ID) {
+        $('#ID_KhaiBao').val(ID);
+        $('#TonHienCo').val('');
+        $('#GiaBan').val('');
+        $('#NgayGiao').val('');
+        $('#NgaySanXuat').val('');
+        $('#KhoXuat').val('');
+        $('#HanSuDung').val('');
+        $("#shift_NhanVien").html('Chi tiết khao báo');
+
+        $.ajax({
+            type: "POST",
+            url: "/po/get_Edit_Khaibao",
+            data: JSON.stringify({ ID: ID }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+                // js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data != null) {
+                    console.log(data);
+                    $('#TonHienCo').val(data[0].Tonhienco);
+                    $('#GiaBan').val(data[0].GiaBan);
+                    $('#NgayGiao').val(data[0].NgayGiao);
+                    $('#NgaySanXuat').val(data[0].NgaySanXuat);
+                    $('#KhoXuat').val(data[0].KhoXuat);
+                    $('#HanSuDung').val(data[0].HanSuDung);
+
+                    $('#PopUp_modal').modal('show');
+
+
+                }
+            }, error: function () {
+            }
+        });
+    }
+
+    function Delete_khaiBao(ID) {
+        var MaHang = $('#MaHang_load').val();
+        var ri = confirm("Bạn có muốn xóa ?.");
+        if (ri) {
+            $.ajax({
+                type: "POST",
+                url: '/po/Delete_KhaiBao',
+                data: JSON.stringify({ ID: ID }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (rt) {
+                    if (rt.code == 0) {
+                        js_MienKhaiBao(MaHang);
+                    }
+                }
+            });
+        }
+    }
+
+
+    //Khuyến mãi
+
+    function AddPopUp_KhyenMai() {
+        $('#ID_KhuyenMai').val('0');
+        $('#KhuyenMai').val('');
+
+        $("#KM_detail_modal_label").html('Thêm mới khuyến mãi');
+        $('#KhuyenMai_PopUp_modal').modal('show');
+    }
+
+    function fn_save_KhuyenMai() {
+        debugger;
+        if (
+            $('#ID_KhuyenMai').val().length == 0 ||
+            $('#KhuyenMai').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ');
+            $('#PopUp_modal').modal('show');
+            return;
+        }
+        var ID = $('#ID_KhuyenMai').val();
+        var VendorCode = $('#VendorCode').val();
+        var MaHang = $('#MaHang_P').val();
+        var Mien = $('#MienKhaiBao').val();
+        var KhuyenMai = $('#KhuyenMai').val();
+
+        $.ajax({
+            url: '/po/Save_KhuyenMai_NCC',
+            type: 'POST',
+            data: JSON.stringify({ ID: ID, MaHang: MaHang, Mien: Mien, Vendor: VendorCode, KhuyenMai: KhuyenMai }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data == 1) {
+                    alert("Thành công");
+                    $('#KhuyenMai_PopUp_modal').modal('hide');
+                    // location.reload();
+                    js_MienKhaiBao(MaHang);
+                    js_Loading(false, 1);
+                } else {
+                    alert("Có lỗi xảy ra.");
+                }
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function Edit_KhuyenMai(ID) {
+        $('#ID_KhuyenMai').val(ID);
+        $('#KhuyenMai').val('');
+        $("#KM_detail_modal_label").html('Chi tiết khuyến mãi');
+
+        $.ajax({
+            type: "POST",
+            url: "/po/get_Edit_KhuyenMai",
+            data: JSON.stringify({ ID: ID }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+                // js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data != null) {
+                    console.log(data);
+                    $('#KhuyenMai').val(data[0].Contents);
+
+                    $('#KhuyenMai_PopUp_modal').modal('show');
+                }
+            }, error: function () {
+            }
+        });
+    }
+
+    function Delete_KhuyenMai(ID) {
+        var MaHang = $('#MaHang_load').val();
+        var ri = confirm("Bạn có muốn xóa ?.");
+        if (ri) {
+            $.ajax({
+                type: "POST",
+                url: '/po/Delete_KhuyenMai',
+                data: JSON.stringify({ ID: ID }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (rt) {
+                    if (rt.code == 0) {
+                        js_MienKhaiBao(MaHang);
+                    }
+                }
+            });
+        }
+    }
+</script>
+<input type="hidden" name="MaHang_load" id="MaHang_load" value="0" />

@@ -1,0 +1,97 @@
+﻿<div class="menu_footer footer">
+    <ul>
+        <li><a href="#" onclick="showpopup()">@MP_VendorTool.Resource.textHome_7<span>|</span></a></li>
+        <li><a href="/Home/Menu">@MP_VendorTool.Resource.textHome_8<span>|</span></a></li>
+        <li><a onclick="opennewtab('https://bibomart.com.vn/maplist/index/index/id/1/')" href="#">@MP_VendorTool.Resource.textHome_9<span>|</span></a></li>
+        <li><a onclick="opennewtab('https://bibomart.com.vn/lien-he-bibomart')" href="#">@MP_VendorTool.Resource.textHome_10</a></li>
+        
+    </ul>
+</div>
+<div class="modal" id="Vieteco_modal" tabindex="-1" role="dialog" aria-labelledby="shift_detail_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 710px; margin: 30px auto;">
+        <div class="modal-content" style="background:#546d8e; border-radius:15px; width: 710px;">
+            <div class="modal-header hide">
+                <h5 class="modal-title" id="shift_detail_modal_label">GIỚI THIỆU VỀ VIETECO</h5>
+                <button type="button" class="close hide" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body pointer" style="margin-top: 42px;
+        font-size: 20px;
+        text-align: center;
+        color: white;">
+                <p style="font-size:48px">
+                    GIỚI THIỆU VỀ VIETECO
+                </p>
+                <div style="font-weight: 300 !important;
+                            text-decoration: none;
+                            text-transform: none;
+                            font-size: 14px;
+                            text-align: left;
+                            padding-left: 12px;">
+                    <p>
+                        Viet Eco là hệ sinh thái kết nối các nguồn lực hiện có trong xã hội, với mục tiêu:
+                    </p>
+                    <p style="font-style:italic">
+                        ➤ Nghiên cứu nhu cầu, phát triển các sản phẩm và dịch vụ tốt nhất, dựa trên lợi thế sẵn có của các bên</br>
+                        ➤ Tạo đường đi ngắn nhất từ người có, đến đúng người cần, đúng thời điểm, với chi phí thấp nhất</br>
+                        ➤ Mang lại lợi ích tốt nhất cho Khách hàng và các thành viên của hệ sinh thái</br>
+                        ➤ Hợp lực và hỗ trợ các thành viên phát triển bền vững, nâng vị thế của các thương hiệu Việt</br>
+                    </p>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <button type="button" class="btn btn-primary btn-rounded btn-sm max-w-100" style="background: #8aafe2;border: none; border-radius: 9px; margin-bottom:35px" data-dismiss="modal" aria-label="Close">
+                    <p style="
+                        color: #59595b;
+                        font-size: 14px;
+                        margin-top: -3px;
+                        margin-bottom: -1px;
+                        margin-left: 22px;
+                        margin-right: 22px;
+                    ">Đóng lại</p>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .menu_footer ul li {
+        list-style: none;
+        float: left;
+        padding-right: 10px;
+    }
+
+    .menu_footer ul li a {
+        color: #eae6e6;
+        font-size: 14px;
+    }
+    .menu_footer ul {
+        width: 31%;
+        margin: 0 auto;
+    }
+    .menu_footer ul li span {
+        padding-left: 10px;
+    }
+
+    .footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 1rem;
+        background-color: transparent;
+        text-align: center;
+    }
+</style>
+
+<script type="text/javascript">
+    function opennewtab(url) {
+        window.open(url, '_blank');
+    }
+    function showpopup() {
+        jQuery.noConflict();
+        $('#Vieteco_modal').modal('show');
+    }
+
+</script>

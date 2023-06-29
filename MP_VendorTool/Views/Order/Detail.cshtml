@@ -1,0 +1,452 @@
+﻿@using MP_VendorTool.Common;
+@using MP_VendorTool.Models.Order;
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<objPurchaseOrder> item = ViewBag.item;
+}
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+                                        <label for="textDate" class="col-sm-4 col-form-label">Ngày đặt hàng</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="textDate" value="@ViewBag.textDate" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textOrderId" class="col-sm-4 col-form-label">Mã đơn hàng</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="textOrderId" value="@ViewBag.orderId" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textStatus" class="col-sm-4 col-form-label">Trạng thái</label>
+                                        <div class="col-sm-8">
+                                            @switch (ViewBag.Status)
+                                            {
+                                                case "0":
+                                                    <select class="form-control" id="textStatus" disabled>
+                                                        <option value="3">Chưa xác nhận</option>
+                                                    </select>
+                                                    break;
+                                                case "1":
+                                                    <select class="form-control" id="textStatus" disabled>
+                                                        <option value="3">Đã xác nhận</option>
+                                                    </select>
+                                                    break;
+                                                case "3":
+                                                    <select class="form-control" id="textStatus" disabled>
+                                                        <option value="3">Đã hủy</option>
+                                                    </select>
+                                                    break;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+                                        <label for="textAddress" class="col-sm-4 col-form-label">Tên kho</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" disabled class="form-control" id="textAddress" value="@ViewBag.StoreName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textMahang" class="col-sm-4 col-form-label">Mã hàng</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="textMahang" onchange="js_searchbox();" placeholder="Mã hàng">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textHang" class="col-sm-4 col-form-label">Tên hàng</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="textHang" onchange="js_searchbox();" placeholder="Tên hàng">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            @if (ViewBag.Status != "1" && ViewBag.TotalOutstanding <= 0)
+                                            {
+                                                if (Convert.ToInt32(ViewBag.NgayXacNhanDonHang) <= 7)
+                                                {
+                                                    <a href="#" class="btn btn-secondary btn_search XacNhanDonHangTraLai" onclick="UpdatePurchaseOrder()"><i class="fa fa-check-circle" aria-hidden="true"></i> Xác nhận đơn hàng</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" style="pointer-events: none; opacity: 0.9;" class="btn btn-secondary px-5 btgetw " onclick="XacNhanDonHang()"><i class="fa fa-check-circle" aria-hidden="true"></i> Xác nhận đơn hàng</a>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a href="/Order/ExportExcel?OrderNo=@ViewBag.orderId" class="btn btn-success px-5 rounded-0 btgetw"><i class="fa fa-table" aria-hidden="true"></i> Export Excel</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a href="/Order/Index" class="btn btn-info px-5 rounded-0 btgetw"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Quay lại</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div id="div-content" style=" padding-top: 112px; ">
+                        @Html.Partial(Constants.Partial_Order_Detail)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" value="@ViewBag.orderId" id="orderId" />
+    <input type="hidden" value="@ViewBag.locationCode" id="locationCode" />
+
+    <div class="content_footer">
+        <hr />
+        <p>Lưu ý:</p>
+        <div class="wp_footer">
+            <div class="col-md-6">
+                <ul>
+                    <li>Vui lòng giao hàng đúng chủng loại, số lượng và theo lịch giao hàng đã thông báo.</li>
+                    <li>Hàng hóa phải đảm bảo chất lượng, đầy đủ hóa đơn, chứng từ, tem nhãn... theo đúng quy định của Nhà nước.</li>
+                    <li>Nhân viên giao hàng cần xuất trình Giấy giới thiệu, CMND/CCCD và các chứng từ cho mỗi lần giao dịch.</li>
+                    <li>
+                        Chúng tôi có thể từ chối nhận hàng đối với những đơn hàng không đủ chất lượng,
+                        hóa đơn, chứng từ... như đã thỏa thuận
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul>
+                    <li>
+                        Đơn đặt hàng được tự động cập nhật lên hệ thống trước 9h sáng hàng ngày. Vui
+                        lòng xác nhận số lượng và thời gian giao hàng trước 14h cùng ngày để chúng tôi
+                        xếp lịch và xác nhận thời gian giao hàng cho Quý đối tác.
+                    </li>
+                    <li>Thời gian nhận hàng tại kho từ 8h đến 15h30.</li>
+                    <li>Thời gian nhận hàng tại cửa hàng từ 8h đến 20h.</li>
+                    <li>
+                        Chi tiết liên hệ với số điện thoại .................. để nhận được hỗ trợ khi giao hàng
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Hủy đơn hàng</h5>
+                <a class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="optionRadio" onclick="handleClick(this);" id="eRadios1" value="1" checked>
+                            <label class="form-check-label" for="eRadios1">
+                                Lý do
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="optionRadio" onclick="handleClick(this);" id="eRadios2" value="2">
+                            <label class="form-check-label" for="eRadios2">
+                                Khác
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control" id="textLydo">
+                            <option value="Không đủ hàng tồn kho">Không đủ hàng tồn kho</option>
+                            <option value="Do vướng công nợ">Do vướng công nợ</option>
+                            <option value="Do không chuẩn bị kịp">Do không chuẩn bị kịp</option>
+                        </select>
+                        <textarea class="form-control" id="textLydoKhac" style="height:90px !important;margin-top: 10px;" disabled placeholder="Nhập lý do khác...."></textarea>
+                    </div>
+                </div>
+                <p class="wp_flag"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <a href="#" class="btn btn-info" onclick="js_cancelOrder()">Lưu</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input id="showTraLai" type="hidden" data-toggle="modal" data-target="#XacNhanTraLai_modal" />
+<div class="modal" id="XacNhanTraLai_modal" tabindex="-1" role="dialog" aria-labelledby="shift_detail_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 695px; padding-top: 200px; border-radius: 0; ">
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style=" font-size:18px;display: contents;">
+                    Thông báo
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div style="width: 100%; padding: 15px; font-size: 17px;  ">
+                <p>Quý công ty có đơn hàng trả lại vui lòng xác nhận <a style=" font-weight:bold" href="/Order/ReturnedGoods">tại đây</a> trước khi xác nhận giao hàng</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<input type="hidden" name="Show_hangtralai" id="Show_hangtralai" value="@ViewBag.Show_hangtralai" />
+
+
+<script type="text/javascript">
+    var SourceOrder = [];
+    function js_close() {
+        window.location.reload();
+    }
+    function js_cancelOrder() {
+        var noteCancel;
+        var valRadio = $('input[name="optionRadio"]:checked').val();
+        var documentNo = $('#orderId').val();
+        if (valRadio == '1') {
+            noteCancel = $("#textLydo :selected").val();
+        } else {
+            noteCancel = $("#textLydoKhac").val();
+        }
+        $.ajax({
+            url: '/Order/CancelPurchaseOrder',
+            type: 'POST',
+            data: JSON.stringify({ documentNo: documentNo, noteCancel: noteCancel }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+            },
+            success: function (data) {
+                $('.wp_flag').html(data);
+                window.location.reload();
+            },
+            error: function () {
+            }
+        });
+
+
+    }
+    function handleClick(myRadio) {
+        var val = myRadio.value;
+        if (val == '1') {
+            $("#textLydo").prop('disabled', false);
+            $("#textLydoKhac").prop('disabled', true);
+        } else {
+            $("#textLydo").prop('disabled', true);
+            $("#textLydoKhac").prop('disabled', false);
+        }
+    }
+
+    $(function () {
+        js_GetListDetail();
+        $('#txtHead').html("Chi tiết đơn hàng");
+        var Show_hangtralai = $("#Show_hangtralai").val();
+        if (Show_hangtralai != "0") {
+            document.getElementById("showTraLai").click();
+            $(".XacNhanDonHangTraLai").css("pointer-events", "none");
+            $(".XacNhanDonHangTraLai").css("opacity", "0.7");
+        }
+    });
+
+    //$("#changeReceiptTime input[type=time]").on("change", function () {
+    //    console.log(this.valueAsDate);
+    //});
+
+    function js_searchbox() {
+        js_GetListDetail();
+    }
+    //function js_ReloadTable() {
+    //    $('#tbl_Item').DataTable({
+    //        lengthMenu: [[-1], ['ALL']],
+    //        columnDefs: [
+    //        ],
+    //        "searching": false,
+    //        autoWidth: false,
+
+    //        "language": {
+    //            "emptyTable": "Không có dữ liệu !"
+    //        }
+    //    });
+    //}
+    function js_ReloadTable() {
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[-1], ['ALL']],
+            //columnDefs: [
+            //    //{ 'targets': 0, 'searchable': false, 'orderable': false },
+            //    { 'targets': 9, 'searchable': false, 'orderable': false },
+            //    { 'targets': 10, 'searchable': false, 'orderable': false },
+            //    { 'targets': 11, 'searchable': false, 'orderable': false },
+            //    { 'targets': 12, 'searchable': false, 'orderable': false },
+            //    { 'targets': 13, 'searchable': false, 'orderable': false },
+            //    { 'targets': 14, 'searchable': false, 'orderable': false },
+            //    { 'targets': 15, 'searchable': false, 'orderable': false },
+            //],
+            //"order": [[0, "desc"]],
+            "searching": false,
+            fixedHeader: true,
+            fixedHeader: {
+                headerOffset: 213
+            },
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+
+    function js_GetListDetail() {
+        var itemNo = $("#textMahang").val();
+        var itemName = $("#textHang").val();
+        var orderId = $("#orderId").val();
+        $.ajax({
+            url: '/Order/GetDetailOrder',//sp_get_PurchaseOrders_Detail_V1
+            type: 'POST',
+            data: JSON.stringify({ itemNo: itemNo, itemName: itemName, orderId: orderId }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function getFormattedDate(DeliveryDate) {
+        if (DeliveryDate != "") {
+            var splitted = DeliveryDate.split("-");
+            return splitted[2] + '/' + splitted[1] + '/' + splitted[0];
+        } else {
+            return "";
+        }
+    }
+
+    function getTableDataDetail() {
+        SourceOrder = [];
+        let trs = $("#tbl_Item tbody tr");
+        var flag = 2;
+        if (trs.length) {
+            trs.each((index, tr) => {
+
+                let QtyToReceive = String($('#' + tr.id + ' input[name="QtyToReceive"]').val()).trim();
+                let EReceiptDate = String($('#' + tr.id + ' input[name="EReceiptDate"]').val()).trim();
+                let DeliveryDate = String($('#' + tr.id + ' input[name="DeliveryDate"]').val()).trim();
+                let ExpectedReceiptTime = String($('#' + tr.id + ' input[name="ExpectedReceiptTime"]').val()).trim();
+
+                let ItemNo = String($('#' + tr.id + ' input[name="ItemNo"]').val()).trim();
+                let LineNo = String($('#' + tr.id + ' input[name="LineNo"]').val()).trim();
+
+                let Note = String($('#' + tr.id + ' #Note').val()).trim();
+
+                let SoLo = String($('#' + tr.id + ' input[name="SoLo"]').val()).trim();
+                let NgaySanXuat = String($('#' + tr.id + ' input[name="NgaySanXuat"]').val()).trim();
+                let NgayHetHan = String($('#' + tr.id + ' input[name="NgayHetHan"]').val()).trim();
+
+                if (QtyToReceive >= 0 && QtyToReceive.length > 0) {
+
+                    SourceOrder.push({
+                        "QtyToReceive": QtyToReceive,
+                        "EReceiptDate": EReceiptDate,
+                        "DeliveryDate": getFormattedDate(DeliveryDate),
+                        "ExpectedReceiptTime": ExpectedReceiptTime,
+                        "ItemNo": ItemNo,
+                        "LineNo": LineNo,
+                        "Note": Note,
+
+                        "SoLo": SoLo,
+                        "NgaySanXuat": NgaySanXuat,
+                        "NgayHetHan": NgayHetHan,
+                    });
+
+                } else {
+                    jAlert('Số lượng xác nhận tồn kho phải >= 0 !', 'Thông báo');
+                    flag = -1;
+                }
+
+            });
+        }
+        return flag;
+    }
+    function mydate(datestring) {
+        parts = datestring.split("/");
+        return new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+    }
+    function XacNhanDonHang() {
+        jAlert('Đơn hàng đã quá hạn xác nhận!', `Thông báo`, (r) => {
+        });
+    }
+
+    function UpdatePurchaseOrder() {
+        debugger;
+        var flag = getTableDataDetail();
+        var obj = {};
+        obj.SourceOrder = JSON.stringify(SourceOrder);
+        obj.DocumentNo = $('#textOrderId').val();
+        obj.locationCode = $('#locationCode').val();
+        var DocumentNo = $('#textOrderId').val();
+        console.log(JSON.stringify(SourceOrder));
+
+        let trs = $("#tbl_Item tbody tr");
+        var ThongBao = 0;
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let QtyToReceive = String($('#' + tr.id + ' input[name="QtyToReceive"]').val()).trim();
+                if (parseInt(QtyToReceive) > 0) {
+                    let DeliveryDate = String($('#' + tr.id + ' input[name="DeliveryDate"]').val()).trim();
+
+                    if (DeliveryDate == "") {
+                        ThongBao = 1;
+                    }
+                }
+            });
+        }
+        if (ThongBao == 1) {
+            jAlert('Vui lòng cập nhật thời gian giao hàng !', 'Thông báo');
+            return false;
+        }
+
+        if (flag == 2 && DocumentNo.length > 0) {
+            $.ajax({
+                url: '/Order/UpdatePO',
+                type: 'POST',
+                data: JSON.stringify(obj),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    //if (data == 'true') {
+                    jAlert('Xác nhận đơn hàng thành công!', `Thông báo`, (r) => {
+                        window.location.href = '/Order/Index';
+                    });
+                    //} else {
+                    // jAlert('Vui lòng cập nhật thời gian giao hàng 0000000!', 'Thông báo');
+                    //}
+                }
+            });
+        }
+    }
+
+</script>
+

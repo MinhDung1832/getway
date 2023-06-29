@@ -1,0 +1,339 @@
+﻿@{
+    ViewBag.Title = "chi tiết thông tin doanh nghiệp";
+}
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+
+                <div class="ibox">
+                    <div class="ibox-head">
+                        <div class="ibox-title">Đổi mật khẩu</div>
+                        <div class="ibox-tools">
+                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                            <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                        </div>
+                    </div>
+                    <div class="ibox-body">
+                        <fieldset>
+                            <legend>THÔNG TIN DOANH NGHIỆP</legend>
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.businessType</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" type="text" class="form-control" value="@ViewBag.vd_info.businessName" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.firmName</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="firmName" name="firmName" value="@ViewBag.vd_info.firmName">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.Address</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="Address" name="Address" value="@ViewBag.vd_info.Address">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.phoneNo</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="phoneNo" name="phoneNo" value="@ViewBag.vd_info.phoneNo">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.website </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="website" name="website" value="@ViewBag.vd_info.website">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.email</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="email" name="email" value="@ViewBag.vd_info.email">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.facebook</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="facebook" name="facebook" value="@ViewBag.vd_info.facebook">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.industryType 1111111111</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" type="text" class="form-control" value="@ViewBag.vd_info.industryName" />
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.registrationBusiness</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="registrationBusiness" name="registrationBusiness" value="@ViewBag.vd_info.registrationBusiness">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.registrationTax</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="registrationTax" name="registrationTax" value="@ViewBag.vd_info.registrationTax">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.bankAccount</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="bankAccount" name="bankAccount" value="@ViewBag.vd_info.bankAccount">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.atBank </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="atBank" name="atBank" value="@ViewBag.vd_info.bankName">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.E_Invoice</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-check-input" type="checkbox" id="E_Invoice" name="E_Invoice">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.ERP_Name</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="ERP_Name" name="ERP_Name" value="@ViewBag.vd_info.ERP_Name_SS">
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>@MP_VendorTool.Resource.VendorInfoF2</legend>
+                            <div class="col-md-6">
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.yearActive</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="yearActive" name="yearActive" value="@ViewBag.vd_cap.yearActiveName">
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.employeesScale</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" value="@ViewBag.vd_cap.employeesScale" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.coverageMarket</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" value="@ViewBag.vd_cap.coverageMarket_Name" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.previousRevenue</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" value="@ViewBag.vd_cap.previousRevenue_Name">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.competencyCore 1111111111</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" value="@ViewBag.vd_cap.competencyCore_Name">
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.customerKey</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="customerKey" name="customerKey" value="@ViewBag.vd_cap.customerKey">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.warehouseAcreage</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="warehouseAcreage" name="warehouseAcreage" onchange="floatNumberParse('warehouseAcreage')" value="@ViewBag.vd_cap.warehouseAcreage">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.truckQuantity</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="truckQuantity" name="truckQuantity" onchange="intNumberParse('truckQuantity')" value="@ViewBag.vd_cap.truckQuantity">
+                                </div>
+                            </div>
+                        </fieldset>
+                        <hr>
+                        <fieldset>
+                            <legend>@MP_VendorTool.Resource.VendorInfoF3 </legend>
+                            <div class="col-md-6">
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.representativeName</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="representativeName" name="representativeName" value="@ViewBag.vd_con.representativeName">
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.representativeEmail</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="representativeEmail" name="representativeEmail" value="@ViewBag.vd_con.representativeEmail">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.representativePosition</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="representativeEmail" name="representativeEmail" value="@ViewBag.vd_con.representativePosition_Name">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.representativePhone</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="representativePhone" name="representativePhone" value="@ViewBag.vd_con.representativePhone">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.contactName 111111111</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="contactName" name="contactName" value="@ViewBag.vd_con.contactName">
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.contactEmail</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="contactEmail" name="contactEmail" value="@ViewBag.vd_con.contactEmail">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.contactPosition</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="contactEmail" name="contactEmail" value="@ViewBag.vd_con.contactPosition_Name" />
+
+                                    @*<select class="form-control" id="contactPosition">
+                        @foreach (var i in ViewBag.ls_position)
+                        {
+                            <option value="@i.Code">@i.Name</option>
+                        }
+                    </select>*@
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>@MP_VendorTool.Resource.contactPhone</label>
+                                    <label style="color:red">*</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input readonly="readonly" class="form-control" type="text" id="contactPhone" name="contactPhone" value="@ViewBag.vd_con.contactPhone">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="wp_vendor">
+    <div class="content_vendor" style="margin-bottom: 40px; padding-top: 37px;">
+        <div class="">
+            <div class="row from_vender">
+            
+            </div>
+            <div class="row ">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6" style="text-align: right; padding-right: 27px;">
+                    <div style=" padding-top: 32px">
+                        <a href="/Vendor/Edit?MaNCC=@Session["VendorCode"]" id="btn_Gui" class="btn btn-secondary"> <i class="fa fa-caret-right" aria-hidden="true"></i> Chỉnh sửa</a>
+                    </div>
+                </div>
+            </div>
+            <div style=" height:20px"></div>
+        </div>
+    </div>
+</div>
+
+@*<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>*@
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#header_title').html('@MP_VendorTool.Resource.VendorInfoTT');
+        $('#txtHead').html("chi tiết thông tin doanh nghiệp");
+        if ('@ViewBag.vd_info.E_Invoice' == '1') {
+            document.getElementById("E_Invoice").checked = true;
+        } else {
+            document.getElementById("E_Invoice").checked = false;
+        }
+
+     var firmName = $('#firmName').val();
+        if (firmName=='')
+        {
+            $('#firmName').val('@Session["uname"]');
+        }
+
+    });
+
+    function addBtn(strSelID, strId, strVal) {
+        $('#' + strSelID + '_txt').append('<input type="button" id="btn_' + strSelID + '_del_' + strId + '"  name="' + strId + '-' + strVal + '" value="' + strVal + '  &#10006;"  class="btn-primary" style="float:left; margin:3px;border-radius: 20px; font-size: 12px !important;"/>');
+
+        $("#" + strSelID + " option[value='" + strId + "']").remove();
+    }
+</script>

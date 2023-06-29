@@ -1,0 +1,211 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@using MP_VendorTool.Models.TradingTermVendor
+@using System.Data
+
+<div class="" style=" padding-left: 0px; padding-right: 0px; padding: 3px 2px 0px;">
+    @*tab-content*@
+    <div class="tab-pane active" id="tab4">
+        <table class="table table-bordered" id="table_hanghoaMuaBan">
+            <thead>
+                <tr>
+                    <th scope="col" style="width:6%;">Mã hàng</th>
+                    <th scope="col" style="width: 30%;">Tên hàng</th>
+                    <th scope="col" style="width: 6%;">Hình ảnh</th>
+                    <th scope="col" style="width: 13%;">Barcode</th>
+                    <th scope="col" style="width: 10%; display:none">Hình thức hợp tác</th>
+                    <th scope="col" style="width: 7%;">VAT(%)</th>
+                    <th scope="col" style="width: 10%;">Giá áp dụng CK</th>
+                    <th scope="col" style="width: 7%;">%CK/đơn</th>
+                    <th scope="col" style="width: 10%;">Giá sau CK</th>
+                    <th scope="col" style="width: 10%;">Thưởng định hướng</th>
+                    <th scope="col" style="width: 13%;">Range Review</th>
+                    <th scope="col" style="width: 7%;">Tình trạng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model != null)
+                    {
+                        var dt = Model as DataTable;
+                        if (dt.Rows.Count > 0)
+                        {
+                            var i = 0;
+                            foreach (DataRow item in dt.Rows)
+                            {
+                                <tr id="rowMuaBan_@i">
+                                    <td style="width: 6%;">
+                                        <span class="MaSP">@item["MaSP"]</span> @*- @item["TypeTab"]*@
+                                        @*<input value="@item["MaSP"]" type="text" name="MaSP" id="MaSP_@i" class="form-control" style=" background:none; border:none">*@
+                                    </td>
+                                    <td style="width: 30%;">
+                                        <span class="TenSP">@item["TenSP"]</span>
+                                        @*<input value="@item["TenSP"]" type="text" name="nameProduct" id="nameProduct_@i" class="form-control valid" aria-invalid="false">*@
+                                    </td>
+                                    <td style="width: 6%; text-align: center">
+                                        @if (item["Images"].ToString() != "")
+                                        {
+                                            if (item["Images"].ToString().Contains("no_selection"))
+                                            {
+                                            }
+                                            else
+                                            {
+                                                <a target="_blank" href="@item["Images"]" class="thickbox"><img style="height: 30px" src=" @item["Images"]" class="content"></a>
+                                            }
+                                        }
+                                    </td>
+                                    <td style="width: 13%;">
+                                        <span class="Barcode">@item["Barcode"]</span>
+                                        @*<input value="@item["Barcode"]" type="text" name="barcode" id="barcode_@i" class="form-control">*@
+                                    </td>
+                                    <td style="width: 10%; display:none">
+                                        <select class="form-control" name="hinhthucht" id="hinhthucht_@i">
+                                            <option value="Mua bán" selected="">Mua bán</option>
+                                            <option value="Ký gửi">Ký gửi</option>
+                                            <option value="Chỉ tiêu">Chỉ tiêu</option>
+                                            <option value="Tặng/thưởng">Tặng/thưởng</option>
+                                            <option value="Khách đặt">Khách đặt</option>
+                                            <option value="Khai trương">Khai trương</option>
+                                            <option value="Trưng bày">Trưng bày</option>
+                                            <option value="Hàng mới">Hàng mới</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-right" style="width: 7%; ">
+                                        <span class="VAT">@item["VAT"]</span>
+                                        @*<input value="@item["VAT"]" type="number" id="VAT_@i" name="vat" class="form-control text-right valid">*@
+                                    </td>
+                                    <td class="text-right" style="width: 10%;  ">
+                                        <span class="Price">@item["Price"]</span>
+                                        <input value="@item["Price"]" type="hidden" id="discountPrice_@i" name="discountPrice" class="form-control text-right" onchange="js_Price_HH(@i)">
+                                    </td>
+                                    <td class="text-right" style="width: 7%;  ">
+                                        <span class="PhanTramCK">@item["PhanTramCK"]</span>
+                                    </td>
+                                    <td class="text-right" style="width: 10%;padding-right: 14px !important;">
+                                        <span class="p_PriceAfterDiscountBasic">@item["p_PriceAfterDiscountBasic"]</span>
+                                    </td>
+                                    <td class="text-right" style="width: 10%;">
+                                        <span class="ThuongDinhHuong">@item["ThuongDinhHuong"]</span>
+                                    </td>
+                                    <td class="text-left" style="width: 13%;">
+                                        <span class="RangeReviewName">@item["RangeReviewName"]</span>
+                                    </td>
+                                    <td class="text-center" style="width: 7%;">
+                                        <span class="TinhTrang">@item["TinhTrang"]</span>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('img.content').hover(function () {
+            $(this).addClass('transition');
+
+        }, function () {
+            $(this).removeClass('transition');
+        });
+    });
+    function SetApDungGia_HH(i, GiaApDungCK, PTCKDon) {
+        // Tính Giá sau CK
+        let discountPrice = GiaApDungCK;
+        let percentDiscount = PTCKDon;
+        if (discountPrice > 0 && percentDiscount > 0) {
+            var disPrice = discountPrice;
+            var priceAfterDiscount = disPrice * (1 - percentDiscount / 100);
+            $('#priceAfterDiscount_' + i).html(commaSeparateNumber(Math.round(priceAfterDiscount)));
+            $('#priceAfterInput_' + i).val(commaSeparateNumber(Math.round(priceAfterDiscount)));
+        }
+        if (discountPrice > 0 && parseInt(percentDiscount) == 0) {
+            $('#priceAfterDiscount_' + i).html(commaSeparateNumber(Math.round(discountPrice)));
+            $('#priceAfterInput_' + i).val(commaSeparateNumber(Math.round(discountPrice)));
+        }
+        if (discountPrice > 0 && percentDiscount.length < 0) {
+            $('#priceAfterDiscount_' + i).html(commaSeparateNumber(Math.round(discountPrice)));
+            $('#priceAfterInput_' + i).val(commaSeparateNumber(Math.round(discountPrice)));
+        }
+        else if (parseInt(discountPrice) == 0) {
+            $('#priceAfterDiscount_' + i).html('0');
+            $('#priceAfterInput_' + i).val('0');
+        }
+    }
+
+    function js_Price_HH(r) {
+        let discountPrice = $('#rowMuaBan_' + r + ' input[name="discountPrice"]').val().trim().replaceAll(',', '');
+        var priceSeparate = commaSeparateNumber(discountPrice);
+        $('#discountPrice_' + r).val(priceSeparate);
+        let percentDiscount = $('#rowMuaBan_' + r + ' input[name="percentDiscount"]').val().trim().replaceAll(',', '');
+
+        if (discountPrice > 0 && percentDiscount > 0) {
+            debugger;
+            var disPrice = discountPrice.replaceAll(',', '');
+            var priceAfterDiscount = disPrice * (1 - percentDiscount / 100);
+            $('#priceAfterDiscount_' + r).html(commaSeparateNumber(Math.round(priceAfterDiscount)));
+            $('#priceAfterInput_' + r).val(commaSeparateNumber(Math.round(priceAfterDiscount)));
+        }
+        if (discountPrice > 0 && parseInt(percentDiscount) == 0) {
+            $('#priceAfterDiscount_' + r).html(discountPrice);
+            $('#priceAfterInput_' + r).val(discountPrice);
+        }
+        if (discountPrice > 0 && percentDiscount.length < 0) {
+            $('#priceAfterDiscount_' + r).html(discountPrice);
+            $('#priceAfterInput_' + r).val(discountPrice);
+        }
+        else if (parseInt(discountPrice) == 0) {
+            $('#priceAfterDiscount_' + r).html('0');
+            $('#priceAfterInput_' + r).val('0');
+        }
+    }
+
+    function funActive(r) {
+        var active = $('#Active_' + r).html();
+        console.log(active);
+        if (active == 'Active') {
+            $('#Active_' + r).html('InActive');
+        }
+        else {
+            $('#Active_' + r).html('Active');
+        }
+    }
+
+    function clearcheck(k) {
+        var cboxes = document.getElementsByName('CheckID');
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                cboxes[i].checked = false;
+            }
+        }
+        $("#_" + k).prop('checked', true);
+    }
+
+    function HanhDongMB() {
+        var VendorNo = $("#VendorNo_Code").val().trim();
+        var HanhDong = $("#HanhDongMB").val();
+        var ID = [];
+        $("#CheckHDMB input:checked").each(function (index, value) {
+            ID.push($(value).val());
+        });
+        if (ID == "") {
+            alert("Bạn chưa chọn hành động");
+            return;
+        }
+        if (HanhDong == "") {
+            alert("Bạn chưa chọn trạng thái");
+            return;
+        }
+        if (HanhDong == "2") {
+            window.open('/OfferPrice/PriceOffer?mahang=' + ID + '&VendorNo=' + VendorNo + '', '_blank');
+            return;
+        }
+        console.log('111');
+    }
+</script>

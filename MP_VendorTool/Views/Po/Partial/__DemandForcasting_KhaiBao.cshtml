@@ -1,0 +1,321 @@
+﻿@using MP_VendorTool.Models.Dashboard;
+@using MP_VendorTool.Common;
+@model DemandForct
+@{
+    string SLCandat = "";
+    string Price = "";
+
+}
+<link href="~/Content/css/thickbox.css" rel="stylesheet" />
+<script src="~/Scripts/thickbox.js"></script>
+
+@if (Model != null)
+{
+    foreach (var item in Model.Item_Detai.Take(1))
+    {
+
+        SLCandat = item.Candat.ToString();
+        Price = Commond.FormatMoney_VND(item.Price.ToString());
+
+        <table class="table table-striped m-t-20 visitors-table">
+            <tbody>
+                <tr style="background: #fff !important; border:none">
+                    <td rowspan="2" style=" width:20%; border:none">
+                        <a href="@item.linkanh" title="" class="thickbox"><img style="height: 120px; " src="@item.linkanh" alt="" class="content" /></a>
+                    </td>
+                    <td style="border:none" class="">
+                        <div class="Tensp">@item.TenHang </div>
+                        <div class="Masp">Mã SP: @item.MaHang </div>
+                    </td>
+                </tr>
+                @*<tr style="background: #fff !important; border:none">
+                        <td class="Masp">Mã SP: @item.MaHang </td>
+                    </tr>*@
+            </tbody>
+        </table>
+
+        <div style="clear: both; height: 23px;"></div>
+        <div class="rowss">
+            <div class="col-lg-4 col-md-6">
+                <div class="ibox bg-success color-white widget-stat">
+                    <div class="iboxbody">
+                        <h2 class="m-b-5 font-strong">@Commond.FormatMoney_VND(item.Cuahangcoton.ToString())</h2>
+                        <div class="m-b-5">Cửa hàng có tồn</div>
+                        <i class="widget-stat-icon"> <img src="/image/ChTon.png" /></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="ibox bg-danger color-white widget-stat">
+                    <div class="iboxbody">
+                        <h2 class="m-b-5 font-strong">@Commond.FormatMoney_VND(item.Donhangchuagiao.ToString())</h2>
+                        <div class="m-b-5">Đơn hàng chưa giao</div>
+                        <i class="widget-stat-icon"> <img src="/image/chuagiao.png" /></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="ibox bg-warning color-white widget-stat">
+                    <div class="iboxbody">
+                        <h2 class="m-b-5 font-strong">@Commond.FormatMoney_VND(item.Candat.ToString())</h2>
+                        <div class="m-b-5">Sản phẩm cần đặt</div>
+                        <i class=" widget-stat-icon"> <img src="/image/candat.png" /></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="MaHang_P" id="MaHang_P" value="@item.MaHang" />
+    }
+}
+
+
+<div class="scrollbarV2" id="style-11">
+    <div class="force-overflow">
+
+        @*Khai báo*@
+        <div style="clear: both; height: 23px;"></div>
+        <div class="rowss">
+            <div class="col-lg-12 col-md-12 ">
+                <div class="KhaiBao">
+                    <div class="Title_parant">Khai báo</div>
+                    <div style="clear:both; height:7px;"></div>
+                    <div class="mota1">Nếu sản phẩm có vị trí kho, giá.. khác nhau bạn có thể khai báo thành nhiều lô khác nhau</div>
+                    <div style="clear:both; height:18px;"></div>
+                    <a class="btn btn-success" onclick="AddPopUp_KhaiBao()" style=" background: #0099ff ; color: #fff; border: none !important">
+                        <img src="/image/Add.png" /> Thêm mới khai báo
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        @if (Model != null)
+        {
+            foreach (var item in Model.Khaibao)
+            {
+                <div style="clear: both; height: 23px;"></div>
+                <div class="rowss">
+                    <div class="col-lg-12 col-md-12 ">
+                        <div class="KhaiBao">
+                            <div class="Title_parant">Khai báo</div>
+                            <table class="table table-striped m-t-20 visitors-table KhaiBaoList">
+                                <tbody>
+                                    <tr>
+                                        <td>Tồn hiện có</td>
+                                        <td>@Commond.FormatMoney_VND(item.Tonhienco.ToString()) </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ngày sản xuất </td>
+                                        <td>@item.NgaySanXuat</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hạn sử dụng</td>
+                                        <td>@item.HanSuDung</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kho xuất </td>
+                                        <td>@item.KhoXuat</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Giá Bán</td>
+                                        <td>@Commond.FormatMoney_VND(item.GiaBan.ToString()) </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <div style="clear: both; height:10px;"></div>
+                            <a onclick="Delete_khaiBao('@item.ID')" class="btn btn-success" style=" background: #0099ff ; color:#fff; border:none !important">
+                                <img src="/image/Delete.png" /> Xóa
+                            </a>
+                            <a onclick="Edit_khaiBao('@item.ID')" class="btn btn-success" style=" background: #0099ff ; color: #fff; border: none !important">
+                                <img src="/image/Edit.png" /> Sửa
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+        }
+
+
+        @*Khuyến mãi*@
+        @if (Model != null)
+        {
+            var KM = Model.KhuyenMai;
+            if (KM.Count() > 0)
+            {
+                foreach (var item in Model.KhuyenMai)
+                {
+                    <div style="clear: both; height: 23px;"></div>
+                    <div class="rowss">
+                        <div class="col-lg-12 col-md-12 ">
+                            <div class="KhaiBao">
+                                <div class="Title_parant">Khuyến mãi</div>
+                                <table class="table table-striped m-t-20 visitors-table KhaiBaoList">
+                                    <tbody>
+                                        <tr>
+                                            <td style=" line-height:22px;">@item.Contents</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div style="clear: both; height:10px;"></div>
+                                <a onclick="Delete_KhuyenMai('@item.ID')" class="btn btn-success" style=" background: #0099ff ; color:#fff; border:none !important">
+                                    <img src="/image/Delete.png" /> Xóa
+                                </a>
+                                <a onclick="Edit_KhuyenMai('@item.ID')" class="btn btn-success" style=" background: #0099ff ; color: #fff; border: none !important">
+                                    <img src="/image/Edit.png" /> Sửa
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div style="clear: both; height: 23px;"></div>
+                <div class="rowss">
+                    <div class="col-lg-12 col-md-12 ">
+                        <div class="KhaiBao">
+                            <div class="Title_parant">Khuyến mãi</div>
+                            <div style="clear:both; height:7px;"></div>
+                            <div class="mota1">Cập nhật nếu có khuyến mãi</div>
+                            <div style="clear:both; height:18px;"></div>
+                            <a class="btn btn-success" onclick="AddPopUp_KhyenMai()" style=" background: #0099ff ; color: #fff; border: none !important">
+                                <img src="/image/Add.png" /> Thêm mới khuyến mãi
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+<div class="modal" id="PopUp_modal">
+    <div class="modal-dialog" role="document" style="width:900px; max-width:900px; border-radius:0; ">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style="font-size:18px;display: contents; text-transform:uppercase">Thêm mới khai báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="row from_vender frominput">
+                <fieldset>
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label>Tồn hiện có</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="TonHienCo" id="TonHienCo" class="form-control" value="@SLCandat" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label>Ngày giao</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="date" name="NgayGiao" id="NgayGiao" placeholder="Nhập ngày giao" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label> Ngày sản xuất</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="date" name="NgaySanXuat" id="NgaySanXuat" placeholder="Nhập ngày sản xuất" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label> Kho xuất</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="KhoXuat" id="KhoXuat" placeholder="Nhập kho xuất" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label> Hạn sử dụng </label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="date" name="HanSuDung" id="HanSuDung" placeholder="Nhập hạn sử dụng" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label> Giá bán </label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="GiaBan" id="GiaBan" placeholder="Nhập giá bán" class="form-control OrderValue" value="@Price" />
+
+                                <span style=" font-size:12px;"><i>Cập nhật giá nếu thay đổi</i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" height:7px;"></div>
+
+                </fieldset>
+                <div class="col-md-12">
+                    <div class="col-md-5">
+                        <a class="btn btn-success" onclick="fn_save_KhaiBao()" style=" background: #0099ff !important; color: #fff; border: none !important; margin-left: 155px; margin-top: -30px;">
+                            Gửi khai báo
+                        </a>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="hidden" name="ID_KhaiBao" id="ID_KhaiBao" value="0" />
+                    </div>
+                </div>
+                <div class="col-md-12" style=" height:12px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="KhuyenMai_PopUp_modal">
+    <div class="modal-dialog" role="document" style="width: 500px; max-width: 500px; border-radius: 0; ">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="KM_detail_modal_label" style="font-size:18px;display: contents; text-transform:uppercase">Khuyến mãi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="row from_vender frominput">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <label>Thông tin khuyến mãi</label>
+                    </div>
+                    <div class="col-md-12">
+                        <textarea name="KhuyenMai" id="KhuyenMai" rows="4" style="width: 100%; max-width: 100%; border: 1px solid #d7d7d7; padding: 10px; " placeholder="Nhập thông tin khuyến mãi nếu có"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12" style=" height:7px;"></div>
+                <div class="col-md-12">
+                    <div class="col-md-5">
+                        <a class="btn btn-success" onclick="fn_save_KhuyenMai()" style=" background: #0099ff !important; color: #fff; border: none !important; margin-left: 155px; margin-top: -30px;">
+                            Gửi khuyến mãi
+                        </a>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="hidden" name="ID_KhuyenMai" id="ID_KhuyenMai" value="0" />
+                    </div>
+                </div>
+                <div class="col-md-12" style=" height:12px;"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,351 @@
+﻿
+.logo img {
+    width: 250px
+}
+
+.wp_content {
+    padding-top: 45px
+}
+
+#vendor-form label {
+    font-size: 12px;
+    color: #444343;
+    font-weight: 500 !important
+}
+
+.wp_content select {
+    font-size: 12px;
+    color: #444343;
+    font-weight: 500
+}
+
+label {
+    font-size: 12px;
+    color: #444343
+}
+
+.wp_content input[type=date] {
+    font-size: 12px;
+    color: #444343;
+    font-weight: 500
+}
+
+.wp_content input, .wp_content span {
+    font-size: 12px;
+    color: #444343;
+    font-weight: 500
+}
+
+.tab-content {
+    font-size: 12px;
+    color: #444343
+}
+
+#table_hanghoa th, .box_3 p {
+    font-size: 12px;
+    color: #444343
+}
+
+.header_title {
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700
+}
+
+.table tbody {
+    background-color: #fff
+}
+
+#vendor-form hr {
+    border-top: 1px solid #a7a5a5 !important;
+    width: 100%
+}
+
+.table thead {
+    background-color: #f5f5f5
+}
+
+.header_vender {
+    background-color: #868686;
+    padding: 18px 0
+}
+
+.error {
+    color: red;
+    font-size: 11px;
+    font-style: italic
+}
+
+.text_home {
+    float: right;
+    margin-top: 14px
+}
+
+    .text_home a {
+        font-size: 18px;
+        color: #fff;
+        font-weight: 700
+    }
+
+.content_order {
+    margin: 0
+}
+
+.btn_search {
+    background-color: #868686;
+    color: #fff;
+    width: 100%
+}
+
+
+
+.box_btn a:hover {
+    color: #fff
+}
+
+.btn_add a {
+    background-color: #868686;
+    padding: 6px 16px;
+    color: #fff;
+    font-size: 11px;
+    border-radius: unset;
+    margin-top: 2px;
+    display: inline-block
+}
+
+.content_search .form-group {
+    margin-bottom: 3px !important
+}
+
+.content_search label {
+    font-size: 12px;
+    color: #615d5d
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 3px 10px !important
+}
+
+#tbl_Item tbody {
+    background-color: #ffff
+}
+
+#tbl_Item thead th {
+    font-size: 12px;
+    color: #615d5d
+}
+
+#tbl_Item thead {
+    background-color: #c3c3c3
+}
+
+.dataTables_info, dataTables_paginate, paging_simple_numbers, .dataTables_length, .tbl_Item_length, .paginate_button, .paginate_button.disabled {
+    font-size: 12px;
+    font-style: italic
+}
+
+#tbl_Item thead span {
+    color: #e45050;
+    font-size: 11px
+}
+
+.content_table {
+    padding-bottom: 72px
+}
+
+#tbl_Item_length {
+    position: absolute;
+    bottom: 0;
+    left: 182px
+}
+
+#vendor-form h4 {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-size: 22px;
+    line-height: inherit;
+    color: #355c96;
+    text-transform: uppercase;
+    border: 0
+}
+
+#tbl_Item {
+    margin-top: 12px;
+    font-size: 12px
+}
+
+.btn_detail {
+    width: 100%;
+    background-color: #e9e8e6;
+    padding: 1px 3px;
+    color: #525252;
+    border: 1px solid #525252;
+    font-size: 12px
+}
+
+table.dataTable thead th, table.dataTable thead td {
+    padding: 10px 5px !important
+}
+
+#vendor-form {
+    width: 100%;
+    margin: 0 auto
+}
+
+.table thead th {
+    text-align: center
+}
+
+.box_4 .nav-pills li {
+    width: 17%;
+    text-align: center;
+    color: #fff
+}
+
+.form-group {
+    margin-bottom: 1px !important
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 3px !important;
+    line-height: 1.42857143;
+    vertical-align: inherit;
+    border-top: 1px solid #ddd
+}
+
+.box_4 .nav-pills li .tab-1 {
+    background-color: #5588b7;
+}
+
+.box_4 .nav-pills li .tab-2 {
+    background-color: #5588b7;
+    border-right: 1px solid #fff;
+    border-left: 1px solid #fff;
+}
+
+.box_4 .nav-pills li .tab-3 {
+    background-color: #5588b7;
+}
+
+.box_4 .nav-pills li .tab-4 {
+    background-color: #044075
+}
+
+.box_4 .nav-pills li .tab-5 {
+    background-color: #355c96
+}
+
+.box_4 .nav-pills li .tab-6 {
+    background-color: #5588b7
+}
+
+.box_4 .nav-pills li .tab-7 {
+    background-color: #044075
+}
+
+.box_4 .nav-pills li .tab-8 {
+    background-color: #355c96
+}
+
+.box_4 .nav-pills li .tab-9 {
+    background-color: #5588b7
+}
+.nav-pills > li + li {
+    margin-left: 0 !important
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #FFE07D !important;
+    background-color: #044075 !important;
+}
+
+.tab-content {
+    padding: 20px 20px 60px;
+    background-color: #fff
+}
+
+    .tab-content h5 {
+        color: #444343;
+        font-weight: 700;
+        font-size: 12px;
+        text-transform: uppercase
+    }
+
+.wp_upload {
+    padding: 35px 15px;
+    background-color: #dcdcdc
+}
+
+.button_action {
+    text-align: center;
+    padding: 25px 0
+}
+
+
+.wp_footer {
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 20px
+}
+
+input, select, textarea {
+    max-width: 100% !important;
+    background-color: #fff !important
+}
+
+
+.btn_export {
+    background-color: #a9a5a5 !important;
+    padding: 10px;
+    color: #fff !important;
+    display: block;
+    margin-bottom: 9px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.box_4 .nav-pills li .tab-1 {
+    background-color: #104a80 !important;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.box_4 .nav-pills li .tab-2 {
+    background-color: #104a80 !important;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.box_4 .nav-pills li .tab-3 {
+    background-color: #104a80 !important;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+
+form#vendor-form h5 {
+    font-size: 12px !important;
+}
+form#vendor-form .form-control {
+    font-size: 12px !important;
+}
+
+
+.boxAn{ display:none}
+
+
+table#table_hanghoaMuaBan tr {
+    min-height: 40px;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    border-top: 0px solid #ddd;
+}

@@ -1,0 +1,709 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@using MP_VendorTool.Models.TradingTermVendor
+@{
+    var list_line_bonus = (List<objLINEBONUS>)ViewBag.list_line_bonus;
+    var list_mkt_bonus = (List<objMKTBONUS>)ViewBag.list_mkt_bonus;
+    var list_cusBonus = (List<objCUSTOMERBONUS>)ViewBag.list_cusBonus;
+    var list_brandBonus = (List<objBrandBonus>)ViewBag.list_brandBonus;
+    var list_ChiPhiVanChuyen = (List<obj_TRADTERM_CHIPHIVANHANH>)ViewBag.list_ChiPhiVanChuyen;
+}
+<style>
+        /* table#table_hangthuekes tbody {
+            display: block;
+            max-height: 500px;
+            overflow-y: scroll;
+            width: 101.5%;
+        }
+
+            table#table_hangthuekes thead, table#table_hangthuekes tbody tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+            }
+    */
+        table#table_BrandThueKe tbody {
+            display: block;
+            max-height: 500px;
+            overflow-y: scroll;
+            width: 101%;
+        }
+
+            table#table_BrandThueKe thead, table#table_BrandThueKe tbody tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+            }
+</style>
+
+<div>
+
+    <div class="box_tab_1">
+        <div class="row">
+            <div class="col-md-2">
+                <h5>Chiết khấu</h5>
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-5">
+                        <table class="table table-bordered" id="table_thueke_chietkhau">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Loại chiết khấu</th>
+                                    <th scope="col">Hình thức TT</th>
+                                    <th scope="col">Giá trị CK</th>
+                                    <th scope="col">% chiết khấu</th>
+                                    <th scope="col">Giá trị đơn hàng tối đa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.list_dis_sales != null)
+                                {
+                                    foreach (objDISCOUNTSALES box in (List<objDISCOUNTSALES>)ViewBag.list_dis_sales)
+                                    {
+                                        if (box.TypeTab == "3")
+                                        {
+                                            <tr id="row_1">
+                                                <th style=" width: 107px; ">
+                                                    <select class="form-control" name="typeDiscount">
+                                                        <option value="@box.DiscountSalesType">@box.DiscountSalesType</option>
+                                                    </select>
+                                                </th>
+                                                <th style=" width: 107px; ">
+                                                    <select class="form-control" name="HinhThucThanhToan" disabled>
+                                                        <option value="Price" @(box.HinhThucThanhToan == "Price" ? "selected" : "")>Tiền</option>
+                                                        <option value="Products" @(box.HinhThucThanhToan == "Products" ? "selected" : "")>Hàng hóa</option>
+                                                    </select>
+                                                </th>
+                                                <td><input disabled name="discountAmount" class="form-control" value="@TradingTerm.DoFormat(Double.Parse(box.DiscountAmount))" /></td>
+                                                <td><input disabled name="percent_Discount" class="form-control" value="@box.DiscountPercent" /></td>
+                                                <td><input name="OrderValue" class="form-control OrderValue" value="@TradingTerm.DoFormat(Double.Parse(box.OrderValue))" disabled /></td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5>Hàng tặng hàng</h5>
+                            </div>
+                            <div class="col-md-9">
+                                <table class="table table-bordered" id="table_kygui_hangtang">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Số lượng mua</th>
+                                            <th scope="col">Số lượng tặng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @if (ViewBag.list_dis_Qtty != null)
+                                        {
+                                            foreach (objDISCOUNTQTTY box in (List<objDISCOUNTQTTY>)ViewBag.list_dis_Qtty)
+                                            {
+                                                if (box.TypeTab == "3")
+                                                {
+                                                    <tr id="row_7">
+                                                        <td><input disabled name="quantityBuy" class="form-control" value="@box.quantityBuy" /></td>
+                                                        <td><input disabled name="orderQuantity" class="form-control" value="@box.QuantityGifts" /></td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="box_tab_2">
+
+        <div class="row">
+            <div class="col-md-2">
+                <h5>Thưởng</h5>
+            </div>
+            <div class="col-md-10">
+                <table class="table table-bordered" id="table_thuong_3">
+                    <thead>
+                        <tr>
+                            <th scope="col">Loại thưởng</th>
+                            <th scope="col">Mức DS từ</th>
+                            <th scope="col">Mức DS đến</th>
+                            <th scope="col">Điều kiện DS target</th>
+                            <th scope="col">Điều kiện DS tính thưởng</th>
+                            <th scope="col">% thưởng</th>
+                            <th scope="col">Giá trị thưởng</th>
+                            <th scope="col">Ghi chú</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="box_tab_3">
+        <div class="row">
+            <div class="col-md-2">
+                <h5>TRADE MARKETING</h5>
+            </div>
+            <div class="col-md-10">
+                <table class="table table-bordered" id="table_trade_3">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 330px;">Nội dung đầu tư</th>
+                            <th scope="col">% đầu tư</th>
+                            <th scope="col">Giá trị đầu tư</th>
+                            <th scope="col">Điều kiện</th>
+                            <th scope="col">Điều kiện doanh số</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <datalist id="mktbonus_datalist_3">
+
+                    @if (ViewBag.list_ChiPhiBanHang != null)
+                    {
+                        foreach (objCombox box in (List<objCombox>)ViewBag.list_ChiPhiBanHang)
+                        {
+                            <option value="@box.Name" />
+                        }
+                    }
+
+                </datalist>
+                <datalist id="brandbonus_datalist_3">
+
+                    @if (ViewBag.list_phattrienTH != null)
+                    {
+                        foreach (objCombox box in (List<objCombox>)ViewBag.list_phattrienTH)
+                        {
+                            <option value="@box.Name" />
+                        }
+                    }
+
+                </datalist>
+                <datalist id="cusbonus_datalist_3">
+                    @if (ViewBag.list_phattrienKH != null)
+                    {
+                        foreach (objCombox box in (List<objCombox>)ViewBag.list_phattrienKH)
+                        {
+                            <option value="@box.Name" />
+                        }
+                    }
+                </datalist>
+
+                <datalist id="bonusType_datalist_3">
+                    @if (ViewBag.list_typeBonus != null)
+                    {
+                        foreach (objCombox box in (List<objCombox>)ViewBag.list_typeBonus)
+                        {
+                            <option value="@box.Name" />
+                        }
+                    }
+                </datalist>
+            </div>
+        </div>
+    </div>
+
+    <div class="box_tab_4">
+        <div class="row">
+            <div class="col-md-2">
+                <h5>
+                    PHÁT TRIỂN THƯƠNG HIỆU
+                </h5>
+            </div>
+            <div class="col-md-10">
+                <table class="table table-bordered" id="table_thuonghieu_3">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 330px;">Nội dung đầu tư</th>
+                            <th scope="col">% đầu tư</th>
+                            <th scope="col">Giá trị đầu tư</th>
+                            <th scope="col">Điều kiện</th>
+                            <th scope="col">Điều kiện doanh số</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="box_tab_4">
+        <div class="row">
+            <div class="col-md-2">
+                <h5>
+                    PHÁT TRIỂN KHÁCH HÀNG
+                </h5>
+            </div>
+            <div class="col-md-10">
+                <table class="table table-bordered" id="table_khachhang_3">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 330px;">Nội dung đầu tư</th>
+                            <th scope="col">% đầu tư</th>
+                            <th scope="col">Giá trị đầu tư</th>
+                            <th scope="col">Điều kiện</th>
+                            <th scope="col">Điều kiện doanh số</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="box_tab_6">
+        <div class="row">
+            <div class="col-md-2">
+                <h5>
+                    TĂNG CƯỜNG HỢP TÁC
+                </h5>
+            </div>
+            <div class="col-md-10">
+                <table class="table table-bordered" id="table_ChiPhiVanHanhThueKe">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Nội dung đầu tư
+                            </th>
+                            <th scope="col">
+                                % đầu tư
+                            </th>
+                            <th scope="col" style="width: 26%;">
+                                Giá trị đầu tư
+                            </th>
+                            <th scope="col">Điều kiện</th>
+                            <th scope="col">Điều kiện doanh số</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @if (ViewBag.list_ChiPhiVanChuyen != null)
+                        {
+                            var cus_i = 0;
+                            foreach (obj_TRADTERM_CHIPHIVANHANH box in (List<obj_TRADTERM_CHIPHIVANHANH>)ViewBag.list_ChiPhiVanChuyen)
+                            {
+                                if (box.TypeTab == "3")
+                                {
+                                    cus_i++;
+                                    <tr id="rowChiPhiVanHanh2_@cus_i">
+                                        <td scope="row" style="text-align: center;"><input disabled type="text" name="NoiDungDauTu" value="@box.NoiDungDauTu" id="NoiDungDauTu_@cus_i" class="form-control" list="cusbonus_datalist" placeholder="--- Chọn nội dung---" /></td>
+                                        <td><input disabled type="text" name="PTDauTu" id="PTDauTu_@cus_i" class="form-control" value="@box.PTDauTu" /></td>
+                                        <td><input disabled name="GiaTriDauTu" id="GiaTriDauTu_@cus_i" class="form-control" value="@box.GiaTriDauTu" /></td>
+                                        <td><input disabled type="text" name="DieuKien" id="DieuKien_@cus_i" class="form-control" value="@box.DieuKien" /></td>
+                                        <td><input disabled type="text" name="salesConditions" id="salesConditions@cus_i" class="form-control" value="@box.salesConditions" /></td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="box_tab_6">
+        <div class="row">
+            <div class="col-md-2">
+                <h5>
+                    ĐỔI TRẢ HÀNG
+                </h5>
+            </div>
+            <div class="col-md-10">
+                <table class="table table-bordered" id="table_thueke_doitra">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 19%;">Áp dụng đổi/trả đối với hàng hoá</th>
+                            <th scope="col" style="width: 8%;">Đổi/Trả</th>
+                            <th scope="col" style="width:18%;">
+                                Thời hạn đổi trả <br />(… ngày kể từ ngày nhận hàng)
+                            </th>
+                            <th scope="col" style="width: 15%;">
+                                Thời hạn thông báo <br />(Báo trước .. ngày)
+                            </th>
+                            <th scope="col" style="width: 10%;">Phạt chậm đổi trả (%)</th>
+                            <th scope="col" style="width: 10%;">Ghi chú</th>
+                            <th scope="col" style="width:8%;">Xác nhận đổi/trả</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @if (ViewBag.list_CO_RE_GO != null)
+                        {
+                            foreach (objCONTENT_RETURNS_GOODS box in (List<objCONTENT_RETURNS_GOODS>)ViewBag.list_CO_RE_GO)
+                            {
+                                <tr>
+                                    <td scope="row">
+                                        @box.contentApply
+                                    </td>
+                                    <td>
+                                        @{
+                                            var k = true;
+                                            foreach (objApplyReturnProduct box2 in (List<objApplyReturnProduct>)ViewBag.list_app_reproduct)
+                                            {
+                                                if (box2.TypeTab == "3")
+                                                {
+                                                    if (box.contentApply == box2.confirmChange)
+                                                    {
+                                                        <div>@box2.Satus</div>
+                                                        k = false;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            if (k)
+                                            {
+                                                <div>Clear stock</div>
+                                            }
+                                        }
+                                    </td>
+                                    <td style="color:orangered;">
+                                        @{
+                                            var r = true;
+                                            foreach (objApplyReturnProduct box2 in (List<objApplyReturnProduct>)ViewBag.list_app_reproduct)
+                                            {
+                                                if (box2.TypeTab == "3")
+                                                {
+                                                    if (box.contentApply == box2.confirmChange)
+                                                    {
+                                                        @box2.refundTerm
+                                                        r = false;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            if (r)
+                                            {
+                                                @box.refundTerm
+                                            }
+                                        }
+                                    </td>
+                                    <td style="color:orangered;">
+                                        @{
+                                            var cc = true;
+                                            foreach (objApplyReturnProduct box2 in (List<objApplyReturnProduct>)ViewBag.list_app_reproduct)
+                                            {
+                                                if (box2.TypeTab == "3")
+                                                {
+                                                    if (box.contentApply == box2.confirmChange)
+                                                    {
+                                                        <div>@box2.BaoTruocNgay</div>
+                                                        cc = false;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                    </td>
+                                    <td>
+                                        @{
+                                            var p = true;
+                                            foreach (objApplyReturnProduct box2 in (List<objApplyReturnProduct>)ViewBag.list_app_reproduct)
+                                            {
+                                                if (box2.TypeTab == "3")
+                                                {
+                                                    if (box.contentApply == box2.confirmChange)
+                                                    {
+                                                        @box2.Penalty
+                                                        p = false;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            if (p)
+                                            {
+                                                @box.Penalty
+                                            }
+                                        }
+
+                                    </td>
+                                    <td style="text-align:center">
+                                        @{
+                                            var c = true;
+                                            foreach (objApplyReturnProduct box2 in (List<objApplyReturnProduct>)ViewBag.list_app_reproduct)
+                                            {
+                                                if (box2.TypeTab == "3")
+                                                {
+                                                    if (box.contentApply == box2.confirmChange)
+                                                    {
+                                                        <div>@box2.Conten</div>
+                                                        c = false;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    </td>
+                                    <td style="text-align:center">
+                                        @{
+                                            var n = true;
+                                            foreach (objApplyReturnProduct box2 in (List<objApplyReturnProduct>)ViewBag.list_app_reproduct)
+                                            {
+                                                if (box2.TypeTab == "3")
+                                                {
+                                                    if (box.contentApply == box2.confirmChange)
+                                                    {
+                                                        <input type="checkbox" class="form-check-input" name="checkDoiTra" value="@box.contentApply" checked>
+                                                        n = false;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            if (n)
+                                            {
+                                                <input type="checkbox" class="form-check-input" name="checkDoiTra" value="@box.contentApply">
+                                            }
+                                        }
+
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="box_tab_6">
+        <div class="row">
+            <div class="col-md-2">
+                <h5>
+                    THANH TOÁN
+                </h5>
+            </div>
+            <div class="col-md-10">
+                <table class="table table-bordered" id="table_thueke_thanhtoan">
+                    <thead>
+                        <tr>
+                            @*<th scope="col">Loại đơn hàng</th>*@
+                            <th scope="col">Kỳ thanh toán</th>
+                            <th scope="col">
+                                Vào ngày
+                            </th>
+                            <th scope="col">Và ngày</th>
+                            <th scope="col">Áp dụng cho</th>
+                            <th scope="col">Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.list_payment != null)
+                        {
+                            foreach (objPAYMENT box in (List<objPAYMENT>)ViewBag.list_payment)
+                            {
+                                if (box.TypeTab == "3")
+                                {
+                                    <tr id="row_5">
+                                        @*<td scope="row">
+                                                <select class="form-control" name="typeOrder" disabled>
+                                                    <option value="@box.TypeOrder">@box.TypeOrder</option>
+                                                </select>
+                                            </td>*@
+                                        <td>
+                                            <select class="form-control" name="paymentPeriod" disabled>
+                                                <option value="@box.PaymentPeriod">@box.PaymentPeriod</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="onDay" value="@box.OnDay" disabled />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="andDay" value="@box.AndDay" disabled />
+                                        </td>
+                                        <td style="text-align:left">
+                                            <select class="form-control" name="applyFor">
+                                                @if (ViewBag.list_ApDung != null)
+                                                {
+                                                    foreach (objCombox box2 in (List<objCombox>)ViewBag.list_ApDung)
+                                                    {
+                                                        if (@box2.Code == @box.ApplyFor)
+                                                        {
+                                                            <option value="@box2.Code">@box2.Name</option>
+                                                        }
+                                                    }
+                                                }
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="Content" value="@box.Content" disabled />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="box_tab_6">
+        <div class="row">
+            <div class="col-md-2">
+                <h5>
+                    HỢP TÁC KHÁC
+                </h5>
+            </div>
+            <div class="col-md-10">
+
+
+                @if (ViewBag.list_coo_other != null)
+                {
+                    foreach (objCooperationOther box in (List<objCooperationOther>)ViewBag.list_coo_other)
+                    {
+                        if (box.TypeTab == "3")
+                        {
+                            <div class="form-group row">
+                                <label for="textkho" class="col-sm-2 col-form-label">
+                                    Nội dung 1
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="cooperate_thueke_content_1" class="form-control" value="@box.content1" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="textkho" class="col-sm-2 col-form-label">
+                                    Nội dung 2
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="cooperate_thueke_content_2" class="form-control" value="@box.content2" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="textkho" class="col-sm-2 col-form-label">
+                                    Nội dung 3
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="cooperate_thueke_content_3" class="form-control" value="@box.content3" disabled />
+                                </div>
+                            </div>
+
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var list_line_bonus = @Html.Raw(Json.Encode(list_line_bonus));
+    var list_mkt_bonus = @Html.Raw(Json.Encode(list_mkt_bonus));
+    var list_brandBonus = @Html.Raw(Json.Encode(list_brandBonus));
+    var list_cusBonus = @Html.Raw(Json.Encode(list_cusBonus));
+    var list_ChiPhiVanChuyen = @Html.Raw(Json.Encode(list_ChiPhiVanChuyen));
+
+    var row_thuong_3 = 0;
+    var row_trand_3 = 0;
+    var row_thuonghieu_3 = 0;
+    var row_khachhang_3 = 0;
+    $(function () {
+        js_addRowThuong_3();
+        js_addRowTrade_3('ra');
+        js_addRowThuongHieu_3('ra');
+        js_addRowKhachHang_3('ra');
+    });
+
+    function js_addRowThuong_3(r) {
+
+
+        var i = 0;
+        list_line_bonus.forEach(function (row) {
+             if (row.TypeTab == "3") {
+                 i++;
+                 $("#table_thuong_3 tbody").append('<tr id="row_muaban_thuong_' + i + '"><td scope="row" style="text-align: center;"><input type="text" disabled name="bonusType" id="bonusType_' + i + '" class="form-control" value="' + row.BonusType + '"/></td><td><input   id="salesLevel" name="salesLevel"  disabled class="form-control" value="' + row.SalesLevel + '"/></td><td><input   id="salesLevelDen" name="salesLevelDen"  disabled class="form-control" value="' + row.SalesLevelDen + '"/></td><td><input type="text" disabled id="salesConditions" name="salesConditions" class="form-control"  value="' + row.SalesConditions + '"/></td><td><input type="text" disabled id="DKDSTinhThuong" name="DKDSTinhThuong" class="form-control"  value="' + row.DKDSTinhThuong + '"/></td><td><input type="text" disabled id="discountPercent" name="discountPercent" class="form-control" value="' + row.DiscountPercent +'" /></td><td><input type="text" disabled id="DiscountAmountNoVAT" name="DiscountAmountNoVAT" class="form-control" value="'+row.DiscountAmountNoVAT+'" /></td><td style="text-align: center;"><span>Truy thu thưởng nếu đạt doanh số lũy kế</span><input type="hidden" id="description" name="description" class="form-control" value="Truy thu thưởng nếu đạt doanh số lũy kế"/></td></tr>');
+             }
+        });
+
+    }
+
+    function js_addRowTrade_3(r) {
+
+        var i = 0;
+        list_mkt_bonus.forEach(function (row) {
+             if (row.TypeTab == "3") {
+                 i++;
+                 $("#table_trade_3 tbody").append('<tr id="row_thueke_trade3_' + i + '"><td scope="row" style="text-align: center;"><input type="text" disabled name="mktbonus_content_invest" id="mktbonus_content_invest_' + i + '" class="form-control" value="' + row.content_invest + '" /></td><td><input   disabled name="mktbonus_percent_invest" name="mktbonus_percent_invest" class="form-control" value="' + DoFormat(row.percent_invest) + '"/></td><td><input disabled   name="mktbonus_invest_value" class="form-control" value="' + row.invest_value + '"/></td><td><input disabled type="text" name="mktbonus_des" class="form-control" value="' + row.Description + '"/></td><td><input type="text" disabled name="cusbonus_percent_des" class="form-control" value="' + row.salesConditions + '"/></td></tr>');
+             }
+        });
+
+    }
+
+    function js_addRowThuongHieu_3(r) {
+
+        var i = 0;
+        list_brandBonus.forEach(function (row) {
+             if (row.TypeTab == "3") {
+                 i++;
+                 $("#table_thuonghieu_3 tbody").append('<tr id="row_muaban_thuonghieu3_' + i + '"><td scope="row" style="text-align: center;"><input type="text" disabled name="brandbonus_content_invest" id="brandbonus_content_invest_' + i + '" class="form-control" value="' + row.content_invest + '" /></td><td><input disabled   name="brandbonus_percent_invest" class="form-control" value="' + DoFormat(row.percent_invest) + '"/></td><td><input   disabled name="brandbonus_invest_value" class="form-control" value="' + row.invest_value + '" /></td><td><input disabled type="text" name="brandbonus_des" class="form-control" value="' + row.Description + '"/></td><td><input type="text" disabled name="cusbonus_percent_des" class="form-control" value="' + row.salesConditions + '"/></td></tr>');
+             }
+        });
+    }
+
+    function js_addRowKhachHang_3(r) {
+
+        var i = 0;
+        list_cusBonus.forEach(function (row) {
+             if (row.TypeTab == "3") {
+                i++;
+                 $("#table_khachhang_3 tbody").append('<tr id="row_thueke_khachhang3_' + i + '"><td scope="row" style="text-align: center;"><input type="text" disabled name="cusbonus_content_invest" id="cusbonus_content_invest_' + i + '" class="form-control" value="' + row.content_invest + '"/></td><td><input disabled   name="cusbonus_percent_invest" class="form-control" value="' + DoFormat(row.percent_invest) + '"/><td><input   disabled name="cusbonus_invest_value" class="form-control" value="' + row.invest_value + '"/></td><td><input type="text" disabled name="cusbonus_percent_des" class="form-control" value="' + row.Description + '"/></td><td><input type="text" disabled name="cusbonus_percent_des" class="form-control" value="' + row.salesConditions + '"/></td></tr>');
+
+             }
+        });
+    }
+
+    function deleteRowThuong3(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("table_thuong_3").deleteRow(ri);
+    }
+
+    function deleteRowTrand_3(r) {
+        var ri3 = r.parentNode.parentNode.rowIndex;
+        document.getElementById("table_trade_3").deleteRow(ri3);
+    }
+
+    function deleteRowThuongHieu_3(r) {
+        var ri3 = r.parentNode.parentNode.rowIndex;
+        document.getElementById("table_thuonghieu_3").deleteRow(ri3);
+    }
+
+    function deleteRowKhachHang_3(r) {
+        var ri3 = r.parentNode.parentNode.rowIndex;
+        document.getElementById("table_khachhang_3").deleteRow(ri3);
+    }
+    function DoFormat(myNumber) {
+        var s = myNumber;
+        if (s.endsWith("00")) {
+            if (s == "0.00") {
+                return "";
+            }
+            return parseInt(myNumber);
+        }
+        else {
+            return s;
+        }
+    }
+</script>
+
+

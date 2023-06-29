@@ -1,0 +1,1966 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Công nợ ký gửi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #form_search {
+        /* position: fixed; */
+        padding-bottom: 10px;
+        top: 68px;
+        z-index: 1;
+        background: #f3f3f3;
+        position: relative;
+    }
+    /* #form_search {
+        position: fixed;
+        padding-bottom: 10px;
+        top: 65px;
+        z-index: 1;
+        background: #f3f3f3;
+    }*/
+
+    .card-body {
+        width: 90%;
+        margin-left: 5%;
+        margin-top: 0px;
+    }
+
+    .wp_footer {
+        margin-left: 5%;
+    }
+
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 5vh;
+        height: 5vh;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @@-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+
+    .c1 {
+        width: 15%
+    }
+
+    .c2 {
+        width: 19%
+    }
+
+    .c3 {
+        width: 15%
+    }
+
+    .c4 {
+        width: 25%;
+    }
+
+    .c5 {
+        width: 10%;
+        padding-right: 0px;
+        float: right;
+    }
+
+    i {
+        margin-right: 5px;
+    }
+
+    .right {
+        text-align: right;
+    }
+
+    .btn-primary {
+        color: #fff !important;
+        background-color: #337ab7 !important;
+        border-color: #2e6da4 !important;
+    }
+
+    #content_table table {
+        width: 100%;
+        /*border-collapse: collapse;*/
+    }
+
+    th,
+    td {
+        padding: 8px;
+    }
+
+    th {
+        /*text-align: left;*/
+        background: #c4c4c4;
+        position: sticky;
+        top: 0px;
+    }
+
+    #content_table {
+        width: 100%;
+        height: 600px;
+        overflow-y: auto;
+    }
+
+    .table-bordered {
+        border: 0px solid #ddd !important;
+    }
+
+    #form_search .col-md-12 {
+        margin-bottom: 1px !important;
+    }
+
+    #form_search {
+        margin-bottom: 7px;
+    }
+
+    #L4L_DT {
+        cursor: pointer;
+    }
+
+    .btn-info {
+        padding: 4px !important;
+    }
+
+    #form_search .form-control {
+        height: 25px !important;
+    }
+
+    .form-control {
+        height: 25px !important;
+        padding: 0px;
+    }
+
+    #tbl_Item_length {
+        position: absolute;
+        bottom: 0px;
+        left: 227px;
+    }
+</style>
+<style>
+    input, select, textarea {
+        max-width: 280px;
+    }
+
+    .table-responsive {
+        min-height: 0.01%;
+        overflow-x: hidden;
+    }
+
+    .dropdown.bootstrap-select.form-control.bs3.disabled {
+        background: #f3f3f3 !important;
+    }
+
+    button.btn.dropdown-toggle.btn-default {
+        padding: 3px 10px 2px !important;
+        font-size: 12px;
+        width: 102%;
+    }
+
+    .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+        color: #59595B;
+    }
+
+    .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+        overflow: hidden;
+        height: 17px;
+        padding: 0px;
+    }
+
+    .bootstrap-select > select {
+        position: absolute !important;
+        bottom: 0;
+        left: 50%;
+        display: block !important;
+        width: .5px !important;
+        height: 100% !important;
+        padding: 0 !important;
+        opacity: 0 !important;
+        border: none;
+        z-index: 0 !important;
+    }
+
+    .btn-info {
+        padding: 4px !important;
+        text-align: left;
+        max-width: 150px;
+        border: none;
+    }
+
+    #tbl_Item {
+        margin-top: 0px;
+        font-size: 12px;
+    }
+
+    .btn-info:hover {
+        color: #fff;
+        background-color: #868686;
+        border-color: #868686;
+    }
+
+    .btn:hover, .btn:focus, .btn.focus {
+        color: #fff;
+        background-color: #868686;
+        border-color: #868686;
+    }
+
+    .wp_hearder {
+        padding: 5px 0px;
+        background-color: #868686;
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        height: 65px !important;
+        width: 100%;
+    }
+
+    .table thead {
+        height: 50px !important;
+    }
+
+    .btn_search {
+        background-color: #868686;
+        color: #fff;
+        width: 100%;
+        height: 23px;
+        margin-bottom: 4px;
+        padding: 2px 6px !important;
+        text-align: left;
+        font-size: 12px;
+    }
+
+    .wp_table {
+        padding-top: 134px;
+    }
+
+
+    body {
+        font-size: 12px;
+    }
+
+    .wp_table {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    table.dataTable.no-footer {
+        border-bottom: 1px solid #bdbdbd !important;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 14px;
+    }
+
+        .text_home a {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+
+
+    table.dataTable tbody th, table.dataTable tbody td {
+        padding: 3px 10px !important;
+    }
+
+    #tbl_Item tbody {
+        background-color: #ffff;
+    }
+
+    #tbl_Item thead th {
+        font-size: 12px;
+        text-align: left;
+        /*height: 50px;*/
+        vertical-align: top;
+    }
+
+    #tbl_Item thead {
+        background-color: #c3c3c3;
+    }
+
+        #tbl_Item thead span {
+            color: #e45050;
+            font-size: 11px;
+        }
+
+    .content_table {
+        padding-bottom: 72px;
+    }
+
+    #tbl_Item_length {
+        position: absolute;
+        bottom: 0px;
+        left: 182px;
+    }
+
+    .btn_detail {
+        padding: 1px 1px;
+        color: #525252;
+        font-size: 11px;
+        border: 0px;
+    }
+
+    table.dataTable thead th, table.dataTable thead td {
+        padding: 1px 5px !important;
+        border-bottom: 1px solid #f1f1f1 !important;
+        font-size: 11px !important;
+    }
+
+    .table > tr > td {
+        padding: 1px 5px !important;
+        border-bottom: 1px solid #f1f1f1 !important;
+        font-size: 11px !important;
+    }
+
+    .container_1 {
+        width: 95% !important;
+        margin: 0 auto !important;
+    }
+
+    .rank2 {
+        padding-bottom: 5px;
+        width: 173px;
+        padding-left: 14px;
+        padding-right: 6px;
+    }
+
+    .container1 {
+        width: 1300px;
+        margin: auto;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        border: 1px solid black;
+        width: 200px;
+    }
+
+    .hack1 {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .hack2 {
+        display: table-cell;
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    .col {
+        width: 10%
+    }
+
+    .modal tbody tr td {
+        text-align: center
+    }
+
+    .btn-default {
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+
+    .dropdown.bootstrap-select.form-control {
+        padding: 0px;
+        margin: 0px;
+        background: none;
+        width: 280px;
+        max-width: 287px;
+        padding-left: 0px !important;
+        border: none !important;
+    }
+
+    div#tbl_Item_length {
+        display: none;
+    }
+
+    div#tbl_Item_info {
+        display: none;
+    }
+
+    div#tbl_Item_paginate {
+        display: none;
+    }
+</style>
+
+@Html.Partial("~/Views/Shared/_sidebar_3.cshtml")
+<div class="header_vender_1">
+    @Html.Partial("~/Views/Shared/_header_home.cshtml")
+</div>
+
+<div class="container01">
+    <div class="row" id="form_search">
+        <div style="width:90%; margin-left:5%; margin-top:10px">
+            <div class="col-md-12">
+                <div class="col-md-1 c1">
+                    <label style="">Họ và tên:</label>
+                </div>
+                <div class="col-md-1 c2">
+                    <label id="HoVaTen" class="col-form-label">@Session["Admin"]</label>
+                </div>
+
+                <div class="col-md-1 c3"><label> &nbsp; </label></div>
+                <div class="col-md-1 c4">
+
+                </div>
+                <div class=" col-md-1 c5">
+                    <a style=" text-align: center; max-width: 280px;" onclick="fnExport()" class="btn btn-secondary btn_search"><i class="fa fa-forward" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Export Exel </a>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-1 c1">
+                    <label style="">Ngày lập đề nghị:</label>
+                </div>
+                <div class="col-md-1 c2">
+                    <label id="NgayLapDeNghi" class="col-form-label">@DateTime.Now.ToString("dd-MM-yyyy")</label>
+                </div>
+
+                <div class="col-md-1 c3"><label> &nbsp; </label></div>
+                <div class="col-md-1 c4">
+
+                </div>
+                <div class=" col-md-1 c5">
+                    <input type="hidden" name="ShowDetail" id="ShowDetail" value="false" />
+                    <a style=" text-align: center; max-width: 280px;" onclick="fn_save()" id="XacNhan" class="btn btn-secondary btn_search"><i class="fa fa-forward" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Xác nhận </a>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-1 c1">
+                    <label style="">Tên NCC <span style="color:red">*</span> </label>
+                </div>
+                <div class="col-md-1 c2">
+                    @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                    {
+                        <script>
+                            $(function () {
+                                js_searchbox_NCC();
+                                js_GetList();
+                            });
+                        </script>
+                        <input type="text" class="form-control" id="VendorNo" name="VendorNo" style="height: 25px !important; max-width: 288px; padding-left: 7px !important; " value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                    }
+                    else
+                    {
+                        string FullQuyen = "B88888,b00224,B10926,B14046,B00004,B13881";
+                        string[] strArray = FullQuyen.ToString().Split(new char[] { ',' });
+                        bool Show = false;
+                        for (int i = 0; i < strArray.Length; i++)
+                        {
+                            if (strArray[i].ToString().ToUpper() == Session["uid"].ToString().ToUpper())
+                            {
+                                Show = true;
+                            }
+                        }
+                        if (Show == true)
+                        {
+                            <div id="NC">
+                                <select id="VendorNo" name="VendorNo" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox_NCC(); js_searchbox();">
+                                    @if (ViewBag.list_vendor != null)
+                                    {
+                                        <option value="">--- Chọn NCC ---</option>
+                                        foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                        {
+                                            <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <script>
+                                setTimeout(function () {
+                                    var NCC = $('#NCC').val();
+                                    if (NCC != "") {
+                                        $('#VendorNo').val(NCC).trigger('change');
+                                        $('#VendorNo').selectpicker('refresh');
+                                    }
+                                    /* js_searchbox_NCC();*/
+                                }, 2000);</script>
+                        }
+                        else
+                        {
+                            <input type="text" class="form-control" id="VendorNo" name="VendorNo" value="" disabled>
+                        }
+                    }
+                </div>
+
+                <div class="col-md-1 c3"><label> &nbsp; </label></div>
+                <div class="col-md-1 c4">
+
+                </div>
+                <div class=" col-md-1 c5">
+                    <a href="/Report/ReportDeposit" style=" text-align: center; max-width: 280px;" class="btn btn-secondary btn_search"><i class="fa fa-forward" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Quay lại</a>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-1 c1">
+                    <label for="KyTinhCongNo">Kỳ tính công nợ <span style="color:red">*</span> :</label>
+                </div>
+                <div class="col-md-1 c2">
+                    <select class="form-control selectpicker" id="Nam" onchange="js_searchbox();" style="width: 280px; float: left; margin-left: 10px; height: 25px !important ">
+                        @Html.Raw(ViewBag.ShowNam)
+                    </select>
+                </div>
+                <div class="col-md-1 c3">
+                    <select class="form-control " id="KyTinhCongNo" onchange="js_searchbox(); " style="width: 280px; float: left; margin-left: 10px; height: 25px !important ">
+                        <option value="">--- Chọn ngày ---</option>
+                    </select>
+                </div>
+                <div class="col-md-1 c4">
+                    <select class="form-control " id="Thang" onchange="js_searchbox(); " style="width: 280px; float: left; margin-left: 82px; height: 25px !important ">
+                        <option value="">--- Chọn tháng ---</option>
+                    </select>
+                </div>
+                <div class=" col-md-1 c5">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-1 c1">
+                    <label style="">Điều khoản thanh toán (TT):</label>
+                </div>
+                <div class="col-md-1 c2" style="width:60%">
+                    <label id="DieuKhoanThanhToan" class=" col-form-label font-600">-- Show điều khoản thanh toán --</label>
+                </div>
+                <div class="col-md-1 c3">
+                </div>
+                <div class="col-md-1 c4">
+                </div>
+                <div class=" col-md-1 c5">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-1 c1">
+                    <label style="">Điều khoản thanh toán (PD):</label>
+                </div>
+                <div class="col-md-1 c2" style="width:60%">
+                    <label id="DieuKhoanThanhToanPaymentDate" class=" col-form-label font-600">-- Show điều khoản thanh toán --</label>
+                </div>
+                <div class="col-md-1 c3">
+                </div>
+                <div class="col-md-1 c4">
+                </div>
+                <div class=" col-md-1 c5">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-1 c1">
+                    <label style="">Hạn thanh toán kỳ này:</label>
+                </div>
+                <div class="col-md-1 c2" style="width:60%">
+                    <label id="HanThanhToanKyNay" class=" col-form-label font-600">-- Show hạn thanh toán kỳ này --</label>
+                </div>
+                <div class="col-md-1 c3">
+                </div>
+                <div class="col-md-1 c4">
+                </div>
+                <div class=" col-md-1 c5">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row_2" style="margin-top: 73px">
+        <div class="col-12 stretch-card pl-0 pr-0">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="table-responsive" id="div-content">
+                        @Html.Partial("~/Views/Report/Partial/__ReportDepositDetail.cshtml")
+                    </div>
+                    <div style=" height: 0px;"></div>
+                    <table id="tbl_Item_NewsMB" class="table table-bordered tb_detail" style=" display:none">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="text-align: left; width: 300px; max-width: 300px; overflow: hidden; white-space: nowrap ">
+                                    Nội dung
+                                </th>
+                                <th scope="col" style="text-align: left; ">
+                                    Số tiền BBM
+                                </th>
+                                <th scope="col" style="text-align: left; ">
+                                    Số tiền HĐ
+                                </th>
+                                <th scope="col">
+                                    Số HĐ
+                                </th>
+                                <th scope="col" style="text-align: left;">
+                                    Ngày HĐ
+                                </th>
+                                <th scope="col" style="text-align: left; width: 100px; max-width: 100px; overflow: hidden; white-space: nowrap ">
+                                    Ghi chú
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr style="height: 20px; display: none" id="SumTongTienMB">
+                                <td style="text-align: left;border-top: none; border-top: none; width: 372px "><span style="font-weight: 500; margin-left: 10px; ">TỔNG CK Miền Bắc</span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class="SumTongTienMB"></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class="SumTongTienMB"></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                            </tr>
+                            <tr style="height:20px; display:none " id="SumTongTienMBALL">
+                                <td style="text-align: left; width: 372px "><span style="font-weight: 500; margin-left: 10px; ">TỔNG BBM TT (Miền Bắc) </span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class="SumTongTienMBAll"></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class="SumTongTienMBAll"></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <table id="tbl_Item_NewsMN" class="table table-bordered tb_detail" style=" display:none">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="text-align: left; width: 300px; max-width: 300px; overflow: hidden; white-space: nowrap ">
+                                    Nội dung
+                                </th>
+                                <th scope="col" style="text-align: left; ">
+                                    Số tiền BBM
+                                </th>
+                                <th scope="col" style="text-align: left; ">
+                                    Số tiền HĐ
+                                </th>
+                                <th scope="col">
+                                    Số HĐ
+                                </th>
+                                <th scope="col" style="text-align: left;">
+                                    Ngày HĐ
+                                </th>
+                                <th scope="col" style="text-align: left; width: 100px; max-width: 100px; overflow: hidden; white-space: nowrap ">
+                                    Ghi chú
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr style="height: 20px; display: none" id="SumTongTienMN">
+                                <td style="text-align: left;border-top: none; border-top: none; width: 372px "><span style="font-weight: 500; margin-left: 10px; ">TỔNG CK Miền Nam</span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class="SumTongTienMN"></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class="SumTongTienMN"></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                            </tr>
+                            <tr style="height: 20px; display: none" id="SumTongTienMNALL">
+                                <td style="text-align: left; width: 372px "><span style="font-weight: 500; margin-left: 10px; ">TỔNG BBM TT (Miền Nam) </span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class="SumTongTienMNAll"></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class="SumTongTienMNAll"></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                            </tr>
+                            <tr style="height: 20px; display: none" id="SumTongTienHaiMien">
+                                <td style="text-align: left; width: 372px "><span style="font-weight: 500; margin-left: 10px; ">TỔNG CỘNG PHẢI THANH TOÁN </span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class="SumTongTienHaiMien"></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class="SumTongTienHaiMien"></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                                <td style="text-align: right; " class="TongTien"><span style=" font-weight: 700;" class=""></span></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="width: 90% ; ">
+    <div class="col-sm-12">
+        <div class="col-sm-6" style=" margin: 0px; padding: 0px; ">
+            <div class="tongchuky" id="ChuKyBBM" style=" float: left; text-align: left">
+            </div>
+        </div>
+        <div class="col-sm-6" style="float: right; text-align: right;">
+            <div class="tongchuky" id="ChuKyNCC" style=" float:right; text-align:left">
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tongchuky {
+        width: auto;
+        text-align: center;
+        padding-bottom: 20px;
+    }
+
+    .chukyhople {
+        border: 3px solid #bed6c5;
+        padding: 15px;
+        background-color: #e6f7e7;
+        color: red;
+        font-size: 14px;
+        line-height: 22px;
+        width: auto;
+        font-weight: 600;
+        margin-top: 17px;
+        background-image: url(/Image/success-icon-10.png);
+        background-size: 18%;
+        background-repeat: no-repeat;
+        background-position: center;
+        font-family: fangsong;
+    }
+
+    .NgbanHang {
+        font-weight: bold;
+        display: none
+    }
+
+    .Ky {
+        font-style: italic;
+        display: none
+    }
+</style>
+<input type="hidden" name="NCC" id="NCC" value="@ViewBag.NCC" />
+<input type="hidden" name="ThangView" id="ThangView" value="@ViewBag.Thang" />
+<script>
+    var SourceOrder = [];
+    var SourceMienBac = [];
+    var SourceMienNam = [];
+
+    function fnExport() {
+        window.location = '/Report/ExportExcel_ReportDeposit';// OKK
+        return true;
+    }
+
+    $(function () {
+        $('#txtHead').html("Công nợ ký gửi");
+        $('#f_dev').html("");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+
+        $('#Nam').val(@ViewBag.Nam);
+
+
+        var url = new URL(window.location);
+        var ncc = url.searchParams.get("NCC");
+        if (ncc != null) {
+            $("#VendorNo").prop('disabled', true);
+            $("#KyTinhCongNo").prop('disabled', true);
+            $("#Nam").prop('disabled', true);
+            $('#Nam').selectpicker('refresh');
+            $('#VendorNo').selectpicker('refresh');
+        }
+    });
+
+    function js_searchbox() {
+        debugger;
+        js_GetList();
+        js_GetListDetail();
+
+    }
+
+    function js_ReloadTable() {
+        XaNhanChuKy();
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[-1], ['ALL']],
+            //columnDefs: [
+            //    //{ 'targets': 0, 'searchable': false, 'orderable': false },
+            //],
+            order: [[0, "asc"]],
+            "searching": false,
+            //fixedHeader: {
+            //    headerOffset: 275
+            //},
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+        
+    }
+
+    function js_GetList() {
+        var KyTinhCongNo_View='@ViewBag.KyTinhCongNo';
+        var Nam_View='@ViewBag.Nam';
+        var Thang_View = '@ViewBag.Thang';
+        var KyTinhCongNoNew='@ViewBag.KyTinhCongNo';
+        var VendorNo = fomart_split($('#VendorNo').val().trim(), 0);
+        var KyTinhCongNo = $('#KyTinhCongNo').val();
+        var Nam = $('#Nam').val();
+        var Thang = $('#Thang').val();
+
+        if (KyTinhCongNoNew == "" && Nam_View == "" && Thang_View == "" && VendorNo.length > 0) {
+           // alert('1');
+            $.ajax({
+                url: '/Report/GetList_ReportDepositDetail',// OKK
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, KyTinhCongNo: KyTinhCongNo, Nam: Nam, Thang: Thang }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    $("#div-content").find('tbody').empty();
+                    $('#div-content').html(data);
+                    js_ReloadTable();
+                    //if (KyTinhCongNo_View != "" && Nam_View != "" && Thang_View != "") {
+                    //    ShowAll_TradingTemMB_Edit();
+                    //    ShowAll_TradingTemMN_Edit();
+                    //}
+                    //else {
+                    //    ShowAll_TradingTemMB();
+                    //    ShowAll_TradingTemMN();
+                    //}
+
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+    function js_GetListDetail() {
+
+        var Thang = $('#ThangView').val();
+        var KyTinhCongNo = '@ViewBag.KyTinhCongNo';
+        var Nam = '@ViewBag.Nam';
+        var VendorNo = fomart_split($('#VendorNo').val().trim(), 0);
+        if (VendorNo.length > 0 && Nam.length > 0 && (KyTinhCongNo.length > 0 || Thang.length > 0)) {
+           // alert('2');
+            $.ajax({
+                url: '/Report/GetList_ReportDepositDetail',// OKK
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, KyTinhCongNo: KyTinhCongNo, Nam: Nam, Thang: Thang}),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    $("#div-content").find('tbody').empty();
+                    $('#div-content').html(data);
+                    js_ReloadTable();
+
+                    //if (KyTinhCongNo_View != "" && Nam_View != "" && Thang_View != "") {
+                    //    ShowAll_TradingTemMB_Edit();
+                    //    ShowAll_TradingTemMN_Edit();
+                    //} else {
+                    //    ShowAll_TradingTemMB();
+                    //    ShowAll_TradingTemMN();
+                    //}
+
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+    function js_searchbox_NCC() {
+        //  $('#NgayLapDeNghi').html('');
+        $('#tbl_Item_NewsMB tbody').empty();
+        //$('#tbl_Item_NewsMB tfoot').hide();
+        $('#DieuKhoanThanhToan').html('');
+        var VendorNo = fomart_split($('#VendorNo').val().trim(), 0);
+        var KyTinhCongNo = $('#KyTinhCongNo').val();
+        var Nam = $('#Nam').val();
+        $('#NgayLapDeNghi').html('@DateTime.Now.ToString("dd-MM-yyyy")');
+        $("#SumTongTienMB").hide();
+        $("#SumTongTienMBALL").hide();
+        $('.SumTongTienMB').html('');
+        if (VendorNo.length > 0 && Nam.length > 0) {
+            $.ajax({
+                url: '/Report/SP_ReportDeposit_GET_INFO_VENDOR',//OOKK
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, KyTinhCongNo: KyTinhCongNo, Nam: Nam }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        //$('#NgayLapDeNghi').html(row[0]['Code']);
+                        $('#DieuKhoanThanhToan').html(row[0]['DieuKhoanThanhToan']);
+                        $('#HanThanhToanKyNay').html(row[0]['HanThanhToanKyNay']);
+                    }
+                },
+                error: function () {
+                }
+            });
+        }
+        if (VendorNo.length > 0) {
+            $.ajax({
+                url: '/Report/GetList_ReportDeposit_ApDungCho',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#DieuKhoanThanhToanPaymentDate').html(row[0]['Name']);
+                    }
+                },
+                error: function () {
+                }
+            });
+        }
+
+        if (VendorNo.length > 0 && Nam.length > 0) {
+            var cc='@ViewBag.KyTinhCongNo';
+            $.ajax({
+                url: '/Report/GetList_ReportDeposit_KyTinhCongNo',// OKK
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo,Nam: Nam }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        $('#KyTinhCongNo').empty();
+                        $('#KyTinhCongNo').append('<option value="">-- Chọn ngày --</option>');
+                        for (i in row) {
+                            if (cc == row[i].Code) {
+                                $('#KyTinhCongNo').append('<option selected value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                            } else {
+                                $('#KyTinhCongNo').append('<option value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                            }
+
+                        }
+                    }
+                },
+                error: function () {
+                }
+            });
+        }
+        if (VendorNo.length > 0 && Nam.length > 0) {
+            var Thang = '@ViewBag.Thang';
+                $.ajax({
+                    url: '/Report/GetList_ReportDeposit_NgayBan',// OKK
+                    type: 'POST',
+                    data: JSON.stringify({ VendorNo: VendorNo, Nam: Nam }),
+                    contentType: 'application/json, charset=utf-8',
+                    beforeSend: function () {
+                    },
+                    success: function (data) {
+                        var row = JSON.parse(data);
+                        if (row != null) {
+                            $('#Thang').empty();
+                            $('#Thang').append('<option value="">-- Chọn tháng --</option>');
+                            for (i in row) {
+                                if (Thang == row[i].Code) {
+                                    $('#Thang').append('<option selected value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                                } else {
+                                    $('#Thang').append('<option value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                                }
+                            }
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+        }
+        setTimeout(function () { js_GetListDetail(); }, 1000);
+    }
+
+    function XaNhanChuKy() {
+        var VendorNo = fomart_split($('#VendorNo').val().trim(), 0);
+        var KyTinhCongNo = $('#KyTinhCongNo').val();
+        var Nam = $('#Nam').val();
+        $('#ChuKyBBM').html('');
+        $('#ChuKyNCC').html('');
+        $("#XacNhan").css("pointer-events", "initial");
+        $("#XacNhan").css("opacity", "1");
+        $('#NgayLapDeNghi').html('@DateTime.Now.ToString("dd-MM-yyyy")');
+        $('#ShowDetail').val('false');
+
+        if (VendorNo.length > 0 && KyTinhCongNo.length > 0) {
+            $.ajax({
+                url: '/Report/GetList_ReportDeposit_XacNhanNCC',// OKK
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, KyTinhCongNo: KyTinhCongNo, Nam: Nam }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        var chuoi = "";
+                        chuoi += " <div class=\"chukyhople\" style=\" float: right; text - align: left\">";
+                        chuoi += " <div class=\"infovalid\">Ký bởi: " + row[0]['Name'] + "</div>";
+                        chuoi += "<div class=\"infovalid\">Ký ngày: " + row[0]['Code'] + "</div>";
+                        chuoi += " </div>";
+                        $('#ChuKyNCC').html(chuoi);
+                        $('#NgayLapDeNghi').html(row[0]['NgayLapDeNghi']);
+
+                        $("#XacNhan").css("pointer-events", "none");
+                        $("#XacNhan").css("opacity", "0.6");
+                        $('#ShowDetail').val('True');
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+
+        if (VendorNo.length > 0 && KyTinhCongNo.length > 0) {
+            $.ajax({
+                url: '/Report/GetList_ReportDeposit_XacNhanBBM',// OKK
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, KyTinhCongNo: KyTinhCongNo, Nam: Nam }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        var chuoi = "";
+                        chuoi += " <div class=\"chukyhople\" style=\" float: right; text - align: left\">";
+                        chuoi += " <div class=\"infovalid\">Ký bởi: CÔNG TY CỔ PHẦN BIBOMART TM</div>";
+                        chuoi += "<div class=\"infovalid\">Ký ngày: " + row[0]['Code'] + "</div>";
+                        chuoi += " </div>";
+                        $('#ChuKyBBM').html(chuoi);
+                       // $('#ShowDetail').val('True');
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+
+        setTimeout(function () {
+            if ($('#ShowDetail').val() == "True") {
+                ShowAll_TradingTemMB_Edit();
+                ShowAll_TradingTemMN_Edit();
+               //alert('True');
+            }
+            else {
+               // alert('flasse');
+                ShowAll_TradingTemMB();
+                ShowAll_TradingTemMN();
+            }
+        }, 2000);
+    }
+
+    function getTableDataDetail() {
+        var KyCongNo = $('#KyTinhCongNo').val();
+        var VendorNo = fomart_split($('#VendorNo').val().trim(), 0);
+        let trs = $("#tbl_Item tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+
+                let GhiChu = String($('#' + tr.id + ' input[name="GhiChu"]').val()).trim();
+                let ItemNo = String($('#' + tr.id + ' .MaHang').html()).trim();
+                let Ngayban = String($('#' + tr.id + ' .Ngayban').html()).trim();
+                //let PaymentDate = String($('#' + tr.id + ' .PaymentDate').html()).trim();
+                if (ItemNo.length > 0) {
+                    SourceOrder.push({
+                        "MaNCC": VendorNo,
+                        "ItemNo": ItemNo,
+                        "GhiChu": GhiChu,
+                        "KyTinhCongNo": KyCongNo,
+                        "Ngayban": Ngayban,
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableData_MienBac() {
+        SourceMienBac = [];
+        var MaNCC = fomart_split($('#VendorNo').val().trim(), 0);
+        var KyCongNo = $('#KyTinhCongNo').val();
+        var Nam = $('#Nam').val();
+
+        let trs = $("#tbl_Item_NewsMB tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let Tieude = String($('#' + tr.id + ' .Tieude').html()).trim();
+                let Total = String($('#' + tr.id + ' .Tong').html()).trim().replaceAll(",", "");
+                let SoHD = String($('#' + tr.id + ' input[name="SoHD"]').val()).trim();
+                let NgayHD = String($('#' + tr.id + ' input[name="NgayHD"]').val()).trim();
+                let GhiChu = String($('#' + tr.id + ' input[name="GhiChu"]').val()).trim();
+
+                if (Total.length > 0) {
+                    SourceMienBac.push({
+                        "MaNCC": MaNCC,
+                        "Nam": Nam,
+                        "KyCongNo": KyCongNo,
+
+                        "Tieude": Tieude,
+                        "Total": Total,
+                        "SoHD": SoHD,
+                        "NgayHD": NgayHD,
+                        "GhiChu": GhiChu,
+                        "TypeBy_NCC_BBM": "NCC",
+                        "TypeMien": "MienBac"
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableData_MienNam() {
+        SourceMienNam = [];
+        var MaNCC = fomart_split($('#VendorNo').val().trim(), 0);
+        var KyCongNo = $('#KyTinhCongNo').val();
+        var Nam = $('#Nam').val();
+
+        let trs = $("#tbl_Item_NewsMN tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let Tieude = String($('#' + tr.id + ' .Tieude').html()).trim();
+                let Total = String($('#' + tr.id + ' .Tong').html()).trim().replaceAll(",", "");
+                let SoHD = String($('#' + tr.id + ' input[name="SoHD"]').val()).trim();
+                let NgayHD = String($('#' + tr.id + ' input[name="NgayHD"]').val()).trim();
+                let GhiChu = String($('#' + tr.id + ' input[name="GhiChu"]').val()).trim();
+
+                if (Total.length > 0) {
+                    SourceMienNam.push({
+                        "MaNCC": MaNCC,
+                        "Nam": Nam,
+                        "KyCongNo": KyCongNo,
+
+                        "Tieude": Tieude,
+                        "Total": Total,
+                        "SoHD": SoHD,
+                        "NgayHD": NgayHD,
+                        "GhiChu": GhiChu,
+                        "TypeBy_NCC_BBM": "NCC",
+                        "TypeMien": "MienNam"
+                    });
+                }
+            });
+        }
+    }
+
+    function fn_save() {
+        if (
+            $('#VendorNo').val().length == 0 || ($('#Thang').val().length == 0 && $('#KyTinhCongNo').val().length == 0) || $('#Nam').val().length == 0
+        ) {
+            alert('Vui lòng chọn bộ lọc.');
+            return;
+        }
+
+        getTableData_MienBac();
+        getTableData_MienNam();
+        getTableDataDetail();
+        var obj = {};
+        obj.SourceOrder = JSON.stringify(SourceOrder);
+        obj.SourceMienBac = JSON.stringify(SourceMienBac);
+        obj.SourceMienNam = JSON.stringify(SourceMienNam);
+
+        //console.log(JSON.stringify({ obj }));
+        console.log(JSON.stringify({ SourceMienBac }));
+        console.log(JSON.stringify({ SourceMienNam }));
+
+        if (SourceOrder.length > 0) {
+            $.ajax({
+                url: '/Report/Save_ReportDeposit_Header_XacNhan_NCC',// OOK
+                type: 'POST',
+                data: JSON.stringify(obj),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    if (data.RespId == 0) {
+                        jAlert(data.RespMsg, 'Thông báo', (r) => {
+                            window.location.href = '/Report/ReportDeposit';
+                        });
+                    } else {
+                        jAlert(data.RespMsg, 'Thông báo', (r) => {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+        }
+        else {
+            jAlert('Có lỗi xảy ra, Vui lòng kiểm tra lại.', 'Thông báo');
+        }
+    }
+
+    function ShowAll_TradingTemMB() {
+        $("#SumTongTienMB").hide();
+        $("#SumTongTienMBALL").hide();
+        $('.SumTongTienMB').html('');
+        $('#tbl_Item_NewsMB tbody').empty();
+
+        var VendorNo = fomart_split($('#VendorNo').val().trim(), 0);
+        var KyTinhCongNo = $('#KyTinhCongNo').val();
+        var SumAmountMB = $('#SumAmountMB').html();
+        var MinPostingDate = $('#MinPostingDate').html();
+        var MaxMinPostingDate = $('#MaxMinPostingDate').html();
+
+        var chuoi = "";
+        if (VendorNo.length > 0 && SumAmountMB != '' && ($('#KyTinhCongNo').val().length > 0 || $('#Thang').val().length >  0)) {
+
+            //CHIẾT KHẤU
+            $.ajax({
+                url: '/Report/SP_TRADTERM_LIST_DISCOUNT_SALES_ReportDeposit_CongNo',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVAT: SumAmountMB, SumDoanhSo: SumAmountMB }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 100;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Row1_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMB tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            //THƯỞNG
+            // 1.1 Đạt chỉ tiêu tối thiểu
+            // -  % thưởng <> 0  and  Sum of Doanh số > “Mức DS từ” = Sum of Doanh số * % thương
+            // - Giá trị thưởng <> 0  = Sum of Doanh số > “Mức DS từ” = Giá trị thưởng
+            $.ajax({
+                url: '/Report/SP_TRADTERM_LIST_LINE_BONUS_New_KyGui_MuaBan_01',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVAT: SumAmountMB, SumDoanhSo: SumAmountMB }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 100;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Row2_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMB tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            //2:  Thưởng tháng, Quý, Năm
+            //- % thưởng <> 0 and  “Mức DS đến” > Sum of Doanh số tháng > “Mức DS từ” = Sum of Doanh số tháng - “Mức DS từ” * % thưởng
+            //- % thưởng <> 0 and  Sum of Doanh số tháng < “Mức DS từ” = 0
+            //- % thưởng <> 0 and  Sum of Doanh số tháng > “Mức DS đến” = Sum of Doanh số tháng - “Mức DS đến” * % thưởng
+            //- Giá trị thưởng <> 0 and  Sum of Doanh số tháng > “Mức DS từ” = Giá trị thưởng
+
+            $.ajax({
+                url: '/Report/SP_TRADTERM_LIST_LINE_BONUS_New_KyGui_MuaBan_02',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVATDSThang: SumAmountMB, SumDoanhSoDSThang: SumAmountMB }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 100;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Row3_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMB tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            //TRADE MARKETING
+            $.ajax({
+                url: '/Report/GetList_Debtpurchase_TRADEMARKETING',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVAT: SumAmountMB, SumDoanhSo: SumAmountMB }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 100;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Row4_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+
+                        }
+                        $('#tbl_Item_NewsMB tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            //PhatTrienThuongHieu
+            $.ajax({
+                url: '/Report/GetList_Debtpurchase_PhatTrienThuongHieu',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVAT: SumAmountMB, SumDoanhSo: SumAmountMB }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 200;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Row5_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMB tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            //PhatTrienKhachHang
+            $.ajax({
+                url: '/Report/GetList_Debtpurchase_PhatTrienKhachHang',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVAT: SumAmountMB, SumDoanhSo: SumAmountMB }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 300;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Row6_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMB tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            //ChiPhivanHanh
+            $.ajax({
+                url: '/Report/GetList_Debtpurchase_ChiPhivanHanh',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVAT: SumAmountMB, SumDoanhSo: SumAmountMB, MinPostingDate: MinPostingDate, MaxMinPostingDate: MaxMinPostingDate }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 400;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Row7_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMB tbody').html(chuoi);
+
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            $('#tbl_Item_NewsMB').show();
+            setTimeout(function () {
+                GetTotal_CongNoMB();
+            }, 2000);
+        }
+        else {
+            $('#tbl_Item_NewsMB tbody').empty();
+            GetTotal_CongNoMB();
+        }
+    }
+
+    function ShowAll_TradingTemMN() {
+        $("#SumTongTienMN").hide();
+        $("#SumTongTienMNALL").hide();
+        $('.SumTongTienMN').html('');
+        $('#tbl_Item_NewsMN tbody').empty();
+
+        var VendorNo = fomart_split($('#VendorNo').val().trim(), 0);
+        var KyTinhCongNo = $('#KyTinhCongNo').val();
+        var SumAmountMN = $('#SumAmountMN').html();
+
+        var MinPostingDate = $('#MinPostingDate').html();
+        var MaxMinPostingDate = $('#MaxMinPostingDate').html();
+
+        var chuoi = "";
+        if (VendorNo.length > 0 && SumAmountMN != '' && ($('#KyTinhCongNo').val().length > 0 || $('#Thang').val().length > 0)) {
+
+            //CHIẾT KHẤU
+            $.ajax({
+                url: '/Report/SP_TRADTERM_LIST_DISCOUNT_SALES_ReportDeposit_CongNo',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVAT: SumAmountMN, SumDoanhSo: SumAmountMN }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 100;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Now1_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMN tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            //THƯỞNG
+            // 1.1 Đạt chỉ tiêu tối thiểu
+            // -  % thưởng <> 0  and  Sum of Doanh số > “Mức DS từ” = Sum of Doanh số * % thương
+            // - Giá trị thưởng <> 0  = Sum of Doanh số > “Mức DS từ” = Giá trị thưởng
+            $.ajax({
+                url: '/Report/SP_TRADTERM_LIST_LINE_BONUS_New_KyGui_MuaBan_01',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVAT: SumAmountMN, SumDoanhSo: SumAmountMN }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 100;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Now2_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMN tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            //2:  Thưởng tháng, Quý, Năm
+            //- % thưởng <> 0 and  “Mức DS đến” > Sum of Doanh số tháng > “Mức DS từ” = Sum of Doanh số tháng - “Mức DS từ” * % thưởng
+            //- % thưởng <> 0 and  Sum of Doanh số tháng < “Mức DS từ” = 0
+            //- % thưởng <> 0 and  Sum of Doanh số tháng > “Mức DS đến” = Sum of Doanh số tháng - “Mức DS đến” * % thưởng
+            //- Giá trị thưởng <> 0 and  Sum of Doanh số tháng > “Mức DS từ” = Giá trị thưởng
+
+            $.ajax({
+                url: '/Report/SP_TRADTERM_LIST_LINE_BONUS_New_KyGui_MuaBan_02',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVATDSThang: SumAmountMN, SumDoanhSoDSThang: SumAmountMN }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 100;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Now3_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMN tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+
+            //TRADE MARKETING
+            $.ajax({
+                url: '/Report/GetList_Debtpurchase_TRADEMARKETING',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVAT: SumAmountMN, SumDoanhSo: SumAmountMN }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 100;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Now4_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+
+                        }
+                        $('#tbl_Item_NewsMN tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            //PhatTrienThuongHieu
+            $.ajax({
+                url: '/Report/GetList_Debtpurchase_PhatTrienThuongHieu',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVAT: SumAmountMN, SumDoanhSo: SumAmountMN }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 200;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Now5_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMN tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+
+            //PhatTrienKhachHang
+            $.ajax({
+                url: '/Report/GetList_Debtpurchase_PhatTrienKhachHang',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVAT: SumAmountMN, SumDoanhSo: SumAmountMN }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 300;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Now6_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMN tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            //ChiPhivanHanh
+            $.ajax({
+                url: '/Report/GetList_Debtpurchase_ChiPhivanHanh',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, TypeTab: 2, SumDoanhSoVAT: SumAmountMN, SumDoanhSo: SumAmountMN, MinPostingDate: MinPostingDate, MaxMinPostingDate: MaxMinPostingDate}),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 400;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            var Tong = row[i]['Total'];
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"Now7_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Name'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + Tong + "</td>";
+                            chuoi += "<td style=\"text-align: right; \"><input type=\"text\" name=\"SoHD\" id=\"SoHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"date\" name=\"NgayHD\" id=\"NgayHD\" class=\"form-control\" /></td>";
+                            chuoi += "<td style=\"text-align: right;  \"><input type=\"text\" name=\"GhiChu\" id=\"GhiChu\" class=\"form-control\" /></td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMN tbody').html(chuoi);
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+
+            $('#tbl_Item_NewsMN').show();
+            setTimeout(function () {
+                GetTotal_CongNoMN();
+            }, 2000);
+        }
+        else {
+            $('#tbl_Item_NewsMN tbody').empty();
+            GetTotal_CongNoMN();
+        }
+    }
+
+    function ShowAll_TradingTemMN_Edit() {
+        $("#SumTongTienMN").hide();
+        $("#SumTongTienMNALL").hide();
+        $('.SumTongTienMN').html('');
+        $('#tbl_Item_NewsMN tbody').empty();
+
+        var VendorNo = fomart_split($('#VendorNo').val().trim(), 0);
+        var KyTinhCongNo = $('#KyTinhCongNo').val();
+        var Nam = $('#Nam').val();
+
+        var chuoi = "";
+        if (VendorNo.length > 0 && ($('#KyTinhCongNo').val().length > 0 || $('#Thang').val().length > 0)) {
+            $.ajax({
+                url: '/Report/GetList_TBL_BBM_ReportDeposit_TradingTem',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, KyCongNo: KyTinhCongNo, Nam: Nam, TypeMien: "MienNam", TypeBy_NCC_BBM: "NCC" }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 400;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"MNow_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Tieude'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + row[i]['Total'] + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + row[i]['Total'] + "</td>";
+                            chuoi += "<td style=\"text-align: right; \">" + row[i]['SoHD'] + "</td>";
+                            chuoi += "<td style=\"text-align: right;  \">" + row[i]['NgayHD'] + "</td>";
+                            chuoi += "<td style=\"text-align: right;  \">" + row[i]['GhiChu'] + "</td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMN tbody').html(chuoi);
+                        $('#tbl_Item_NewsMN').show();
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+            setTimeout(function () {
+                GetTotal_CongNoMN();
+            }, 2000);
+        }
+        else {
+            $('#tbl_Item_NewsMN tbody').empty();
+            GetTotal_CongNoMN();
+        }
+    }
+
+    function ShowAll_TradingTemMB_Edit() {
+        $("#SumTongTienMB").hide();
+        $("#SumTongTienMBALL").hide();
+        $('.SumTongTienMB').html('');
+        $('#tbl_Item_NewsMB tbody').empty();
+
+        var VendorNo = fomart_split($('#VendorNo').val().trim(), 0);
+        var KyTinhCongNo = $('#KyTinhCongNo').val();
+        var Nam = $('#Nam').val();
+
+        var chuoi = "";
+        if (VendorNo.length > 0 && ($('#KyTinhCongNo').val().length > 0 || $('#Thang').val().length > 0)) {
+            $.ajax({
+                url: '/Report/GetList_TBL_BBM_ReportDeposit_TradingTem',
+                type: 'POST',
+                data: JSON.stringify({ VendorNo: VendorNo, KyCongNo: KyTinhCongNo, Nam: Nam, TypeMien: "MienBac", TypeBy_NCC_BBM: "NCC" }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    var K = 400;
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            chuoi += "<tr style=\"background: #fff; height:25px\"  id=\"MBow_" + K++ + "\">";
+                            chuoi += "<td style =\"text-align: left; width: 372px \"><span class='Tieude'>" + row[i]['Tieude'] + "</span></td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien Tong'>" + row[i]['Total'] + "</td>";
+                            chuoi += "<td style=\"text-align: right; \" class='TongTien'>" + row[i]['Total'] + "</td>";
+                            chuoi += "<td style=\"text-align: right; \">" + row[i]['SoHD'] + "</td>";
+                            chuoi += "<td style=\"text-align: right;  \">" + row[i]['NgayHD'] + "</td>";
+                            chuoi += "<td style=\"text-align: right;  \">" + row[i]['GhiChu'] + "</td>";
+                            chuoi += "</tr>";
+                        }
+                        $('#tbl_Item_NewsMB tbody').html(chuoi);
+
+                        $('#tbl_Item_NewsMB').show();
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+            setTimeout(function () {
+                GetTotal_CongNoMB();
+            }, 2000);
+        }
+        else {
+            $('#tbl_Item_NewsMB tbody').empty();
+            GetTotal_CongNoMB();
+        }
+    }
+
+    function GetTotal_CongNoMB() {
+        var SumTongTienMB = 0;
+        let trs = $("#tbl_Item_NewsMB tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let TongTien = $('#' + tr.id + ' .TongTien').html();
+                if (TongTien.length > 0) {
+                    SumTongTienMB += parseFloat(replaceAll(TongTien));
+                    console.log(replaceAll(TongTien));
+                }
+            });
+        }
+        if (SumTongTienMB != 0) {
+            $('#SumTongTienMB').show();
+            $("#SumTongTienMBALL").show();
+            $('.SumTongTienMB').html(commaSeparateNumber(SumTongTienMB));
+        }
+        //setTimeout(function () {
+            GetTotal_BBTTT_MB();
+        //}, 1000);
+    }
+
+    function GetTotal_BBTTT_MB() {
+       var SumAmountMB = $('#SumAmountMB').html();
+        var SumTongTienMB = $('.SumTongTienMB').html();
+       var TongTien = parseFloat(replaceAll(SumAmountMB)) - parseFloat(replaceAll(SumTongTienMB));
+        if (TongTien != 0) {
+            $('.SumTongTienMBAll').html(commaSeparateNumber(TongTien));
+        }
+    }
+
+    function GetTotal_CongNoMN() {
+        debugger;
+        var SumTongTienMN = 0;
+        let trs = $("#tbl_Item_NewsMN tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let TongTien = $('#' + tr.id + ' .TongTien').html();
+                if (TongTien.length > 0) {
+                    SumTongTienMN += parseFloat(replaceAll(TongTien));
+                    console.log(replaceAll(TongTien));
+                }
+            });
+        }
+        if (SumTongTienMN != 0) {
+            $('#SumTongTienMN').show();
+            $("#SumTongTienMNALL").show();
+            $('.SumTongTienMN').html(commaSeparateNumber(SumTongTienMN));
+        }
+        // setTimeout(function () {
+            GetTotal_BBTTT_MN();
+       // }, 1000);
+    }
+
+    function GetTotal_BBTTT_MN() {
+        var SumAmountMN = $('#SumAmountMN').html();
+        var SumTongTienMN = $('.SumTongTienMN').html();
+        var TongTien = parseFloat(replaceAll(SumAmountMN)) - parseFloat(replaceAll(SumTongTienMN));
+        if (TongTien != 0) {
+            $('.SumTongTienMNAll').html(commaSeparateNumber(TongTien));
+        }
+
+        setTimeout(function () {
+
+         //TỔNG CỘNG PHẢI THANH TOÁN
+            $("#SumTongTienHaiMien").show();
+            var SumTongTienMBAll = $('.SumTongTienMBAll').html();
+            var SumTongTienMNAll = $('.SumTongTienMNAll').html();
+            var TongTien = parseFloat(replaceAll(SumTongTienMBAll)) + parseFloat(replaceAll(SumTongTienMNAll));
+            if (TongTien != 0) {
+                $('.SumTongTienHaiMien').html(commaSeparateNumber(TongTien));
+            }
+        }, 1000);
+    }
+
+    function replaceAll(val) {
+        if (val != '' || val != 'undefined') {
+            try {
+                return val.replaceAll(",", "");
+            } catch (e) {
+            }
+        }
+        return val;
+    }
+
+    function commaSeparateNumber(val) {
+        while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+        }
+        return val;
+    }
+</script>

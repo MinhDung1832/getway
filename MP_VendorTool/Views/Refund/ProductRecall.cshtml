@@ -1,0 +1,252 @@
+﻿@using MP_VendorTool.Common;
+@using MP_VendorTool.Models.Order
+
+@{
+    ViewBag.Title = "Hoàn hàng - Thu hồi hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    div#tbl_Item_info {
+        padding-top: 14px;
+    }
+</style>
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+                                        <label for="textMien" class="col-sm-4 col-form-label">NCC <span style="color:red">*</span> <div style=" display:none">@Session["uid"].ToString().ToUpper()</div></label>
+                                        <div class="col-sm-8" ondblclick="$('#NhaCC').val('').trigger('change')">
+                                            @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                            {
+                                                <input type="text" class="form-control" id="NhaCC" name="NhaCC" value="@Session["VendorCode"] - @Session["VendorName"]" disabled style=" padding-left: 7px !important; ">
+                                            }
+                                            else
+                                            {
+                                                <div id="NC">
+                                                    <select id="NhaCC" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox();">
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            <option value="">--- Chọn NCC ---</option>
+                                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                                if (ViewBag.OrderNhaCC != "")
+                                                {
+                                                    <script>
+                                                      $("#NhaCC").val(@ViewBag.OrderNhaCC)
+                                                    </script>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="textMien" class="col-sm-4 col-form-label">Miền</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control selectpicker" data-live-search="true" id="textMien" onchange="js_TinhThanh();js_searchbox();">
+                                                <option value="">---Chọn Miền---</option>
+                                                <option value="MB">Miền Bắc</option>
+                                                <option value="MN">Miền Nam</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textTinh" class="col-sm-4 col-form-label">Tỉnh thành</label>
+                                        <div class="col-sm-8" ondblclick="$('#textTinh').val('').trigger('change')">
+                                            <select class="form-control selectpicker" id="textTinh" data-live-search="true" onchange="js_searchbox();">
+                                                <option value="">---Chọn tỉnh thành---</option>
+                                                @if (ViewBag.province != null)
+                                                {
+                                                    foreach (objCombox box in (List<objCombox>)ViewBag.province)
+                                                    {
+                                                        <option value="@box.Code">@box.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textkho" class="col-sm-4 col-form-label">Kho/Cửa hàng</label>
+                                        <div class="col-sm-8" ondblclick="$('#kho').val('').trigger('change')">
+                                            <select id="kho" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox()">
+                                                <option value="">---Chọn kho/Cửa hàng---</option>
+                                                @if (ViewBag.warehouse != null)
+                                                {
+                                                    foreach (objCombox box in (List<objCombox>)ViewBag.warehouse)
+                                                    {
+                                                        <option value="@box.Code">@box.Code - @box.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+                                        <label for="textDate" class="col-sm-4 col-form-label">Ngày tạo đơn</label>
+                                        <div class="col-sm-8">
+                                            <input type="date" class="form-control" onchange="js_searchbox();" id="textDate" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="HoPo" class="col-sm-4 col-form-label">Mã đơn hàng</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" onchange="js_searchbox();" id="HoPo">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textStatus" class="col-sm-4 col-form-label">Trạng thái</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control selectpicker" data-live-search="true" id="textStatus" onchange="js_searchbox();">
+                                                <option value="">---Chọn trạng thái---</option>
+                                                @* BBM xác nhận *@
+                                                <option value="WAITINGCONFIRM">Chờ xác nhận</option>
+                                                <option value="REJECTED">Từ chối</option>
+                                                <option value="APPROVED">Đã xác nhận</option>
+
+                                                @* BBM xác nhận - Bên App bibo Shop (Đóng kiện) *@
+                                                <option value="WAITINGREFUND">Chờ hoàn hàng</option>
+
+                                                @* NCC xác nhận *@
+                                                <option value="INPROGRESS">Đang hoàn hàng</option>
+                                                <option value="REFUNDED">Đã hoàn hàng</option>
+                                                <option value="REFUNDREJECTED">Bị từ chối</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center;">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a href="#" class="btn btn-secondary px-5 btgetw" onclick="js_searchbox();"><i class="fa fa-search" aria-hidden="true"></i> Tìm kiếm</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a id="btntuchoi" onclick="js_next()" class="btn btn-success px-5 rounded-0 btgetw" style=" color:#fff"><i class="fa fa-save" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tạo mới yêu cầu</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="div-content" style=" padding-top: 148px; ">
+                    @Html.Partial("~/Views/Refund/Partial/__ProductRecall.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(function () {
+        js_GetListOrder();
+        $('#txtHead').html("Hoàn hàng - Thu hồi hàng");
+    });
+
+    function js_searchbox() {
+        js_GetListOrder();
+    }
+    function js_ReloadTable() {
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[50, 70, 100, -1], [50, 70, 100, 'All']],
+            "searching": false,
+            autoWidth: false,
+            fixedHeader: true,
+            "order": [[13, "asc"]],
+            fixedHeader: {
+                headerOffset: 249
+            },
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            },
+        });
+    }
+
+    function js_GetListOrder() {
+        var OrderDate = $("#textDate").val();
+        var Status = $("#textStatus option:selected").val();
+        var HoPo = $("#HoPo").val();
+        var Region = $("#textMien").val();
+        var City = $("#textTinh option:selected").val();
+        var Store = $("#kho").val();
+        var NhaCC = fomart_split($("#NhaCC").val(), 0);
+
+        $.ajax({
+            url: '/Refund/GetList_ProductRecall',//web_REFUND_2023_LichSuTaoDon_ListDon_ThuHoi
+            type: 'POST',
+            data: JSON.stringify({ Region: Region, City: City, Status: Status, Store: Store, HoPo: HoPo, OrderDate: OrderDate, NhaCC: NhaCC }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_next() {
+        var NhaCC = fomart_split($("#NhaCC").val(), 0);
+        if (NhaCC != "") {
+            window.location.href = "/Refund/CreateRequest?NCC=" + NhaCC;
+        } else {
+            alert("Vui lòng chọn nhà cung cấp.");
+        }
+    }
+
+    jQuery(document).bind("keyup keydown", function (e) {
+        if (e.ctrlKey && e.keyCode == 80) {
+            return false;
+        }
+    });
+
+    function js_TinhThanh() {
+        var Mien = $("#textMien").val();
+
+        $('#textTinh').empty();
+        $.ajax({
+            url: '/Order2/Get_TinhThanh',
+            type: 'POST',
+            data: JSON.stringify({ Mien: Mien }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                var row = JSON.parse(data);
+                if (row != null) {
+                    $('#textTinh').empty();
+                    $('#textTinh').append('<option value="">-- Chọn tỉnh thành --</option>');
+                    for (i in row) {
+                        $('#textTinh').append('<option value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                    }
+                }
+                $('#textTinh').selectpicker('refresh');
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+</script>
+

@@ -1,0 +1,65 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-striped table-bordered table-hover" cellspacing="0" style=" padding-top: 10px; width: 98% !important; margin: auto">
+        <thead>
+            <tr>
+                <th class="text-left">
+                    <div class="SanPham">Hình ảnh</div>
+                </th>
+                <th class="text-left">
+                    <div class="SanPham">Tên sản phẩm</div>
+                </th>
+                <th class="text-left">
+                    <div class="SanPham">Hạn sử dụng</div>
+                </th>
+                <th class="text-left">
+                    <div class="SanPham">SL tồn kho</div>
+                </th>
+                <th class="text-left">
+                    <div class="SanPham">Chọn</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        int i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                        <tr id="Row_@i" style="background: #ffff !important ">
+                            <td style="text-align:center; width:120px">
+                                <a href="@item["AnhSanPham"]" title="" class="thickbox"><img style="height: 60px !important" src="@item["AnhSanPham"]" alt="" class="content" /></a>
+                            </td>
+                            <td style="text-align:left;">
+                                <strong><span class="MaHang">@item["MaHang"]</span> - <span>@item["TenHang"]</span></strong>
+                            </td>
+                            <td style="text-align:left;">
+                                <input class="form-control" type="date" id="HanSuDung" name="HanSuDung" value="">
+                            </td>
+                            <td style="text-align:left;">
+                                <input class="form-control" type="number" id="SoLuong" name="SoLuong" value="1" min="1">
+                            </td>
+                            <td style="text-align:center;">
+                                <input type="checkbox" name="IsCheck" id="IsCheck" value="" />
+                            </td>
+                        </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .badge-success, .label-success {
+        padding-right: 15px !important;
+        padding-left: 15px !important;
+    }
+</style>

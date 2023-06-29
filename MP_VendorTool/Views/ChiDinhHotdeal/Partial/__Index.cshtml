@@ -1,0 +1,407 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr style="border: 1px solid #d7d7d7 ">
+                <th scope="col" style="text-align: left; ">
+                    Mã Hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 400px; max-width: 400px; ">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Hình ảnh
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Giá
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Giá bán NTD
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    % giảm giá
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Giá KM NTD
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Sl áp dụng
+                    <br />  <input type="number" name="HSLApDung" id="HSLApDung" class="form-control OrderValue" value="0" onchange="js_check_HSLApDung()" />
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Từ ngày
+                    <br />  <input type="date" name="HNgayBatDau" id="HNgayBatDau" class="form-control" onchange="js_check_HNgayBatDau()" />
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Đến ngày
+                    <br />  <input type="date" name="HNgayKetThuc" id="HNgayKetThuc" class="form-control" onchange="js_check_HNgayKetThuc()" />
+                </th>
+                <th scope="col" style="text-align: left; width: 120px; max-width: 120px; ">
+                    Ngân sách KM
+                </th>
+                <th scope="col" style="text-align: center; width: 100px; max-width: 100px; ">
+                    Hành động<br />
+                    <span style="text-align:center !important"><input type="checkbox" style="text-align: center; width: 100%; " id="checkall" onchange="checkall()"></span>
+                </th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model;
+                    {
+                        var i = 0;
+                        foreach (MP_VendorTool.Models.ChiDinhHotdeal.ChiDinhHotdeal_HHOA_KGUI item in dt)
+                        {
+                            var k = i;
+                            <tr style=" height:20px" id="Row_@i">
+                                <td>
+                                    @item.MaSP
+                                </td>
+                                <td>
+                                    @item.TenSP
+                                </td>
+                                <td style="text-align:center">
+                                    @if (item.Images.ToString() != "")
+                                    {
+                                        if (item.Images.ToString().Contains("no_selection"))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            <a target="_blank" href="@item.Images" class="thickbox"><img style="height: 60px" src=" @item.Images" class="content"></a>
+                                        }
+                                    }
+                                </td>
+                                <td style="text-align:right">
+                                    @item.Price
+                                </td>
+                                <td style="text-align:right">
+                                    @item.PriceAllNTD
+                                    <input type="hidden" name="GBLALL" id="GBLALL" class="form-control" value="@item.PriceAllNTD.ToString().Replace(",","")" />
+                                </td>
+                                <td style="text-align: right">
+                                    <input type="number" name="PTGiamGia" id="PTGiamGia" onchange="PhanTramGiamGia_Change(@i)" class="form-control PTGiamGia" value="" />
+                                </td>
+                                <td style="text-align: right">
+                                    <input type="text" name="GiaKM" id="GiaKM" onchange="PhanTramGp_Change(@i)" class="form-control GiaKM OrderValue" value="" />
+                                </td>
+                                <td style="text-align: right">
+                                    <input type="text" name="SLApDung" id="SLApDung" class="form-control SLApDung OrderValue" value="@item.SLApDung" />
+                                </td>
+                                <td style="text-align: right">
+                                    <input type="date" name="NgayBatDau" id="NgayBatDau" class="form-control NgayBatDau" value="" />
+                                </td>
+                                <td style="text-align: right">
+                                    <input type="date" name="NgayKetThuc" id="NgayKetThuc" class="form-control NgayKetThuc" value="" />
+                                </td>
+                                <td style="text-align: right">
+                                    <div class="NganSackKM_@i NganSachAll">0</div>
+                                </td>
+                                <td id="CheckID">
+                                    <input type="hidden" name="MaHang" id="MaHang" class="form-control" value="@item.MaSP" />
+                                    <input type="hidden" name="TenHang" id="TenHang" class="form-control" value="@item.TenSP" />
+                                    <input type="hidden" name="Images" id="Images" class="form-control" value="@item.Images" />
+                                    <input type="hidden" name="Price" id="Price" class="form-control" value="@item.Price" />
+                                    <input type="hidden" name="HHOA_KGUI" id="HHOA_KGUI" class="form-control" value="@item.HHOA_KGUI" />
+                                    <input class="cb-element" style="width:100% !important" name="check[]" id="_@i" type="checkbox">
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    function checkall() {
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if ($('#checkall').is(":checked")) {
+                cboxes[i].checked = true;
+            } else { cboxes[i].checked = false; }
+        }
+    }
+    function js_saveCheck() {
+        debugger;
+
+        var cboxes = document.getElementsByName('check[]');
+        var arrCheckbox = [];
+        var i = 0;
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                var po = {};
+                // alert(cboxes[i].id);
+                po.GiaKM = $('#Row' + cboxes[i].id + ' #GiaKM').val();
+                po.PTGiamGia = $('#Row' + cboxes[i].id + ' #PTGiamGia').val();
+                po.NgayBatDau = $('#Row' + cboxes[i].id + ' #NgayBatDau').val();
+                po.NgayKetThuc = $('#Row' + cboxes[i].id + ' #NgayKetThuc').val();
+                po.SLApDung = $('#Row' + cboxes[i].id + ' #SLApDung').val();
+
+                po.MaHang = $('#Row' + cboxes[i].id + ' #MaHang').val();
+                po.TenHang = $('#Row' + cboxes[i].id + ' #TenHang').val();
+                po.Images = $('#Row' + cboxes[i].id + ' #Images').val();
+                po.Price = $('#Row' + cboxes[i].id + ' #Price').val();
+
+                po.HHOA_KGUI = $('#Row' + cboxes[i].id + ' #HHOA_KGUI').val();
+                po.TenNCC = fomart_split($("#NhaCCFull").val(), 1);
+                po.MaNCC = fomart_split($("#NhaCCFull").val(), 0);
+
+                po.GBLALL = $('#GBLALL').val();
+                po.NganSachKM = $('.NganSackKM' + cboxes[i].id).html();
+
+
+                console.log(po);
+                arrCheckbox.push(po);
+
+                $('#Row_' + i + ' #NgayKetThuc').css('border', '1px solid #d7d7d7');
+                $('#Row_' + i + ' #NgayBatDau').css('border', '1px solid #d7d7d7');
+
+                var NgayBatDau = $('#Row' + cboxes[i].id + ' #NgayBatDau').val();
+                var NgayKetThuc = $('#Row' + cboxes[i].id + ' #NgayKetThuc').val();
+                if (NgayBatDau > NgayKetThuc) {
+                    alert("Ngày bắt đầu không thể lớn hơn ngày kết thúc. Vui lòng nhập lại !");
+                    $('#Row' + cboxes[i].id + ' #NgayBatDau').val('');
+                    $('#Row' + cboxes[i].id + ' #NgayKetThuc').val('');
+                    return;
+                }
+                if (NgayBatDau == '' || NgayBatDau == "undefined") {
+                    alert("Vui lòng nhập ngày bắt đầu!");
+                    $('#Row' + cboxes[i].id + ' #NgayBatDau').val('');
+                    $('#Row' + cboxes[i].id + ' #NgayBatDau').css('border', '1px solid #ffa903');
+                    return;
+                }
+                if (NgayKetThuc == '' || NgayKetThuc == "undefined") {
+                    alert("Vui lòng nhập ngày kết thúc!");
+                    $('#Row' + cboxes[i].id + ' #NgayKetThuc').val('');
+                    $('#Row' + cboxes[i].id + ' #NgayKetThuc').css('border', '1px solid #ffa903');
+                    return;
+                }
+
+                var GiaKM = $('#Row' + cboxes[i].id + ' #GiaKM').val();
+                if (GiaKM == '' || GiaKM == "undefined") {
+                    alert("Vui lòng nhập giá khuyến mãi!");
+                    $('#Row' + cboxes[i].id + ' #GiaKM').val('');
+                    $('#Row' + cboxes[i].id + ' #GiaKM').css('border', '1px solid #ffa903');
+                    return;
+                }
+
+                var PTGiamGia = $('#Row' + cboxes[i].id + ' #PTGiamGia').val();
+                if (PTGiamGia == '' || PTGiamGia == "undefined") {
+                    alert("Vui lòng nhập % giảm giá!");
+                    $('#Row' + cboxes[i].id + ' #PTGiamGia').val('');
+                    $('#Row' + cboxes[i].id + ' #PTGiamGia').css('border', '1px solid #ffa903');
+                    return;
+                }
+
+                var SLApDung = $('#Row' + cboxes[i].id + ' #SLApDung').val();
+                if (SLApDung == '' || SLApDung == "undefined") {
+                    alert("Vui lòng nhập số lượng áp dụng!");
+                    $('#Row' + cboxes[i].id + ' #SLApDung').val('');
+                    $('#Row' + cboxes[i].id + ' #SLApDung').css('border', '1px solid #ffa903');
+                    return;
+                }
+            }
+        }
+        console.log('1');
+        console.log(arrCheckbox);
+
+        var ID = [];
+        $('#CheckID input[name="check[]"]:checked').each(function (index, value) {
+            ID.push($(value).val());
+        });
+
+        if (ID == "") {
+            alert("Bạn chưa chọn hành động");
+            return;
+        }
+        console.log(JSON.stringify(arrCheckbox));
+        if (arrCheckbox.length > 0) {
+            $.ajax({
+                url: '/Chidinhhotdeal/Add_PushSale_Vender_Item_Vender_Item',
+                type: 'POST',
+                data: JSON.stringify({ lst: arrCheckbox }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    if (data.code == 0) {
+                        alert("Vui lòng chọn ngày bắt đầu lớn hơn ngày hiện tại!.");
+                    } else {
+                        jAlert("Xác nhận thành công");
+                        location.reload();
+                    }
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+    function js_checkNBD(d) {
+        var NgayBatDau = $('#Row_' + d + ' #NgayKetThuc').val();
+        var date1 = new Date(NgayBatDau);
+        var NBD = date1.getTime();
+        var NBDres = NBD.toString().substring(0, 6);
+        var today = new Date();
+        var now = today.getTime();
+        var NBDnow = now.toString().substring(0, 6);
+
+        if (NBDres < NBDnow) {
+            alert("Vui lòng chọn ngày bắt đầu lớn hơn ngày hiện tại!");
+            $('#Row_' + d + ' #NgayKetThuc').val('');
+            $('#Row_' + d + ' #NgayKetThuc').css('border', '1px solid #ffa903');
+            return;
+        }
+    }
+
+    function js_checkNBD_HNgayKetThuc(d) {
+        var NgayBatDau = $('#HNgayKetThuc').val();
+        var date1 = new Date(NgayBatDau);
+        var NBD = date1.getTime();
+        var NBDres = NBD.toString().substring(0, 6);
+        var today = new Date();
+        var now = today.getTime();
+        var NBDnow = now.toString().substring(0, 6);
+
+        if (NBDres < NBDnow) {
+            alert("Vui lòng chọn ngày bắt đầu lớn hơn ngày hiện tại!");
+            $('#HNgayKetThuc').val('');
+            $('#HNgayKetThuc').css('border', '1px solid #ffa903');
+            return;
+        }
+    }
+    function js_check_HPTGiamGia() {
+        var dr = $("#HPTGiamGia").val();
+        $(".PTGiamGia").val(dr);
+    }
+    function js_check_HNgayBatDau() {
+        js_checkNBD_HNgayKetThuc();
+        var dr = $("#HNgayBatDau").val();
+        $(".NgayBatDau").val(dr);
+    }
+    function js_check_HNgayKetThuc() {
+        js_checkNBD_HNgayKetThuc();
+        var dr = $("#HNgayKetThuc").val();
+        $(".NgayKetThuc").val(dr);
+    }
+    function js_check_HSLApDung() {
+        js_checkNBD_HNgayKetThuc();
+        var dr = $("#HSLApDung").val();
+        $(".SLApDung").val(dr);
+    }
+    function PhanTramGiamGia_Change(r) {
+        // %Giảm giá
+        // giá cũ 100 (1-(5/100))=95K giá mới
+        let GBLALL = $('#Row_' + r + ' #GBLALL').val();
+        let PhanTramGiamGia = $('#Row_' + r + ' #PTGiamGia').val();
+        if (GBLALL.length > 0 && PhanTramGiamGia.length > 0) {
+            let GiaMoi = parseInt(GBLALL) * (1 - (parseInt(PhanTramGiamGia) / 100));
+            let GiaMois = parseInt(GiaMoi) / 1000;
+            let Tong = Math.round(GiaMois) * 1000;
+            $('#Row_' + r + ' #GiaKM').val(commaSeparateNumber(Math.round(Tong)));
+        }
+        else {
+            $('#Row_' + r + ' #GiaKM').val('');
+        }
+        PhanTramGp_Change(r);
+        ShowNganSachKM(r);
+        // ShowCanhBao(r);
+    }
+
+    function PhanTramGp_Change(r) {
+        // Tính % giá mới
+        // (Giá mới - giá cũ )/ giá cũ = % giảm
+        let GBLALL = $('#Row_' + r + ' #GBLALL').val().replaceAll(".", "").replaceAll(",", "");
+        let GiaMois = $('#Row_' + r + ' #GiaKM').val().replaceAll(".", "").replaceAll(",", "");
+
+        if (GiaMois.length > 0 && GBLALL.length > 0) {
+            let SumMoi = (((parseInt(GBLALL) - parseInt(GiaMois)) / parseInt(GBLALL)) * 100);
+            $('#Row_' + r + ' #PTGiamGia').val(Math.round(SumMoi.toFixed(2)));
+        }
+        else {
+            $('#Row_' + r + ' #PTGiamGia').val('');
+        }
+        ShowNganSachKM(r);
+        // ShowCanhBao(r);
+    }
+
+    function ShowNganSachKM(r) {
+        var GBLALL = $('#Row_' + r + ' #GBLALL').val();
+        var GiaKM = parseInt($('#Row_' + r + ' #GiaKM').val().replaceAll(',', ''));
+        var SLApDung = parseInt($('#Row_' + r + ' #SLApDung').val().replaceAll(',', ''));
+        var Sum = (parseInt(GBLALL) - parseInt(GiaKM)) * parseInt(SLApDung);
+        $('.NganSackKM_' + r).html(commaSeparateNumber(Sum));
+
+       // SumTotal();
+    }
+
+
+    function replaceAll(val) {
+        if (val != '' || val != 'undefined') {
+            try {
+                return val.replaceAll(",", "").replaceAll(".", "")
+            } catch (e) {
+
+            }
+        }
+        return val;
+    }
+    function SumTotal() {
+        var totalPoints = 0;
+        $('.NganSachAll').each(function () {
+            var Price = $(this).html().replaceAll(',', '');
+            totalPoints += parseInt(Price);
+        });
+        $('#SumNganSach').html(commaSeparateNumber(totalPoints));
+
+
+        var totalPoints = 0;
+        $('.NganSachAll').each(function () {
+            var Price = $(this).html().replaceAll(',', '');
+            totalPoints += parseInt(Price);
+        });
+        $('#SumNganSach').html(commaSeparateNumber(totalPoints));
+
+    }
+
+    function ShowCanhBao(r) {
+        var GiaMuaNet = $('#Row_' + r + ' #GBLALL').val();
+        var price = parseInt($('#Row_' + r + ' #GiaKM').val().replaceAll(',', ''));
+        var Sum = parseInt(GiaMuaNet) * (1 + 0.05);
+        var Sum1 = Sum / 1000;
+        var Sum2 = Math.ceil(Sum1);
+        var Sum3 = Sum2 * 1000;
+        if (price < Sum) {
+            jAlert('Giá bán tối thiểu : ' + currencyFormat(Sum3) + ' đ');
+            $('#Row_' + r + ' #PTGiamGia').val('');
+            $('#Row_' + r + ' #GiaKM').val('');
+        }
+    }
+
+    function commaSeparateNumber(val) {
+        while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+        }
+        return val;
+    }
+</script>
+

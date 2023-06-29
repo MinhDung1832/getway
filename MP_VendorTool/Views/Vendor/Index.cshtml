@@ -1,0 +1,259 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .content_vendor {
+
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 18px;
+    }
+
+        .text_home a {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    legend {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 20px;
+        margin-top: 32px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #6f8cb8;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    fieldset {
+        /*margin-top: 34px;*/
+    }
+
+    label {
+        font-size: 12px;
+        color: #777575;
+    }
+
+    .from_vender {
+        margin-left: 8px;
+    }
+
+        .from_vender input, .from_vender select {
+            margin-bottom: 8px;
+        }
+
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+        .button_save_1 a {
+            text-align: center;
+            background-color: #868686 !important;
+            border-color: #868686 !important;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 8px;
+        }
+
+    #E_Invoice {
+        margin-bottom: 18px !important;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: transparent;
+        border-color: #2c2c2c;
+        color: #59595B !important;
+    }
+
+    .btn-primary:hover {
+        color: #fff !important;
+        background-color: #0f4c81;
+        border-color: #0f4c81;
+    }
+
+    .button_action a:hover {
+        background-color: #9e9e9e;
+        color: #f3f3f3 !important;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+    .button_action {
+        margin-top: 44px;
+    }
+
+    .table > thead > tr > th {
+        color: #6f8cb8;
+        text-align: left;
+    }
+
+    .table > tbody > tr > td {
+        text-align: left;
+    }
+
+    #wp_thum_img {
+        background-color: #fff;
+        text-align: center;
+        height: 376px;
+    }
+
+    #thum_img {
+        width: 100%;
+        margin-top: 142px;
+        padding-bottom: 10px;
+    }
+
+    .img_src p {
+        font-style: italic;
+        font-size: 12px;
+        color: #868686;
+    }
+    .table > thead > tr {
+        background: #C4C4C4;
+    }
+
+        .table > thead > tr > th {
+            color: #59595B;
+            font-size: 12px !important;
+            vertical-align: middle;
+        }
+
+    .table > tbody > tr > td {
+        padding: 2px;
+        color: #59595B !important;
+        font-size: 12px !important;
+        vertical-align: middle;
+    }
+</style>
+<style>
+
+    html {
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
+
+    body {
+        position: relative;
+        background-image: url('../../image/nen2.jpg');
+        background-color: #f3f3f3;
+        background-size: cover;
+    }
+
+    .ct {
+        margin: 0 auto;
+        padding-top: 32px;
+    }
+
+    .demo h1 {
+        margin-top: 0;
+    }
+
+    /**
+    * Footer Styles
+    */
+
+    .footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        /* padding: 1rem;*/
+        background-color: #efefef;
+        text-align: center;
+    }
+</style>
+
+<div class="wp_vendor">
+    @Html.Partial("_header");
+    <div class="content_vendor">
+        <div class="container">
+            <div class="box_table">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width:3%" >STT</th>
+                            <th scope="col">@MP_VendorTool.Resource.registrationTax</th>
+                            <th scope="col">Mã đối tác</th>
+                            <th scope="col">@MP_VendorTool.Resource.firmName</th>
+                            <th scope="col" style="width:10%">Thông tin doanh nghiệp</th>
+                            <th scope="col" style="width:10%">Thông tin sản phẩm</th>
+                            <th scope="col" style="width:10%">Phương án kinh doanh</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < ViewBag.ls_info.Count; i++)
+                        {
+                            <tr>
+                                <td class="td_01">@(i + 1)</td>
+                                <td class="td_02">@ViewBag.ls_info[i].registrationTax</td>
+                                <td class="td_01" style="width: 8%;">@ViewBag.ls_info[i].Vendor_No</td>
+                                <td class="td_02">@ViewBag.ls_info[i].firmName</td>
+                                <td class="td_01">@Html.ActionLink("Chi tiết", "Detail", "Vendor", new { registrationTax = ViewBag.ls_info[i].registrationTax, VendorContact_ID = ViewBag.ls_info[i].VendorContact_ID }, new { @class = "form-control btn-primary text-center" })</td>
+                                <td class="td_02">@Html.ActionLink("Chi tiết", "Index", "Product", new { registrationTax = ViewBag.ls_info[i].registrationTax, VendorContact_ID = ViewBag.ls_info[i].VendorContact_ID }, new { @class = "form-control btn-primary text-center" })</td>
+                                <td class="td_01">@Html.ActionLink("Chi tiết", "Index", "Tradingterm", new { registrationTax = ViewBag.ls_info[i].registrationTax, VendorContact_ID = ViewBag.ls_info[i].VendorContact_ID }, new { @class = "form-control btn-primary text-center" })</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#header_title').html("Thông tin doanh nghiệp");
+        js_GetListContractNo();
+    });
+</script>

@@ -1,0 +1,455 @@
+﻿@using MP_VendorTool.Models.Order
+@using Newtonsoft.Json;
+
+<input id="ShowTotalDiscount" type="hidden" data-toggle="modal" data-target="#TotalDiscount_modal" />
+<div class="modal" id="TotalDiscount_modal" tabindex="-1" role="dialog" aria-labelledby="shift_detail_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 1020px; border-radius: 0; ">
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style=" font-size:18px;display: contents;">
+                    Total Discount
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style=" float: left; background: #fff; width: 1018px; border-radius: 0; ">
+
+                <div class="AnHienTotalDiscount">
+                    <div class="col-md-12" id="TotalDiscount">
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Mã CTKM</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled id="MaCTKM_TotalDiscount" name="MaCTKM_TotalDiscount" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Thời gian từ</label>
+                            <div class="col-sm-9">
+                                <input type="date" id="TuNgay_TotalDiscount" name="TuNgay_TotalDiscount" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Thời gian đến</label>
+                            <div class="col-sm-9">
+                                <input type="date" id="DenNgay_TotalDiscount" name="DenNgay_TotalDiscount" value="" class="form-control" />
+                            </div>
+                        </div>
+
+                        @*<div class="form-group row">
+                            <label for="CouponCode" class="col-sm-3 col-form-label">Coupon Code</label>
+                            <div class="col-sm-9">
+                                <select id="CouponCode_TotalDiscount" class="form-control selectpicker" data-live-search="true">
+                                    <option value="">-- Chọn coupon code --</option>
+                                </select>
+                            </div>
+                        </div>*@
+                        <div class="form-group row">
+                            <label for="PhamVi" class="col-sm-3 col-form-label">Phạm vi</label>
+                            <div class="col-sm-9">
+                                <select id="PhamVi_TotalDiscount" class="form-control selectpicker" data-live-search="true">
+                                    <option value="">-- Chọn phạm vi --</option>
+                                    @if (ViewBag.lstCusPriceGroup != null)
+                                    {
+                                        foreach (objCombox box in (List<objCombox>)ViewBag.lstCusPriceGroup)
+                                        {
+                                            <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height: 10px; clear: both; "></div>
+
+                    <div class="TotalTotalDiscount">
+                        <div id="Total Discount Offer" class="tabcontent">
+                            <div class="col-md-12">
+                                <h4 id="txtHead01"> D./ Line</h4>
+                                <table class="table table-bordered" id="tbl_TotalTotalDiscountLine">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width:15%">Type</th>
+                                            <th scope="col" style="width:75%">No.</th>
+                                            <th scope="col" style="width:9%; text-align:center">Thêm</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="wp_Benefits">
+                            <div class="col-md-12" style="margin-bottom:5px !important">
+                                <h4 id="txtHead01"> D./ Benefits</h4>
+                                <table class="table table-bordered" id="tbl_TotalTotalDiscount">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Step Amount</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col" style="width: 293px;">No.</th>
+                                            <th scope="col">Value Type</th>
+                                            <th scope="col">Value</th>
+                                            <th scope="col" style="width: 80px;text-align: center">Thêm</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style=" clear:both; height:2px"></div>
+
+                <div style="text-align: right; margin: 0px; margin-right: 15px; ">
+                    <a href="#" onclick="fn_save_TotalDiscount_update()" id="btn_Gui" class="btn btn-secondary Luulai"><i class="far fa-paper-plane"></i> Lưu lại</a>
+                    <a href="#" data-dismiss="modal" id="btn_Gui" class="btn btn-secondary"><i class="fas fa-times"></i> Đóng </a>
+                </div>
+                <div style=" height:10px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #DiscountOffer .form-control[] {
+        background: #f9f9f9 !important
+    }
+
+    .spname button.btn.dropdown-toggle.btn-default {
+        padding: 2px !important;
+    }
+</style>
+
+<script>
+
+    $(function () {
+        // js_addRowTDOLine();
+        // js_addRowTotalTotalDiscount();
+      //  Get_Coupon_TD();
+    });
+
+    SourceTotalDiscount = [];
+    SourceTotalTotalDiscount = [];
+    SourceTotalTotalDiscountLine = [];
+
+    function fn_save_TotalDiscount_update() {
+
+        if (
+            $('#MaCTKM_TotalDiscount').val().length == 0 ||
+          //  $('#CouponCode_TotalDiscount').val().length == 0 ||
+            $('#TuNgay_TotalDiscount').val().length == 0 ||
+            $('#DenNgay_TotalDiscount').val().length == 0 ||
+            $('#PhamVi_TotalDiscount').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ.');
+            return;
+        }
+
+        GetDataCTKM_TotalTotalDiscount();
+        getTableDataTotalTotalDiscount();
+        getTableDataTotalTotalDiscountLine();//Line
+
+        var obj = {};
+        obj.SourceTotalDiscount = JSON.stringify(SourceTotalDiscount);
+        obj.SourceTotalTotalDiscount = JSON.stringify(SourceTotalTotalDiscount);
+        obj.SourceTotalTotalDiscountLine = JSON.stringify(SourceTotalTotalDiscountLine);//Line
+
+        console.log(JSON.stringify(SourceTotalDiscount));
+        console.log(JSON.stringify(SourceTotalTotalDiscount));
+        console.log(JSON.stringify(SourceTotalTotalDiscountLine));
+        console.log(JSON.stringify(obj));
+
+        // Cập nhật
+        $.ajax({
+            url: '/PushSale/Update_PushSales_TotalDiscount',
+            type: 'POST',
+            data: JSON.stringify(obj),
+            enctype: 'multipart/form-data',
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                if (data.RespId == 0) {
+                    jAlert(data.RespMsg, 'Thông báo', (r) => {
+                        location.reload();
+                    });
+                } else {
+                    jAlert(data.RespMsg, 'Thông báo');
+                }
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_addRowTotalTotalDiscount(r) {
+        TTD_BL++;
+        var html = "";
+        var dt = TTD_BL - 1;
+        $("#rowBL_" + dt + " .btn_add").empty();
+        $("#rowBL_" + dt + " .btn_add").html('<a href="javascript:void(0);" onclick="js_deleteRowTotalTotalDiscount(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+
+        html += '<tr id="rowBL_' + TTD_BL + '">';
+        html += '<td> <input style="width:100% !important" type="number" name="StepAmount" id="StepAmount_' + TTD_BL + '" class="form-control" /></td > ';
+        html += '<td><select style="width:100% !important" onchange="js_changeTypeBeBe(' + TTD_BL + ')" id="TypeTD_' + TTD_BL + '" name="TypeTD" class="form-control"><option value="Item">Item</option><option value="Coupon">Coupon</option></select></td>';
+        html += '<td><select onchange="js_ChangeTotalDsOffer(' + TTD_BL + ')" id="NoBeBeTotal_' + TTD_BL + '" name="NoBeBeTotal" class="form-control selectpicker" data-live-search="true"></select ></td >';
+        html += '<td><select style="width:100% !important" id="ValueType_' + TTD_BL + '" name="ValueType" class="form-control" id="ValueType_' + TTD_BL + '"></select></td>';
+        html += '<td><input style="width:100% !important" type="number" id="valueTD_' + TTD_BL + '" name="valueTD" class="form-control text-right" /></td>';
+        html += '<td style="text-align:center;width:100px; " class="btn_add"><a href="javascript:void(0)" onclick="js_addRowTotalTotalDiscount(' + TTD_BL + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td>';
+        html += '</tr>';
+
+        $("#tbl_TotalTotalDiscount tbody").append(html);
+
+        js_changeTypeBeBe(TTD_BL);
+        $('.selectpicker').selectpicker();
+    }
+
+    function js_addRowTDOLine(r) {
+        TTDL++;
+        var html = "";
+        var TTC = TTDL - 1;
+        $("#rowTTDL_" + TTC + " .btn_add").empty();
+        $("#rowTTDL_" + TTC + " .btn_add").html('<a href="javascript:void(0);" onclick="js_deleteRowTDOLine(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+
+        html += '<tr id="rowTTDL_' + TTDL + '">';
+        html += '<td style="width:15%"><select style="width:100% !important"  class="form-control" name="typeLine"><option value="Item">Item</option></select></td>';
+        html += '<td style="width:75%"><select style="width:100% !important"  id="NoTotalDsNoLine_' + TTDL + '" onchange="js_TotalDsNo_TT_DC(' + TTDL + ')" class="form-control selectpicker" name="NoTotalDsNoLine" data-live-search="true">';
+        html += '<option value="">--Chọn--</option>';
+        $.each(listItems, (index, value) => {
+            html += '<option value=\"' + value.Code + ' - ' + value.Name + '\">' + value.Code + ' - ' + value.Name + '</option>';
+        });
+        html += '</select></td>';
+        html += '<td style="text-align:center;width:9% " class="btn_add"><a href="javascript:void(0)" onclick="js_addRowTDOLine(' + TTDL + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td>';
+        html += '</tr>';
+
+        $("#tbl_TotalTotalDiscountLine tbody").append(html);
+        $('.selectpicker').selectpicker();
+    }
+
+    function GetDataCTKM_TotalTotalDiscount() {
+        var NhaCC = $('#VendorNo').val();
+        var ArrNhaCC = NhaCC.split(' - ');
+
+        var MaCTKM = $('#MaCTKM_TotalDiscount').val().trim();
+
+    //    var CouponCode = $('#CouponCode_TotalDiscount').val();
+       // var ArrCouponCode = CouponCode.split(' - ');
+
+        var TuNgay = $('#TuNgay_TotalDiscount').val();
+        var DenNgay = $('#DenNgay_TotalDiscount').val();
+
+        var PhamVi = $('#PhamVi_TotalDiscount').val();
+        var ArrPhamVi = PhamVi.split(' - ');
+
+        var ID = $("input[name='ID']").val();
+
+        if (NhaCC.length > 0 && MaCTKM.length > 0 && TuNgay.length > 0 && DenNgay.length > 0 && PhamVi.length > 0) //&& CouponCode.length > 0 
+        {
+            SourceTotalDiscount.push({
+                "ID": ID,
+                "MaNCC": ArrNhaCC[0],
+                "TenNCC": ArrNhaCC[1],
+                "MaCTKM": MaCTKM,
+                "CouponCode": "",//ArrCouponCode[0],
+                "CouponName": "",// ArrCouponCode[1],
+                "FromDay": TuNgay,
+                "ToDay": DenNgay,
+                "PriceGroupCode": ArrPhamVi[0],
+                "PriceGroupName": ArrPhamVi[1],
+            });
+        }
+    }
+
+    function getTableDataTotalTotalDiscount() {
+        var NhaCC = $('#VendorNo').val();
+        var ArrNhaCC = NhaCC.split(' - ');
+        var MaCTKM = $('#MaCTKM_TotalDiscount').val().trim();
+
+        SourceTotalTotalDiscount = [];
+        let trs = $("#tbl_TotalTotalDiscount tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let StepAmount = String($('#' + tr.id + ' input[name="StepAmount"]').val()).trim();
+                let Type = String($('#' + tr.id + ' select[name="TypeTD"]').val()).trim();
+                let No = String($('#' + tr.id + ' select[name="NoBeBeTotal"]').val()).trim();
+                var ArrNo = No.split(' - ');
+                let ValueType = String($('#' + tr.id + ' select[name="ValueType"]').val()).trim();
+                let value = String($('#' + tr.id + ' input[name="valueTD"]').val()).trim();
+
+                if (StepAmount.length > 0 && ArrNo[0].length > 0) {
+                    SourceTotalTotalDiscount.push({
+                        "MaNCC": ArrNhaCC[0],
+                        "TenNCC": ArrNhaCC[1],
+                        "MaCTKM": MaCTKM,
+
+                        "StepAmount": StepAmount,
+                        "Type": Type,
+                        "ProductCode": ArrNo[0],
+                        "ProductName": ArrNo[1],
+                        "ValueType": ValueType,
+                        "Value": value
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataTotalTotalDiscountLine() {
+        var NhaCC = $('#VendorNo').val();
+        var ArrNhaCC = NhaCC.split(' - ');
+        var MaCTKM = $('#MaCTKM_TotalDiscount').val().trim();
+
+        SourceTotalTotalDiscountLine = [];
+        let trs = $("#tbl_TotalTotalDiscountLine tbody tr");
+       
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let Type = String($('#' + tr.id + ' select[name="typeLine"]').val()).trim();
+                let No = String($('#' + tr.id + ' select[name="NoTotalDsNoLine"]').val()).trim();
+                var ArrNo = No.split(' - ');
+
+                if (Type.length > 0 && ArrNo[0].length > 0) {
+                    SourceTotalTotalDiscountLine.push({
+                        "MaNCC": ArrNhaCC[0],
+                        "TenNCC": ArrNhaCC[1],
+                        "MaCTKM": MaCTKM,
+
+                        "Type": Type,
+                        "ProductCode": ArrNo[0],
+                        "ProductName": ArrNo[1]
+                    });
+                }
+            });
+        }
+    }
+
+    function js_TotalDsNo_TT_DC(r) {
+        var MaHang = $('#NoTotalDsNoLine_' + r).val();
+        var str = 'rowTTDL_' + r;
+        let trs = $("#tbl_TotalTotalDiscountLine tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                if (str != tr.id) {
+                    let MaHangOld = String($('#' + tr.id + ' select[name="NoTotalDsNoLine"]').val()).trim();
+                    if (MaHangOld == MaHang) {
+                        var ri = confirm('Mã ' + MaHang + ' đã có. Bạn vui lòng chọn mã khác !');
+                        if (ri) {
+                            $("#NoTotalDsNoLine_" + r).val('');
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function js_ChangeTotalDsOffer(r) {
+        var MaHang = $('#NoBeBeTotal_' + r).val();
+        var str = 'rowBL_' + r;
+        let trs = $("#tbl_TotalTotalDiscount tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                if (str != tr.id) {
+                    let MaHangOld = String($('#' + tr.id + ' select[name="NoBeBeTotal"]').val()).trim();
+                    if (MaHangOld == MaHang) {
+                        var ri = confirm('Mã ' + MaHang + ' đã có. Bạn vui lòng chọn mã khác !');
+                        if (ri) {
+                            $("#NoBeBeTotal_" + r).prop('selectedIndex', 0);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function js_changeTypeBeBe(r) {
+
+        var type = $('#TypeTD_' + r).val();
+        if (type == 'Item') {
+            $.ajax({
+                url: '/PushSale/GetListNoTotalDisOffer_TotalDiscount',
+                type: 'POST',
+                data: JSON.stringify({ type: type }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    $("#NoBeBeTotal_" + r).empty();
+                    if (data.length > 0) {
+                        $("#NoBeBeTotal_" + r).append('<option value="">--Chọn--</option>');
+                        $.each(data, (index, value) => {
+                            $("#NoBeBeTotal_" + r).append('<option value=\"' + value.Code + ' - ' + value.Name + '\">' + value.Code + ' - ' + value.Name + '</option>');
+                        });
+                        $("#NoBeBeTotal_" + r).selectpicker('refresh');
+                    }
+                }
+            });
+
+            $('#ValueType_' + r).empty();
+            //$('#No_' + r).prop('disabled', false);
+            $('#ValueType_' + r).prop('disabled', false);
+            $('#valueTD_' + r).prop('disabled', false);
+            $('#ValueType_' + r).append('<option value="Amount">Amount</option>');
+
+        }
+        //if (type == 'Discount') {
+        //    $('#ValueType_' + r).empty();
+        //    //$('#No_' + r).prop('disabled', true);
+        //    $('#ValueType_' + r).prop('disabled', false);
+        //    $('#valueTD_' + r).prop('disabled', false);
+        //    $('#ValueType_' + r).append('<option value="Amount">Amount</option><option value="Percent">%</option>');
+        //}
+        if (type == 'Coupon') {
+            $.ajax({
+                url: '/PushSale/GetListNoTotalDisOffer_TotalDiscount',
+                type: 'POST',
+                data: JSON.stringify({ type: type }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    $("#NoBeBeTotal_" + r).empty();
+                    if (data.length > 0) {
+                        $("#NoBeBeTotal_" + r).append('<option value="">--Chọn Coupon--</option>');
+                        $.each(data, (index, value) => {
+                            $("#NoBeBeTotal_" + r).append('<option value=\"' + value.Code + ' - ' + value.Name + '\">' + value.Code + ' - ' + value.Name + '</option>');
+                        });
+                        $("#NoBeBeTotal_" + r).selectpicker('refresh');
+                    }
+                }
+            });
+            $('#ValueType_' + r).empty();
+            //$('#No_' + r).prop('disabled', false);
+            $('#ValueType_' + r).prop('disabled', true);
+            $('#valueTD_' + r).prop('disabled', true);
+        }
+    }
+
+    function Get_Coupon_TD() {
+        $("#CouponCode_TotalDiscount").val('');
+        $('#CouponCode_TotalDiscount').selectpicker().empty();
+        option = document.createElement('option');
+        option.text = '-- Chọn Coupon--';
+        option.value = '';
+        $('#CouponCode_TotalDiscount').selectpicker().append(option);
+
+        $.ajax({
+            url: '/PushSale/GetListNoTotalDisOffer',
+            type: 'POST',
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                $.each(data, (index, value) => {
+                    option = document.createElement('option');
+                    option.text = value.Code + ' - ' + value.Name;
+                    option.value = value.Code + ' - ' + value.Name;
+                    $('#CouponCode_TotalDiscount').selectpicker().append(option);
+                });
+                $('#CouponCode_TotalDiscount').selectpicker('refresh');
+            }
+        });
+    }
+
+    function js_deleteRowTDOLine(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_TotalTotalDiscountLine").deleteRow(ri);
+    }
+
+    function js_deleteRowTotalTotalDiscount(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_TotalTotalDiscount").deleteRow(ri);
+    }
+</script>

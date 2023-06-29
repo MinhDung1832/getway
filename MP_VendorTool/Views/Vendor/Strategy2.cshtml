@@ -1,0 +1,743 @@
+﻿@{
+    ViewBag.Title = "Kế hoạch hợp tác";
+}
+
+<style>
+    .btn-right {
+        background-image: url('../../image/Button/right.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+        .btn-right:hover {
+            background-image: url('../../image/Button/righthover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .btn-left {
+        background-image: url('../../image/Button/left.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+        .btn-left:hover {
+            background-image: url('../../image/Button/lefthover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .btn-center {
+        background-image: url('../../image/Button/center.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+        .btn-center:hover {
+            background-image: url('../../image/Button/centerhover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .col-md-3 label {
+        width: 25%;
+    }
+
+    .minusbutton {
+        border: none;
+        background: transparent;
+        outline: none;
+        padding: initial;
+    }
+
+    .money {
+        width: 120px;
+        display: inline;
+        text-align: right;
+    }
+
+    #footer {
+        position: fixed;
+        right: 1rem;
+        bottom: 0px;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        background: rgba(90,92,105,.5);
+        line-height: 46px;
+        display: inline;
+    }
+
+    .italic {
+        font-style: italic;
+    }
+
+    .redtext {
+        color: red;
+    }
+
+
+
+    legend {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 10px;
+        margin-top: 32px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #658EC6;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    .label2 {
+        display: block;
+        width: 100%;
+        padding: 0;
+        font-size: 15px;
+        line-height: inherit;
+        color: #658EC6;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    fieldset {
+        margin-top: 34px;
+    }
+
+    label {
+        font-size: 12px;
+        color: #59595B;
+    }
+
+    .from_vender {
+        margin-left: 8px;
+    }
+
+        .from_vender input, .from_vender select {
+            margin-bottom: 8px;
+        }
+
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+        .button_save_1 a {
+            text-align: center;
+            background-color: #868686 !important;
+            border-color: #868686 !important;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 8px;
+        }
+
+    #E_Invoice {
+        margin-bottom: 18px !important;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #86868600;
+        border-color: #868686;
+        color: #6f8cb8 !important;
+    }
+
+    .button_action a:hover {
+        background-color: #9e9e9e;
+        color: #f3f3f3 !important;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+    .button_action {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .table > thead > tr {
+        background: #C4C4C4;
+    }
+
+        .table > thead > tr > th {
+            color: black;
+        }
+</style>
+<style>
+
+    html {
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
+
+    body {
+        position: relative;
+        background-image: url('../../image/nen2.jpg');
+        background-color: #f3f3f3;
+        background-size: cover;
+    }
+
+    .ct {
+        margin: 0 auto;
+        padding-top: 32px;
+    }
+
+    .demo h1 {
+        margin-top: 0;
+    }
+
+    /**
+    * Footer Styles
+    */
+
+    .footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        /* padding: 1rem;*/
+        background-color: #efefef;
+        text-align: center;
+    }
+</style>
+@Html.Partial("_sidebar")
+<div class="wp_vendor">
+    @Html.Partial("~/Views/Shared/_header.cshtml")
+    <div class="content_vendor">
+        <div class="container" style="min-height:600px;">
+            <div id="step2">
+                <fieldset>
+                    <legend>2.Kế hoạch & Ngân sách triển khai các hoạt động hợp tác khác </legend>
+                    <label class="label2">2.1.Quảng bá thương hiệu</label>
+                    <div class="col-md-12">
+
+                        <div class="col-md-4" style="width:26%">
+                            <label>Tổng ngân sách</label>
+                            <input class="form-control number-separator money" disabled="disabled" style="width: 120px;display: inline; background-color: #EBEBE4 !important;  " type="text" value="0" id="TongNganSach1"></input>
+                        </div>
+                        <div class="col-md-5">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="HangMuc11" style="width: 70%;display: inline;"></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('MucDauTu11',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" disabled="disabled" onchange="sum(1)" style="width: 120px;display: inline;" type="text" value="0" id="MucDauTu11"></input>
+                            <button onclick="increase('MucDauTu11',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+
+                        <div class="col-md-4" style="width:26%">
+                        </div>
+                        <div class="col-md-5">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="HangMuc12" style="width: 70%;display: inline;"></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('MucDauTu12',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" disabled="disabled" onchange="sum(1)" style="width: 120px;display: inline;" type="text" value="0" id="MucDauTu12"></input>
+                            <button onclick="increase('MucDauTu12',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                        <div class="col-md-4" style="width:26%">
+                        </div>
+                        <div class="col-md-5">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="HangMuc13" style="width: 70%;display: inline;"></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('MucDauTu13',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" disabled="disabled" onchange="sum(1)" style="width: 120px;display: inline;" type="text" value="0" id="MucDauTu13"></input>
+                            <button onclick="increase('MucDauTu13',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <label class="label2">2.2.Phát triển khách hàng</label>
+                    <div class="col-md-12">
+
+                        <div class="col-md-4" style="width:26%">
+                            <label>Tổng ngân sách</label>
+
+                            <input class="form-control number-separator money" disabled="disabled" style="width: 120px;display: inline; background-color: #EBEBE4 !important;  " type="text" value="0" id="TongNganSach2"></input>
+
+                        </div>
+                        <div class="col-md-5">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="HangMuc21" style="width: 70%;display: inline;"></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('MucDauTu21',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" disabled="disabled" onchange="sum(2)" style="width: 120px;display: inline;" type="text" value="0" id="MucDauTu21"></input>
+                            <button onclick="increase('MucDauTu21',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+
+                        <div class="col-md-4" style="width:26%">
+                        </div>
+                        <div class="col-md-5">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="HangMuc22" style="width: 70%;display: inline;"></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('MucDauTu22',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" disabled="disabled" onchange="sum(2)" style="width: 120px;display: inline;" type="text" value="0" id="MucDauTu22"></input>
+                            <button onclick="increase('MucDauTu22',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                        <div class="col-md-4" style="width:26%">
+                        </div>
+                        <div class="col-md-5">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="HangMuc23" style="width: 70%;display: inline;"></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('MucDauTu23',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" disabled="disabled" onchange="sum(2)" style="width: 120px;display: inline;" type="text" value="0" id="MucDauTu23"></input>
+                            <button onclick="increase('MucDauTu23',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <label class="label2">2.3.Trách nhiệm xã hội</label>
+                    <div class="col-md-12">
+
+                        <div class="col-md-4" style="width:26%">
+                            <label>Tổng ngân sách</label>
+
+                            <input class="form-control number-separator money" disabled="disabled" style="width: 120px;display: inline; background-color: #EBEBE4 !important;  " value="0" id="TongNganSach3"></input>
+
+                        </div>
+                        <div class="col-md-5">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="HangMuc31" style="width: 70%;display: inline;"></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('MucDauTu31',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" disabled="disabled" onchange="sum(3)" style="width: 120px;display: inline;" type="text" value="0" id="MucDauTu31"></input>
+                            <button onclick="increase('MucDauTu31',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+
+                        <div class="col-md-4" style="width:26%">
+                        </div>
+                        <div class="col-md-5">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="HangMuc32" style="width: 70%;display: inline;"></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('MucDauTu32',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" disabled="disabled" onchange="sum(3)" style="width: 120px;display: inline;" type="text" value="0" id="MucDauTu32"></input>
+                            <button onclick="increase('MucDauTu32',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                        <div class="col-md-4" style="width:26%">
+                        </div>
+                        <div class="col-md-5">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="HangMuc33" style="width: 70%;display: inline;"></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('MucDauTu33',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" disabled="disabled" onchange="sum(3)" style="width: 120px;display: inline;" type="text" value="0" id="MucDauTu33"></input>
+                            <button onclick="increase('MucDauTu33',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <label class="label2">2.4.Khác</label>
+                    <div class="col-md-12">
+
+                        <div class="col-md-4" style="width:26%">
+                            <label>Tổng ngân sách</label>
+                            <input class="form-control number-separator money" disabled="disabled" style="width: 120px;display: inline; background-color: #EBEBE4 !important;  " type="text" value="0" id="TongNganSach4"></input>
+                        </div>
+                        <div class="col-md-5">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="HangMuc41" style="width: 70%;display: inline;"></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('MucDauTu41',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" disabled="disabled" onchange="sum(4)" style="width: 120px;display: inline;" type="text" value="0" id="MucDauTu41"></input>
+                            <button onclick="increase('MucDauTu41',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+
+                        <div class="col-md-4" style="width:26%">
+                        </div>
+                        <div class="col-md-5">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="HangMuc42" style="width: 70%;display: inline;"></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('MucDauTu42',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" disabled="disabled" onchange="sum(4)" style="width: 120px;display: inline;" type="text" value="0" id="MucDauTu42"></input>
+                            <button onclick="increase('MucDauTu42',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                        <div class="col-md-4" style="width:26%">
+                        </div>
+                        <div class="col-md-5">
+                            <label style="width:19%">Hạng mục</label>
+                            <select class="form-control" id="HangMuc43" style="width: 70%;display: inline;"></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label style="width:30%">Mức đầu tư</label>
+                            <button onclick="decrease('MucDauTu43',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/minus.png" height="35px" />
+                            </button>
+                            <input class="form-control number-separator money" disabled="disabled" onchange="sum(4)" style="width: 120px;display: inline;" type="text" value="0" id="MucDauTu43"></input>
+                            <button onclick="increase('MucDauTu43',50000000)" class="minusbutton">
+                                <img src="~/image/Circle/plus.png" height="35px" />
+                            </button>
+                        </div>
+                    </div>
+
+
+                </fieldset>
+            </div>
+            <div class="row button_action">
+                <div class="col-md-4">
+                    @*@Html.ActionLink(@MP_VendorTool.Resource.prevPage, "Create", "Vendor", null, new { @class = "form-control btn-primary text-center" })*@
+
+                    <a onclick="back()" class="form-control btn-left"> @MP_VendorTool.Resource.prevPage </a>
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    @*<input type="button" class="form-control btn-primary" value="@MP_VendorTool.Resource.Save_Con" onclick="fnSave('next')" />*@
+                    <a onclick="next()" style="margin-left:14px" class="form-control btn-right" onclick="fnSave('next')">@MP_VendorTool.Resource.Save_Con </a>
+                </div>
+            </div>
+
+            <div class="footer hidden">
+                <button class="nbut btn-left" id="bbut" onclick="back()" style="float:left;margin-left: 100px;">Back</button>
+                <button class="nbut btn-right" id="nbut" onclick="next()" style="float:right;margin-right: 100px;">Next</button>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script src="~/Scripts/easy-number-separator.js"></script>
+<script type="text/javascript">
+    var currentKH;
+    $(function () {
+        $('#header_title').html("KẾ HOẠCH HỢP TÁC");
+        $('#st2').addClass("highlight");
+        $('#img2').addClass("icon2active");
+        js_GetHangMuc();
+        js_GetKeHoach();
+
+    });
+
+    function js_GetHangMuc() {
+        $.ajax({
+            url: '/Vendor/GetAllHangMuc',
+            type: 'POST',
+            data: JSON.stringify({}),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+            },
+            success: function (data) {
+                $('#HangMuc11').empty();
+                $('#HangMuc12').empty();
+                $('#HangMuc13').empty();
+                $('#HangMuc21').empty();
+                $('#HangMuc22').empty();
+                $('#HangMuc23').empty();
+                $('#HangMuc31').empty();
+                $('#HangMuc32').empty();
+                $('#HangMuc33').empty();
+                $('#HangMuc41').empty();
+                $('#HangMuc42').empty();
+                $('#HangMuc43').empty();
+                $.each(data, (index, value) => {
+
+
+                    if (value.HangMucCode.includes("HM1")) {
+                        $('#HangMuc21').append(`<option value="${value.HangMucCode}">${value.HangMucName}</option>`);
+                        $('#HangMuc22').append(`<option value="${value.HangMucCode}">${value.HangMucName}</option>`);
+                        $('#HangMuc23').append(`<option value="${value.HangMucCode}">${value.HangMucName}</option>`);
+                    }
+                    if (value.HangMucCode.includes("HM0")) {
+                        $('#HangMuc11').append(`<option value="${value.HangMucCode}">${value.HangMucName}</option>`);
+                        $('#HangMuc12').append(`<option value="${value.HangMucCode}">${value.HangMucName}</option>`);
+                        $('#HangMuc13').append(`<option value="${value.HangMucCode}">${value.HangMucName}</option>`);
+                    }
+                    if (value.HangMucCode.includes("HM2")) {
+                        $('#HangMuc31').append(`<option value="${value.HangMucCode}">${value.HangMucName}</option>`);
+                        $('#HangMuc32').append(`<option value="${value.HangMucCode}">${value.HangMucName}</option>`);
+                        $('#HangMuc33').append(`<option value="${value.HangMucCode}">${value.HangMucName}</option>`);
+                    }
+                    if (value.HangMucCode.includes("HM3")) {
+                        $('#HangMuc41').append(`<option value="${value.HangMucCode}">${value.HangMucName}</option>`);
+                        $('#HangMuc42').append(`<option value="${value.HangMucCode}">${value.HangMucName}</option>`);
+                        $('#HangMuc43').append(`<option value="${value.HangMucCode}">${value.HangMucName}</option>`);
+                    }
+                });
+            },
+            error: function () {
+
+            }
+        });
+
+    }
+
+    function js_GetKeHoach() {
+        var year = $('#year :selected').val();
+        $.ajax({
+            url: '/Vendor/GetKeHoachKhac',
+            type: 'POST',
+            data: JSON.stringify({ Year: year }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+            },
+            success: function (data) {
+                changed = false;
+                currentKH = data;
+                if (currentKH.HangMuc11.length) {
+                    $('#MucDauTu11').val(currentKH.MucDauTu11).trigger('change');
+                    $('#HangMuc11').val(currentKH.HangMuc11).changed;
+                }
+                if (currentKH.HangMuc12.length) {
+                    $('#MucDauTu12').val(currentKH.MucDauTu12).trigger('change');
+                    $('#HangMuc12').val(currentKH.HangMuc12).changed;
+                }
+                if (currentKH.HangMuc13.length) {
+                    $('#MucDauTu13').val(currentKH.MucDauTu13).trigger('change');
+                    $('#HangMuc13').val(currentKH.HangMuc13).changed;
+                }
+                $('#TongNganSach1').val(currentKH.TongNganSach1).trigger('change');
+                if (currentKH.HangMuc21.length) {
+                    $('#MucDauTu21').val(currentKH.MucDauTu21).trigger('change');
+                    $('#HangMuc21').val(currentKH.HangMuc21).changed;
+                }
+                if (currentKH.HangMuc22.length) {
+                    $('#MucDauTu22').val(currentKH.MucDauTu22).trigger('change');
+                    $('#HangMuc22').val(currentKH.HangMuc22).changed;
+                }
+                if (currentKH.HangMuc23.length) {
+                    $('#MucDauTu23').val(currentKH.MucDauTu23).trigger('change');
+                    $('#HangMuc23').val(currentKH.HangMuc23).changed;
+                }
+                $('#TongNganSach2').val(currentKH.TongNganSach2).trigger('change');
+                if (currentKH.HangMuc31.length) {
+                    $('#MucDauTu31').val(currentKH.MucDauTu31).trigger('change');
+                    $('#HangMuc31').val(currentKH.HangMuc31).changed;
+                } if (currentKH.HangMuc32.length) {
+                    $('#MucDauTu32').val(currentKH.MucDauTu32).trigger('change');
+                    $('#HangMuc32').val(currentKH.HangMuc32).changed;
+                } if (currentKH.HangMuc33.length) {
+                    $('#MucDauTu33').val(currentKH.MucDauTu33).trigger('change');
+                    $('#HangMuc33').val(currentKH.HangMuc33).changed;
+                }
+                $('#TongNganSach3').val(currentKH.TongNganSach3).trigger('change');
+                if (currentKH.HangMuc41.length) {
+                    $('#MucDauTu41').val(currentKH.MucDauTu41).trigger('change');
+                    $('#HangMuc41').val(currentKH.HangMuc41).changed;
+                } if (currentKH.HangMuc42.length) {
+                    $('#MucDauTu42').val(currentKH.MucDauTu42).trigger('change');
+                    $('#HangMuc42').val(currentKH.HangMuc42).changed;
+                } if (currentKH.HangMuc43.length) {
+                    $('#MucDauTu43').val(currentKH.MucDauTu43).trigger('change');
+                    $('#HangMuc43').val(currentKH.HangMuc43).changed;
+                }
+                $('#TongNganSach4').val(currentKH.TongNganSach4).trigger('change');
+
+
+            },
+            error: function () {
+
+            }
+        });
+
+    }
+
+    function next() {
+        save();
+        // window.location.href = "/Vendor/Strategy3"
+        window.location.href = "/Vendor/Commingsoon"
+        //?backurl=/Vendor/Strategy2
+    }
+
+    function back() {
+        window.location.href = "/Vendor/Strategy1"
+    }
+
+    function getcurrentKH() {
+        currentKH.MucDauTu11 = $('#MucDauTu11').val().replaceAll('.', '');
+        currentKH.HangMuc11 = $('#HangMuc11').val();
+        currentKH.MucDauTu12 = $('#MucDauTu12').val().replaceAll('.', '');
+        currentKH.HangMuc12 = $('#HangMuc12').val();
+        currentKH.MucDauTu13 = $('#MucDauTu13').val().replaceAll('.', '');
+        currentKH.HangMuc13 = $('#HangMuc13').val();
+
+        currentKH.MucDauTu21 = $('#MucDauTu21').val().replaceAll('.', '');
+        currentKH.HangMuc21 = $('#HangMuc21').val();
+        currentKH.MucDauTu22 = $('#MucDauTu22').val().replaceAll('.', '');
+        currentKH.HangMuc22 = $('#HangMuc22').val();
+        currentKH.MucDauTu23 = $('#MucDauTu23').val().replaceAll('.', '');
+        currentKH.HangMuc23 = $('#HangMuc23').val();
+
+        currentKH.MucDauTu31 = $('#MucDauTu31').val().replaceAll('.', '');
+        currentKH.HangMuc31 = $('#HangMuc31').val();
+        currentKH.MucDauTu32 = $('#MucDauTu32').val().replaceAll('.', '');
+        currentKH.HangMuc32 = $('#HangMuc32').val();
+        currentKH.MucDauTu33 = $('#MucDauTu33').val().replaceAll('.', '');
+        currentKH.HangMuc33 = $('#HangMuc33').val();
+
+        currentKH.MucDauTu41 = $('#MucDauTu41').val().replaceAll('.', '');
+        currentKH.HangMuc41 = $('#HangMuc41').val();
+        currentKH.MucDauTu42 = $('#MucDauTu42').val().replaceAll('.', '');
+        currentKH.HangMuc42 = $('#HangMuc42').val();
+        currentKH.MucDauTu43 = $('#MucDauTu43').val().replaceAll('.', '');
+        currentKH.HangMuc43 = $('#HangMuc43').val();
+
+    }
+
+    function save() {
+
+        getcurrentKH();
+        $.ajax({
+            url: '/Vendor/PostKeHoachKhacUpdate',
+            type: 'POST',
+            data: JSON.stringify({ kh: currentKH }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+
+            },
+            error: function () {
+
+            }
+        });
+
+    }
+
+    function decrease(control, amount) {
+        var i = parseInt($('#' + control).val().replaceAll('.', ''));
+        if (isNaN(i)) i = 0;
+        $('#' + control).val((i - amount) < 0 ? 0 : (i - amount)).trigger('change');
+    }
+
+    function increase(control, amount) {
+        var i = parseInt($('#' + control).val().replaceAll('.', ''));
+        if (isNaN(i)) i = 0;
+        $('#' + control).val(i + amount).trigger('change');
+    }
+
+    function sum(i) {
+        var i1 = parseInt($('#MucDauTu' + i + '1').val().replaceAll('.', ''));
+        var i2 = parseInt($('#MucDauTu' + i + '2').val().replaceAll('.', ''));
+        var i3 = parseInt($('#MucDauTu' + i + '3').val().replaceAll('.', ''));
+        $('#TongNganSach' + i).val(i1 + i2 + i3).trigger('change');
+    }
+
+
+</script>

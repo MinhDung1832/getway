@@ -1,0 +1,2202 @@
+﻿@using MP_VendorTool.Models.Promotion;
+@using MP_VendorTool.Common;
+@using Newtonsoft.Json;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+    var jsonItems = serializer.Serialize(ViewBag.lstItem);
+}
+<style>
+    .content {
+        -webkit-transition: all .4s ease-in-out;
+        -moz-transition: all .4s ease-in-out;
+        -o-transition: all .4s ease-in-out;
+        -ms-transition: all .4s ease-in-out;
+    }
+
+    .bs-placeholder {
+        height: 26px !important;
+    }
+
+    .bootstrap-select > select.bs-select-hidden, select.bs-select-hidden, select.selectpicker {
+        display: block !important;
+    }
+
+    .modal-footer {
+        border-top: unset !important;
+    }
+
+    .title-popup-01 {
+        font-size: 20px;
+        padding: 13px 28px;
+    }
+
+    .btn_add a {
+        background-color: #868686;
+        padding: 3px 3px;
+        color: #fff;
+        font-size: 10px;
+        border-radius: unset;
+        margin-top: 2px;
+        display: inline-block;
+    }
+
+        .btn_add a i {
+            color: #fff !important;
+            padding-left: 4px;
+        }
+    label {
+        font-size: 12px;
+        font-weight: normal !important;
+        color: #4f4f4f;
+    }
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 5vh;
+        height: 5vh;
+        -webkit-animation: spin 2s linear infinite;
+        / animation: spin 2s linear infinite;
+    }
+
+    #popup_panel {
+        text-align: center !important;
+    }
+
+    @@-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .percent6 {
+        width: 5% !important;
+    }
+
+    .c1 {
+        width: 15%
+    }
+
+    .c2 {
+        width: 25%
+    }
+
+    .c3 {
+        width: 15%
+    }
+
+    .c4 {
+        width: 25%;
+    }
+
+    .c5 {
+        width: 20%;
+        padding-right: 0px;
+    }
+
+    .fa, .fas {
+        font-weight: 900;
+        color: #868686 !important;
+    }
+
+    i {
+        margin-right: 5px;
+    }
+
+    .right {
+        text-align: right;
+    }
+
+    div.tabcontent {
+        display: none;
+    }
+
+    div.tab button.active {
+        background-color: #ccc;
+    }
+
+    div.tab button:hover {
+        background-color: #ccc;
+    }
+
+    .tabcontent {
+        width: 100%;
+    }
+
+    div.tab button {
+        background-color: inherit;
+        float: left;
+        outline: none;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        height: 40px;
+        width: 11.1% !important;
+    }
+
+    div.tab {
+        overflow: no-display;
+        background-color: #f1f1f1;
+        width: 100%;
+        margin-left: 18px;
+    }
+
+    .btn-primary {
+        color: #fff !important;
+        background-color: #337ab7 !important;
+        border-color: #2e6da4 !important;
+    }
+
+    #content_table table {
+        width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 4px !important;
+    }
+
+    th,
+    td {
+        padding: 2px;
+    }
+
+    .text-title {
+        text-align: center !important;
+        font-size: 15px !important;
+    }
+
+    th {
+        background: #c4c4c4;
+        position: sticky;
+        top: 0px;
+    }
+
+    .box_quyenloi {
+        width: 91%;
+    }
+
+    #content_table {
+        width: 100%;
+        height: 600px;
+        overflow-y: auto;
+    }
+
+    .error {
+        color: red;
+        font-size: 11px;
+        font-style: italic;
+    }
+
+    .table-bordered {
+        border: 0px solid #ddd !important;
+    }
+
+    #form_search .col-md-12 {
+        margin-bottom: 1px !important;
+    }
+
+    #form_search {
+        margin-bottom: 7px;
+        top: 65px;
+        z-index: 1;
+        background: #f3f3f3;
+    }
+
+    #L4L_DT {
+        cursor: pointer;
+    }
+
+    .btn-info {
+        padding: 4px !important;
+    }
+
+    .btn-info {
+        max-width: 115px !important;
+    }
+
+    .wp_button a {
+        float: right;
+    }
+
+    #form_search .form-control {
+        height: 25px !important;
+    }
+
+    .form-control {
+        height: 25px !important;
+        padding: 0px;
+    }
+
+    #tbl_Item_length {
+        position: absolute;
+        bottom: 0px;
+        left: 227px;
+    }
+
+    #txtHead01 {
+        font-weight: bold;
+        text-decoration: underline;
+        color: #2f5696;
+    }
+
+    #txtHead02 {
+        color: #2f5696;
+    }
+
+    #btn_tab {
+        border: 1px solid #c4c4c4;
+    }
+
+    .cb {
+        text-align: center;
+    }
+
+    #GroupKM {
+        background-color: #d9e2f2;
+        text-align: center;
+        width: 280px;
+        padding: 3px;
+        cursor: pointer;
+    }
+
+    .s_cap {
+        color: red;
+    }
+
+    .input_left {
+        float: left;
+    }
+
+    #btn_add_priceGroup {
+        padding: 3px;
+        background-color: #868686;
+        color: #fff !important;
+    }
+
+    #btn_add_priceGroup i {
+        padding: 6px;
+        color: #fff !important;
+    }
+    #Promotion-form {
+        margin-top: 85px;
+    }
+    #btn_add_Code {
+        padding: 3px;
+        background-color: #868686;
+        color: #fff !important;
+    }
+    .btn-info {
+        color: #fff !important;
+        background-color: #868686 !important;
+        border-color: #46b8da;
+    }
+</style>
+@Html.Partial("~/Views/Shared/_sidebar_3.cshtml")
+
+<div id="wp_order">
+    <div class="header_vender_1">
+        @Html.Partial("~/Views/Shared/_header_home.cshtml")
+    </div>
+    <div style=" clear:both"></div>
+    <div class="container">
+
+        <form id="Promotion-form" class="form-horizontal" accept-charset="utf-8">
+            <div class="row" id="form_create">
+                <div>
+            
+                    <div class="col-md-12">
+                        <div class="col-md-1 c1">
+                            <label style="">Loại CTKM <span class="s_cap">(*)</span></label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <select id="typeCTKM" name="typeCTKM" class="form-control" onchange="js_changeLoaiCTKM()">
+                                @foreach (objCombox box in (List<objCombox>)ViewBag.listLoaiCaiDatCTKM)
+                                {
+                                    if (@box.Code == "Discount Offers" || @box.Code == "Mix&Match" || @box.Code == "Total Discount Offer")
+                                    {
+                                        <option value="@box.Code">@box.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-1 c3">
+                            <label style="">Từ ngày <span class="s_cap">(*)</span> </label>
+                        </div>
+                        <div class="col-md-1 c4">
+                            <input type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" id="frdate" name="frdate" class="form-control">
+                        </div>
+                        <div class="col-md-1 c5">
+                            <input name="submit" class="form-control btn btn-info" type="submit" value="Lưu lại" style="float:left;border: none;text-align:center;">
+                            @*<a href="#" class="form-control btn btn-info"><i class="fas fa-edit" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Chỉnh sửa </a>*@
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-1 c1">
+                            <label> Mục tiêu CTKM</label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <select id="target" name="target" class="form-control valid" aria-invalid="false">
+                                <option value="">--Chọn mục tiêu CTKM--</option>
+                                @foreach (objCombox box in (List<objCombox>)ViewBag.listLoaiCTKM)
+                                {
+                                    <option value="@box.Code">@box.Name</option>
+                                }
+                            </select>
+
+                            @*<input type="search" id="target" class="form-control" list="target_datalist" placeholder="Mục tiêu CTKM" />
+                                <datalist id="target_datalist">
+                                    @foreach (objCombox box in (List<objCombox>)ViewBag.listLoaiCTKM)
+                                    {
+                                        <option value="@box.Code - @box.Name" />
+                                    }
+                                </datalist>*@
+
+                        </div>
+                        <div class="col-md-1 c3">
+                            <label style="">Đến ngày <span class="s_cap">(*)</span></label>
+                        </div>
+                        <div class="col-md-1 c4">
+                            <input type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" id="toDate" name="toDate" class="form-control" />
+                        </div>
+                        <div class="col-md-1 c5">
+                            <a href="/Promotion/DSCTKM" class="form-control btn btn-info" style="text-align: center;"> Quay Lại </a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-1 c1">
+                            <label> Mã CTKM <span class="s_cap">(*)</span></label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <div class="input_left">
+                                <input type="text" disabled id="codeKM" name="codeKM" value="" style="width: 230px;" class="form-control" />
+                            </div>
+                            <div class="input_left" style="margin-top: 3px;">
+                                <a href="#" onclick="js_createCodeCTKM()" id="btn_add_Code">Lấy mã</a>
+                            </div>
+                        </div>
+                        <div class="col-md-1 c3">
+                            <label style="">Định kỳ/Lặp vòng  </label>
+                        </div>
+                        <div class="col-md-1 c4">
+                            <input type="text" value="" id="Dinhky_VongLap" class="form-control">
+                        </div>
+                        <div class="col-md-1 c5">
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom:10px !important">
+                        <div class="col-md-1 c1">
+                            <label>Tên CTKM <span class="s_cap">(*)</span></label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <input type="text" id="NameKM" name="NameKM" class="form-control" placeholder="Nhập tên CTKM" />
+                        </div>
+                        <div class="col-md-1 c3">
+                            <label style="">Range </label>
+                        </div>
+                        <div class="col-md-1 c4">
+                            <select class="form-control" id="Range">
+                                <option value="">---Chọn---</option>
+                                <option value="Core Range">Core Range</option>
+                                <option value="Thuê kệ">Thuê kệ</option>
+                                <option value="Online Only">Online Only</option>
+                                <option value="Ngừng KD">Ngừng KD</option>
+                                <option value="Out Range">Out Range</option>
+                                <option value="Chưa nhập">Chưa nhập</option>
+                                <option value="Bán thử">Bán thử</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1 c5">
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top:10px">
+                        <span id="txtHead01">A./ CỬA HÀNG/ KÊNH BÁN ÁP DỤNG KHUYẾN MẠI</span>
+                    </div>
+                    <div class="col-md-12" style="margin-top:5px !important">
+                        <div class="col-md-1 c1">
+                            <label style="">Store Group Type</label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <select class="form-control" id="StoreGroupType">
+                                <option value="">---Chọn---</option>
+                                @foreach (ObjComboxCTKM box in (List<ObjComboxCTKM>)ViewBag.lstCombox)
+                                {
+                                    <option value="@box.Store_GType_Value">@box.Store_GType_Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-1 c3">
+                            <label style="">POS Pop-up Message 1</label>
+                        </div>
+                        <div class="col-md-1 c4">
+                            <input type="search" id="Message1" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-1 c1">
+                            <label style="">Store Group</label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <select class="form-control" id="StoreGroup">
+                                <option value="">---Chọn---</option>
+                                @foreach (ObjComboxCTKM box in (List<ObjComboxCTKM>)ViewBag.lstCombox)
+                                {
+                                    <option value="@box.StoreGroup_Value">@box.StoreGroup_Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-1 c3">
+                            <label style="">POS Pop-up Message 2</label>
+                        </div>
+                        <div class="col-md-1 c4">
+                            <input type="text" id="Message2" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom:5px !important">
+                        <div class="col-md-1 c1">
+                            <label style="font-style:italic">Tạo nhóm Store/Channel</label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <input type="text" id="Store_Channel" class="form-control" />
+                        </div>
+                        <div class="col-md-1 c3">
+                            <label style="">
+                                POS Pop-up Message 3
+                            </label>
+                        </div>
+                        <div class="col-md-1 c4">
+                            <input type="text" id="Message3" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <span id="txtHead01">B./ ĐIỀU KIỆN ÁP DỤNG KHUYẾN MẠI (Triggers)</span>
+                    </div>
+                    <div class="col-md-12" style="margin-top:5px !important">
+                        <span id="txtHead02"> Điều kiện theo Cửa hàng/Kênh bán</span>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-1 c1">
+                            <label style="">Customer Disc. Group</label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <input type="text" id="CusDisc" class="form-control" />
+                        </div>
+
+                        <div class="col-md-1 c3">
+                            <label style="font-style:italic">Price Group<span class="s_cap">(*)</span></label>
+                        </div>
+
+                        <div class="col-md-1 c4">
+                           
+                            <select id="CusPriceGroup" name="CusPriceGroup" class="form-control selectpicker" data-live-search="true">
+                                @if (ViewBag.lstCusPriceGroup != null)
+                                {
+                                    <option value="">--- Chọn Price Group---</option>
+                                    foreach (objCombox box in (List<objCombox>)ViewBag.lstCusPriceGroup)
+                                    {
+                                        <option value="@box.Code">@box.Code - @box.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top:5px !important">
+                        <span id="txtHead02">Kích hoạt theo coupon, giá trị đơn hàng, hình thức mua hàng</span>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-1 c1">
+                            <label style="">Coupon Code </label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <input type="text" id="CouponCode" class="form-control" onchange="" />
+                        </div>
+                        <div class="col-md-1 c3">
+                            <label style="">Sales Type Filter </label>
+                        </div>
+                        <div class="col-md-1 c4">
+                            <input type="text" id="SaleTypeFilter" class="form-control" onchange="" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-1 c1">
+                            <label style="">Coupon Qty. Needed</label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <input type="number" id="CouponQty" class="form-control" onchange="" />
+                        </div>
+                        <div class="col-md-1 c3">
+                            <label style="">Amount to Trigger</label>
+                        </div>
+                        <div class="col-md-1 c4">
+                            <input type="number" id="AmountTrigger" class="form-control" onchange="" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top:5px !important">
+                        <span id="txtHead02">Kích hoạt theo khách hàng thành viên</span>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-1 c1">
+                            <label style="">Member Type </label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <input type="text" id="MemberType" class="form-control" onchange="" />
+                        </div>
+
+                        <div class="col-md-1 c3">
+                            <label style="">Member Attibute</label>
+                        </div>
+                        <div class="col-md-1 c4">
+                            <input type="text" id="MemberAtt" class="form-control" onchange="" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-1 c1">
+                            <label style="">Member Value</label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <input type="text" id="MemberValue" class="form-control" onchange="" />
+                        </div>
+                        <div class="col-md-1 c3">
+                            <label style="">Member Attibute Value</label>
+                        </div>
+                        <div class="col-md-1 c4">
+                            <input type="text" id="MemberAttValue" class="form-control" onchange="" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top:5px !important">
+                        <span id="txtHead02">Kích hoạt theo ưu đãi thanh toán <span style="font-style:italic">(Áp dụng cho Tender Type Discount</span></span>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom:5px !important">
+                        <div class="col-md-1 c1">
+                            <label style="">Tender Type Code</label>
+                        </div>
+                        <div class="col-md-1 c2">
+                            <input type="text" id="TenderTypeCode" class="form-control" onchange="" />
+                        </div>
+                        <div class="col-md-1 c3">
+                            <label style="">Tender Type Value</label>
+                        </div>
+                        <div class="col-md-1 c4">
+                            <input type="number" id="TenderTypeValue" class="form-control" onchange="" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom:5px !important">
+                        <span id="txtHead01"> C./ Line</span>
+                    </div>
+
+                    <div class="box_quyenloi">
+                        <div id="Promotions" class="tabcontent" style="display:none">
+                            <div class="col-md-12">
+                                <table class="table table-bordered" id="tbl_promotion">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Mã hàng</th>
+                                            <th scope="col">XH 631</th>
+                                            <th scope="col">Range</th>
+                                            <th scope="col">Disc. % from Std. Price</th>
+                                            <th scope="col">Disc. Amount from Std. Price</th>
+                                            <th scope="col">Phương pháp làm tròn</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                <datalist id="product_datalist">
+                                    @foreach (objCombox box in (List<objCombox>)ViewBag.lstItem)
+                                    {
+                                        <option value="@box.Code - @box.Name" />
+                                    }
+                                </datalist>
+                                <datalist id="NoTotalDs_datalist">
+                                </datalist>
+                                @*<div class="wp_button"><a href="javascript:void(0);" onclick="js_addRowPromotion()" class="form-control btn btn-info"><i class="fas fa-plus" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Thêm mới </a></div>*@
+                            </div>
+                        </div>
+                        <div id="Discount Offers" class="tabcontent" style="display:block">
+                            <div class="col-md-12">
+                                <table class="table table-bordered" id="tbl_DiscountOffer">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Type</th>
+                                            <th scope="col" style="width: 195px;">No.</th>
+                                            <th scope="col">Disc. % from Std. Price</th>
+                                            <th scope="col">Disc. Amount from Std. Price</th>
+                                            <th scope="col">Phương pháp làm tròn</th>
+                                            <th scope="col">Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+
+                                <div class="wp_button"><a href="javascript:void(0);" onclick="js_addRowDiscountOffer()" class="form-control btn btn-info"><i class="fas fa-plus" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Thêm mới </a></div>
+
+                            </div>
+                        </div>
+
+                        <div id="Multibuy Discounts" class="tabcontent" style="display:none">
+                            <div class="col-md-12">
+                                <table class="table table-bordered" id="tbl_MultibuyDiscount">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Disc. Type</th>
+                                            <th scope="col">Mã hàng</th>
+                                            <th scope="col">SL mua tối thiểu</th>
+                                            <th scope="col">% giảm</th>
+                                            <th scope="col">Giá trị giảm</th>
+                                            <th scope="col">Giá deal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                @*<div class="wp_button"><a href="javascript:void(0);" onclick="js_addRowMultibuyDiscount()" class="form-control btn btn-info"><i class="fas fa-plus" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Thêm mới </a></div>*@
+                            </div>
+                        </div>
+                        <div id="Mix&Match" class="tabcontent" style="display:none">
+                            <div class="col-md-12">
+                                <div style="width:90%">
+                                    <table class="table table-bordered" id="tbl_MixMaxLine">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Type</th>
+                                                <th scope="col" style="width: 290px;">No.</th>
+                                                <th scope="col">No. of Items Needed</th>
+                                                <th scope="col">Deal Price/Disc.%</th>
+                                                <th scope="col">Disc. Type</th>
+                                                <th scope="col">Line Group</th>
+                                                <th scope="col">Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    <div class="wp_button"><a href="javascript:void(0);" onclick="js_addRowMixLine()" class="form-control btn btn-info"><i class="fas fa-plus" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Thêm mới </a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="Total Discount Offer" class="tabcontent" style="display:none">
+
+                            <div class="col-md-12">
+                                <div style="width:40%">
+                                    <table class="table table-bordered" id="tbl_TotalDiscountOfferLine">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Type</th>
+                                                <th scope="col" style="width: 286px;">No.</th>
+                                                <th scope="col">Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    <div class="wp_button"><a href="javascript:void(0);" onclick="js_addRowTDOLine()" class="form-control btn btn-info"><i class="fas fa-plus" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Thêm mới </a></div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="Tender Type Offer" class="tabcontent" style="display:none">
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-3 col-form-label">Tender Offer %</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="TenderOffer" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-3 col-form-label">Tender Offer Amount</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="TenderOfferAmount" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="Member Point Offer" class="tabcontent" style="display:none">
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-3 col-form-label">Line Specific</label>
+                                        <div class="col-sm-9">
+                                            <select id="LineSpecific" name="LineSpecific" class="form-control">
+                                                <option value="">--Chọn Line Specific--</option>
+                                                @foreach (ObjComboxCTKM box in (List<ObjComboxCTKM>)ViewBag.lstCombox)
+                                                {
+                                                    <option value="@box.LineSpecific_Value">@box.LineSpecific_Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-3 col-form-label">Value Type</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="ValueType" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-3 col-form-label">Value</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="PointOfferValue" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="Item Point Offer" class="tabcontent" style="display:none">
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-3 col-form-label">Member Point</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="MemberPoint" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-3 col-form-label">Disc. Amount</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="DiscAmount" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-3 col-form-label">Discount %</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="Discount" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="wp_Benefits" style="display: none; width: 91%;">
+                        <div class="col-md-12" style="margin-bottom:5px !important">
+                            <span id="txtHead01"> D./ Benefits</span>
+                            <table class="table table-bordered" id="tbl_TotalDiscountOffer">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Step Amount</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col" style="width: 293px;">No.</th>
+                                        <th scope="col">Value Type</th>
+                                        <th scope="col">Value</th>
+                                        <th scope="col">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <div class="wp_button"><a href="javascript:void(0);" onclick="js_addRowTotalDiscountOffer()" class="form-control btn btn-info"><i class="fas fa-plus" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Thêm mới </a></div>
+                        </div>
+                    </div>
+                    <div id="wp_Benefits_MixMatch" style="display: none; width: 91%;">
+                        <div class="col-md-12" style="margin-bottom:5px !important">
+                            <div style="margin-bottom: 13px;"><span id="txtHead01"> D./ Benefits</span></div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">Discount Type</label>
+                                    <div class="col-sm-9">
+                                        <select id="Mix_DiscountType" class="form-control" name="Mix_DiscountType" onchange="js_changeDiscountType()">
+                                            <option value="Deal_Price">Deal Price</option>
+                                            @*<option value="Discount_Percent">Discount %</option>*@
+                                            <option value="Discount_Amount">Discount Amount</option>
+                                            <option value="Least_Expensive">Least Expensive</option>
+                                            <option value="Line_spec">Line spec.</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-3 col-form-label">Deal Price Value</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" min="0" id="DealPriceValue" class="form-control" style="margin-top:1px;" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">Discount % Value</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" max="100" min="0" id="DiscValue" class="form-control" style="margin-top:1px;" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-3 col-form-label">Discount Amount Value</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" id="DiscountAmoutValue" min="0" class="form-control" style="margin-top:1px;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">No. of least exp. item</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" id="NoOfLeastItem" min="0" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-3 col-form-label">Least exp. disc. %</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" min="0" max="100" id="Leastexp" class="form-control" style="margin-top:1px;" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">Same/Dif. M&M lines</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="Same_DifLine" id="Same_DifLine">
+                                            <option value="DifferentLines">Different M&M Lines</option>
+                                            <option value="SameDiffLines">Same/Diff. M&M Lines</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-3 col-form-label">No. of times applicable</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" id="NoTimeApp" min="0" class="form-control" style="margin-top:1px;" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-3 col-form-label">No. of line groups</label>
+                                    <div class="col-sm-9">
+                                        <input type="button" id="No.LineGroup" class="form-control" value="Ấn tạo pop up Mix match" data-toggle="modal" data-target="#modalDetailMixMatch" style="background-color: #d9e2f2;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" style="margin-bottom:5px !important;margin-top:5px !important">
+                        <span id="txtHead01">E./ ĐIỀU KIỆN HẠN CHẾ KHUYẾN MẠI (Settings)</span>
+                    </div>
+
+                    <div class="col-md-12">
+                        <table class="table" id="table_dieukien" style="width:91%">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 23%;">Nội dung</th>
+                                    <th scope="col" style="width: 23%;">Diễn giải</th>
+                                    <th scope="col" style="width: 6%;">Promotion</th>
+                                    <th scope="col" style="width: 6%;">Discount Offer</th>
+                                    <th scope="col" style="width: 6%;">Line Disc. Offer</th>
+                                    <th scope="col" style="width: 6%;">Multibuy Discount</th>
+                                    <th scope="col" style="width: 6%;"> Mix & Match</th>
+                                    <th scope="col" style="width: 6%;">Total Disc. Offer </th>
+                                    <th scope="col" style="width: 6%;"> Tender Type Offer</th>
+                                    <th scope="col" style="width: 6%;">Member Point Offer</th>
+                                    <th scope="col" style="width: 6%;">Item Point Offer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.lstDKKM != null)
+                                {
+                                    var i = 0;
+                                    foreach (objCombox box in (List<objCombox>)ViewBag.lstDKKM)
+                                    {
+                                        i++;
+                                        <tr id="row_@i">
+                                            <td>
+                                                @box.Code
+                                                <input type="hidden" name="contentCode" value="@box.Code" />
+                                            </td>
+                                            <td>
+                                                @box.Name
+                                                <input type="hidden" name="contentName" value="@box.Name" />
+                                            </td>
+                                            <td class="cb"><input type="checkbox" name="Promotion" value="Promotion" /></td>
+                                            <td class="cb"><input type="checkbox" name="DiscountOffer" value="Discount Offer" /></td>
+                                            <td class="cb"><input type="checkbox" name="LineDiscOffer" value="Line Disc. Offer" /></td>
+                                            <td class="cb"><input type="checkbox" name="MultibuyDiscount" value="Multibuy Discount" /></td>
+                                            <td class="cb"><input type="checkbox" name="MixMatch" value="Mix & Match" /></td>
+                                            <td class="cb"><input type="checkbox" name="TotalDiscOffer" value="Total Disc. Offer" /></td>
+                                            <td class="cb"><input type="checkbox" name="TenderTypeOffer" value="Tender Type Offer" /></td>
+                                            <td class="cb"><input type="checkbox" name="MemberPointOffer" value="Member Point Offer" /></td>
+                                            <td class="cb"><input type="checkbox" name="ItemPointOffer" value="Item Point Offer" /></td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal fade bd-example-modal-lg" id="modalDetailMixMatch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="false">
+        <div class="modal-dialog modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <h3 class="modal-title title-popup-01" id="exampleModalLongTitle">Mix & Match Line Groups</h3>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <table id="tbl_MixMatch" class="form-text table table-striped" border="1">
+                            <thead>
+                                <tr>
+                                    <th class="text-left" style="vertical-align: top;background-color:#d9e1f2 ">
+                                        Line Group Code
+                                    </th>
+                                    <th class="text-left" style="vertical-align: top;background-color:#d9e1f2 ">
+                                        Line Group Type
+                                    </th>
+                                    <th class="text-left" style="vertical-align: top;background-color:#d9e1f2 ">
+                                        Value 1
+                                    </th>
+                                    <th class="text-left" style="vertical-align: top;background-color:#d9e1f2 ">
+                                        Value 2
+                                    </th>
+                                    <th class="text-left" style="vertical-align: top;background-color:#d9e1f2 ">
+                                        Hành động
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer" style="text-align:center">
+                        <a class="form-control btn btn-info" onclick="js_SaveMixMatch()" style="text-align: center;"> Lưu </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="modalDetailPriceGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="false">
+        <div class="modal-dialog modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <h3 class="modal-title title-popup-01" id="exampleModalLongTitle">Tạo Price Group</h3>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <table id="tbl_PriceGroup" class="form-text table table-striped" border="1">
+                            <thead>
+                                <tr>
+                                    <th class="text-left" style="vertical-align: top;background-color:#d9e1f2">
+                                        Code
+                                    </th>
+                                    <th class="text-left" style="vertical-align: top;background-color:#d9e1f2 ">
+                                        Description
+                                    </th>
+                                    <th class="text-left" style="vertical-align: top;background-color:#d9e1f2 ">
+                                        Store Group
+                                    </th>
+                                    <th class="text-left" style="vertical-align: top;background-color:#d9e1f2 ">
+                                        Allow Line Disc.
+                                    </th>
+                                    <th class="text-left" style="vertical-align: top;background-color:#d9e1f2 ">
+                                        Allow Invoice Disc.
+                                    </th>
+                                    <th class="text-left" style="vertical-align: top;background-color:#d9e1f2 ">
+                                        Price Includes VAT
+                                    </th>
+                                    <th class="text-left" style="vertical-align: top;background-color:#d9e1f2 ">
+                                        VAT Bus Posting Group
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="row_1">
+                                    <td><input type="text" name="Code" id="Code" class="form-control" /></td>
+                                    <td><input type="text" name="Description" id="Description" class="form-control" /></td>
+                                    <td>
+                                        <select name="StoreGroup" id="StoreGroup" class="form-control">
+                                            <option value="10002">HNO-20 Sơn Tây</option>
+                                            <option value="10003">HNO-120 Trần Duy Hưng</option>
+                                        </select>
+                                    </td>
+                                    <td style="text-align: center"><input type="checkbox" name="AllLineDisc" id="AllLineDisc" /></td>
+                                    <td style="text-align: center"><input type="checkbox" name="AllInvoiceDisc" id="AllInvoiceDisc" /></td>
+                                    <td style="text-align: center"><input type="checkbox" name="PriceIncludesVAT" id="PriceIncludesVAT" /></td>
+                                    <td>
+                                        <select name="vatBusPostingGroup" id="vatBusPostingGroup" class="form-control">
+                                            <option value="VAT">VAT-Đối tượng chịu thuế GTGT</option>
+                                            <option value="VAT-NON">VATNON-Đối tượng không chịu thuế GTGT</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer" style="text-align:center">
+                        <a class="form-control btn btn-info" onclick="js_SavePriceGroup()" style="text-align: center;"> Lưu </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script type="text/javascript">
+    var listItems = @Html.Raw(jsonItems);
+
+    SourcePromotionHeader = [];
+    SourceDiscountOffers = [];
+    SourceMemberPointOffer = [];
+    SourceMixMatch = [];
+    SourceMultibuyDiscount = [];
+    SourcePromotion = [];
+    SourceTenderTypeOffer = [];
+    SourceTotalDiscountOffer = [];
+    SourceDieuKien = [];
+    SourceGroupKM = [];
+    SourcePopupMixMatch = [];
+    SourcePopupPriceGroup = [];
+    SourceTotalDiscountOfferLine = [];
+    SourceMixMaxLine = [];
+    var i = 0;
+    $(function () {
+        $('#txtHead').html("Tạo chương trình khuyến mại");
+        var url = new URL(window.location);
+        js_addRowMixMaxLineGroup();
+        js_changeDiscountType();
+
+    });
+
+    jQuery(function ($) {
+        $("#Promotion-form").validate({
+            rules: {
+                codeKM: {
+                    required: true
+                },
+                CusPriceGroup: {
+                    required: true
+                },
+                frdate: {
+                    required: true
+                },
+                toDate: {
+                    required: true
+                },
+                NameKM: {
+                    required: true
+                }
+            },
+            messages: {
+                codeKM: {
+                    required: "Vui lòng tạo mã CTKM"
+                },
+                CusPriceGroup: {
+                    required: "Vui lòng chọn Price Group"
+                },
+                frdate: {
+                    required: "Vui lòng chọn từ ngày"
+                },
+                toDate: {
+                    required: "Vui lòng chọn đến ngày"
+                },
+                NameKM: {
+                    required: "Vui lòng nhập Tên CTKM"
+                }
+            },
+            submitHandler: function (form) {
+                GetDataPromotionHeader();
+                getTableDataDiscountOffers();
+                getDataItemPointOffer();
+                getDataMemberPointOffer();
+                getDataMixMatch();
+                getTableDataMultibuyDiscount();
+                getTableDataPromotion();
+                getDataTenderTypeOffer();
+                getTableDataTotalDiscountOffer();
+                getTableDataDieuKien();
+                getTableDataTotalDiscountOfferLine();
+                getTableDataMixMaxLine();
+                getTablePopupMixMatch();
+
+                var obj = {};
+                obj.SourcePromotionHeader = JSON.stringify(SourcePromotionHeader);
+                obj.SourceDiscountOffers = JSON.stringify(SourceDiscountOffers);
+                obj.SourceMemberPointOffer = JSON.stringify(SourceMemberPointOffer);
+                obj.SourceItemPointOffer = JSON.stringify(SourceItemPointOffer);
+                obj.SourceMixMatch = JSON.stringify(SourceMixMatch);
+                obj.SourceMultibuyDiscount = JSON.stringify(SourceMultibuyDiscount);
+                obj.SourceTenderTypeOffer = JSON.stringify(SourceTenderTypeOffer);
+                obj.SourceTotalDiscountOffer = JSON.stringify(SourceTotalDiscountOffer);
+                obj.SourceDieuKien = JSON.stringify(SourceDieuKien);
+                //obj.SourceGroupKM = JSON.stringify(SourceGroupKM);
+                obj.SourcePopupMixMatch = JSON.stringify(SourcePopupMixMatch);
+                obj.SourcePromotion = JSON.stringify(SourcePromotion);
+                obj.SourcePopupPriceGroup = JSON.stringify(SourcePopupPriceGroup);
+                obj.SourceTotalDiscountOfferLine = JSON.stringify(SourceTotalDiscountOfferLine);
+                obj.SourcePopupPriceGroup = JSON.stringify(SourcePopupPriceGroup);
+                obj.SourceMixMaxLine = JSON.stringify(SourceMixMaxLine);
+
+                if (SourcePromotionHeader.length > 0) {
+                    $.ajax({
+                        url: '/Promotion/savePromotion',
+                        type: 'POST',
+                        data: JSON.stringify(obj),
+                        contentType: 'application/json, charset=utf-8',
+                        success: function (data) {
+                            if (data.RespId == 0) {
+                                jAlert(data.RespMsg, 'Thông báo', (r) => {
+                                    location.reload();
+                                });
+                            } else {
+                                jAlert(data.RespMsg, 'Thông báo');
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+
+    //var buttons = document.getElementsByClassName('tablinks');
+    var contents = document.getElementsByClassName('tabcontent');
+    function showContent(id) {
+        for (var i = 0; i < contents.length; i++) {
+            contents[i].style.display = 'none';
+        }
+        var content = document.getElementById(id);
+        content.style.display = 'block';
+    }
+    function mydate(datestring) {
+        parts = datestring.split("/");
+        return new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+    }
+
+    function GetDataDieuKien() {
+        var table = $("#table_dieukien");
+        var value_check = "";
+        for (var i = 1; i < table.rows.length; i++) {
+            if ($('#chk')[i].is(':checked')) {
+                value_check += i + ": " + $('#chk')[i].val();
+            }
+        }
+        alert(value_check);
+    }
+    function js_changeLoaiCTKM() {
+        var typeCTKM = $('#typeCTKM').val();
+        showContent(typeCTKM);
+        if (typeCTKM == 'Total Discount Offer') {
+            $("#wp_Benefits").css({ display: "block" });
+            $("#wp_Benefits_MixMatch").css({ display: "none" });
+        }
+        if (typeCTKM == 'Discount Offers') {
+            $("#wp_Benefits").css({ display: "none" });
+            $("#wp_Benefits_MixMatch").css({ display: "none" });
+        }
+        if (typeCTKM == 'Mix&Match') {
+            $("#wp_Benefits").css({ display: "none" });
+            $("#wp_Benefits_MixMatch").css({ display: "block" });
+        }
+    }
+
+    function js_LineGroupType(r) {
+        var LineGroupType = $('#LineGroupType_' + r).val();
+        switch (LineGroupType) {
+            case "No_of_Lines":
+                $('#value_' + r).prop('disabled', false);
+                $('#value_' + r).prop('disabled', true);
+                break;
+            case "Range":
+                $('#value_' + r).prop('disabled', false);
+                $('#value_' + r).prop('disabled', false);
+                break;
+            default:
+                $('#value_' + r).prop('disabled', false);
+                $('#value_' + r).prop('disabled', true);
+        }
+    }
+
+    function js_changeDiscountType() {
+        var MixDiscountType = $('#Mix_DiscountType').val();
+        switch (MixDiscountType) {
+            case "Deal_Price":
+                $("#DiscValue").prop('disabled', true);
+                $("#DiscountAmoutValue").prop('disabled', true);
+                $("#DealPriceValue").prop('disabled', false);
+                $("#NoOfLeastItem").prop('disabled', true);
+                $("#Leastexp").prop('disabled', true);
+                show_hide_column_MixMaxLine(4, false);
+                show_hide_column_MixMaxLine(5, true);
+                break;
+            case "Discount_Amount":
+                $("#DealPriceValue").prop('disabled', true);
+                $("#DiscValue").prop('disabled', true);
+                $("#DiscountAmoutValue").prop('disabled', false);;
+                $("#NoOfLeastItem").prop('disabled', true);
+                $("#Leastexp").prop('disabled', true);
+                show_hide_column_MixMaxLine(4, false);
+                show_hide_column_MixMaxLine(5, true);
+                break;
+            case "Discount_Percent":
+
+                $("#DealPriceValue").prop('disabled', true);
+                $("#DiscValue").prop('disabled', false);
+                $("#DiscountAmoutValue").prop('disabled', true);
+                $("#NoOfLeastItem").prop('disabled', true);
+                $("#Leastexp").prop('disabled', true);
+                show_hide_column_MixMaxLine(4, false);
+                show_hide_column_MixMaxLine(5, true);
+                break;
+            case "Least_Expensive":
+                $("#DealPriceValue").prop('disabled', true);
+                $("#DiscValue").prop('disabled', true);
+                $("#DiscountAmoutValue").prop('disabled', true);
+                $("#NoOfLeastItem").prop('disabled', false);
+                $("#Leastexp").prop('disabled', false);
+                show_hide_column_MixMaxLine(4, false);
+                show_hide_column_MixMaxLine(5, true);
+                break;
+            case "Line_spec":
+                $("#DealPriceValue").prop('disabled', true);
+                $("#DiscValue").prop('disabled', true);
+                $("#DiscountAmoutValue").prop('disabled', true);
+                $("#NoOfLeastItem").prop('disabled', true);
+                $("#Leastexp").prop('disabled', true);
+                $("#Leastexp").val('100');
+                show_hide_column_MixMaxLine(4, true);
+                show_hide_column_MixMaxLine(5, true);
+
+                break;
+            default:
+                $("#DiscValue").prop('disabled', true);
+                $("#DiscountAmoutValue").prop('disabled', true);
+                $("#DealPriceValue").prop('disabled', false);
+                $("#NoOfLeastItem").prop('disabled', true);
+                $("#Leastexp").prop('disabled', true);
+                show_hide_column_MixMaxLine(4, false);
+                show_hide_column_MixMaxLine(5, true);
+        }
+    }
+
+    function show_hide_column_MixMaxLine(col_no, do_show) {
+        var rows = document.getElementById('tbl_MixMaxLine').rows;
+        for (var row = 0; row < rows.length; row++) {
+            var cols = rows[row].cells;
+            if (col_no >= 0 && col_no < cols.length) {
+                cols[col_no].style.display = do_show ? '' : 'none';
+            }
+        }
+    }
+
+    function js_createCodeCTKM() {
+        var typeCTKM = $('#typeCTKM').val();
+        if (typeCTKM.length > 0) {
+            $.ajax({
+                url: '/Promotion/API_GetCodeCTKM',
+                type: 'POST',
+                data: JSON.stringify({ typeCTKM: typeCTKM }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+
+                    if (data.length > 0) {
+                        $("#codeKM").val(data[0].Code);
+                    } else {
+                        alert('Có lỗi xẩy ra. Vui lòng thử lại sau !');
+                    }
+                    //if (data.codeReturn == true) {
+                    //    $("#codeKM").val(escapeRegExp(data.No));
+                    //} else {
+                    //    alert('Có lỗi xẩy ra. Vui lòng thử lại sau !');
+                    //}
+                }
+            });
+        } else {
+            alert('Vui lòng chọn loại CTKM !');
+        }
+    }
+
+    function escapeRegExp(string) {
+        return string.replace(/[.*+\-?^${}()|[\]\\"]/g, ''); // $& means the whole matched string
+    }
+
+    function js_SaveMixMatch() {
+        var mixDiscountType = $('#Mix_DiscountType').val();
+        if (mixDiscountType.length > 0) {
+            getTablePopupMixMatch();
+            var result = confirm('Lưu thành Mix & Match Line Groups công!');
+            if (result) {
+
+                $("#modalDetailMixMatch .close").click();
+                $('#modalDetailMixMatch').modal('hide');
+            }
+        } else {
+            alert('Bạn vui lòng chọn Discount Type trước !');
+        }
+    }
+
+    function js_SavePriceGroup() {
+        SourcePopupPriceGroup = [];
+        let trs = $("#tbl_PriceGroup tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let Code = String($('#' + tr.id + ' input[name="Code"]').val()).trim();
+                let Description = String($('#' + tr.id + ' input[name="Description"]').val()).trim();
+                let AllLineDisc = String($('#' + tr.id + ' input[name="AllLineDisc"]:checked').val());
+                let AllInvoiceDisc = String($('#' + tr.id + ' input[name="AllInvoiceDisc"]:checked').val());
+                let PriceIncludesVAT = String($('#' + tr.id + ' input[name="PriceIncludesVAT"]:checked').val());
+                let vatBusPostingGroup = String($('#' + tr.id + ' select[name="vatBusPostingGroup"]').val()).trim();
+
+                if (Code.length > 0) {
+                    SourcePopupPriceGroup.push({
+                        "Code": Code,
+                        "Description": Description,
+                        "AllLineDisc": AllLineDisc,
+                        "AllInvoiceDisc": AllInvoiceDisc,
+                        "PriceIncludesVAT": PriceIncludesVAT,
+                        "vatBusPostingGroup": vatBusPostingGroup
+                    });
+                }
+            });
+        }
+    }
+
+    function getTablePopupMixMatch() {
+
+        SourcePopupMixMatch = [];
+        var MixDiscountType = $('#Mix_DiscountType').val();
+        var codeKM = $('#codeKM').val();
+
+        let trs = $("#tbl_MixMatch tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                //let GroupNo = String($('#' + tr.id + ' select[name="GroupNo"]').val()).trim();
+                let LineGroupCode = String($('#' + tr.id + ' input[name="LineGroupCode"]').val()).trim();
+                let lineGroupType = String($('#' + tr.id + ' select[name="LineGroupType"]').val()).trim();
+                let value1 = String($('#' + tr.id + ' input[name="value1"]').val()).trim();
+                let value2 = String($('#' + tr.id + ' input[name="value2"]').val()).trim();
+
+                if (LineGroupCode.length > 0) {
+                    SourcePopupMixMatch.push({
+                        "codeKM": codeKM,
+                        "MixDiscountType": MixDiscountType,
+                        /* "GroupNo": GroupNo,*/
+                        "LineGroupCode": LineGroupCode,
+                        "lineGroupType": lineGroupType,
+                        "value1": value1,
+                        "value2": value2
+                    });
+                }
+            });
+        }
+    }
+
+
+    function js_popupCreateGroup() {
+        var typeCTKM = $('#typeCTKM').val().trim();
+        var target = $('#target').val().trim();
+        var codeKM = $('#codeKM').val().trim();
+        var arrCode = codeKM.split(' - ');
+        if (codeKM.length > 0) {
+
+            $('#modalDetail').modal();
+        } else {
+            alert('Bạn vui lòng chọn Mã CTKM !');
+        }
+    }
+
+    function js_SaveGroupKM() {
+        SourceGroupKM = [];
+        var strMahang = '';
+        let trs = $("#tbl_group_khuyenmai tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let nameProduct = String($('#' + tr.id + ' input[name="nameProduct"]').val()).trim();
+                var arrKM = nameProduct.split(' - ');
+                if (nameProduct.length > 0) {
+                    SourceGroupKM.push(arrKM[0]);
+                }
+            });
+            strMahang = SourceGroupKM.join();
+
+            if (strMahang.length > 0) {
+                $.ajax({
+                    url: '/Promotion/GetListItem_Group',
+                    type: 'POST',
+                    data: JSON.stringify({ strMahang: strMahang }),
+                    contentType: 'application/json, charset=utf-8',
+                    success: function (data) {
+                        $("#product_datalist").empty();
+                        var i = 0;
+                        $.each(data, (index, value) => {
+                            i++;
+                            $("#product_datalist").append('<option value="' + value.MaHang + ' - ' + value.TenHang + '"/>');
+                            //$("#tbl_DiscountOffer tbody").append('<tr id="row_' + i + '"><td><input type="text" disabled value="' + value.MaHang + ' - ' + value.TenHang + '" name="DO_nameProduct" id="productDisOffer_' + i + '" class="form-control" placeholder="--- Chọn mã hàng ---" /></td><td><input type="text" style="text-align: right;" value="' + value.XH631 + '" disabled name="DO_xh361" id="dis_xh361_' + i + '" class="form-control"/></td><td class="text-right"><input type="text" disabled value="' + value.Range + '" name="DO_range" id="dis_range_' + i + '" class="form-control text-right"/></td><td class="text-right"><input type="number" id="DiscStdPrice_' + i + '" name="DO_DiscStdPrice" class="form-control text-right"/></td><td class="text-right"><input type="number" id="DiscAmountStdPrice_' + i + '" name="DO_DiscAmountStdPrice" class="form-control text-right"/></td><td class="text-right"><input type="text" id="phuongphap_' + i + '" name="DO_phuongphap" class="form-control text-right"/></td></tr>');
+                            //$("#tbl_MixMatch tbody").append('<tr id="row_' + i + '"><td><input type="text" disabled value="' + value.MaHang + ' - ' + value.TenHang + '" name="nameProduct" id="productMix_' + i + '" class="form-control" placeholder="--- Chọn mã hàng ---" /></td><td><input type="text" name="xh361" value="' + value.XH631 + '" id="mix_xh361_' + i + '" class="form-control" disabled/></td><td class="text-right"><input type="text" disabled value="' + value.Range + '"  name="range" id="mix_range_' + i + '" class="form-control text-right"/></td><td class="text-right"><input type="text" id="NoofNeed_' + i + '" name="NoofNeed" class="form-control text-right"/></td><td class="text-right"><select id="LineGroup_' + i + '" name="LineGroup" class="form-control"><option value="">--Chọn Line Group--</option><option value="A">A</option><option value="B">B</option></select></td><td class="text-right"><input type="number" id="value1_' + i + '" name="value1" class="form-control text-right"/></td><td class="text-right"><input type="number" id="value2_' + i + '" name="value2" class="form-control text-right"/></td></tr>');
+                            $("#tbl_MultibuyDiscount tbody").append('<tr id="row_' + i + '"><td><select name="DiscType" id="DiscType_' + i + '" class="form-control"><option value="">--Chọn Disc Type--</option><option value="distype1">distype1</option></select></td><td><input type="text" value="' + value.MaHang + ' - ' + value.TenHang + '"  disabled name="nameProduct" id="nameProduct_' + i + '" class="form-control"  placeholder="--- Chọn mã hàng ---" /></td><td><input type="number" style="text-align: right;" name="SLMuaTT" id="SLMuaTT_' + i + '" class="form-control"/></td><td class="text-right"><input type="number" name="percentDown" class="form-control text-right"/></td><td class="text-right"><input type="number" id="valueDown_' + i + '" name="valueDown" class="form-control text-right"/></td><td class="text-right"><input type="number" id="valueDeal_' + i + '" name="valueDeal" class="form-control text-right"/></td></tr>');
+                            $("#tbl_promotion tbody").append('<tr id="row_' + i + '"><td><input type="text" disabled value="' + value.MaHang + ' - ' + value.TenHang + '" name="nameProduct" id="productPromotion_' + i + '" class="form-control" placeholder="--- Chọn mã hàng ---" /></td><td><input type="number" name="xh361" disabled value="' + value.XH631 + '" id="pro_xh361_' + i + '" class="form-control text-right"/></td><td class="text-right"><input type="text" disabled value="' + value.Range + '" name="range"  id="pro_range_' + i + '" class="form-control text-right"/></td><td class="text-right"><input type="number" id="DiscStdPrice_' + i + '" name="DiscStdPrice" class="form-control text-right"/></td><td class="text-right"><input type="number" id="DiscAmountStdPrice_' + i + '" name="DiscAmountStdPrice" class="form-control text-right"/></td><td class="text-right"><input type="text" id="phuongphap_' + i + '" name="phuongphap" class="form-control text-right"/></td></tr>');
+                        });
+
+                        var result = confirm('Tạo nhóm sản phẩm khuyến mãi thành công !');
+                        if (result) {
+
+                            $("#modalDetail .close").click();
+                            $('#modalDetail').modal('hide');
+                        }
+                    }
+                });
+                getTableDataGroupKM();
+
+            } else {
+                alert('Bạn vui lòng mã hàng !');
+            }
+        }
+    }
+
+    // lưu vào thông tin group sp khuyến mãi
+    function getTableDataGroupKM() {
+        SourceGroupKM = [];
+        let trs = $("#tbl_group_khuyenmai tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let nameProduct = String($('#' + tr.id + ' input[name="nameProduct"]').val()).trim();
+                let xh361 = String($('#' + tr.id + ' input[name="xh361"]').val()).trim();
+                let range = String($('#' + tr.id + ' input[name="range"]').val()).trim();
+                let lineGroup = String($('#' + tr.id + ' select[name="lineGroup"]').val()).trim();
+
+                var arrProduct = nameProduct.split(' - ');
+
+                if (nameProduct.length > 0) {
+                    SourceGroupKM.push({
+                        "MaHang": arrProduct[0],
+                        "xh361": xh361,
+                        "range": range,
+                        "lineGroup": lineGroup
+                    });
+                }
+            });
+        }
+    }
+
+    // end
+
+    function js_changeInfo(r) {
+        var arrItems = [];
+        var arrProduct = $('#nameProduct_' + r).val();
+        var MaHang = arrProduct.split(' - ');
+        var str = 'row_' + r;
+        let trs = $("#tbl_group_khuyenmai tbody tr");
+
+        if (trs.length) {
+            trs.each((index, tr) => {
+                if (tr.id != str) {
+                    let nameProduct = String($('#' + tr.id + ' input[name="nameProduct"]').val()).trim();
+                    var arrKM = nameProduct.split(' - ');
+                    arrItems.push(arrKM[0]);
+                }
+            });
+        }
+
+        if (arrItems.indexOf(MaHang[0]) < 0) {
+            $.ajax({
+                url: '/Promotion/GetInfoProduct_KM',
+                type: 'POST',
+                data: JSON.stringify({ MaHang: MaHang[0] }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    $('#xh361_' + r).val(data[0]['XH631']);
+                    $('#range_' + r).val(data[0]['Range']);
+                }
+            });
+        } else {
+            var r = confirm("Mã hàng: '" + MaHang[0] + "' đã có, bạn vui lòng chọn mã hàng khác !");
+            if (r == true) {
+                $('#nameProduct_' + r).val('');
+            }
+        }
+    }
+
+    function js_changeInfoPromotion(r) {
+        var arrProduct = $('#productPromotion_' + r).val();
+        var MaHang = arrProduct.split(' - ');
+
+        $.ajax({
+            url: '/Promotion/GetInfoProduct_KM',
+            type: 'POST',
+            data: JSON.stringify({ MaHang: MaHang[0] }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+
+                $('#pro_xh361_' + r).val(data[0]['XH361']);
+                $('#pro_range_' + r).val(data[0]['Range']);
+            }
+        });
+    }
+
+    function js_MixMatchNo(r) {
+        var MaHang = $('#NoMixMatch_' + r).val();
+        var str = 'row_' + r;
+        let trs = $("#tbl_MixMaxLine tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                if (str != tr.id) {
+                    let MaHangOld = String($('#' + tr.id + ' select[name="No"]').val()).trim();
+                    if (MaHangOld == MaHang) {
+                        var ri = confirm('Mã ' + MaHang + ' đã có. Bạn vui lòng chọn mã khác !');
+                        if (ri == true) {
+                            $("#NoMixMatch_" + r).val('');
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function js_changeInfoMixMatch(r) {
+        var arrProduct = $('#productMix_' + r).val();
+        var MaHang = arrProduct.split(' - ');
+        $.ajax({
+            url: '/Promotion/GetInfoProduct_KM',
+            type: 'POST',
+            data: JSON.stringify({ MaHang: MaHang[0] }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                $('#mix_xh361_' + r).val(data[0]['XH361']);
+                $('#mix_range_' + r).val(data[0]['Range']);
+            }
+        });
+    }
+
+    function js_changeTypeBeBe(r) {
+        var type = $('#type_' + r).val();
+        if (type == 'Item') {
+            $.ajax({
+                url: '/Promotion/GetListNoTotalDisOffer',
+                type: 'POST',
+                data: JSON.stringify({ type: type }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    $("#NoBeBeTotal_" + r).empty();
+                    if (data.length > 0) {
+                        $("#NoBeBeTotal_" + r).append('<option value="">--Chọn--</option>');
+                        $.each(data, (index, value) => {
+                            $("#NoBeBeTotal_" + r).append('<option value="' + value.Code + '">' + value.Code + ' - ' + value.Name + '</option>');
+                        });
+                        $("#NoBeBeTotal_" + r).selectpicker('refresh');
+                    }
+                }
+            });
+
+            $('#ValueType_' + r).empty();
+            $('#No_' + r).prop('disabled', false);
+            $('#ValueType_' + r).prop('disabled', false);
+            $('#value_' + r).prop('disabled', false);
+            $('#ValueType_' + r).append('<option value="Amount">Amount</option>');
+
+        }
+        if (type == 'Discount') {
+            $('#ValueType_' + r).empty();
+            $('#No_' + r).prop('disabled', true);
+            $('#ValueType_' + r).prop('disabled', false);
+            $('#value_' + r).prop('disabled', false);
+            $('#ValueType_' + r).append('<option value="Amount">Amount</option><option value="Percent">%</option>');
+        }
+        if (type == 'Coupon') {
+            $.ajax({
+                url: '/Promotion/GetListNoTotalDisOffer',
+                type: 'POST',
+                data: JSON.stringify({ type: type }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    $("#NoBeBeTotal_" + r).empty();
+                    if (data.length > 0) {
+                        $("#NoBeBeTotal_" + r).append('<option value="">--Chọn Coupon--</option>');
+                        $.each(data, (index, value) => {
+                            $("#NoBeBeTotal_" + r).append('<option value="' + value.Code + '">' + value.Code + ' - ' + value.Name + '</option>');
+                        });
+                        $("#NoBeBeTotal_" + r).selectpicker('refresh');
+                    }
+                }
+            });
+            $('#ValueType_' + r).empty();
+            $('#No_' + r).prop('disabled', false);
+            $('#ValueType_' + r).prop('disabled', true);
+            $('#value_' + r).prop('disabled', true);
+        }
+    }
+
+    function js_changeInfoDisOffer(r) {
+        var MaHang = $('#productDisOffer_' + r).val();
+        //var MaHang = arrProduct.split(' - ');
+
+        var str = 'row_' + r;
+        let trs = $("#tbl_DiscountOffer tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                if (str != tr.id) {
+                    let MaHang_old = String($('#' + tr.id + ' select[name="nameProduct"]').val()).trim();
+                    if (MaHang_old == MaHang) {
+                        var ri = confirm('Mã ' + MaHang + ' đã có. Bạn vui lòng chọn mã khác !');
+                        if (ri) {
+                            $("#productDisOffer_" + r).val('');
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function js_TotalDsNo(r) {
+        var MaHang = $('#No_' + r).val();
+        var str = 'row_' + r;
+        let trs = $("#tbl_TotalDiscountOfferLine tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                if (str != tr.id) {
+                    let MaHangOld = String($('#' + tr.id + ' select[name="No"]').val()).trim();
+                    if (MaHangOld == MaHang) {
+                        var ri = confirm('Mã ' + MaHang + ' đã có. Bạn vui lòng chọn mã khác !');
+                        if (ri) {
+                            $("#No_" + r).val('');
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function js_ChangeTotalDsOffer(r) {
+        var MaHang = $('#NoBeBeTotal_' + r).val();
+        var str = 'row_' + r;
+        let trs = $("#tbl_TotalDiscountOffer tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                if (str != tr.id) {
+                    let MaHangOld = String($('#' + tr.id + ' select[name="No"]').val()).trim();
+                    if (MaHangOld == MaHang) {
+                        var ri = confirm('Mã ' + MaHang + ' đã có. Bạn vui lòng chọn mã khác !');
+                        if (ri) {
+                            $("#NoBeBeTotal_" + r).prop('selectedIndex', 0);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    $('#msl_product_sizes').change(function (e) {
+        $('#Price_Group').val(String($(e.target).val()).replaceAll(',', '/'));
+        console.log($('#Price_Group').val());
+    });
+
+    function js_changeNameCTKM() {
+        var codeKM = $('#codeKM').val().trim();
+        var arKM = codeKM.split(' - ');
+        $('#NameKM').val(arKM[1]);
+    }
+
+
+    function GetDataPromotionHeader() {
+        var typeCTKM = $('#typeCTKM').val();
+        var target = $('#target').val();
+        var codeKM = $('#codeKM').val();
+        var NameKM = $('#NameKM').val();
+        var frdate = $('#frdate').val();
+        var toDate = $('#toDate').val();
+        var Dinhky_VongLap = $('#Dinhky_VongLap').val();
+        var Range = $('#Range').val();
+        var StoreGroupType = $('#StoreGroupType').val();
+        var StoreGroup = $("#StoreGroup").val();
+        var Store_Channel = $('#Store_Channel').val();
+
+        var Message1 = $('#Message1').val();
+        var Message2 = $("#Message2").val();
+        var Message3 = $('#Message3').val();
+
+        var CusDisc = $('#CusDisc').val();
+        var CouponCode = $('#CouponCode').val();
+
+        var CouponQty = $('#CouponQty').val();
+        var SaleTypeFilter = $('#SaleTypeFilter').val();
+        var AmountTrigger = $('#AmountTrigger').val();
+
+        var MemberType = $('#MemberType').val();
+        var MemberValue = $('#MemberValue').val();
+        var MemberAtt = $('#MemberAtt').val();
+
+        var MemberAttValue = $('#MemberAttValue').val();
+        var TenderTypeCode = $('#TenderTypeCode').val();
+        var TenderTypeValue = $('#TenderTypeValue').val();
+        var CusPriceGroup = $('#CusPriceGroup').val();
+
+
+        //frdate = new Date(frdate);
+        //toDate = new Date(toDate);
+        //if (frdate > toDate) {
+        //    jAlert("Ngày bắt đầu không thể lớn hơn ngày kết thúc. Vui lòng chọn lại !", 'Thông báo');
+        //    return false;
+        //}
+
+        if (codeKM.length > 0) {
+            SourcePromotionHeader.push({
+                "typeCTKM": typeCTKM,
+                "target": target,
+                "codeKM": codeKM,
+                "NameKM": NameKM,
+                "frdate": frdate,
+                "toDate": toDate,
+                "Dinhky_VongLap": Dinhky_VongLap,
+                "Range": Range,
+                "StoreGroupType": StoreGroupType,
+                "StoreGroup": StoreGroup,
+                "Store_Channel": Store_Channel,
+                "Message1": Message1,
+                "Message2": Message2,
+                "Message3": Message3,
+                "CusDisc": CusDisc,
+                "CusPriceGroup": CusPriceGroup,
+                "CouponCode": CouponCode,
+                "CouponQty": CouponQty,
+                "SaleTypeFilter": SaleTypeFilter,
+                "AmountTrigger": AmountTrigger,
+                "MemberType": MemberType,
+                "MemberValue": MemberValue,
+                "MemberAtt": MemberAtt,
+                "MemberAttValue": MemberAttValue,
+                "TenderTypeCode": TenderTypeCode,
+                "TenderTypeValue": TenderTypeValue
+            });
+        }
+    }
+
+    function js_addRowGroupKM(r) {
+        i++;
+
+        $("#tbl_group_khuyenmai tbody").append('<tr id="row_' + i + '"><td><input type="search" onchange="js_changeInfo(' + i + ')" name="nameProduct" id="nameProduct_' + i + '" class="form-control" list="product_datalist_group" placeholder="--- Chọn mã hàng ---" /></td><td><input type="number" disabled name="xh361" style="text-align: right;" id="xh361_' + i + '" class="form-control"/></td><td class="text-right"><input type="text" disabled id="range_' + i + '" name="range" class="form-control text-right"/></td><td class="text-right"><select class="form-control" name="lineGroup" id="lineGroup_' + i + '"><option value="">--Chọn Line group--</option><option value="A">A</option><option value="B">B</option></select></td><td style="text-align:center" class="btn_add"><a href="javascript:void(0)" onclick="js_deleteRowGroup(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td></tr>');
+    }
+    function js_addRowMixMatch(r) {
+        i++;
+        $("#tbl_MixMatch tbody").append('<tr id="row_' + i + '"><td><input type="search" onchange="js_changeInfoMixMatch(' + i + ')" name="nameProduct" id="productMix_' + i + '" class="form-control" list="product_datalist" placeholder="--- Chọn mã hàng ---" /></td><td><input type="number" name="xh361" id="mix_xh361_' + i + '" class="form-control"/></td><td class="text-right"><input type="text" name="range" id="mix_range_' + i + '" class="form-control text-right"/></td><td class="text-right"><input type="text" id="NoofNeed_' + i + '" name="NoofNeed" class="form-control text-right"/></td><td class="text-right"><select id="LineGroup_' + i + '" name="LineGroup" class="form-control"><option value="">--Chọn Line Group--</option><option value="A">A</option><option value="B">B</option></select></td><td class="text-right"><input type="number" id="value1_' + i + '" name="value1" class="form-control text-right"/></td><td class="text-right"><input type="number" id="value2_' + i + '" name="value2" class="form-control text-right"/></td><td style="text-align:center" class="btn_add"><a href="javascript:void(0)" onclick="js_deleteRowMixMatch(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td></tr>');
+    }
+    function js_addRowPromotion(r) {
+        i++;
+        $("#tbl_promotion tbody").append('<tr id="row_' + i + '"><td><input type="search" onchange="js_changeInfoPromotion(' + i + ')" name="nameProduct" id="productPromotion_' + i + '" class="form-control" list="product_datalist" placeholder="--- Chọn mã hàng ---" /></td><td><input type="number" name="xh361" id="pro_xh361_' + i + '" class="form-control text-right"/></td><td class="text-right"><input type="text" name="range"  id="pro_range_' + i + '" class="form-control text-right"/></td><td class="text-right"><input type="number" id="DiscStdPrice_' + i + '" name="DiscStdPrice" class="form-control text-right"/></td><td class="text-right"><input type="number" id="DiscAmountStdPrice_' + i + '" name="DiscAmountStdPrice" class="form-control text-right"/></td><td class="text-right"><input type="text" id="phuongphap_' + i + '" name="phuongphap" class="form-control text-right"/></td><td style="text-align:center" class="btn_add"><a href="javascript:void(0)" onclick="js_deleteRowPromotion(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td></tr>');
+    }
+
+    var ri = 0;
+    function js_addRowDiscountOffer(r) {
+        ri++;
+        var html = "";
+        html += '<tr id="row_' + ri + '">';
+        html += '<td><select class="form-control" name="type"><option value="Item">Item</option></select></td>';
+        html += '<td><select id="productDisOffer_' + ri + '" onchange="js_changeInfoDisOffer(' + ri + ')" class="form-control selectpicker" name="nameProduct" data-live-search="true">';
+        html += '<option value="">--Chọn--</option>';
+                $.each(listItems, (index, value) => {
+                    html += '<option value=' + value.Code + '>' + value.Code + ' - ' + value.Name + '</option>';
+                });
+        html += '</select></td>';
+
+        html += '<td class="text-right"><input type="number" id="DiscStdPrice_' + ri + '" name="DiscStdPrice" class="form-control text-right"/></td>';
+        html += '<td class="text-right"><input type="number" id="DiscAmountStdPrice_' + ri + '" name="DiscAmountStdPrice" class="form-control text-right"/></td>';
+        html += '<td class="text-right"><input type="text" id="phuongphap_' + ri + '" name="phuongphap" class="form-control text-right"/></td>';
+        html += '<td style="text-align:center" class="btn_add"><a href="javascript:void(0)" onclick="js_deleteRowDiscountOffer(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
+        html += '</tr>';
+        $("#tbl_DiscountOffer tbody").append(html);
+        $('.selectpicker').selectpicker();
+        //$("#tbl_DiscountOffer tbody").append('<tr id="row_' + ri + '"><td><select class="form-control" name="type"><option value="Item">Item</option></select></td><td><input type="search" onchange="js_changeInfoDisOffer(' + ri + ')" name="nameProduct" id="productDisOffer_' + ri + '" class="form-control" list="product_datalist" placeholder="--- Chọn ---" /></td><td class="text-right"><input type="number" id="DiscStdPrice_' + ri + '" name="DiscStdPrice" class="form-control text-right"/></td><td class="text-right"><input type="number" id="DiscAmountStdPrice_' + ri + '" name="DiscAmountStdPrice" class="form-control text-right"/></td><td class="text-right"><input type="text" id="phuongphap_' + ri + '" name="phuongphap" class="form-control text-right"/></td><td style="text-align:center" class="btn_add"><a href="javascript:void(0)" onclick="js_deleteRowDiscountOffer(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td></tr>');
+    }
+
+    function js_addRowMultibuyDiscount(r) {
+        i++;
+        $("#tbl_MultibuyDiscount tbody").append('<tr id="row_' + i + '"><td><select name="DiscType" id="DiscType_' + i + '" class="form-control"><option value="">--Chọn Disc Type--</option><option value="distype1">distype1</option></select></td><td><input type="search" name="nameProduct" id="nameProduct_' + i + '" class="form-control" list="product_datalist" placeholder="--- Chọn mã hàng ---" /></td><td><input type="number" name="SLMuaTT"  id="SLMuaTT_' + i + '" class="form-control"/></td><td class="text-right"><input type="number" name="percentDown" class="form-control text-right"/></td><td class="text-right"><input type="number" id="valueDown_' + i + '" name="valueDown" class="form-control text-right"/></td><td class="text-right"><input type="number" id="valueDeal_' + i + '" name="valueDeal" class="form-control text-right"/></td><td style="text-align:center" class="btn_add"><a href="javascript:void(0)" onclick="js_deleteRowMultibuyDiscount(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td></tr>');
+    }
+    var j = 0;
+    function js_addRowTotalDiscountOffer() {
+        j++;
+        $("#tbl_TotalDiscountOffer tbody").append('<tr id="row_' + j + '"><td><input type="number" name="StepAmount" id="StepAmount_' + j + '" class="form-control"/></td><td><select onchange="js_changeTypeBeBe(' + j + ')" id="type_' + j + '" name="Type" class="form-control"><option value="Item">Item</option><option value="Discount">Discount</option><option value="Coupon">Coupon</option></select></td><td><select onchange="js_ChangeTotalDsOffer(' + j + ')" id="NoBeBeTotal_' + j + '" name="No" class="form-control selectpicker" data-live-search="true"></select ></td ><td><select id="ValueType_' + j + '" name="ValueType" class="form-control" id="ValueType_' + j + '"></select></td><td><input type="number" id="value_' + j + '" name="value" class="form-control text-right"/></td><td style="text-align:center" class="btn_add"><a href="javascript:void(0)" onclick="js_deleteRowTotalDiscountOffer(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td></tr > ');
+        js_changeTypeBeBe(j);
+    }
+    var k = 0;
+    function js_addRowTDOLine() {
+        k++;
+        var html = "";
+        html += '<tr id="row_' + k + '">';
+        html += '<td><select class="form-control" name="type"><option value="Item">Item</option></select></td>';
+        html += '<td><select id="No_' + k + '" onchange="js_TotalDsNo(' + k + ')" class="form-control selectpicker" name="No" data-live-search="true">';
+            html += '<option value="">--Chọn--</option>';
+            $.each(listItems, (index, value) => {
+                html += '<option value=' + value.Code + '>' + value.Code + ' - ' + value.Name + '</option>';
+            });
+        html += '</select></td>';
+        html += '<td style="text-align:center" class="btn_add"><a href="javascript:void(0)" onclick="js_deleteRowTDOLine(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
+        html += '</tr>';
+        $("#tbl_TotalDiscountOfferLine tbody").append(html);
+        $('.selectpicker').selectpicker();
+
+        //$("#tbl_TotalDiscountOfferLine tbody").append('<tr id="row_' + k + '"><td><select class="form-control" name="type"><option value="Item">Item</option></select></td><td><input type="search" onchange="js_TotalDsNo(' + k + ')" placeholder="--Chọn--" list="product_datalist" name="No" id="No_' + k + '" class="form-control"/></td><td><input type="text" name="Description" disabled id="Description_' + k + '" class="form-control"/></td><td style="text-align:center" class="btn_add"><a href="javascript:void(0)" onclick="js_deleteRowTDOLine(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td></tr>');
+    }
+    var x = 0;
+    function js_addRowMixLine() {
+        x++;
+        var html = '';
+
+        if (SourcePopupMixMatch.length > 0) {
+            html += '<tr id="row_' + x + '">';
+            html += '<td><select class="form-control" name="type"><option value="Item">Item</option></select></td>';
+
+            html += '<td><select id="NoMixMatch_' + x + '" onchange="js_MixMatchNo(' + x + ')" class="form-control selectpicker" name="No" data-live-search="true">';
+            html += '<option value="">--Chọn--</option>';
+            $.each(listItems, (index, value) => {
+                html += '<option value=' + value.Code + '>' + value.Code + ' - ' + value.Name + '</option>';
+            });
+            html += '</select></td>';
+
+            html += '<td><input type="number" name="NoItemNeeded" id="NoItemNeeded_' + x + '" class="form-control"/></td>';
+            html += '<td><input type="number" name="Deal_Price_Disc_Percent" id="Deal_Price_Disc_Percent_' + x + '" class="form-control"/></td>';
+            html += '<td><select class="form-control" name="DiscTypeMix" id="DiscTypeMix_' + x + '"><option value="Deal_Price">Deal Price</option><option value="Disc_Precent">Disc. %</option></select></td>';
+            html += '<td><select class="form-control lineGroup_datalist" name="LineGroup">';
+            for (let i = 0; i < SourcePopupMixMatch.length; ++i) {
+                html += '<option value=' + SourcePopupMixMatch[i]["LineGroupCode"] + '>' + SourcePopupMixMatch[i]["LineGroupCode"] + '</option>';
+            }
+            html += '</select></td>';
+            html += '<td style="text-align:center" class="btn_add"><a href="javascript:void(0)" onclick="js_deleteRowMixMaxLine(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
+            html += '</tr>';
+            $("#tbl_MixMaxLine tbody").append(html);
+            $('.selectpicker').selectpicker();
+            // $("#tbl_MixMaxLine tbody").append('<tr id="row_' + x + '"><td><select class="form-control" name="type"><option value="Item">Item</option></select></td><td><input type="search" placeholder="--Chọn--" name="No" onchange="js_MixMatchNo(' + x + ')" list="product_datalist" id="No_' + x + '" class="form-control"/></td><td><input type="text" name="Description" disabled id="Description_' + x + '" class="form-control"/></td><td><input type="number" name="NoItemNeeded" id="NoItemNeeded_' + x + '" class="form-control"/></td><td><input type="number" name="Deal_Price_Disc_Percent" id="Deal_Price_Disc_Percent_' + x + '" class="form-control"/></td><td><select class="form-control" name="DiscTypeMix" id="DiscTypeMix_' + x + '"><option value="Deal_Price">Deal Price</option><option value="Disc_Precent">Disc. %</option></select></td><td><select class="form-control lineGroup_datalist" name="LineGroup"></select></td><td style="text-align:center" class="btn_add"><a href="javascript:void(0)" onclick="js_deleteRowMixMaxLine(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td></tr>');
+            var MixDiscountType = $('#Mix_DiscountType').val();
+            if (MixDiscountType == 'Line_spec') {
+
+                show_hide_column_MixMaxLine(4, true);
+                //show_hide_column_MixMaxLine(5, true);
+            } else {
+                show_hide_column_MixMaxLine(4, false);
+                //show_hide_column_MixMaxLine(5, false);
+            }
+        } else {
+            alert('Bạn vui lòng Ấn tạo popup MixMatch trước !');
+        }
+
+
+    }
+    var row_LineGroup = 0;
+    function js_addRowMixMaxLineGroup() {
+        row_LineGroup++;
+        var lg = row_LineGroup - 1;
+        $("#rowLineGroup_" + lg + " .btn_add").empty();
+        $("#rowLineGroup_" + lg + " .btn_add").html('<a href="javascript:void(0);" onclick="deleteRowMixMaxLineGroup(this);" class="btn_add"><i class="fa fa-trash" aria-hidden="true"></i></a>');
+        $("#tbl_MixMatch tbody").append('<tr id="rowLineGroup_' + row_LineGroup + '"><td><input type="text" name="LineGroupCode" class="form-control" /></td><td><select class="form-control" name="LineGroupType" id="LineGroupType_' + row_LineGroup + '" onchange="js_LineGroupType(' + row_LineGroup + ')"><option value="No_of_Lines">No. of Lines</option><option value="Range">Range</option></select></td><td><input type="number" name="value1" id="value1_' + row_LineGroup + '" class="form-control" /></td><td><input type="number" name="value2" id="value2_' + row_LineGroup + '" class="form-control" /></td><td style="text-align:center;width: 115px;" class="btn_add"><a href="javascript:void(0);" onclick="js_addRowMixMaxLineGroup(' + row_LineGroup + ');"><i class="fa fa-plus" aria-hidden="true"></i></a></td></tr>');
+
+    }
+
+    function js_deleteRowTDOLine(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_TotalDiscountOfferLine").deleteRow(ri);
+    }
+    function deleteRowMixMaxLineGroup(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_MixMatch").deleteRow(ri);
+    }
+    function js_deleteRowMixMaxLine(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_MixMaxLine").deleteRow(ri);
+    }
+
+    function js_deleteRowGroup(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_group_khuyenmai").deleteRow(ri);
+    }
+    function js_deleteRowMixMatch(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_MixMatch").deleteRow(ri);
+    }
+    function js_deleteRowPromotion(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_promotion").deleteRow(ri);
+    }
+
+    function js_deleteRowDiscountOffer(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_DiscountOffer").deleteRow(ri);
+    }
+
+    function js_deleteRowMultibuyDiscount(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_MultibuyDiscount").deleteRow(ri);
+    }
+
+    function js_deleteRowTotalDiscountOffer(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("tbl_TotalDiscountOffer").deleteRow(ri);
+    }
+
+    function getTableDataDiscountOffers() {
+        SourceDiscountOffers = [];
+        let trs = $("#tbl_DiscountOffer tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let type = String($('#' + tr.id + ' select[name="type"]').val()).trim();
+                let MaHang = String($('#' + tr.id + ' select[name="nameProduct"]').val()).trim();
+                let DiscStdPrice = String($('#' + tr.id + ' input[name="DiscStdPrice"]').val()).trim();
+                let DiscAmountStdPrice = String($('#' + tr.id + ' input[name="DiscAmountStdPrice"]').val()).trim();
+                let phuongphap = String($('#' + tr.id + ' input[name="phuongphap"]').val()).trim();
+
+                if (MaHang.length > 0) {
+                    SourceDiscountOffers.push({
+                        "Type": type,
+                        "MaHang": MaHang,
+                        "DiscStdPrice": DiscStdPrice,
+                        "DiscAmountStdPrice": DiscAmountStdPrice,
+                        "phuongphap": phuongphap
+                    });
+                }
+            });
+        }
+    }
+
+
+    function getDataItemPointOffer() {
+        SourceItemPointOffer = [];
+        let MemberPoint = $('#MemberPoint').val().trim();
+        let DiscAmount = $('#DiscAmount').val().trim();
+        let Discount = $('#Discount').val().trim();
+        if (MemberPoint.length > 0) {
+            SourceItemPointOffer.push({
+                "MemberPoint": MemberPoint,
+                "DiscAmount": DiscAmount,
+                "Discount": Discount
+            });
+        }
+    }
+
+    function getDataMemberPointOffer() {
+        SourceMemberPointOffer = [];
+        let LineSpecific = $('#LineSpecific').val().trim();
+        let ValueType = $('#ValueType').val().trim();
+        let PointOfferValue = $('#PointOfferValue').val().trim();
+        if (LineSpecific.length > 0) {
+            SourceMemberPointOffer.push({
+                "LineSpecific": LineSpecific,
+                "ValueType": ValueType,
+                "PointOfferValue": PointOfferValue
+            });
+        }
+    }
+
+    function getDataMixMatch() {
+        SourceMixMatch = [];
+        let MixDiscountType = $('#Mix_DiscountType').val().trim();
+        let DealPriceValue = $('#DealPriceValue').val().trim();
+        let DiscValue = $('#DiscValue').val().trim();
+        let DiscountAmoutValue = $('#DiscountAmoutValue').val().trim();
+        let NoOfLeastItem = $('#NoOfLeastItem').val().trim();
+        let Leastexp = $('#Leastexp').val().trim();
+        let SameDifLine = $('#Same_DifLine').val().trim();
+        let NoTimeApp = $('#NoTimeApp').val().trim();
+
+
+
+        if (MixDiscountType.length > 0) {
+            SourceMixMatch.push({
+                "MixDiscountType": MixDiscountType,
+                "DealPriceValue": DealPriceValue,
+                "DiscValue": DiscValue,
+                "DiscountAmoutValue": DiscountAmoutValue,
+                "NoOfLeastItem": NoOfLeastItem,
+                "Leastexp": Leastexp,
+                "SameDifLine": SameDifLine,
+                "NoTimeApp": NoTimeApp,
+            });
+        }
+    }
+
+    function getTableDataMixMaxLine() {
+        SourceMixMaxLine = [];
+        let trs = $("#tbl_MixMaxLine tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let Type = String($('#' + tr.id + ' select[name="type"]').val()).trim();
+                let No = String($('#' + tr.id + ' select[name="No"]').val()).trim();
+                let arrNo = String($('#' + tr.id + ' select[name="No"]').text()).trim();
+                let NoItemNeeded = String($('#' + tr.id + ' input[name="NoItemNeeded"]').val()).trim();
+                let DealPriceDiscPercent = String($('#' + tr.id + ' input[name="Deal_Price_Disc_Percent"]').val()).trim();
+
+                let DiscTypeMix = String($('#' + tr.id + ' select[name="DiscTypeMix"]').val()).trim();
+                let LineGroup = String($('#' + tr.id + ' select[name="LineGroup"]').val()).trim();
+                var arrItems = arrNo.split(' - ');
+
+                if (No[0].length > 0) {
+                    SourceMixMaxLine.push({
+                        "Type": Type,
+                        "No": No,
+                        "Description": arrItems[1],
+                        "NoItemNeeded": NoItemNeeded,
+                        "DealPriceDiscPercent": DealPriceDiscPercent,
+                        "DiscType": DiscTypeMix,
+                        "LineGroup": LineGroup
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataMultibuyDiscount() {
+        SourceMultibuyDiscount = [];
+        let trs = $("#tbl_MultibuyDiscount tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let DiscType = String($('#' + tr.id + ' select[name="DiscType"]').val()).trim();
+                let nameProduct = String($('#' + tr.id + ' input[name="nameProduct"]').val()).trim();
+                let SLMuaTT = String($('#' + tr.id + ' input[name="SLMuaTT"]').val()).trim();
+                let percentDown = String($('#' + tr.id + ' input[name="percentDown"]').val()).trim();
+                let valueDown = String($('#' + tr.id + ' input[name="valueDown"]').val()).trim();
+                let valueDeal = String($('#' + tr.id + ' input[name="valueDeal"]').val()).trim();
+                var arrProduct = nameProduct.split(' - ');
+
+                if (nameProduct.length > 0 && DiscType.length > 0) {
+                    SourceMultibuyDiscount.push({
+                        "DiscType": DiscType,
+                        "MaHang": arrProduct[0],
+                        "SLMuaTT": SLMuaTT,
+                        "percentDown": percentDown,
+                        "valueDown": valueDown,
+                        "valueDeal": valueDeal
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataPromotion() {
+        SourcePromotion = [];
+        let trs = $("#tbl_promotion tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let nameProduct = String($('#' + tr.id + ' input[name="nameProduct"]').val()).trim();
+                let xh361 = String($('#' + tr.id + ' input[name="xh361"]').val()).trim();
+                let range = String($('#' + tr.id + ' input[name="range"]').val()).trim();
+                let DiscStdPrice = String($('#' + tr.id + ' input[name="DiscStdPrice"]').val()).trim();
+                let DiscAmountStdPrice = String($('#' + tr.id + ' input[name="DiscAmountStdPrice"]').val()).trim();
+                let phuongphap = String($('#' + tr.id + ' input[name="phuongphap"]').val()).trim();
+
+                var arrProduct = nameProduct.split(' - ');
+
+                if (nameProduct.length > 0) {
+                    SourcePromotion.push({
+                        "MaHang": arrProduct[0],
+                        "xh361": xh361,
+                        "range": range,
+                        "DiscStdPrice": DiscStdPrice,
+                        "DiscAmountStdPrice": DiscAmountStdPrice,
+                        "phuongphap": phuongphap
+                    });
+                }
+            });
+        }
+    }
+
+    function getDataTenderTypeOffer() {
+        SourceTenderTypeOffer = [];
+        let TenderOffer = $('#TenderOffer').val().trim();
+        let TenderOfferAmount = $('#TenderOfferAmount').val().trim();
+
+        if (TenderOffer.length > 0) {
+            SourceTenderTypeOffer.push({
+                "TenderOffer": TenderOffer,
+                "TenderOfferAmount": TenderOfferAmount
+            });
+        }
+    }
+    function getTableDataTotalDiscountOfferLine() {
+        SourceTotalDiscountOfferLine = [];
+        let trs = $("#tbl_TotalDiscountOfferLine tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let Type = String($('#' + tr.id + ' select[name="type"]').val()).trim();
+                let No = String($('#' + tr.id + ' select[name="No"]').val()).trim();
+                let arrNo = String($('#' + tr.id + ' select[name="No"]').text()).trim();
+
+                var items = arrNo.split(' - ');
+
+                if (Type.length > 0) {
+                    SourceTotalDiscountOfferLine.push({
+                        "Type": Type,
+                        "No": No,
+                        "Description": items[0]
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataTotalDiscountOffer() {
+        SourceTotalDiscountOffer = [];
+        let trs = $("#tbl_TotalDiscountOffer tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let StepAmount = String($('#' + tr.id + ' input[name="StepAmount"]').val()).trim();
+                let Type = String($('#' + tr.id + ' select[name="Type"]').val()).trim();
+                let No = String($('#' + tr.id + ' select[name="No"]').val()).trim();
+                let ValueType = String($('#' + tr.id + ' select[name="ValueType"]').val()).trim();
+                let value = String($('#' + tr.id + ' input[name="value"]').val()).trim();
+
+                if (StepAmount.length > 0 && Type.length > 0 && ValueType.length > 0) {
+                    SourceTotalDiscountOffer.push({
+                        "StepAmount": StepAmount,
+                        "Type": Type,
+                        "No": No,
+                        "ValueType": ValueType,
+                        "value": value
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataDieuKien() {
+        SourceDieuKien = [];
+        let trs = $("#table_dieukien tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let contentCode = String($('#' + tr.id + ' input[name="contentCode"]').val()).trim();
+                let contentName = String($('#' + tr.id + ' input[name="contentName"]').val()).trim();
+
+                let Promotion = $('#' + tr.id + ' input[name="Promotion"]').is(":checked") ? "true" : "false";
+                let DiscountOffer = $('#' + tr.id + ' input[name="DiscountOffer"]').is(":checked") ? "true" : "false";
+
+                let LineDiscOffer = $('#' + tr.id + ' input[name="LineDiscOffer"]').is(":checked") ? "true" : "false";
+                let MultibuyDiscount = $('#' + tr.id + ' input[name="MultibuyDiscount"]').is(":checked") ? "true" : "false";
+
+                let MixMatch = $('#' + tr.id + ' input[name="MixMatch"]:checked').is(":checked") ? "true" : "false";
+                let TotalDiscOffer = $('#' + tr.id + ' input[name="TotalDiscOffer"]:checked').is(":checked") ? "true" : "false";
+                let TenderTypeOffer = $('#' + tr.id + ' input[name="TenderTypeOffer"]:checked').is(":checked") ? "true" : "false";
+                let MemberPointOffer = $('#' + tr.id + ' input[name="MemberPointOffer"]:checked').is(":checked") ? "true" : "false";
+                let ItemPointOffer = $('#' + tr.id + ' input[name="ItemPointOffer"]:checked').is(":checked") ? "true" : "false";
+
+                if (contentCode.length > 0) {
+                    SourceDieuKien.push({
+                        "contentCode": contentCode,
+                        "contentName": contentName,
+                        "Promotion": Promotion,
+                        "DiscountOffer": DiscountOffer,
+                        "LineDiscOffer": LineDiscOffer,
+                        "MultibuyDiscount": MultibuyDiscount,
+                        "MixMatch": MixMatch,
+                        "TotalDiscOffer": TotalDiscOffer,
+                        "TenderTypeOffer": TenderTypeOffer,
+                        "MemberPointOffer": MemberPointOffer,
+                        "ItemPointOffer": ItemPointOffer
+                    });
+                }
+            });
+        }
+    }
+</script>

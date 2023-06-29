@@ -1,0 +1,106 @@
+﻿@using System.Data
+<table id="tbl_Item" class="table table-bordered tb_detail">
+    <thead>
+        <tr>
+            <th scope="col" style="text-align: left; ">
+                Ngày nhập kho
+            </th>
+            <th scope="col">
+                Số PNK
+            </th>
+            <th scope="col" style="text-align: left; width: 150px; max-width: 150px; ">
+                Giá trị nhập kho
+            </th>
+            <th scope="col" style="text-align: left; width: 150px; max-width: 150px; ">
+                Giá trị hóa đơn
+            </th>
+            <th scope="col" style="text-align: left;">
+                Ngày HĐ
+            </th>
+            <th scope="col" style="text-align: left;">
+                Số hóa đơn
+            </th>
+            <th scope="col" style="text-align: left;">
+                Ghi chú
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        <tr style=" height:20px" id="Row_@i">
+                            <td style="text-align: left; ">
+                                @item["PostingDate"]
+                            </td>
+                            <td style="text-align: left; ">
+                                <span class="RcptNo">@item["RcptNo"]</span>
+                            </td>
+                            <td style="text-align: right; ">
+                                @item["AmountIncludingVAT"]
+                            </td>
+                            <td style="text-align: right; ">
+                                @item["AmountIncludingVAT"]
+                            </td>
+                            <td style="text-align: right; ">
+                                @item["DocumentDate"]
+                            </td>
+                            <td style="text-align: left; ">
+                                @item["VendorInvoiceNo"]
+                            </td>
+                            <td class="text-left" style="">
+                                <span class="MaNCC" style=" display:none">@item["MaNCC"]</span>
+                                <span class="GhiChu"><input type="text" class="form-control" name="GhiChu" id="GhiChu" value="@item["GhiChu"]" /></span>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+    <tfoot>
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    <tr style="background: #f3f3f3; border-right: 1px solid #d7d7d7; border-bottom: 1px solid #d7d7d7; border-left: 1px solid #d7d7d7; " id="ShowBoder">
+                        <td class="text-right" style="border: none !important; text-align: left; font-weight: 700;" colspan="2">
+                            TỔNG CỘNG
+                        </td>
+                        <td class="text-right" style="border: none !important; font-weight: 700;">
+                            @dt.Rows[0]["sumAmountIncludingVAT"]
+                            <div id="sumAmountIncludingVAT" style=" display:none">@dt.Rows[0]["sumAmountIncludingVAT"].ToString().Replace(",", "")</div>
+                            <div id="sumAmount" style=" display:none">@dt.Rows[0]["sumAmount"].ToString().Replace(",", "")</div>
+                            <div id="sumAmountIncludingVATDSThang" style=" display:none">@dt.Rows[0]["sumAmountIncludingVATDSThang"].ToString().Replace(",", "")</div>
+                            <div id="sumAmountDSThang" style=" display:none">@dt.Rows[0]["sumAmountDSThang"].ToString().Replace(",", "")</div>
+                            <span id="MinPostingDate" style=" display:none">@dt.Rows[0]["MinPostingDate"].ToString()</span>
+                            <span id="MaxMinPostingDate" style=" display:none">@dt.Rows[0]["MaxMinPostingDate"].ToString()</span>
+                        </td>
+                        <td class="text-right" style="border: none !important; font-weight: 700;">
+                            @dt.Rows[0]["sumAmountIncludingVAT"]
+                        </td>
+                        <td class="text-right" style="border: none !important;">
+                        </td>
+                        <td class="text-right" style="border: none !important;">
+                        </td>
+                        <td class="text-right" style="border: none !important;">
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tfoot>
+</table>
+
+
+
+

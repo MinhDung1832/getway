@@ -1,0 +1,527 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Hàng tặng hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="vendorName" class="col-sm-4 col-form-label">Nhà cung cấp</label>
+                                            <div class="col-sm-8">
+                                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                                {
+                                                    <input type="text" class="form-control" id="NhaCC" name="NhaCC" value="@Session["VendorCode"] - @Session["VendorName"]" disabled>
+                                                }
+                                                else
+                                                {
+                                                    <select id="NhaCC" class="form-control selectpicker" data-live-search="true" onchange=" js_searchbox()">
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            <option value="">--- Chọn NCC ---</option>
+                                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label"></label>
+                                            <div class="col-sm-8">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        @*<div class="form-group row">
+                    <label for="Ngay" class="col-sm-4 col-form-label">Mã hàng /Tên hàng</label>
+                    <div class="col-sm-8">
+                        <select id="MaHang" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox()">
+                            <option value="">--- Chọn mã hàng ---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="textStatus" class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8">
+
+                    </div>
+                </div>*@
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="text-align: center;">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a id="btntuchoi" onclick="js_PopupComboKM();" class="btn btn-success px-5 rounded-0 btgetw" style=" color:#fff"><i class="fa fa-save" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Tạo CTKM</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="clear:both"></div>
+                <div style="margin-top: 47px; background: #fff; float: left; width: 103%; margin-left: -20px; padding: 20px;">
+                    <div class="col-md-6 ">
+                        <div class="table-responsive" id="div_content_mua">
+                            @Html.Partial("~/Views/Promotion2/Partial/__ComboHangMua.cshtml")
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="table-responsive" id="div-content-tang">
+                            @Html.Partial("~/Views/Promotion2/Partial/__ComboHangTang.cshtml")
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .form-text {
+        display: inline-table;
+        margin-top: 0.25rem;
+        width: 98% !important;
+    }
+
+    #tbl_ItemTang_length {
+        position: absolute;
+        bottom: -7px;
+        left: 206px;
+    }
+</style>
+
+<!-- Modal -->
+<div class="modal" id="ModalCombo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 50% !important; max-width: 50% !important; border-radius: 0; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Tạo Combo khuyến mại</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" style=" width: 100%; margin: 10px;">
+                <div class="box_ItemOrder">
+                    <div class="col-md-6 ">
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Mã CTKM</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="MaCT" name="MaCT" disabled value="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Tên CT</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="TenCT" name="TenCT" value="" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Từ ngày</label>
+                            <div class="col-sm-9">
+                                <input type="date" id="TuNgay" name="TuNgay" value="" onchange="CheckThoiGian()" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Đến ngày</label>
+                            <div class="col-sm-9">
+                                <input type="date" id="DenNgay" name="DenNgay" value="" onchange="CheckThoiGian()" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div style=" clear:both"></div>
+                    <div class="row">
+                        <h3 class="title_09">Hàng mua</h3>
+                        <table id="tbl_HangMua_Line" class="form-text table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Mã hàng
+                                    </th>
+                                    <th>
+                                        Tên hàng
+                                    </th>
+                                    <th>
+                                        Hình ảnh
+                                    </th>
+                                    <th>
+                                        Giá bán NTD
+                                    </th>
+                                    <th>
+                                        Sl áp dụng
+                                    </th>
+                                    <th>
+                                        % Quà
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <h3 class="title_09">Hàng tặng</h3>
+                        <table id="tbl_HangTang_Line" class="form-text table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Mã hàng
+                                    </th>
+                                    <th>
+                                        Tên hàng
+                                    </th>
+                                    <th>
+                                        Hình ảnh
+                                    </th>
+                                    <th>
+                                        Giá quà
+                                    </th>
+                                    <th>
+                                        SL áp dụng
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0);" onclick="js_CreateCombo()" class="btn btn-info">Tạo Combo</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var SourceHeader = [];
+    var ItemsHangMua = [];
+    var ItemsHangTang = [];
+    $(function () {
+        $('#txtHead').html("Hàng tặng hàng");
+        $('#f_dev').html("");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        js_searchbox();
+        js_CreateMaChienDich();
+    });
+
+    function js_searchbox() {
+        js_GetListComboHangMua();
+    }
+
+    function js_ReloadTable() {
+        $('#tbl_Item').on('draw.dt', function () { imgrecall(); })
+            .DataTable({
+                lengthMenu: [[10, 50, 70, 100, -1], [10, 50, 70, 100]],
+                columnDefs: [],
+                autoWidth: false,
+                "searching": false,
+                order: [0, 'desc'],
+                "pageLength": 5
+            });
+    }
+
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+        $('img.content').hover(function () {
+            $(this).addClass('transition');
+        }, function () {
+            $(this).removeClass('transition');
+        });
+    }
+
+    function js_GetListComboHangMua() {
+        var NhaCC = fomart_split($("#NhaCC").val(), 0);
+
+        $.ajax({
+            url: '/Promotion2/GetListComboHangMua',
+            type: 'POST',
+            data: JSON.stringify({ NhaCC: NhaCC }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $('#div_content_mua').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_changeGetItemTang_checked(i) {
+
+        js_GetListHangTang();
+    }
+
+    function js_GetListHangTang() {
+
+        var NhaCC = fomart_split($("#NhaCC").val(), 0);
+        var SumTotal = $("#TotalNextStep").val();
+        $.ajax({
+            url: '/Promotion2/GetListHangTang',
+            type: 'POST',
+            data: JSON.stringify({ NhaCC: NhaCC, SumTotal: SumTotal }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $('#div-content-tang').html(data);
+                js_ReloadTableTang();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_ReloadTableTang() {
+        $('#tbl_ItemTang').on('draw.dt', function () { imgrecall(); })
+            .DataTable({
+                lengthMenu: [[10, 50, 70, 100, -1], [10, 50, 70, 100]],
+                columnDefs: [],
+                autoWidth: false,
+                "searching": false,
+                order: [0, 'desc'],
+                "pageLength": 5
+            });
+    }
+
+
+    function LoadAddItem() {
+        ItemsHangMua = [];
+        ItemsHangTang = [];
+
+        var MaCT = $('#MaCT').val();
+        var TenCT = $('#TenCT').val();
+        var MaNCC = fomart_split($("#NhaCC").val(), 0);
+        var TenNCC = fomart_split($("#NhaCC").val(), 1);
+
+        $("#tbl_Item > tbody > tr").each(function () {
+            if ($(this).find(".form-check-input").is(":checked")) {
+
+                let MaHang = $(this).find('input[name="checkMua[]"]').val().trim();
+                let TenHang = $(this).find('input[name="TenHang"]').val();
+                let HinhAnh = $(this).find('input[name="HinhAnh"]').val();
+                let GiaBanNTD = String($(this).find('input[name="GiaBanNTD"]').val());
+                let SLApDung = String($(this).find('input[name="SLApDung"]').val());
+                let PhanTramQua = String($(this).find('input[name="PhanTramQua"]').val());
+
+                ItemsHangMua.push({
+                    "MaCT": MaCT,
+                    "TenCT": TenCT,
+                    "MaNCC": MaNCC,
+                    "TenNCC": TenNCC,
+
+                    'MaHang': MaHang,
+                    'TenHang': TenHang,
+                    'HinhAnh': HinhAnh,
+                    'GiaBanNTD': GiaBanNTD,
+                    'SoLuongApDung': SLApDung,
+                    'PhanTramQua': PhanTramQua
+                });
+            }
+        });
+
+        $("#tbl_ItemTang > tbody > tr").each(function () {
+            if ($(this).find(".form-check-input").is(":checked")) {
+
+                let MaHang = $(this).find('input[name="checkTang[]"]').val().trim();
+                let TenHang = $(this).find('input[name="TenHang"]').val();
+                let HinhAnh = $(this).find('input[name="HinhAnh"]').val();
+                let SLTang = $(this).find('input[name="SLTang"]').val();
+                let Price = String($(this).find('input[name="Price"]').val());
+                ItemsHangTang.push({
+                    "MaCT": MaCT,
+                    "TenCT": TenCT,
+                    "MaNCC": MaNCC,
+                    "TenNCC": TenNCC,
+
+                    'MaHang': MaHang,
+                    'TenHang': TenHang,
+                    'HinhAnh': HinhAnh,
+                    'SoLuongApDung': SLTang,
+                    'GiaQua': Price
+                });
+            }
+        });
+
+    }
+    function js_PopupComboKM() {
+        debugger;
+
+
+        LoadAddItem();
+        if (ItemsHangMua == '') {
+            jAlert('Bạn vui lòng chọn sản phẩm hàng mua', 'Thông báo');
+            return false;
+        }
+        if (ItemsHangTang == '') {
+            jAlert('Bạn vui lòng chọn sản phẩm hàng tặng !', 'Thông báo');
+            return false;
+        }
+
+        if (ItemsHangMua != '') {
+            $("#tbl_HangMua_Line tbody").empty();
+            $.each(ItemsHangMua, (index, value) => {
+                $("#tbl_HangMua_Line tbody").append('<tr><td>' + value.MaHang + '</td><td>' + value.TenHang + '</td><td class="text-center"><img height="30px" src="' + value.HinhAnh + '" alt="" class="content" /></td><td class="text-center">' + value.GiaBanNTD + '</td><td class="text-center">' + value.SoLuongApDung + '</td><td class="text-center">' + value.PhanTramQua + '</td></tr>');
+            });
+        }
+        if (ItemsHangTang != '') {
+            $("#tbl_HangTang_Line tbody").empty();
+            $.each(ItemsHangTang, (index, value) => {
+                $("#tbl_HangTang_Line tbody").append('<tr><td>' + value.MaHang + '</td><td>' + value.TenHang + '</td><td class="text-center"><img height="30px" src="' + value.HinhAnh + '" alt="" class="content" /></td><td class="text-center">' + value.GiaQua + '</td><td class="text-center">' + value.SoLuongApDung + '</td></tr>');
+            });
+        }
+        $('#ModalCombo').modal();
+    }
+
+
+    // Save
+    function CheckThoiGian() {
+        var TuNgay = $('#TuNgay').val();
+        var DenNgay = $('#DenNgay').val();
+        if (DenNgay != "" && TuNgay != "") {
+            var DenNgay = new Date(DenNgay);
+            var EndDate1 = DenNgay.getTime();
+            var EndDate2 = EndDate1.toString().substring(0, 6);
+
+            var TuNgay = new Date(TuNgay);
+            var startDate1 = TuNgay.getTime();
+            var startDate2 = startDate1.toString().substring(0, 6);
+
+            if (startDate2 > EndDate2) {
+                alert("Ngày bắt đầu không thể lớn hơn ngày kết thúc. Vui lòng nhập lại !");
+                $('#TuNgay').val('');
+                $('#DenNgay').val('');
+                return;
+            }
+        }
+    }
+    function js_CreateMaChienDich() {
+        var VendorCode = fomart_split($("#NhaCC").val(), 0);
+        $.ajax({
+            url: '/Promotion2/ComboKhuyenMai_Auto_MaCT',
+            type: 'POST',
+            data: JSON.stringify({ VendorCode: VendorCode }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data.length > 0) {
+                    $("#MaCT").val(data[0].Code.trim());
+                } else {
+                    alert('Có lỗi xẩy ra. Vui lòng thử lại sau !');
+                }
+            }
+        });
+    }
+    function getTable_Header() {
+        SourceHeader = [];
+        var MaCT = $('#MaCT').val();
+        var TenCT = $('#TenCT').val();
+        var TuNgay = $('#TuNgay').val();
+        var DenNgay = $('#DenNgay').val();
+
+        var MaNCC = fomart_split($("#NhaCC").val(), 0);
+        var TenNCC = fomart_split($("#NhaCC").val(), 1);
+
+        if (MaNCC.length > 0 || MaCT.length > 0 || TenCT.length > 0 || TuNgay.length > 0 || DenNgay.length > 0) {
+            SourceHeader.push({
+                "MaCT": MaCT,
+                "TenCT": TenCT,
+                "MaNCC": MaNCC,
+                "TenNCC": TenNCC,
+                "TuNgay": TuNgay,
+                "DenNgay": DenNgay,
+            });
+        }
+    }
+
+    function js_CreateCombo() {
+        if (
+            $('#MaCT').val().length == 0 ||
+            $('#TenCT').val().length == 0 ||
+            $('#TuNgay').val().length == 0 ||
+            $('#DenNgay').val().length == 0
+        ) {
+            alert('Vui lòng nhập các trường đầy đủ.');
+            return;
+        }
+        if (ItemsHangMua == '') {
+            jAlert('Bạn vui lòng chọn sản phẩm hàng mua', 'Thông báo');
+            return false;
+        }
+        if (ItemsHangTang == '') {
+            jAlert('Bạn vui lòng chọn sản phẩm hàng tặng !', 'Thông báo');
+            return false;
+        }
+        getTable_Header();
+        LoadAddItem();
+        var obj = {};
+        obj.SourceHeader = JSON.stringify(SourceHeader);
+        obj.SourceHangMua = JSON.stringify(ItemsHangMua);
+        obj.SourceHangTang = JSON.stringify(ItemsHangTang);
+
+        console.log(JSON.stringify(SourceHeader))
+        console.log(JSON.stringify(ItemsHangMua))
+        console.log(JSON.stringify(ItemsHangTang))
+
+
+        $.ajax({
+            url: '/Promotion2/CreateComboKM',
+            type: 'POST',
+            data: JSON.stringify(obj),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                if (data.RespId == 0) {
+                    $('#ModalCombo').modal('hide');
+                    jAlert(data.RespMsg, 'Thông báo', (r) => {
+                        location.reload();
+                    });
+                } else {
+                    jAlert(data.RespMsg, 'Thông báo');
+                }
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+
+</script>

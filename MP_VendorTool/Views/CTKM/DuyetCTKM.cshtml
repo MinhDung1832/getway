@@ -1,0 +1,382 @@
+﻿@using ProductAllTool.Models.ManageSales;
+@{
+    ViewBag.Title = "Quản lý hàng tặng hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    footer {
+        display: none;
+    }
+
+    .modal-header .close::before {
+        display: none;
+    }
+
+    .title_09 {
+        font-size: 17px !important;
+    }
+</style>
+<div class="AutoFix" style="margin-top:100px">
+    <div id="form_search">
+        <div class="col-md-12">
+            <div class="col-md-1 c1">
+                <label>Nhà cung cấp</label>
+            </div>
+            <div class="col-md-1 c2" ondblclick="$('#NCC').val('').trigger('change');">
+                <select data-live-search="true" class="form-control " id="NCC" onchange="js_searchbox();">
+                    <option value="">--- Chọn nhà cung cấp ---</option>
+                    @if (ViewBag.list_ncc != null)
+                        {
+                            foreach (var i in ViewBag.list_ncc)
+                            {
+                                <option value="@i.Code">@i.Code - @i.Name</option>
+                            }
+                        }
+                </select>
+            </div>
+            <div class="col-md-1 c3">
+                <label> Trạng thái </label>
+            </div>
+            <div class="col-md-1 c4" ondblclick="$('#TrangThai').val('').trigger('change');">
+                <select id="TrangThai" class="form-control" onchange="js_searchbox()">
+                    <option value="">--- Chọn trạng thái ---</option>
+                    <option value="3">Đã duyệt</option>
+                    <option value="1">Gửi duyệt</option>
+                    <option value="2">Từ chối</option>
+                </select>
+            </div>
+            <div class="col-md-1 c5">
+                <a class="form-control btn btn-info" onclick="window.location = '/CTKM/CreateCTKM'"><i class="fa fa-check" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px; "></i>Create</a>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-1 c1">
+                <label>Mã CTKM</label>
+            </div>
+            <div class="col-md-1 c2" ondblclick="$('#MaCTKM').val('').trigger('change');">
+                <input type="text" class="form-control" id="MaCTKM" name="MaCTKM" onchange="js_searchbox()">
+            </div>
+            <div class="col-md-1 c3">
+                <label>Ngày tạo </label>
+            </div>
+            <div class="col-md-1 c4" ondblclick="$('#NgayTao').val('').trigger('change');">
+                <input type="date" class="form-control" id="NgayTao" name="NgayTao" onchange="js_searchbox()">
+            </div>
+            <div class="col-md-1 c5">
+                <a class="form-control btn btn-info" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-times" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px; "></i>Xóa bỏ</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row_2" style="margin-top: 200px;">
+    <div class="col-12 stretch-card pl-0 pr-0">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="table-responsive" id="div-content">
+                    @Html.Partial("~/Views/CTKM/tables/__DuyetCBKM.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn muốn xóa bản ghi này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="js_acceptDelete();">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="popupPushSalesTang" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 50% !important; max-width: 50% !important; border-radius: 0; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Chi tiết Combo khuyến mại</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" style=" width: 100%; margin: 10px;">
+                <div class="box_ItemOrder">
+                    <div class="col-md-6 ">
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Mã CTKM</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="MaCT" name="MaCT" disabled value="" class="form-control">
+                                <input type="hidden" id="VendorCode" name="VendorCode" disabled value="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Tên CT</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="TenCT" name="TenCT" disabled value="" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Từ ngày</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="TuNgay" name="TuNgay" disabled class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MaCTKM" class="col-sm-3 col-form-label">Đến ngày</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="DenNgay" name="DenNgay" disabled class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div style=" clear:both"></div>
+                    <div class="row">
+                        <h3 class="title_09">Hàng mua</h3>
+                        <table id="tbl_HangMua_Line" class="form-text table table-striped" style="width: 98%">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Mã hàng
+                                    </th>
+                                    <th>
+                                        Tên hàng
+                                    </th>
+                                    <th>
+                                        Giá bán NTD
+                                    </th>
+                                    <th>
+                                        Sl áp dụng
+                                    </th>
+                                    <th>
+                                        % Quà
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <h3 class="title_09">Hàng tặng</h3>
+                        <table id="tbl_HangTang_Line" class="form-text table table-striped" style="width: 98%">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Mã hàng
+                                    </th>
+                                    <th>
+                                        Tên hàng
+                                    </th>
+                                    <th>
+                                        Giá quà
+                                    </th>
+                                    <th>
+                                        SL áp dụng
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <div id="btn_guiduyet" hidden style="display:none">
+                            <a class="form-control btn btn-info" onclick="js_changeAction('2');" style="width: 120px; background: #ff5159 !important"><i class="fa fa-times" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px; "></i>Từ chối</a>
+                            <a class="form-control btn btn-info" onclick="js_changeAction('1');" style="width: 120px; background: #51a9ff !important"><i class="fa fa-check" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px; "></i>Duyệt</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtHead').html("Quản lý hàng tặng hàng");
+        js_GetList();
+    });
+    function js_searchbox() {
+        js_GetList();
+    }
+    function js_ReloadTable() {
+        $('#tbl_Item_Duyet').DataTable({
+            lengthMenu: [[10, 50, 70, 100, 200, -1], [10, 50, 70, 100, 200]],
+            "searching": false,
+            fixedHeader: true,
+            fixedHeader: {
+                headerOffset: 146
+            },
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+    function js_GetList() {
+
+        var MaCTKM = $("#MaCTKM").val();
+        var NCC = $("#NCC").val();
+        var TrangThai = $("#TrangThai").val();
+        var NgayTao = $("#NgayTao").val();
+
+        js_Loading(true, 1);
+        $.ajax({
+            url: '/CTKM/getDuyetCBKM',
+            type: 'POST',
+            data: JSON.stringify({ NCC: NCC, MaCTKM: MaCTKM, TrangThai: TrangThai, NgayTao: NgayTao }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_showpopup(MaCTKM, TenCT, TuNgay, DenNgay, Status) {
+        $('#MaCT').val(MaCTKM);
+        $('#TenCT').val(TenCT);
+        $('#TuNgay').val(TuNgay);
+        $('#DenNgay').val(DenNgay);
+
+        if (Status == "1") {
+            $('#btn_guiduyet').show();
+        }
+        $.ajax({
+            url: '/CTKM/CBKMGetHangMua',
+            type: 'POST',
+            data: JSON.stringify({ MaCTKM: MaCTKM }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#tbl_HangMua_Line tbody").empty();
+                    $.each(data, (index, value) => {
+                        $('#pushSalesId').html(value.MaCT);
+                        $("#tbl_HangMua_Line tbody").append('<tr><td>' + value.MaHang + '</td><td>' + value.TenHang + '</td> <td>' + value.DonGia + '</td><td style="">' + value.SoLuong + '</td><td style="">' + value.PTQua + '</td></tr>');
+                    });
+
+                }
+            }
+        });
+
+        $.ajax({
+            url: '/CTKM/CBKMGetHangTang',
+            type: 'POST',
+            data: JSON.stringify({ MaCTKM: MaCTKM }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#tbl_HangTang_Line tbody").empty();
+                    $.each(data, (index, value) => {
+                        $("#tbl_HangTang_Line tbody").append('<tr><td>' + value.MaHang + '</td><td>' + value.TenHang + '</td> <td style="">' + value.DonGia + '</td><td style="">' + value.SLTang + '</td></tr>');
+                    });
+
+                }
+            }
+        });
+
+        $('#popupPushSalesTang').modal();
+    }
+    function js_changeAction(type) {
+        debugger;
+        var MaCTKM = $('#MaCT').val();
+        console.log(MaCTKM);
+        $.ajax({
+            url: '/CTKM/UpdateTrangThai',
+            type: 'POST',
+            data: JSON.stringify({ type: type, MaCTKM: MaCTKM }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+
+                if (type == '1' && data == 1) {
+                    jAlert('Duyệt thành công.', 'Thông báo');
+                    js_GetList();
+                    js_Loading(false, 1);
+                }
+                if (type == '2' && data == 1) {
+                    jAlert('Từ chối thành công.', 'Thông báo');
+                    js_GetList();
+                    js_Loading(false, 1);
+                }
+                $('#popupPushSalesTang').modal('hide');
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+
+        });
+
+    }
+    function js_acceptDelete() {
+
+        var cboxes = document.getElementsByName('check[]');
+        var arrCheckbox4 = [];
+
+        var i = 0;
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                var po = {};
+                po.ID = cboxes[i].value;
+                po.MaCTKM = $('#Row' + cboxes[i].id + ' #MaCTKM').html()
+
+                console.log(po);
+                arrCheckbox4.push(po);
+            }
+        }
+        console.log('1');
+
+        console.log(arrCheckbox4);
+
+        if (arrCheckbox4.length == 0) {
+            jAlert('Bạn phải ít nhất 1 bản ghi.', 'Thông báo');
+            return;
+        }
+        console.log('2');
+
+        if (arrCheckbox4.length > 0) {
+            $.ajax({
+                url: '/CTKM/deleteCBKM',
+                type: 'POST',
+                data: JSON.stringify({ lst: arrCheckbox4 }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+
+                    if (data == 1) {
+                        jAlert('Thành công.', 'Thông báo');
+                        js_GetList();
+                        js_Loading(false, 1);
+                    }
+
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+
+            });
+        }
+    }
+</script>

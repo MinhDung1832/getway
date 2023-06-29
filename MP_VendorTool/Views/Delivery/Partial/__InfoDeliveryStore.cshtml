@@ -1,0 +1,62 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left; width: 55px; max-width: 55px; ">
+                    Mã hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 200px; max-width: 200px; ">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: center; width: 80px; max-width: 80px; ">
+                    Hình ảnh
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        var i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            var k = i;
+                            var MaHang = "MaHang_" + item["MaHang"];
+                            <tr style=" height:20px" id="Row_@i">
+                                <td>
+                                    @item["MaHang"]
+                                </td>
+                                <td style="text-align: left; width: 200px; max-width: 200px; overflow: hidden; white-space: nowrap " title="@item["TenHang"]">
+                                    @item["TenHang"]
+                                </td>
+                                <td style="text-align: center; width: 60px; max-width: 60px; " id="CheckID">
+                                    <a href="@item["Images"]" title="" class="thickbox"><img height="60px" src="@item["Images"]" alt="" class="content" /></a>
+                                    <span id="MaHang_@i" style=" display:none">@item["MaHang"]</span>
+                                    <span id="TenHang_@i" style=" display:none">@item["TenHang"]</span>
+                                    <span id="NCC_@i" style=" display:none">@item["NCC"]</span>
+                                    <input class="cb-element @MaHang" style="width:100% !important; display:none" checked name="check[]" id="_@i" type="checkbox">
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+
+

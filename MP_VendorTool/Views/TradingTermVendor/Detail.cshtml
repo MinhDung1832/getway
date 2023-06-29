@@ -1,0 +1,1434 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@using MP_VendorTool.Models.TradingTermVendor
+@{
+    ViewBag.Title = "Chi tiết";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var listTypeBonus = (List<objCombox>)ViewBag.list_typeBonus;
+    var listChiPhiBanHang = (List<objCombox>)ViewBag.list_ChiPhiBanHang;
+}
+<style>
+    .content-wrapper {
+        border-top: 10px solid #f3f3f3;
+    }
+
+    .container_Tradingtem {
+        width: 94%;
+        margin: 0 auto !important;
+        margin-left: 35px !important;
+    }
+
+    .wp_content {
+        padding-top: 0px !important;
+    }
+
+    body.fixed-layout .content-wrapper, body.fixed-navbar .content-wrapper {
+        padding-top: 27px;
+    }
+
+    .table-bordered {
+        border: 0px solid #ddd !important;
+    }
+
+    label.col-sm-3.col-form-label.denngay {
+        padding-top: 5px;
+    }
+
+    /*  #vendor-form {
+        width: 75% !important;
+        margin: 0 auto;
+    }*/
+
+    .dropdown.bootstrap-select.form-control.bs3 {
+        background: #f3f3f3;
+        border: none !important;
+        -webkit-box-shadow: 0 0 black !important;
+        float: right;
+    }
+
+    button.btn.dropdown-toggle.btn-default.bs-placeholder {
+        padding: 5px 4px !important
+    }
+
+    .content {
+        -webkit-transition: all .4s ease-in-out;
+        -moz-transition: all .4s ease-in-out;
+        -o-transition: all .4s ease-in-out;
+        -ms-transition: all .4s ease-in-out;
+    }
+
+    .Cantrai .dropdown.bootstrap-select.form-control.bs3 {
+        float: left;
+    }
+
+    .Canphai .dropdown.bootstrap-select.form-control.bs3 {
+        width: 272px !important;
+        max-width: 272px !important;
+    }
+
+    .Canphai a.form-control.btn.btn-info {
+        float: right;
+        margin-top: 3px;
+    }
+
+    a.dropdown-item.active.selected span {
+        color: #463e3e !important;
+    }
+</style>
+<link href="~/Resources/css/main.css" rel="stylesheet" />
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+
+                <form id="vendor-form" class="form-horizontal" accept-charset="utf-8">
+                    <div class="wp_content">
+                        <div class="container_Tradingtem">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @*<h4>Thông tin đối tác</h4>*@
+                                    <div class="form-group row">
+                                        <label for="textDate" class="col-sm-4 col-form-label">Mã nhà cung cấp</label>
+                                        <div class="col-sm-8">
+                                            <input type="hidden" class="form-control" disabled id="VendorNo" name="VendorNo" value="@ViewBag.VendorNo - @ViewBag.VendorName" placeholder="Mã nhà cung cấp">
+                                            <input type="text" class="form-control" disabled id="VendorNo_Code" name="VendorNo_Code" value="@ViewBag.VendorNo" placeholder="Mã nhà cung cấp">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textDate" class="col-sm-4 col-form-label">Tên nhà cung cấp</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" disabled id="VendorNo_Name" name="VendorNo_Name" value="@ViewBag.VendorName" placeholder="Tên nhà cung cấp">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textDate" class="col-sm-4 col-form-label">Tình trạng</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" disabled id="TinhTrang" name="TinhTrang" value="@ViewBag.TinhTrang">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textDate" class="col-sm-4 col-form-label">Đại diện BBM</label>
+                                        <div class="col-sm-8">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="NguoiDaiDienBBM" name="NguoiDaiDienBBM" placeholder="Họ và tên" value="@ViewBag.NguoiDaiDienBBM">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="DaiDienBBM" name="DaiDienBBM" placeholder="Đại diện" value="@ViewBag.DaiDienBBM">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textDate" class="col-sm-4 col-form-label">Đại diện đối tác</label>
+                                        <div class="col-sm-8">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="NguoiDaiDienNCC" name="NguoiDaiDienNCC" placeholder="Họ và tên" value="@ViewBag.NguoiDaiDienNCC">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="DaiDienNCC" name="DaiDienNCC" placeholder="Đại diện" value="@ViewBag.DaiDienNCC">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row" style=" display:none">
+                                        <label for="textkho" class="col-md-4 col-form-label"></label>
+                                        <div class="col-sm-8" style=" margin: auto; text-align: center; ">
+                                            <input class="form-control" type="hidden" id="FileSoHopDong" value="">
+                                            <input type="file" style="width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;" name="fileUpload01" id="fileUpload01" class="inputfile">
+                                            <label class="btn btn-success fileUploadsss" for="fileUpload01" style="width: 30%; margin: 10px 0px; font-size: 12px; background: #bfbfbf !important "><i class="fa fa-upload" aria-hidden="true"></i> Upload pdf</label>
+                                            <div id="TaiFile01" style="text-align: center; float: left; padding-top: 14px;"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    @*<h4>Thông tin liên hệ</h4>*@
+
+                                    <div class="form-group row">
+                                        <label for="textStatus" class="col-sm-4 col-form-label">Số hợp đồng</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="SoHopDong" name="SoHopDong" value="@ViewBag.SoHopDong" placeholder="Số hợp đồng">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textMien" class="col-sm-4 col-form-label">Hiệu lực từ</label>
+                                        <div class="col-sm-8">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <input type="date" class="form-control" id="TuNgay" name="TuNgay" value="@ViewBag.TuNgay">
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="form-group row">
+                                                        <label for="textMien" class="col-sm-3 col-form-label denngay">đến</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="date" class="form-control" style="  " id="DenNgay" name="DenNgay" value="@ViewBag.DenNgay">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="form-group row">
+                                            <label for="textkho" class="col-md-4 col-form-label">Tự động gia hạn</label>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <input type="checkbox" class="form-check-input" name="AutoExtentContractSoHopDong" @(ViewBag.AutoExtentContractSoHopDong == "1" ? "checked" : "")>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>*@
+
+
+
+                                    <div class="form-group row">
+                                        <label for="textMien" class="col-sm-4 col-form-label">Số phụ lục</label>
+                                        <div class="col-sm-8">
+                                            <input type="hidden" disabled class="form-control" id="ContractNo" name="ContractNo" value="@ViewBag.ContractNo" placeholder="Số phụ lục">
+                                            <input type="text" class="form-control" id="SoPhuLuc" name="SoPhuLuc" value="@ViewBag.SoPhuLuc" placeholder="Số phụ lục">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="textTinh" class="col-sm-4 col-form-label">Hiệu lực từ</label>
+                                        <div class="col-sm-8">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <input type="date" class="form-control" id="FromDate" name="FromDate" value="@ViewBag.FromDate">
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="form-group row">
+                                                        <label for="textMien" class="col-sm-3 col-form-label denngay">đến</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="date" class="form-control" style="  " id="ToDate" name="ToDate" value="@ViewBag.ToDate">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="form-group row">
+                                            <label for="textkho" class="col-md-4 col-form-label">Tự động gia hạn</label>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <input type="checkbox" class="form-check-input" name="AutoExtentContract" value="0" @(ViewBag.AutoExtentContract == "1" ? "checked" : "")>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>*@
+
+                                    <div class="form-group row">
+                                        <label for="textkho" class="col-md-4 col-form-label">Tự động gia hạn HĐ</label>
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    <input type="checkbox" class="form-check-input" name="AutoExtentContractSoHopDong" value="0" @(ViewBag.AutoExtentContractSoHopDong == "1" ? "checked" : "")>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <label for="textMien" style=" padding-top: 3px; ">
+
+                                                                <span style=" float: left; margin-left: -13px; "> <input type="checkbox" class="form-check-input" name="AutoExtentContract" value="0" @(ViewBag.AutoExtentContract == "1" ? "checked" : "")></span>
+                                                                <span style=" padding-top: 2px; float: left; "> Tự động gia hạn PL</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row" style=" display:none">
+                                        <label for="textkho" class="col-md-4 col-form-label"></label>
+                                        <div class="col-sm-8" style=" margin: auto; text-align: center; ">
+                                            <input class="form-control" type="hidden" id="FilePhuLucHopDong" value="">
+                                            <input type="file" style="width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;" name="fileUpload02" id="fileUpload02" class="inputfile">
+                                            <label class="btn btn-success fileUploadsss" for="fileUpload02" style="width: 30%; margin: 10px 0px; font-size: 12px; background: #bfbfbf !important "><i class="fa fa-upload" aria-hidden="true"></i> Upload pdf</label>
+                                            <div id="TaiFile02" style="text-align: center; float: left; padding-top: 14px;"> </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <input type="hidden" class="form-control" id="ACM" name="ACM" placeholder="Trưởng ngành hàng">
+                            <input type="hidden" id="SupplyManager" class="form-control" name="SupplyManager" placeholder="Giám đốc Cung ứng" />
+
+
+                            <div class="box_2" style=" display:none">
+                                <h4>Tình hình hợp tác</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="textDate" class="col-sm-4 col-form-label">Doanh số Y-1</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="salesY1" name="salesY1" placeholder="Doanh số Y-1" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textOrderId" class="col-sm-4 col-form-label">
+                                                Doanh số YTD
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="salesYTD" name="salesYTD" placeholder="Doanh số YTD" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Dự kiến YTD</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="expectedYTD" name="expectedYTD" placeholder="Dự kiến YTD" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label">Tình trạng hợp đồng</label>
+                                            <div class="col-sm-8">
+                                                @*<select class="form-control" id="contractStatus" name="contractStatus">
+                                                        <option value="Đã ký">Đã ký</option>
+                                                        <option value="Chưa ký">Chưa ký</option>
+                                                        <option value="Hết hạn">Hết hạn</option>
+                                                    </select>*@
+                                                <input type="text" class="form-control" id="contractStatus" name="contractStatus" value="@ViewBag.ContractStatus" placeholder="Tình trạng hợp đồng" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textTinh" class="col-sm-4 col-form-label">Số lượng CH phủ hàng</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="numberCH" name="numberCH" placeholder="Số lượng CH phủ hàng" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textkho" class="col-sm-4 col-form-label">Sales loss do OOS</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="SalesLossOOS" class="form-control" name="SalesLossOOS" placeholder="Sales loss do OOS" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <h4 class="Danhmucsp">Danh mục sản phẩm</h4>
+                            @*SKU Mua bán *@
+                            <div class="MuaBan TabMuaBan_SKU" style="display:none">
+                                <div class="box_1">
+                                    <input type="text" class="form-control" id="MaSpSKU" name="MaSpSKU" value="" style="width: 350px; margin: 0px 4px !important;" placeholder="Tìm theo mã sản phẩm" onchange="ApDungSanPhamMuaBan_HH();">
+
+                                    <div class="row">
+                                        <div style="width: 101%; ">
+                                            <div class="col-md-12">
+                                                <div class="col-md-1 c2">
+                                                </div>
+                                                <div class="col-md-1 c2">
+
+                                                </div>
+                                                <div class="col-md-1 c3" style="display: none ">
+                                                    <select id="HanhDongMB" class="form-control selectpicker" data-live-search="true" style="width: 280px; display: none ">
+                                                        <option value="">--- Chọn hành động ---</option>
+                                                        <option value="1">Hàng mới</option>
+                                                        <option value="2">Cập nhật giá</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-1 c4">
+
+                                                </div>
+                                                <div class="col-md-1 c5">
+                                                    <a href="#" onclick="HanhDongMB()" style="width: 272px; float: right; max-width: 155px; margin-right: 4px !important; display: none; height: 27px !important; " class="form-control btn btn-info"><i class="fa fa-forward" aria-hidden="true" style="float: left; margin-left: 6px; margin-top: 3px; "></i> Tiếp </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style=" display:none">
+                                    <select id="RangeReview" class="form-control selectpicker" data-live-search="true" style=" width: 280px" onchange="ApDungSanPhamMuaBan_HH();">
+                                        <option value="">--- Chọn Range Review ---</option>
+                                        @foreach (objCombox box in (List<objCombox>)ViewBag.list_RangeReview)
+                                        {
+                                            <option value="@box.Code">@box.Name</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div id="TabMuaBan_SKU">
+                                    @Html.Partial("~/Views/TradingTermVendor/tabDetail/_tabMuaBan_KGUI_SKU.cshtml")
+                                </div>
+                            </div>
+
+                            <div class="box_3">
+                                <p>
+                                    Trường hợp thay đổi giá báo trước <input type="text" name="priceChangeDate" id="priceChangeDate" disabled value="@ViewBag.priceChangeDate" class="form-control" style="width:60px;display: inline;" /> ngày. Mức giá cũ vẫn áp dụng trước thời gian thông báo báo trước này.
+                                </p>
+                            </div>
+
+                            <h4 class="Danhmucsp">Danh mục sản phẩm thuê kệ</h4>
+                            @Html.Partial("~/Views/TradingTermVendor/tabDetail/_tabThueKe_SKU.cshtml")
+
+                            <div class="ThueKe TabConten03" style="display:none">
+                            </div>
+
+                            <div class="box_4">
+                                <h4 class="DieuKhoanThuongMai">ĐIỀU KHOẢN THƯƠNG MẠI</h4>
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item active TabConten01" style="display:none">
+                                        <a href="#tab1" data-toggle="tab" class="nav-link active tab-1">Mua bán</a>
+                                    </li>
+                                    <li class="nav-item  active TabConten02" style="display:none">
+                                        <a href="#tab2" data-toggle="tab" class="nav-link tab-2">Ký gửi</a>
+                                    </li>
+                                    <li class="nav-item  active TabConten03" style="display:none">
+                                        <a href="#tab3" data-toggle="tab" class="nav-link tab-3">Thuê kệ</a>
+                                    </li>
+                                </ul>
+                                <!-- Nội dung -->
+                                <div class="tab-content">
+                                    <div class="tab-pane active TabConten01" id="tab1" style="display:none">
+                                        @Html.Partial("~/Views/TradingTermVendor/tabDetail/_tabMuaBan.cshtml")
+                                    </div>
+                                    <div class="tab-pane active TabConten02" id="tab2" style="display:none">
+                                        @Html.Partial("~/Views/TradingTermVendor/tabDetail/_tabKyGui.cshtml")
+                                    </div>
+                                    <div class="tab-pane active TabConten03" id="tab3" style="display:none">
+                                        @Html.Partial("~/Views/TradingTermVendor/tabDetail/_tabThueKe.cshtml")
+                                    </div>
+                                    <div class="btn_save" style="float:right; padding-top:10px">
+                                        @*<input name="submit" class="btn_export" type="submit" value="Lưu và kết thúc" style="border: none;">*@
+                                        <a href="/tradingTermVendor/edit?id=@ViewBag.ID" class="btn_export ChinhSua" style="border: none;">Chỉnh sửa</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <div class="modal" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Nhập liệu từ file excel</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @using (Html.BeginForm("TradingTermVendor", "uploadExcel", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmUploadCustomer" }))
+                        {
+                            //@Html.AntiForgeryToken()
+                            <div class="wp_upload">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <span>Chọn file:</span>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input id="cashierFile" title="Upload file" type="file" name="file" required />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <span>Lưu ý:</span>
+                                    </div>
+                                    <div class="col-md-10">
+                                        File upload cần phải đúng định dạng. Vui lòng tải file mẫu <b><a href="~/Exports/Customer_2.xlsx">Tại đây.</a></b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="button_action">
+                                <button type="submit" class="btn btn-success btn-icon-text btn-sm" id="btn_upload_cashier">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    Tải lên
+                                </button>
+                                <div class="flag_uploadExcel" style="margin-top: 15px;"></div>
+                                <div id="status_upload_custumer" style="display: none;text-align:center;">
+                                    <img style="width:150px;" src="~/Content/Images/loading.gif" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" name="TypeS" id="TypeS" value="@ViewBag.Type" />
+        <input type="hidden" name="IDContractNo" id="IDContractNo" value="@ViewBag.IDContractNo" />
+        <input type="hidden" name="TrangThaiDuyet" id="TrangThaiDuyet" value="@ViewBag.TrangThaiDuyet" />
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script>
+    var listTypeBonus = @Html.Raw(Json.Encode(listTypeBonus));
+    var listChiPhiBanHang = @Html.Raw(Json.Encode(listChiPhiBanHang));
+    var i = 0;
+    var SourceHangHoa = [];
+    var SourceBonus = [];
+    var SourceTrade = [];
+    var SourceThuongHieu = [];
+    var SourceCustomer = [];
+    var SourceChietKhau = [];
+    var SourceHangTang = [];
+    var SourceContract = [];
+    var SourceCoopInfoVendors = [];
+    var SourceDoiTra = [];
+    var SourceThanhToan = [];
+    var SourceHopTacKhac = [];
+    jQuery(function ($) {
+        $("#vendor-form").validate({
+            rules: {
+                VendorNo: {
+                    required: true
+                },
+                ContractNo: {
+                    required: true
+                },
+                FromDate: {
+                    required: true
+                },
+                ToDate: {
+                    required: true
+                }
+            },
+            messages: {
+                VendorNo: {
+                    required: "Vui lòng chọn mã đối tác"
+                },
+                ContractNo: {
+                    required: 'Vui lòng nhập số hợp đồng'
+                },
+                FromDate: {
+                    required: 'Vui lòng ngày hiệu lực hợp đồng từ'
+                },
+                ToDate: {
+                    required: 'Vui lòng ngày hiệu lực hợp đồng đến'
+                }
+            },
+            submitHandler: function (form) {
+                getDataContract();
+                getDataCoopInfoVendors();
+                getTableDataHangHoa();
+                getTableDataChietKhau();
+                getTableDataHangTang();
+                getTableDataBonus();
+                getTableDataTrade();
+                getTableDataThuongHieu();
+                getTableDataCustomer();
+                getTableDataDoiTraHang();
+                getTableDataThanhToan();
+                getDataHopTacKhac();
+
+                var obj = {};
+                obj.SourceContract = JSON.stringify(SourceContract);
+                obj.SourceCoopInfoVendors = JSON.stringify(SourceCoopInfoVendors);
+                obj.SourceHangHoa = JSON.stringify(SourceHangHoa);
+                obj.SourceChietKhau = JSON.stringify(SourceChietKhau);
+                obj.SourceHangTang = JSON.stringify(SourceHangTang);
+                obj.SourceBonus = JSON.stringify(SourceBonus);
+                obj.SourceTrade = JSON.stringify(SourceTrade);
+                obj.SourceThuongHieu = JSON.stringify(SourceThuongHieu);
+                obj.SourceCustomer = JSON.stringify(SourceCustomer);
+                obj.SourceDoiTra = JSON.stringify(SourceDoiTra);
+                obj.SourceThanhToan = JSON.stringify(SourceThanhToan);
+                obj.SourceHopTacKhac = JSON.stringify(SourceHopTacKhac);
+
+                if (SourceContract.length > 0) {
+                    $.ajax({
+                        url: '/TradingTermVendor/PostTradeRequest',
+                        type: 'POST',
+                        data: JSON.stringify(obj),
+                        contentType: 'application/json, charset=utf-8',
+                        success: function (data) {
+                            if (data.RespId == 0) {
+                                jAlert(data.RespMsg, 'Thông báo', (r) => {
+                                    //location.reload();
+                                });
+
+                            } else {
+                                jAlert(data.RespMsg, 'Thông báo');
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+    });
+
+    $(function () {
+        js_listTypeBonus_tab1('ra');
+        js_listTypeBonus_tab2('ra');
+        js_listTypeBonus_tab3('ra');
+        js_onchange_verdor();
+        $('#txtHead').html("thỏa thuận thương mại");
+        LoadTypeS();
+    });
+    function LoadTypeS() {
+
+        var TypeS = $('#TypeS').val();
+        if (TypeS == 'HHOA') {
+            $('.TabMuaBan_SKU').show();
+
+            $('.TabConten01').show();
+            $('.TabConten02').hide();
+            $('.TabConten03').hide();
+            //$('.TabConten03TK').hide();
+            ApDungSanPhamMuaBan_HH();
+        }
+        else if (TypeS == 'KGUI') {
+            $('.TabMuaBan_SKU').show();
+            $('.TabConten01').hide();
+            $('.TabConten02').show();
+            $('.TabConten03').hide();
+           // $('.TabConten03TK').hide();
+            ApDungSanPhamMuaBan_HH();
+        }
+        else if (TypeS == 'TKE') {
+            $('.TabMuaBan_SKU').hide();
+            $('.TabConten01').hide();
+            $('.TabConten02').hide();
+            $('.TabConten03').show();
+           // $('.TabConten03TK').show();
+           // $('.DieuKhoanThuongMai').hide();
+        }
+
+        var TrangThaiDuyet = $('#TrangThaiDuyet').val();
+        if (TrangThaiDuyet == 'Active') {
+            $(".ChinhSua").hide();
+
+        } else if (TrangThaiDuyet == 'NoActive') {
+            $(".ChinhSua").show();
+        }
+    }
+
+    function HieuLuc() {
+        var dateStart = $("#ToDate").val();
+        var d = new Date();
+        var dateEnd = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+        console.log(dateStart + '***' + dateEnd);
+        if (dateStart > dateEnd) {
+            $('#contractStatus').val('Còn hiệu lực');
+        } else {
+            $('#contractStatus').val('Hết hiệu lực');
+        }
+    }
+    function js_PriceAfterDiscount(r) {
+
+        let discountPrice = $('#row_' + r + ' input[name="discountPrice"]').val().trim();
+        var priceSeparate = commaSeparateNumber(discountPrice);
+
+        $('#discountPrice_'+r).val(priceSeparate);
+
+        let percentDiscount = $('#row_' + r + ' input[name="percentDiscount"]').val().trim();
+        if (discountPrice > 0 && percentDiscount > 0) {
+            var disPrice = discountPrice.replace(/\./g, '');
+            var priceAfterDiscount = disPrice * (1 - percentDiscount/100);
+            $('#priceAfterDiscount_' + r).html(commaSeparateNumber(priceAfterDiscount));
+            $('#priceAfterInput_' + r).val(priceAfterDiscount);
+        }
+    }
+
+    function commaSeparateNumber(val) {
+        while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');
+        }
+        return val;
+    }
+
+    function js_listTypeBonus_tab1(r) {
+        if (listTypeBonus != null) {
+
+            if (r != null && r != 'ra') {
+
+                $("#table_thuong select[name='bonusType']").empty();
+                listTypeBonus.forEach((row) => {
+                    $("#table_thuong select[name='bonusType']").append("<option value=" + row.Code + ">" + row.Name + "</option>");
+                });
+            } else if(r == 'ra'){
+                listTypeBonus.forEach((row) => {
+                    $("#table_thuong select[name='bonusType']").append("<option value=" + row.Code + ">" + row.Name + "</option>");
+                });
+            }
+        }
+    }
+
+    function js_listTypeBonus_tab2(r) {
+        if (listTypeBonus != null) {
+
+            if (r != null && r != 'ra') {
+
+                $("#table_thuong_2 select[name='bonusType']").empty();
+                listTypeBonus.forEach((row) => {
+                    $("#table_thuong_2 select[name='bonusType']").append("<option value=" + row.Code + ">" + row.Name + "</option>");
+                });
+            } else if(r == 'ra'){
+                listTypeBonus.forEach((row) => {
+                    $("#table_thuong_2 select[name='bonusType']").append("<option value=" + row.Code + ">" + row.Name + "</option>");
+                });
+            }
+        }
+    }
+
+    function js_listTypeBonus_tab3(r) {
+        if (listTypeBonus != null) {
+
+            if (r != null && r != 'ra') {
+
+                $("#table_thuong_3 select[name='bonusType']").empty();
+                listTypeBonus.forEach((row) => {
+                    $("#table_thuong_3 select[name='bonusType']").append("<option value=" + row.Code + ">" + row.Name + "</option>");
+                });
+            } else if(r == 'ra'){
+                listTypeBonus.forEach((row) => {
+                    $("#table_thuong_3 select[name='bonusType']").append("<option value=" + row.Code + ">" + row.Name + "</option>");
+                });
+            }
+        }
+    }
+
+    function js_onchange_verdor() {
+        var VendorNo = $('#VendorNo').val().trim();
+        var arrVendorNo = VendorNo.split(" - ");
+        $.ajax({
+            url: '/TradingTermVendor/GetListItemVendor',
+            type: 'POST',
+            data: JSON.stringify({ vendorNo: arrVendorNo[0]}),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                var row = JSON.parse(data);
+                $('#product_datalist').empty();
+                for (i in row) {
+                    $('#product_datalist').append('<option value="'+row[i].Code +' - '+ row[i].Name+'" />');
+                }
+            }
+        });
+
+        $.ajax({
+            url: '/TradingTermVendor/GetListCoopInfoVendors',
+            type: 'POST',
+            data: JSON.stringify({ vendorNo: arrVendorNo[0]}),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                var row = JSON.parse(data);
+                $('#salesY1').val(commaSeparateNumber(row[0]['Sale_LastYear']));
+                $('#salesYTD').val(commaSeparateNumber(row[0]['SaleYTD']));
+                $('#expectedYTD').val(commaSeparateNumber(row[0]['SalesEstimateCurrYear']));
+                $('#numberCH').val(row[0]['CountItem_Store']);
+                $('#SalesLossOOS').val(row[0]['SalesLossOOS']);
+                //$('#contractStatus').val(row[0]['ContractStatus']);
+            }
+        });
+       // HieuLuc();
+    }
+
+    function js_onchange_barcode(r) {
+        let nameProduct = String($('#row_'+r+' input[name="nameProduct"]').val()).trim();
+        var item = nameProduct.split(" - ");
+        $.ajax({
+            url: '/TradingTermVendor/GetListBarcode',
+            type: 'POST',
+            data: JSON.stringify({ itemNo: item[0]}),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                var row = JSON.parse(data);
+                $('#barcode_' + r).empty();
+                for (i in row) {
+                        $('#barcode_'+r).append('<option value="'+row[i].Code+'">'+row[i].Name+'</option>');
+                }
+            }
+        });
+    }
+
+    function deleteRowHanghoa(r) {
+        var ri = r.parentNode.parentNode.rowIndex;
+        document.getElementById("table_hanghoa").deleteRow(ri);
+    }
+
+    function getDataContract() {
+         SourceContract = [];
+         var VendorNo = $('#VendorNo').val().trim();
+         var ContractNo = $('#ContractNo').val().trim();
+         var FromDate = $('#FromDate').val().trim();
+         var ToDate = $('#ToDate').val().trim();
+         var ACM = $('#ACM').val().trim();
+         var CM = $('#CM').val().trim();
+         var SupplyManager = $('#SupplyManager').val().trim();
+         var AutoExtentContract = $("#vendor-form input[type='radio']:checked").val();
+         var priceChangeDate = $('#priceChangeDate').val().trim();
+
+         var arrVendorNo = VendorNo.split(" - ");
+
+         if (VendorNo.length > 0 && ContractNo.length > 0) {
+             SourceContract.push({
+                "VendorNo": arrVendorNo[0],
+                "ContractNo": ContractNo,
+                "FromDate": FromDate,
+                "ToDate": ToDate,
+                "ACM": ACM,
+                "CM": CM,
+                "SupplyManager": SupplyManager,
+                "AutoExtentContract": AutoExtentContract,
+                "priceChangeDate": priceChangeDate
+             });
+         }
+    }
+
+    function getDataCoopInfoVendors() {
+         SourceCoopInfoVendors = [];
+         var salesY1 = $('#salesY1').val().trim();
+         var salesYTD = $('#salesYTD').val().trim();
+         var expectedYTD = $('#expectedYTD').val().trim();
+         var contractStatus = $('#contractStatus :selected').val();
+         var numberCH = $('#numberCH').val().trim();
+         var SalesLossOOS = $('#SalesLossOOS').val().trim();
+
+         if (salesY1.length > 0 && salesYTD.length > 0) {
+             SourceCoopInfoVendors.push({
+                "salesY1": salesY1,
+                "salesYTD": salesYTD,
+                "expectedYTD": expectedYTD,
+                "contractStatus": contractStatus,
+                "numberCH": numberCH,
+                "SalesLossOOS": SalesLossOOS
+            });
+         }
+    }
+
+    function getTableDataHangHoa() {
+        SourceHangHoa = [];
+        let trs = $("#table_hanghoa tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let nameProduct = String($('#' + tr.id + ' input[name="nameProduct"]').val()).trim();
+                let barcode = String($('#' + tr.id + ' select[name="barcode"]').val()).trim();
+                let hinhthucht = String($('#' + tr.id + ' input[name="hinhthucht"]').val()).trim();
+                let vat = String($('#' + tr.id + ' input[name="vat"]').val()).trim();
+                let discountPrice = String($('#' + tr.id + ' input[name="discountPrice"]').val()).trim();
+                let percentDiscount = String($('#' + tr.id + ' input[name="percentDiscount"]').val()).trim();
+                let priceAfterDiscount = String($('#' + tr.id + ' input[name="priceAfterDiscount"]').val()).trim();
+
+                var arrNameProduct = nameProduct.split(" - ");
+                if (nameProduct.length > 0 && barcode.length > 0 && hinhthucht.length > 0) {
+                    SourceHangHoa.push({
+                        "codeProduct": arrNameProduct[0],
+                        "nameProduct": arrNameProduct[1],
+                        "barcode": barcode,
+                        "hinhthucht": hinhthucht,
+                        "vat": vat,
+                        "discountPrice": discountPrice.replace(/\./g, ''),
+                        "percentDiscount": percentDiscount,
+                        "priceAfterDiscount": priceAfterDiscount
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataChietKhau() {
+        SourceChietKhau = [];
+        let trs = $("#table_chietkhau tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let typeDiscount = String($('#' + tr.id + ' select[name="typeDiscount"]').val()).trim();
+                let discountAmount = String($('#' + tr.id + ' input[name="discountAmount"]').val()).trim();
+                let percentDiscount = String($('#' + tr.id + ' input[name="percent_Discount"]').val()).trim();
+                if (discountAmount.length > 0 && percentDiscount.length > 0) {
+                    SourceChietKhau.push({
+                        "typeDiscount": typeDiscount,
+                        "discountAmount": discountAmount,
+                        "percentDiscount": percentDiscount,
+                        'typeTab': 'Mua bán'
+                    });
+                }
+            });
+        }
+        let trs_kygui = $("#table_kygui_chietkhau tbody tr");
+        if (trs_kygui.length) {
+            trs_kygui.each((index, tr) => {
+                let typeDiscount = String($('#' + tr.id + ' select[name="typeDiscount"]').val()).trim();
+                let discountAmount = String($('#' + tr.id + ' input[name="discountAmount"]').val()).trim();
+                let percentDiscount = String($('#' + tr.id + ' input[name="percent_Discount"]').val()).trim();
+                if (discountAmount.length > 0 && percentDiscount.length > 0) {
+                    SourceChietKhau.push({
+                        "typeDiscount": typeDiscount,
+                        "discountAmount": discountAmount,
+                        "percentDiscount": percentDiscount,
+                        'typeTab': 'Ký gửi'
+                    });
+                }
+            });
+        }
+        let trs_thueke = $("#table_thueke_chietkhau tbody tr");
+        if (trs_thueke.length) {
+            trs_thueke.each((index, tr) => {
+                let typeDiscount = String($('#' + tr.id + ' select[name="typeDiscount"]').val()).trim();
+                let discountAmount = String($('#' + tr.id + ' input[name="discountAmount"]').val()).trim();
+                let percentDiscount = String($('#' + tr.id + ' input[name="percent_Discount"]').val()).trim();
+                if (discountAmount.length > 0 && percentDiscount.length > 0) {
+                    SourceChietKhau.push({
+                        "typeDiscount": typeDiscount,
+                        "discountAmount": discountAmount,
+                        "percentDiscount": percentDiscount,
+                        'typeTab': 'Thuê Kệ'
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataDoiTraHang() {
+        SourceDoiTra = [];
+        $('#table_doitra input:checkbox[name=checkDoiTra]').each(function()
+        {
+            if ($(this).is(':checked')) {
+                SourceDoiTra.push({
+                    'confirmChange': $(this).val(),
+                    'typeTab': 'Mua bán'
+                });
+            }
+        });
+        $('#table_kygui_doitra input:checkbox[name=checkDoiTra]').each(function()
+        {
+            if ($(this).is(':checked')) {
+                SourceDoiTra.push({
+                    'confirmChange': $(this).val(),
+                    'typeTab': 'Ký gửi'
+                });
+            }
+        });
+        $('#table_thueke_doitra input:checkbox[name=checkDoiTra]').each(function()
+        {
+            if ($(this).is(':checked')) {
+                SourceDoiTra.push({
+                    'confirmChange': $(this).val(),
+                    'typeTab': 'Thuê kệ'
+                });
+            }
+        });
+
+    }
+
+    function getDataHopTacKhac() {
+        SourceHopTacKhac = [];
+        let cooperate_content_1 = $('#cooperate_content_1').val().trim();
+        let cooperate_content_2 = $('#cooperate_content_2').val().trim();
+        let cooperate_content_3 = $('#cooperate_content_3').val().trim()
+        if (cooperate_content_1.length || cooperate_content_2.length || cooperate_content_3.length) {
+              SourceHopTacKhac.push({
+                'content1': $('#cooperate_content_1').val().trim(),
+                'content2': $('#cooperate_content_2').val().trim(),
+                'content3': $('#cooperate_content_3').val().trim(),
+                'typeTab': '1'
+              });
+        }
+        let cooperate_kygui_content_1 = $('#cooperate_kygui_content_1').val().trim();
+        let cooperate_kygui_content_2 = $('#cooperate_kygui_content_2').val().trim();
+        let cooperate_kygui_content_3 = $('#cooperate_kygui_content_3').val().trim()
+        if (cooperate_kygui_content_1.length || cooperate_kygui_content_2.length || cooperate_kygui_content_3.length) {
+             SourceHopTacKhac.push({
+                'content1': $('#cooperate_kygui_content_1').val().trim(),
+                'content2': $('#cooperate_kygui_content_2').val().trim(),
+                'content3': $('#cooperate_kygui_content_3').val().trim(),
+                'typeTab': '2'
+            });
+        }
+        let cooperate_thueke_content_1 = $('#cooperate_thueke_content_1').val().trim();
+        let cooperate_thueke_content_2 = $('#cooperate_thueke_content_2').val().trim();
+        let cooperate_thueke_content_3 = $('#cooperate_thueke_content_3').val().trim()
+        if (cooperate_thueke_content_1.length || cooperate_thueke_content_2.length || cooperate_thueke_content_3.length) {
+              SourceHopTacKhac.push({
+                'content1': $('#cooperate_thueke_content_1').val().trim(),
+                'content2': $('#cooperate_thueke_content_2').val().trim(),
+                'content3': $('#cooperate_thueke_content_3').val().trim(),
+                'typeTab': '3'
+              });
+        }
+    }
+
+    function getTableDataThanhToan() {
+        SourceThanhToan = [];
+        let trs = $("#table_thanhtoan tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let typeOrder = String($('#' + tr.id + ' select[name="typeOrder"]').val()).trim();
+                let paymentPeriod = String($('#' + tr.id + ' select[name="paymentPeriod"]').val()).trim();
+                let onDay = String($('#' + tr.id + ' input[name="onDay"]').val()).trim();
+                let andDay = String($('#' + tr.id + ' input[name="andDay"]').val()).trim();
+                let applyFor = String($('#' + tr.id + ' select[name="applyFor"]').val()).trim();
+                if (typeOrder.length > 0 && onDay.length > 0 && andDay.length > 0) {
+                    SourceThanhToan.push({
+                        "typeOrder": typeOrder,
+                        "paymentPeriod": paymentPeriod,
+                        "onDay": onDay,
+                        "andDay": andDay,
+                        "applyFor": applyFor,
+                        'typeTab': 'Mua bán'
+                    });
+                }
+            });
+        }
+        let trs_kygui = $("#table_kygui_thanhtoan tbody tr");
+        if (trs_kygui.length) {
+            trs_kygui.each((index, tr) => {
+                let typeOrder = String($('#' + tr.id + ' select[name="typeOrder"]').val()).trim();
+                let paymentPeriod = String($('#' + tr.id + ' select[name="paymentPeriod"]').val()).trim();
+                let onDay = String($('#' + tr.id + ' input[name="onDay"]').val()).trim();
+                let andDay = String($('#' + tr.id + ' input[name="andDay"]').val()).trim();
+                let applyFor = String($('#' + tr.id + ' select[name="applyFor"]').val()).trim();
+                if (typeOrder.length > 0 && onDay.length > 0 && andDay.length > 0) {
+                    SourceThanhToan.push({
+                        "typeOrder": typeOrder,
+                        "paymentPeriod": paymentPeriod,
+                        "onDay": onDay,
+                        "andDay": andDay,
+                        "applyFor": applyFor,
+                        'typeTab': 'Ký gửi'
+                    });
+                }
+            });
+        }
+        let trs_thueke = $("#table_thueke_thanhtoan tbody tr");
+        if (trs_thueke.length) {
+            trs_thueke.each((index, tr) => {
+                let typeOrder = String($('#' + tr.id + ' select[name="typeOrder"]').val()).trim();
+                let paymentPeriod = String($('#' + tr.id + ' select[name="paymentPeriod"]').val()).trim();
+                let onDay = String($('#' + tr.id + ' input[name="onDay"]').val()).trim();
+                let andDay = String($('#' + tr.id + ' input[name="andDay"]').val()).trim();
+                let applyFor = String($('#' + tr.id + ' select[name="applyFor"]').val()).trim();
+                if (typeOrder.length > 0 && onDay.length > 0 && andDay.length > 0) {
+                    SourceThanhToan.push({
+                        "typeOrder": typeOrder,
+                        "paymentPeriod": paymentPeriod,
+                        "onDay": onDay,
+                        "andDay": andDay,
+                        "applyFor": applyFor,
+                        'typeTab': 'Thuê kệ'
+                    });
+                }
+            });
+        }
+
+    }
+
+    function getTableDataHangTang() {
+        SourceHangTang = [];
+        let trs = $("#table_hangtang tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let quantityBuy = String($('#' + tr.id + ' input[name="quantityBuy"]').val()).trim();
+                let orderQuantity = String($('#' + tr.id + ' input[name="orderQuantity"]').val()).trim();
+                if (quantityBuy.length > 0 && orderQuantity.length > 0) {
+                    SourceHangTang.push({
+                        "quantityBuy": quantityBuy,
+                        "orderQuantity": orderQuantity,
+                        'typeTab': 'Mua bán'
+                    });
+                }
+            });
+        }
+        let trs_kygui = $("#table_kygui_hangtang tbody tr");
+        if (trs_kygui.length) {
+            trs_kygui.each((index, tr) => {
+                let quantityBuy = String($('#' + tr.id + ' input[name="quantityBuy"]').val()).trim();
+                let orderQuantity = String($('#' + tr.id + ' input[name="orderQuantity"]').val()).trim();
+                if (quantityBuy.length > 0 && orderQuantity.length > 0) {
+                    SourceHangTang.push({
+                        "quantityBuy": quantityBuy,
+                        "orderQuantity": orderQuantity,
+                        'typeTab': 'Ký gửi'
+                    });
+                }
+            });
+        }
+        let trs_thueke = $("#table_thueke_hangtang tbody tr");
+        if (trs_thueke.length) {
+            trs_thueke.each((index, tr) => {
+                let quantityBuy = String($('#' + tr.id + ' input[name="quantityBuy"]').val()).trim();
+                let orderQuantity = String($('#' + tr.id + ' input[name="orderQuantity"]').val()).trim();
+                if (quantityBuy.length > 0 && orderQuantity.length > 0) {
+                    SourceHangTang.push({
+                        "quantityBuy": quantityBuy,
+                        "orderQuantity": orderQuantity,
+                        'typeTab': 'Thuê kệ'
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataBonus() {
+        SourceBonus = [];
+        let trs = $("#table_thuong tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let bonusType = String($('#' + tr.id + ' input[name="bonusType"]').val()).trim();
+                let salesLevel = String($('#' + tr.id + ' input[name="salesLevel"]').val()).trim();
+                let salesConditions = String($('#' + tr.id + ' input[name="salesConditions"]').val()).trim();
+                let discountPercent = String($('#' + tr.id + ' input[name="discountPercent"]').val()).trim();
+                let DiscountAmountNoVAT = String($('#' + tr.id + ' input[name="DiscountAmountNoVAT"]').val()).trim();
+                let description = String($('#' + tr.id + ' input[name="description"]').val()).trim();
+
+                if (bonusType.length > 0 && salesLevel.length > 0 && salesConditions.length > 0) {
+                    SourceBonus.push({
+                        "bonusType": bonusType,
+                        "salesLevel": salesLevel,
+                        "salesConditions": salesConditions,
+                        "discountPercent": discountPercent,
+                        "DiscountAmountNoVAT": DiscountAmountNoVAT,
+                        "description": description,
+                        'typeTab': 'Mua bán'
+                    });
+                }
+            });
+        }
+        let trs2 = $("#table_thuong_2 tbody tr");
+        if (trs2.length) {
+            trs2.each((index, tr) => {
+                let bonusType = String($('#' + tr.id + ' input[name="bonusType"]').val()).trim();
+                let salesLevel = String($('#' + tr.id + ' input[name="salesLevel"]').val()).trim();
+                let salesConditions = String($('#' + tr.id + ' input[name="salesConditions"]').val()).trim();
+                let discountPercent = String($('#' + tr.id + ' input[name="discountPercent"]').val()).trim();
+                let DiscountAmountNoVAT = String($('#' + tr.id + ' input[name="DiscountAmountNoVAT"]').val()).trim();
+                let description = String($('#' + tr.id + ' input[name="description"]').val()).trim();
+
+                if (bonusType.length > 0 && salesLevel.length > 0 && salesConditions.length > 0) {
+                    SourceBonus.push({
+                        "bonusType": bonusType,
+                        "salesLevel": salesLevel,
+                        "salesConditions": salesConditions,
+                        "discountPercent": discountPercent,
+                        "DiscountAmountNoVAT": DiscountAmountNoVAT,
+                        "description": description,
+                        'typeTab': 'Ký gửi'
+                    });
+                }
+            });
+        }
+        let trs3 = $("#table_thuong_3 tbody tr");
+        if (trs3.length) {
+            trs3.each((index, tr) => {
+                let bonusType = String($('#' + tr.id + ' input[name="bonusType"]').val()).trim();
+                let salesLevel = String($('#' + tr.id + ' input[name="salesLevel"]').val()).trim();
+                let salesConditions = String($('#' + tr.id + ' input[name="salesConditions"]').val()).trim();
+                let discountPercent = String($('#' + tr.id + ' input[name="discountPercent"]').val()).trim();
+                let DiscountAmountNoVAT = String($('#' + tr.id + ' input[name="DiscountAmountNoVAT"]').val()).trim();
+                let description = String($('#' + tr.id + ' input[name="description"]').val()).trim();
+
+                if (bonusType.length > 0 && salesLevel.length > 0 && salesConditions.length > 0) {
+                    SourceBonus.push({
+                        "bonusType": bonusType,
+                        "salesLevel": salesLevel,
+                        "salesConditions": salesConditions,
+                        "discountPercent": discountPercent,
+                        "DiscountAmountNoVAT": DiscountAmountNoVAT,
+                        "description": description,
+                        'typeTab': 'Thuê kệ'
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataTrade() {
+        SourceTrade = [];
+        let trs = $("#table_trade tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let mktbonus_content_invest = String($('#' + tr.id + ' input[name="mktbonus_content_invest"]').val()).trim();
+                let mktbonus_percent_invest = String($('#' + tr.id + ' input[name="mktbonus_percent_invest"]').val()).trim();
+                let mktbonus_invest_value = String($('#' + tr.id + ' input[name="mktbonus_invest_value"]').val()).trim();
+                let mktbonus_des = String($('#' + tr.id + ' input[name="mktbonus_des"]').val()).trim();
+
+                if (mktbonus_content_invest.length > 0 && mktbonus_percent_invest.length > 0 && mktbonus_invest_value.length > 0) {
+                    SourceTrade.push({
+                        "mktbonus_content_invest": mktbonus_content_invest,
+                        "mktbonus_percent_invest": mktbonus_percent_invest,
+                        "mktbonus_invest_value": mktbonus_invest_value,
+                        "mktbonus_des": mktbonus_des,
+                        'typeTab': 'Mua bán'
+                    });
+                }
+            });
+        }
+        let trs2 = $("#table_trade_2 tbody tr");
+        if (trs2.length) {
+            trs2.each((index, tr) => {
+                let mktbonus_content_invest = String($('#' + tr.id + ' input[name="mktbonus_content_invest"]').val()).trim();
+                let mktbonus_percent_invest = String($('#' + tr.id + ' input[name="mktbonus_percent_invest"]').val()).trim();
+                let mktbonus_invest_value = String($('#' + tr.id + ' input[name="mktbonus_invest_value"]').val()).trim();
+                let mktbonus_des = String($('#' + tr.id + ' input[name="mktbonus_des"]').val()).trim();
+
+                if (mktbonus_content_invest.length > 0 && mktbonus_percent_invest.length > 0 && mktbonus_invest_value.length > 0) {
+                    SourceTrade.push({
+                        "mktbonus_content_invest": mktbonus_content_invest,
+                        "mktbonus_percent_invest": mktbonus_percent_invest,
+                        "mktbonus_invest_value": mktbonus_invest_value,
+                        "mktbonus_des": mktbonus_des,
+                        'typeTab': 'Ký gửi'
+                    });
+                }
+            });
+        }
+        let trs3 = $("#table_trade_3 tbody tr");
+        if (trs3.length) {
+            trs3.each((index, tr) => {
+                let mktbonus_content_invest = String($('#' + tr.id + ' input[name="mktbonus_content_invest"]').val()).trim();
+                let mktbonus_percent_invest = String($('#' + tr.id + ' input[name="mktbonus_percent_invest"]').val()).trim();
+                let mktbonus_invest_value = String($('#' + tr.id + ' input[name="mktbonus_invest_value"]').val()).trim();
+                let mktbonus_des = String($('#' + tr.id + ' input[name="mktbonus_des"]').val()).trim();
+
+                if (mktbonus_content_invest.length > 0 && mktbonus_percent_invest.length > 0 && mktbonus_invest_value.length > 0) {
+                    SourceTrade.push({
+                        "mktbonus_content_invest": mktbonus_content_invest,
+                        "mktbonus_percent_invest": mktbonus_percent_invest,
+                        "mktbonus_invest_value": mktbonus_invest_value,
+                        "mktbonus_des": mktbonus_des,
+                        'typeTab': 'Thuê kệ'
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataThuongHieu() {
+        SourceThuongHieu = [];
+        let trs = $("#table_thuonghieu tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let brandbonus_content_invest = String($('#' + tr.id + ' input[name="brandbonus_content_invest"]').val()).trim();
+                let brandbonus_percent_invest = String($('#' + tr.id + ' input[name="brandbonus_percent_invest"]').val()).trim();
+                let brandbonus_invest_value = String($('#' + tr.id + ' input[name="brandbonus_invest_value"]').val()).trim();
+                let brandbonus_des = String($('#' + tr.id + ' input[name="brandbonus_des"]').val()).trim();
+
+                if (brandbonus_content_invest.length > 0 && brandbonus_percent_invest.length > 0 && brandbonus_invest_value.length > 0) {
+                    SourceThuongHieu.push({
+                        "brandbonus_content_invest": brandbonus_content_invest,
+                        "brandbonus_percent_invest": brandbonus_percent_invest,
+                        "brandbonus_invest_value": brandbonus_invest_value,
+                        "brandbonus_des": brandbonus_des,
+                        'typeTab': 'Mua bán'
+                    });
+                }
+            });
+        }
+        let trs2 = $("#table_thuonghieu_2 tbody tr");
+        if (trs2.length) {
+            trs2.each((index, tr) => {
+                let brandbonus_content_invest = String($('#' + tr.id + ' input[name="brandbonus_content_invest"]').val()).trim();
+                let brandbonus_percent_invest = String($('#' + tr.id + ' input[name="brandbonus_percent_invest"]').val()).trim();
+                let brandbonus_invest_value = String($('#' + tr.id + ' input[name="brandbonus_invest_value"]').val()).trim();
+                let brandbonus_des = String($('#' + tr.id + ' input[name="brandbonus_des"]').val()).trim();
+
+                if (brandbonus_content_invest.length > 0 && brandbonus_percent_invest.length > 0 && brandbonus_invest_value.length > 0) {
+                    SourceThuongHieu.push({
+                        "brandbonus_content_invest": brandbonus_content_invest,
+                        "brandbonus_percent_invest": brandbonus_percent_invest,
+                        "brandbonus_invest_value": brandbonus_invest_value,
+                        "brandbonus_des": brandbonus_des,
+                        'typeTab': 'Ký gửi'
+                    });
+                }
+            });
+        }
+        let trs3 = $("#table_thuonghieu_3 tbody tr");
+        if (trs3.length) {
+            trs3.each((index, tr) => {
+                let brandbonus_content_invest = String($('#' + tr.id + ' input[name="brandbonus_content_invest"]').val()).trim();
+                let brandbonus_percent_invest = String($('#' + tr.id + ' input[name="brandbonus_percent_invest"]').val()).trim();
+                let brandbonus_invest_value = String($('#' + tr.id + ' input[name="brandbonus_invest_value"]').val()).trim();
+                let brandbonus_des = String($('#' + tr.id + ' input[name="brandbonus_des"]').val()).trim();
+
+                if (brandbonus_content_invest.length > 0 && brandbonus_percent_invest.length > 0 && brandbonus_invest_value.length > 0) {
+                    SourceThuongHieu.push({
+                        "brandbonus_content_invest": brandbonus_content_invest,
+                        "brandbonus_percent_invest": brandbonus_percent_invest,
+                        "brandbonus_invest_value": brandbonus_invest_value,
+                        "brandbonus_des": brandbonus_des,
+                        'typeTab': 'Thuê kệ'
+                    });
+                }
+            });
+        }
+    }
+
+    function getTableDataCustomer() {
+        SourceCustomer = [];
+        let trs = $("#table_khachhang tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+                let cusbonus_content_invest = String($('#' + tr.id + ' input[name="cusbonus_content_invest"]').val()).trim();
+                let cusbonus_percent_invest = String($('#' + tr.id + ' input[name="cusbonus_percent_invest"]').val()).trim();
+                let cusbonus_invest_value = String($('#' + tr.id + ' input[name="cusbonus_invest_value"]').val()).trim();
+                let cusbonus_percent_des = String($('#' + tr.id + ' input[name="cusbonus_percent_des"]').val()).trim();
+
+                if (cusbonus_content_invest.length > 0 && cusbonus_percent_invest.length > 0 && cusbonus_invest_value.length > 0) {
+                    SourceCustomer.push({
+                        "cusbonus_content_invest": cusbonus_content_invest,
+                        "cusbonus_percent_invest": cusbonus_percent_invest,
+                        "cusbonus_invest_value": cusbonus_invest_value,
+                        "cusbonus_percent_des": cusbonus_percent_des,
+                        'typeTab': 'Mua bán'
+                    });
+                }
+            });
+        }
+
+        let trs2 = $("#table_khachhang_2 tbody tr");
+        if (trs2.length) {
+            trs2.each((index, tr) => {
+                let cusbonus_content_invest = String($('#' + tr.id + ' input[name="cusbonus_content_invest"]').val()).trim();
+                let cusbonus_percent_invest = String($('#' + tr.id + ' input[name="cusbonus_percent_invest"]').val()).trim();
+                let cusbonus_invest_value = String($('#' + tr.id + ' input[name="cusbonus_invest_value"]').val()).trim();
+                let cusbonus_percent_des = String($('#' + tr.id + ' input[name="cusbonus_percent_des"]').val()).trim();
+
+                if (cusbonus_content_invest.length > 0 && cusbonus_percent_invest.length > 0 && cusbonus_invest_value.length > 0) {
+                    SourceCustomer.push({
+                        "cusbonus_content_invest": cusbonus_content_invest,
+                        "cusbonus_percent_invest": cusbonus_percent_invest,
+                        "cusbonus_invest_value": cusbonus_invest_value,
+                        "cusbonus_percent_des": cusbonus_percent_des,
+                        'typeTab': 'Ký gửi'
+                    });
+                }
+            });
+        }
+        let trs3 = $("#table_khachhang_3 tbody tr");
+        if (trs3.length) {
+            trs3.each((index, tr) => {
+                let cusbonus_content_invest = String($('#' + tr.id + ' input[name="cusbonus_content_invest"]').val()).trim();
+                let cusbonus_percent_invest = String($('#' + tr.id + ' input[name="cusbonus_percent_invest"]').val()).trim();
+                let cusbonus_invest_value = String($('#' + tr.id + ' input[name="cusbonus_invest_value"]').val()).trim();
+                let cusbonus_percent_des = String($('#' + tr.id + ' input[name="cusbonus_percent_des"]').val()).trim();
+
+                if (cusbonus_content_invest.length > 0 && cusbonus_percent_invest.length > 0 && cusbonus_invest_value.length > 0) {
+                    SourceCustomer.push({
+                        "cusbonus_content_invest": cusbonus_content_invest,
+                        "cusbonus_percent_invest": cusbonus_percent_invest,
+                        "cusbonus_invest_value": cusbonus_invest_value,
+                        "cusbonus_percent_des": cusbonus_percent_des,
+                        'typeTab': 'Thuê kệ'
+                    });
+                }
+            });
+        }
+    }
+
+    jQuery(document).ready(function ($) {
+        $(".OrderValue").on('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+        });
+
+        $(".OrderValue").load('keyup', function () {
+            var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+            if (n.toLocaleString() != 'NaN') {
+                $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+            }
+        });
+    });
+
+    $('body').on('keyup', '.OrderValue', function (e) {
+        var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+        if (n.toLocaleString() != 'NaN') {
+            $(this).val(n.toLocaleString().replaceAll(".", ",").replaceAll("NaN", ""));
+        }
+    });
+
+
+    // BOXUNG
+    function ApDungSanPhamMuaBan_HH() {
+        debugger;
+        var VendorNo = $('#VendorNo').val().trim();
+        var MaSpSKU = $('#MaSpSKU').val().trim();
+        var TenSpSKU = '';
+        var RangeReview = $('#RangeReview').val().trim();
+        var IDContractNo = $('#IDContractNo').val().trim();
+        var arrVendorNo = VendorNo.split(" - ");
+        var TypeS = $('#TypeS').val();
+        var Type = '1';
+        if (TypeS == 'HHOA') {
+            Type = '1';
+        }
+        if (TypeS == 'KGUI') {
+            Type = '2';
+        }
+
+        if (arrVendorNo[0].length > 0) {
+            $.ajax({
+                url: '/TradingTermVendor/SP_TRADTERM_ApDungSp_HHOA_TK_KGUI_Detail',
+                type: 'POST',
+                data: JSON.stringify({ vendorNo: arrVendorNo[0], IDContractNo: IDContractNo, Type: Type, MaSpSKU: MaSpSKU, TenSpSKU: TenSpSKU, RangeReview: RangeReview }),
+                contentType: 'application/json, charset=utf-8',
+                beforeSend: function () {
+                    js_Loading(true, 1);
+                },
+                success: function (data) {
+                    $("#TabMuaBan_SKU").find('tbody').empty();
+                    $('#TabMuaBan_SKU').html(data);
+                    //js_ReloadTable();
+                    js_Loading(false, 1);
+                },
+                error: function () {
+                    js_Loading(false, 1);
+                }
+            });
+        }
+    }
+
+    //function printtag(tagid) {
+    //    var hashid = "#" + tagid;
+    //    var tagname = $(hashid).prop("tagName").toLowerCase();
+    //    var attributes = "";
+    //    var attrs = document.getElementById(tagid).attributes;
+    //    $.each(attrs, function (i, elem) {
+    //        attributes += " " + elem.name + " ='" + elem.value + "' ";
+    //    })
+    //    var divToPrint = $(hashid).html();
+    //    var head = "<html><head><link href='/Content/bootstrapPrint.css' rel='stylesheet'> </head>";
+    //    var allcontent = head + "<body  onload='window.print()' >" + "<" + tagname + attributes + ">" + divToPrint + "</" + tagname + ">" + "</body></html>";
+    //    var newWin = window.open('', 'Print-Window');
+    //    newWin.document.open();
+    //    newWin.document.write(allcontent);
+    //    newWin.document.close();
+
+
+    //}
+
+    //var doc = new jsPDF();
+
+    //function saveDiv(divId, title) {
+    //    doc.fromHTML(`<html><head><title>${title}</title></head><body>` + document.getElementById(divId).innerHTML + `</body></html>`);
+    //    doc.save('div.pdf');
+    //}
+
+    //function printDiv(divId,
+    //    title) {
+
+    //    let mywindow = window.open('', 'PRINT', 'height=650,width=900,top=100,left=150');
+
+    //    mywindow.document.write(`<html><head><title>${title}</title>`);
+    //    mywindow.document.write('</head><body >');
+    //    mywindow.document.write(document.getElementById(divId).innerHTML);
+    //    mywindow.document.write('</body></html>');
+
+    //    mywindow.document.close(); // necessary for IE >= 10
+    //    mywindow.focus(); // necessary for IE >= 10*/
+
+    //    mywindow.print();
+    //    mywindow.close();
+    //    return true;
+    //}
+
+
+        </script>
+        @*<button onclick="printDiv('DivIdToPrint','Title')">print div</button>
+        <button onclick="saveDiv('DivIdToPrint','Title')">save div as pdf</button>
+        <input type='button' id='btn' value='Print' onclick='printtag("DivIdToPrint");'>*@
+
+

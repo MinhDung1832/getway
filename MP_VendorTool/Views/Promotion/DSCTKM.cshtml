@@ -1,0 +1,404 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Promotion
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .content {
+        -webkit-transition: all .4s ease-in-out;
+        -moz-transition: all .4s ease-in-out;
+        -o-transition: all .4s ease-in-out;
+        -ms-transition: all .4s ease-in-out;
+    }
+
+    #form_search {
+        height: 66px;
+    }
+
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 5vh;
+        height: 5vh;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @@-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .percent6 {
+        width: 5% !important;
+    }
+
+    i {
+        margin-right: 5px;
+    }
+
+    .right {
+        text-align: right;
+    }
+
+    .btn-primary {
+        color: #fff !important;
+        background-color: #337ab7 !important;
+        border-color: #2e6da4 !important;
+    }
+
+    #content_table table {
+        width: 100%;
+        /*border-collapse: collapse;*/
+    }
+
+    th,
+    td {
+        padding: 2px;
+    }
+
+    th {
+        /*text-align: left;*/
+        background: #c4c4c4;
+        position: sticky;
+        top: 0px;
+    }
+
+    #content_table {
+        width: 100%;
+        height: 600px;
+        overflow-y: auto;
+    }
+
+    .table-bordered {
+        border: 0px solid #ddd !important;
+    }
+
+    .bs-placeholder {
+        padding: 2px;
+        border-radius: 0px;
+    }
+
+    #form_search .col-md-12 {
+        margin-bottom: 2px !important;
+    }
+
+    #form_search {
+        position: fixed;
+        padding-bottom: 10px;
+        top: 79px;
+        z-index: 1;
+        background: #f3f3f3;
+        width: 100%;
+    }
+
+    #L4L_DT {
+        cursor: pointer;
+    }
+
+    .btn-info {
+        padding: 4px !important;
+    }
+
+    #form_search .form-control {
+        height: 25px !important;
+    }
+
+    .form-control {
+        height: 25px !important;
+        padding: 0px;
+    }
+
+    .dropdown-toggle {
+        padding: 3px 3px !important;
+        font-size: 12px !important;
+        border-radius: unset !important;
+    }
+
+    .btn_detail {
+        width: 72px;
+        background-color: #868686;
+        padding: 1px 6px;
+        color: #fff;
+        font-size: 11px;
+        border: 0px;
+    }
+
+    #tbl_Item_length {
+        position: absolute;
+        bottom: 0px;
+        left: 227px;
+    }
+
+    .bootstrap-select .btn {
+        border-radius: 0px;
+        padding: 2px 5px;
+    }
+
+    .filter-option-inner-inner {
+        color: #a2a2a2;
+        font-size: 12px;
+    }
+
+    .dropdown-menu > li > a {
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        color: #555555 !important;
+    }
+
+    select:required:invalid {
+        color: #a2a2a2;
+    }
+    /*option có value="" và trạng thái disabled không được hiển thị khi nhấn vào mũi tên tam giác. Bình thường thì nó vẫn được hiển thị*/
+    option[value=""][disabled] {
+        display: none;
+    }
+    table.dataTable thead th, table.dataTable thead td{
+        padding: 2px 5px !important;
+    }
+    option {
+        color: #555555;
+    }
+    .c1 {
+        width: 15%;
+    }
+    .c2 {
+        width: 25%;
+    }
+    .c3 {
+        width: 15%;
+    }
+    .c4 {
+        width: 25%;
+    }
+    .c5 {
+        width: 20%;
+        padding-right: 0px;
+    }
+    .btn-info {
+        color: #fff !important;
+        background-color: #868686 !important;
+        border-color: #868686 !important;
+    }
+</style>
+@Html.Partial("~/Views/Shared/_sidebar_3.cshtml")
+<div id="wp_order">
+    <div class="header_vender_1">
+        @Html.Partial("~/Views/Shared/_header_home.cshtml")
+    </div>
+    <div style=" clear:both"></div>
+    <div class="container">
+        <div class="row" id="form_search">
+            <div>
+                <div class="col-md-12">
+                    <div class="col-md-1 c1">
+                        <label style="">Mục Tiêu CTKM</label>
+                    </div>
+                    <div class="col-md-1 c2">
+                        <select id="TargetCTKM" name="TargetCTKM" required class="form-control" onchange="js_searchbox()">
+                            <option value="" selected>--Chọn Loại CTKM--</option>
+                            @foreach (objCombox box in (List<objCombox>)ViewBag.listLoaiCTKM)
+                            {
+                                <option value="@box.Code">@box.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-1 c3">
+                        <label style="">Mã CTKM</label>
+                    </div>
+                    <div class="col-md-1 c4">
+                        <input type="text" name="MaCTKM" value="" id="MaCTKM" class="form-control" placeholder="Mã CTKM" onchange="js_searchbox()" />
+                    </div>
+                    <div class=" col-md-1 c5">
+                        @*<a href="/Promotion/PromotionSetCreate" class="form-control btn btn-info"><i class="fa fa-plus" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Tạo mới </a>*@
+                        <select class="form-control" id="HanhDong" style="max-width: 150px;text-align-last:center;">
+                            <option value="">-- Chọn hành động --</option>
+                            <option value="1">Thêm mới</option>
+                            <option value="2">Gửi duyệt</option>
+                            <option value="4">Xóa bỏ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-1 c1"><label> Loại CTKM </label></div>
+                    <div class="col-md-1 c2">
+                        <select id="typeCTKM" name="typeCTKM" required class="form-control" onchange="js_searchbox()">
+                            <option value="" selected>--Chọn Loại CTKM--</option>
+                            @foreach (objCombox box in (List<objCombox>)ViewBag.listLoaiCaiDatCTKM)
+                            {
+                                <option value="@box.Code">@box.Name</option>
+                            }
+                        </select>
+                        <a style="max-width: 280px;text-align: center;" href="/Promotion/DSCTKM" class="form-control btn btn-info"><i class="fa fa-undo" aria-hidden="true" style="margin-top: 3px;"></i>Danh sách CTKM &nbsp;&nbsp;&nbsp;&nbsp;</a>
+                    </div>
+                    <div class="col-md-1 c3">
+                        <label style="">Tên CTKM</label>
+                    </div>
+                    <div class="col-md-1 c4">
+                        <input type="text" name="NameKM" id="NameKM" class="form-control" onchange="js_searchbox()" placeholder="Tên CTKM" />
+                        <a style="max-width: 280px;text-align: center;" href="/Promotion/browserCTKM" class="form-control btn btn-info"><i class="fa fa-download" aria-hidden="true" style="margin-top: 3px;"></i>Duyệt chương trình &nbsp;&nbsp;&nbsp;&nbsp;</a>
+                    </div>
+                    <div class="col-md-1 c5">
+                        @*<a href="#" onclick="js_changeAction('4')" class="form-control btn btn-info"><i class="fa fa-plane" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Gửi duyệt </a>*@
+                        <a href="#" style="width: 150px;" onclick="js_ActionHanhDong()" class="form-control btn btn-info"><i class="fa fa-forward" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i> Tiếp </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row_2" style="margin-top: 177px">
+            <div class="col-12 stretch-card pl-0 pr-0">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive" id="div-content">
+                            @Html.Partial("~/Views/Promotion/Partial/__DSCTKM.cshtml")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtHead').html("Danh sách chương trình khuyến mại");
+        $('#f_approve').html("Giám đốc Marketing");
+        $('#v_review').hide();
+        $('#v_built').show();
+        $('#f_dev').html("Phòng Phát triển Giải pháp");
+
+        js_GetListOrder();
+    });
+
+    function js_searchbox() {
+        js_GetListOrder();
+    }
+    function reload(orderno) {
+        $("#OrderNo").val(orderno);
+        js_GetListOrder();
+    }
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+        $('img.content').hover(function () {
+            $(this).addClass('transition');
+
+        }, function () {
+            $(this).removeClass('transition');
+        });
+    }
+
+    function js_ReloadTable() {
+        $('#tbl_Item')
+            .on('draw.dt', function () { imgrecall(); })
+            .DataTable({
+                lengthMenu: [[100, 200, 300, -1], [100, 200, 300, "All"]],
+                //fixedHeader: {
+                //    headerOffset: 131
+                //},
+                //columnDefs: [
+                //    { 'targets': 3, 'searchable': false, 'orderable': false }
+
+                //],
+                autoWidth: false,
+                bAutoWidth: false,
+                "searching": false,
+                responsive: false,
+                "order": false
+            });
+    }
+
+    function js_changeAction(status) {
+        var arrItem = [];
+        $('#tbl_Item input[name="check[]"]:checked').each(function () {
+            var MaCTKM = (this.checked ? $(this).val() : "");
+            arrItem.push({
+                'MaCTKM': MaCTKM,
+            });
+        });
+        if (arrItem.length > 0) {
+            $.ajax({
+                url: '/Promotion/ChangeStatusCKTM',
+                type: 'POST',
+                data: JSON.stringify({ arrItem: arrItem, status: status }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    jAlert(data.RespMsg, 'Thông báo', (r) => {
+                        location.reload();
+                    });
+                }
+            });
+        } else {
+            alert('Bạn vui lòng tích chọn hành động.');
+        }
+    }
+
+    function js_ActionHanhDong() {
+        var action = $('#HanhDong').val();
+        if (action == "") {
+            alert("Bạn chưa chọn hành động");
+            return;
+        }
+        var url = "";
+        switch (action) {
+            case '1':
+                url = '/Promotion/PromotionSetCreate';
+                window.location = url;
+                break;
+            case '2':
+                js_changeAction('4');
+                break;
+            case '4':
+                var ri = confirm("Bạn có muốn xóa chương trình khuyến mãi không !");
+                if (ri) {
+                    js_changeAction('5');
+                }
+                break;
+        }
+    }
+
+    function js_GetListOrder() {
+        var TargetCTKM = $("#TargetCTKM").val();
+        var MaCTKM = $("#MaCTKM").val();
+        var TypeCTKM = $("#typeCTKM").val();
+        var NameKM = $("#NameKM").val();
+
+        $.ajax({
+            url: '/Promotion/GetListDSCTKM',
+            type: 'POST',
+            data: JSON.stringify({ TargetCTKM: TargetCTKM, MaCTKM: MaCTKM, TypeCTKM: TypeCTKM, NameKM: NameKM }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+</script>
+
+
+

@@ -1,0 +1,69 @@
+﻿@using MP_VendorTool.Models.Dashboard;
+@using MP_VendorTool.Common;
+
+<table class="table table-striped m-t-20 visitors-table">
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                int i = 0;
+                var dt = Model;
+                {
+                    foreach (var box in Model)
+                    {
+                        Double PT = Math.Round((Convert.ToDouble(box.SL) * 100 / Convert.ToDouble(Model[0].SL)));
+                        try
+                        {
+
+                            if (i == 0)
+                            {
+                                <tr class="item active" style=" background-color: #fff;" onclick="js_Load('@box.MaHang')">
+                                    <td style="width:50%">
+                                        <span class="thelink">@box.MaHang - @box.TenHang</span>
+                                        <script> js_Load('@box.MaHang');</script>
+                                    </td>
+                                    <td style="width:40%">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" style="width:@PT%; height:5px;" aria-valuenow="@PT" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                    <td style="width:10%">
+                                        <span class="progress-parcent">@Commond.FormatMoney_VND(box.SL.ToString())</span>
+
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr class="item" style=" background-color: #fff;" onclick="js_Load('@box.MaHang')">
+                                    <td style="width:50%">
+                                        <span class="thelink">@box.MaHang - @box.TenHang</span>
+                                    </td>
+                                    <td style="width:40%">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" style="width:@PT%; height:5px;" aria-valuenow="@PT" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                    <td style="width:10%">
+                                        <span class="progress-parcent">@Commond.FormatMoney_VND(box.SL.ToString())</span>
+
+                                    </td>
+                                </tr>
+                            }
+                            i++;
+                        }
+                        catch (Exception)
+                        { }
+                    }
+                }
+            }
+            else
+            {
+                <tr style=" background-color: #fff;">
+                    <td colspan="3"><span class="Dulieutrong">Dữ liệu trống</span></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+

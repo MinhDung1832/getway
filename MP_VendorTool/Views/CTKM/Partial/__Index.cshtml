@@ -1,0 +1,104 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left; ">
+                    NCC
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Tên NCC
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Mã CT
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Tên CT
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Từ ngày
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Đến ngày
+                </th>
+                <th scope="col" style="text-align: left;  ">
+                    Ngày gửi
+                </th>
+                <th scope="col" style="text-align: left;  ">
+                    Ngày duyệt
+                </th>
+                <th scope="col" style="text-align: left;  ">
+                    Trạng thái
+                </th>
+                <th scope="col" style="text-align: left;">
+                    Chi tiết
+                </th>
+                <th scope="col" style="text-align: left; width: 95px; max-width: 95px; ">
+                    Hành động
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model;
+                    {
+                        var i = 0;
+                        foreach (MP_VendorTool.Models.CTKM_Ql_GateWay item in dt)
+                        {
+                            <tr style=" height:20px" id="Row_@i">
+                                <td style="text-align:left">
+                                    @item.MaNCC
+                                </td>
+                                <td style="text-align: left">
+                                    @item.TenNCC
+                                </td>
+                                <td style="text-align: left">
+                                    @item.MaCTKM
+                                </td>
+                                <td style="text-align: left">
+                                    @item.TenCTKM
+                                </td>
+                                <td style="text-align:right">
+                                    @item.TuNgay
+                                </td>
+                                <td style="text-align: right">
+                                    @item.DenNgay
+                                </td>
+                                <td style="text-align: right">
+                                    @item.CreateDate
+                                </td>
+                                <td style="text-align: right">
+                                    @item.ModifyDate
+                                </td>
+                                <td style="text-align: center">
+                                    @Html.Raw(item.TrangThai)
+                                </td>
+                                <td style="text-align: center">
+                                    <a class="btn_detail btn btn-secondary" onclick="load('@item.MaCTKM')" style="color:#fff">Chi tiết</a>
+                                </td>
+                                <td class="text-center"  id="CheckID">
+                                    @{
+                                        if (item.Status.ToString() == "0")
+                                        {
+                                            <input type="checkbox" id="_@i" onchange="clearcheck(@i)" name="CheckID" value="@item.MaCTKM" />
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" id="_@i" disabled onchange="clearcheck(@i)" name="CheckID" value="@item.MaCTKM" />
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>

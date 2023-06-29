@@ -1,0 +1,553 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Quản lý chương trình Push Sale NCC";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .wp_hearder {
+        z-index: 9;
+        position: fixed;
+    }
+  
+    .col-sm-9 .btn {
+        font-size: 12px;
+    }
+    /*  .dropdown.bootstrap-select.form-control.bs3 {
+        width: 290px !important;
+    }*/
+    form#DinhHuong-form {
+        z-index: 9;
+        padding-top: 80px;
+        margin: auto !important;
+        width: 96% !important;
+        padding-left: 1% !important;
+        margin-bottom: 0px !important;
+        background: #f3f3f3;
+    }
+
+    .frominput .form-control {
+        height: 25px !important;
+        width: 428px !important;
+        max-width: 428px !important;
+    }
+
+    label {
+        font-weight: 400 !important;
+    }
+
+    .error {
+        color: red;
+        font-size: 11px;
+    }
+
+
+    .bordercss {
+        border: 1px solid red
+    }
+
+    input, select, textarea {
+        max-width: 100% !important;
+    }
+
+    #DinhHuong-form .form-group {
+        margin-bottom: 4px;
+    }
+
+    .box_loaihinh .form-check {
+        display: inline-block;
+        padding: 3px 15px;
+    }
+
+    .box_loaihinh {
+        margin-left: 0px;
+    }
+
+    footer {
+        width: 94%;
+        margin: 0 auto;
+    }
+
+    #DinhHuong-form h3 {
+        text-transform: uppercase;
+        font-size: 19px;
+        color: #0F4C81;
+        padding: 11px 0px;
+    }
+
+    .error {
+        color: red;
+        font-size: 10px;
+    }
+
+    .box_3 .form-check {
+        display: inline-block;
+        padding-right: 16px;
+        padding-bottom: 11px;
+        padding-top: 14px;
+    }
+
+    #btn_luu {
+        background-color: #868686;
+        color: #fff;
+        padding: 3px 21px;
+        margin-top: 71px;
+        width: 120px;
+        text-align: left;
+    }
+
+    table#tbl_MixMatch {
+        border: 1px solid #d7d7d7;
+    }
+
+    #btn_Gui {
+        background-color: #868686;
+        color: #fff;
+        padding: 3px 21px;
+        margin-top: 2px;
+        width: 120px;
+        text-align: left;
+    }
+
+    .btn-info {
+        background-color: #868686 !important;
+        border: none;
+        color: #fff;
+        font-size: 12px;
+        height: 25px;
+        padding: 4px !important;
+        width: 200px !important;
+        float: right !important;
+        max-width: 135px;
+    }
+
+    .btnsent {
+        background-color: #868686;
+        color: #fff;
+        padding: 3px 21px;
+        margin-top: 2px;
+        width: 120px;
+        text-align: left;
+    }
+
+    /*Css upload anh*/
+    .file-upload {
+        background-color: #ffffff;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0px;
+    }
+
+    .file-upload-btn {
+        width: 100%;
+        margin: 0;
+        color: #fff;
+        background: #1FB264;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        border-bottom: 4px solid #15824B;
+        transition: all .2s ease;
+        outline: none;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+        .file-upload-btn:hover {
+            background: #1AA059;
+            color: #ffffff;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-btn:active {
+            border: 0;
+            transition: all .2s ease;
+        }
+
+    .file-upload-content {
+        display: none;
+        text-align: center;
+    }
+
+    .file-upload-input {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        outline: none;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .image-upload-wrap {
+        margin-top: 1px;
+        border: 3px dashed #868686;
+        position: relative;
+    }
+
+        .image-dropping,
+        .image-upload-wrap:hover {
+            background-color: #c5c5c5;
+            border: 4px dashed #a5a5a5;
+        }
+
+    .image-title-wrap {
+        padding: 0 15px 15px 15px;
+        color: #222;
+    }
+
+    .drag-text {
+        text-align: center;
+    }
+
+        .drag-text h3 {
+            font-weight: 100;
+            text-transform: uppercase;
+            color: #15824B;
+            padding: 60px 0;
+        }
+
+    .file-upload-image {
+        max-height: 200px;
+        max-width: 200px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .remove-image {
+        width: 200px;
+        margin: 0;
+        color: #fff;
+        background: #cd4535;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        border-bottom: 4px solid #b02818;
+        transition: all .2s ease;
+        outline: none;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+        .remove-image:hover {
+            background: #c13b2a;
+            color: #ffffff;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .remove-image:active {
+            border: 0;
+            transition: all .2s ease;
+        }
+
+    .btn_setup {
+        padding: 3px 11px;
+        background-color: #868686;
+        color: #fff;
+        margin-top: 13px;
+    }
+
+    #DinhHuong-form .rul {
+        color: red;
+        font-size: 12px;
+    }
+
+    .text_1 {
+        float: right;
+        font-size: 13px;
+        font-style: italic;
+    }
+
+    button.btn.dropdown-toggle.btn-default {
+        padding: 6px 10px 0px !important;
+    }
+
+    .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+        overflow: hidden;
+        height: 17px;
+        padding: 0px;
+    }
+
+    .col-sm-9 .btn {
+        height: 27px;
+        line-height: 13px;
+    }
+</style>
+@Html.Partial("~/Views/Shared/_sidebar_3.cshtml")
+<div id="wp_order">
+    <div class="header_vender_1">
+        @Html.Partial("~/Views/Shared/_header_home.cshtml")
+    </div>
+
+    <div class="container">
+        <form id="DinhHuong-form" class="form-horizontal" accept-charset="utf-8">
+            <div class="col-md-12" style="padding-bottom: 0px; padding-top: 0px; line-height: 28px; font-size: 16px; text-align: center">
+                <div style=" color: red; font-size: 18px;">
+                    Do it yourself! - Chủ động xây dựng các CTKM và thúc đẩy bán hàng tại hệ thống Bibo Mart
+                </div>
+            </div>
+
+            <div class="row" id="form_create">
+                <div class="col-md-5">
+                    <h3>Tình hình kinh doanh</h3>
+                    <div class="form-group row">
+                        <label for="MaNCC" class="col-sm-3 col-form-label">Nhà cung cấp</label>
+                        <div class="col-sm-9">
+                            @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                            {
+                                <input type="text" class="form-control" id="NhaCC" name="NhaCC" value="@Session["VendorCode"] - @Session["VendorName"]" disabled style=" padding-left: 7px !important; ">
+                            }
+                            else
+                            {
+                                string FullQuyen = "B88888,b00224,B10926,B14046,B00004,B13881";
+                                string[] strArray = FullQuyen.ToString().Split(new char[] { ',' });
+                                bool Show = false;
+                                for (int i = 0; i < strArray.Length; i++)
+                                {
+                                    if (strArray[i].ToString().ToUpper() == Session["uid"].ToString().ToUpper())
+                                    {
+                                        Show = true;
+                                    }
+                                }
+                                if (Show == true)
+                                {
+                                    <div id="NC">
+                                        <select id="NhaCC" name="NhaCC" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox_NCC();">
+                                            @if (ViewBag.list_vendor != null)
+                                            {
+                                                <option value="">--- Chọn NCC ---</option>
+                                                foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                {
+                                                    <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" class="form-control" id="NhaCC" name="NhaCC" value="" disabled>
+                                }
+                            }
+
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SoCHKinhDoanh" class="col-sm-3 col-form-label">Số CH kinh doanh</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="SoCHKinhDoanh" name="SoCHKinhDoanh" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="DoanhSoY1" class="col-sm-3 col-form-label">Doanh số Y-1</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="DoanhSoY1" name="DoanhSoY1" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="DoanhSoYTD" class="col-sm-3 col-form-label">Doanh số YTD </label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="DoanhSoYTD" name="DoanhSoYTD" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="NgayTonKho" class="col-sm-3 col-form-label">Ngày tồn kho</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="NgayTonKho" name="NgayTonKho" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5" style="padding-top: 129px;">
+                    <div class="form-group row">
+                        <label for="GPM2F" class="col-sm-3 col-form-label">GP tối thiểu/Năm</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="GPM2F" name="GPM2F" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="GPThucDat" class="col-sm-3 col-form-label">GP thực đạt/Năm</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="GPThucDat" name="GPThucDat" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="GAP" class="col-sm-3 col-form-label">GAP</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control OrderValue" id="GAP" name="GAP">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" style="margin-top: 183px; ">
+                    <a href="#" id="btn_Gui" class="btn btn-secondary" onclick="SetGapInvest()"><i class="fas fa-hand-point-right" style=" margin-left: -9px; margin-right: 10px; "></i>  Invest</a>
+                </div>
+                <div class="col-md-12 ShowInPut" style="pointer-events: none; opacity: 0.6; margin: 0px">
+                    <h3>PUSH SALE</h3>
+                    <div class="box_loaihinh">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="CheckBox" id="ThuongNhanVien" value="ThuongNhanVien" checked>
+                            <label class="form-check-label" for="ThuongNhanVien">Thưởng nhân viên</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="CheckBox" id="GiaTangTrungBay" value="GiaTangTrungBay">
+                            <label class="form-check-label" for="GiaTangTrungBay">Gia tăng trưng bày</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="CheckBox" id="TangCuongNhanDien" value="TangCuongNhanDien">
+                            <label class="form-check-label" for="TangCuongNhanDien">Tăng cường nhận diện</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="CheckBox" id="ChuongTrinhKhuyenMai" value="ChuongTrinhKhuyenMai">
+                            <label class="form-check-label" for="ChuongTrinhKhuyenMai">Chương trình khuyến mại</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="CheckBox" id="ThemDiemBanMoi" value="ThemDiemBanMoi">
+                            <label class="form-check-label" for="ThemDiemBanMoi">Thêm điểm bán mới</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="tab1" style=" display: block">
+                    @Html.Partial("~/Views/PushSale/tab/ThuongNhanVien.cshtml")
+                </div>
+                <div id="tab2" style=" display:none">
+                    @Html.Partial("~/Views/PushSale/tab/GiaTangTrungBay.cshtml")
+                </div>
+                <div id="tab3" style=" display: none">
+                    @Html.Partial("~/Views/PushSale/tab/TangCuongNhanDien.cshtml")
+                </div>
+                <div id="tab5" style=" display: none">
+                    @Html.Partial("~/Views/PushSale/tab/ChuongTrinhKhuyenMai.cshtml")
+                </div>
+
+                <div style=" clear:both; height:20px"></div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $('#ThuongNhanVien').click(function () {
+        $('#tab1').show();
+        $('#tab2').hide();
+        $('#tab5').hide();
+        $('#tab3').hide();
+    })
+    $('#GiaTangTrungBay').click(function () {
+        $('#tab2').show();
+        $('#tab1').hide();
+        $('#tab5').hide();
+        $('#tab3').hide();
+    })
+    $('#TangCuongNhanDien').click(function () {
+        $('#tab3').show();
+        $('#tab1').hide();
+        $('#tab2').hide();
+        $('#tab5').hide();
+    })
+    $('#ChuongTrinhKhuyenMai').click(function () {
+        $('#tab5').show();
+        $('#tab1').hide();
+        $('#tab2').hide();
+        $('#tab3').hide();
+    })
+</script>
+<script>
+    $(function () {
+        $('#txtHead').html("PUSH SALE nhà cung cấp");
+        $('#f_dev').html("Dữ liệu khai báo Trading Term");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+    });
+    //$(".btn_MacDinh").click(function () {
+    //    $("#Bonus").prop("", true);
+    //    $('#Bonus').addClass('bordercss');
+    //    setTimeout(function () {
+    //        $('#Bonus').delay(5000).slideUp(1000);
+    //        $('#Bonus').removeClass('bordercss');
+    //    }, 3000);
+    //});
+    //$(".btn_TuyChinh").click(function () {
+    //    $("#Bonus").prop("", false);
+    //    $('#Bonus').addClass('bordercss');
+    //    setTimeout(function () {
+    //        $('#Bonus').delay(5000).slideUp(1000);
+    //        $('#Bonus').removeClass('bordercss');
+    //    }, 3000);
+    //});
+
+    function SetGapInvest() {
+        var GAP = $("#GAP").val().trim().replaceAll(",", "");
+        if (GAP == "") {
+            jAlert("Vui lòng xác nhận GAP lớn hơn chi phí đầu tư tối thiểu để kích hoạt các công cụ Push Sales", 'Thông báo');
+            $("#GAP").focus();
+            return;
+        }
+        if (parseInt(GAP) <= 10000000) {
+            jAlert("Vui lòng xác nhận GAP lớn hơn chi phí đầu tư tối thiểu để kích hoạt các công cụ Push Sales", 'Thông báo');
+            $("#GAP").focus();
+            return;
+        }
+        $(".ShowInPut").css("pointer-events", "initial");
+        $(".ShowInPut").css("opacity", "1");
+    }
+
+    function fn_save_Invest_Header() {
+
+        var NhaCC = $('#NhaCC').val();
+        var arrNhaCC = NhaCC.split(' - ');
+
+        var SoCHKinhDoanh = $('#SoCHKinhDoanh').val();
+        var DoanhSoY1 = $('#DoanhSoY1').val();
+        var DoanhSoYTD = $('#DoanhSoYTD').val();
+        var NgayTonKho = $('#NgayTonKho').val();
+        var GPToiThieuNam = $('#GPM2F').val();
+        var GPThucDatNam = $('#GPThucDat').val();
+        var GAP = $('#GAP').val();
+
+        var prdHeder = {};
+        prdHeder.MaNCC = arrNhaCC[0];
+        prdHeder.TenNCC = arrNhaCC[1];
+        prdHeder.SoCHKinhDoanh = SoCHKinhDoanh;
+        prdHeder.DoanhSoY1 = DoanhSoY1;
+        prdHeder.DoanhSoYTD = DoanhSoYTD;
+        prdHeder.NgayTonKho = NgayTonKho;
+        prdHeder.GPToiThieuNam = GPToiThieuNam;
+        prdHeder.GPThucDatNam = GPThucDatNam;
+        prdHeder.GAP = GAP;
+
+        console.log(JSON.stringify({ prdHeder }));
+        console.log(prdHeder);
+        $.ajax({
+            url: '/PushSale/Create_PushSale_NCC_Header',
+            type: 'POST',
+            data: JSON.stringify({ info: prdHeder }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                //  js_Loading(true, 1);
+            },
+            success: function (data) {
+                //if (data) {
+                //    jAlert('Thêm mới thành công', 'Thông báo', (r) => {
+                //        location.reload();
+                //    });
+
+                //} else {
+                //    jAlert('Có lỗi xảy ra', 'Thông báo');
+                //}
+                //js_Loading(false, 1);
+            },
+            error: function () {
+                // js_Loading(false, 1);
+            }
+        });
+    }
+
+  
+</script>
+

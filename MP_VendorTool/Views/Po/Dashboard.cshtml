@@ -1,0 +1,560 @@
+﻿@using MP_VendorTool.Models.Order
+@using MP_VendorTool.Common;
+@using MP_VendorTool.Models.Dashboard;
+@{
+    ViewBag.Title = "Overview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="/Resources/js/equalheight.js"></script>
+<script type="text/javascript" charset="utf-8">
+    $(window).load(function () {
+        equalheight('.oother');
+    });
+    $(window).resize(function () {
+        equalheight('.oother');
+
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+<script src="/Resources/js/percent-chart.js"></script>
+<link href="/Resources/css/Dashboard.css" rel="stylesheet" />
+<style>
+    .content_search .form-control {
+        height: 34px !important;
+    }
+
+    .ibox .ibox-body {
+        padding: 0px !important;
+    }
+
+    .ibox .ibox-body {
+        padding: 0px !important;
+    }
+
+    .BBoder_V1 {
+        background: #fff;
+        padding: 25px;
+        float: left;
+        width: 100%;
+    }
+
+    .BBoder_V2 {
+        background: #fff;
+        padding: 25px;
+        float: left;
+        width: 100%;
+    }
+
+    .chartsk .dropdown.bootstrap-select.form-control.bs3 {
+        width: 110px;
+    }
+
+    .filllter .dropdown.bootstrap-select.form-control.bs3 {
+        width: 430px;
+    }
+
+    .progress .progress-bar.progress-bar-success {
+        background-color: #ff864b !important;
+    }
+
+    .progress {
+        margin-top: 8px;
+    }
+
+    .doanhsonam {
+        font-family: 'SF-Pro-Text-Regular',sans-serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: #000000;
+        opacity: 0.5;
+    }
+
+    .mota {
+        font-family: 'SF-Pro-Text-Regular',sans-serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 19px;
+        color: #000000;
+        opacity: 0.5;
+        text-align: center;
+    }
+
+    .mota1 {
+        font-family: 'SF-Pro-Text-Regular',sans-serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 19px;
+        color: #000000;
+        text-align: left;
+    }
+
+    .ytd {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 33px;
+        text-align: center;
+        color: #000000;
+    }
+
+    .Dulieutrong {
+        font-family: 'SF-Pro-Text-Regular',sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 24px;
+        letter-spacing: 0.15px;
+        color: red;
+        padding-top: 34px;
+        text-align: center;
+        display: block;
+    }
+</style>
+
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox" style=" background-color: #f1f1f1 !important">
+            <div class="ibox-body">
+                @{
+                    int result = (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0) ? 0 : 1;
+                    if (result == 1)
+                    {
+                        @*<script type="text/javascript">
+                            jAlert('Bạn không phải là nhà cung cấp.', 'Thông báo', (r) => {
+                                location.href = "/";
+                            });
+                            setTimeout(function () {
+                                location.href = "/";
+                            }, 900);
+                            </script>*@
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row filllter" style=" background: #f1f1f1 !important">
+                                    <label for="vendorName" class="col-sm-3 col-form-label">Nhà cung cấp <span style=" color:red">(*)</span></label>
+                                    <div class="col-sm-8">
+                                        @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                        {
+                                        }
+                                        else
+                                        {
+                                            <select id="VendorCode" class="form-control selectpicker" data-live-search="true" onchange="js_SetVendorCode();">
+                                                @if (ViewBag.list_vendor != null)
+                                                {
+                                                    <option value="">--- Chọn NCC ---</option>
+                                                    foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                    {
+                                                        <option @(@box.Code == ViewBag.VendorCode ? "selected" : "") value="@box.Code">@box.Code - @box.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div style="display:none">
+                            @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                            {
+                                <input type="text" class="form-control" id="VendorCode" name="VendorCode" value="@Session["VendorCode"]" disabled style=" padding-left: 7px !important; width: 430px;">
+                            }
+                        </div>
+                    }
+                }
+
+                <div class="row chartsk">
+                    <div class="col-md-4">
+
+                        <div class="BBoder_V1 ">
+                            <div class="oother">
+                                <div class="headerName">
+                                    Kết quả kinh doanh @(DateTime.Now.Year)
+                                </div>
+
+                                @{
+                                    if (ViewBag.kqKinhDoanh == "ERR")
+                                    {
+                                        <div style="clear:both; height:20px;"></div>
+                                        <div class="Dulieutrong">Dữ liệu trống</div>
+                                    }
+                                    else
+                                    {
+                                        <table class="table table-striped m-t-20 visitors-table">
+                                            <tbody>
+                                                <tr style=" background-color: #fff;">
+                                                    <td style="width: 50%; border: none;">
+                                                        <div class="bar_das1">
+                                                            <div id="bar_das2"></div>
+                                                        </div>
+
+                                                        <script>
+                                                    let options = {
+                                                        delay: '.2s',
+                                                        textDuration: '.1s',
+                                                        chartDuration: '2s',
+                                                        easing: 'ease-in',
+                                                        data: {
+                                                            percent: @ViewBag.PhanTram,
+                                                        },
+                                                        enableHover: true,
+                                                        direction: "cw"
+                                                    }
+                                                    var chart = new PercentChart("bar_das2", options)
+                                                        </script>
+                                                    </td>
+                                                    <td style="width: 50%; border: none;">
+                                                        <div style="clear: both; height: 66px;"></div>
+                                                        <div class="mota">Doanh số YTD</div>
+                                                        <div style="clear:both; height:10px;"></div>
+                                                        <div class="ytd ">@Commond.FormatMoney_VND(ViewBag.SalesAmount) đ</div>
+                                                    </td>
+                                                </tr>
+                                                <tr style=" background-color: #fff;">
+                                                    <td style="width: 50%; border: none;"><div class="mota1"><img src="/image/thucdat.png" style="float: left;padding-top: 4px;" /> <span style="opacity: 0.5;">Thực đạt</span></div></td>
+                                                    <td style="width: 50%; border: none;"><div class="mota">Cập nhập 1 ngày trước</div></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="BBoder_V1 ">
+                            <div class="oother">
+                                <div class="headerName">Doanh số năm</div>
+                                <div class="mota">Tổng doanh số từng năm</div>
+                                @{
+                                    if (ViewBag.data == "0,0")
+                                    {
+                                        <div class="Dulieutrong">Dữ liệu trống</div>
+                                    }
+                                    else
+                                    {
+                                        <canvas id="DoanhSoNam"></canvas>
+                                        <div style="clear:both; height:10px;"></div>
+                                        <div class="mota">Cập nhật gần nhất:  @(DateTime.Now.ToString("dd-MM-yyyyy"))</div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <script>
+                            const ctx = document.getElementById('DoanhSoNam');
+                            var myChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: [@ViewBag.labels],
+                                    datasets: [{
+                                        label: [],
+                                        data: [@ViewBag.data],
+                                        backgroundColor: [
+                                            'RGB(255,166,122)',
+                                            'RGB(255,214,130)',
+                                            'RGB(255,166,122)',
+                                            'RGB(255,214,130)',
+                                            'RGB(255,166,122)',
+                                            'RGB(255,214,130)',
+                                            'RGB(255,166,122)',
+                                            'RGB(255,214,130)',
+                                            'RGB(255,166,122)',
+                                            'RGB(255,214,130)',
+                                            'RGB(255,166,122)',
+                                            'RGB(255,214,130)',
+                                            'RGB(255,166,122)',
+                                            'RGB(255,214,130)',
+                                            'RGB(255,166,122)',
+                                            'RGB(255,214,130)',
+                                            'RGB(255,166,122)',
+                                            'RGB(255,214,130)',
+                                        ],
+                                        borderWidth: 0,
+                                        borderDash: [0, 0],
+                                    }]
+                                },
+                                options: {
+                                    legend: {
+                                        display: false
+                                    },
+                                    scales: {
+                                        xAxes: [{
+                                            gridLines: {
+                                                display: false
+                                            }
+                                        }],
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true,
+                                                callback: function (value, index, values) {
+                                                    if (value <= 999999999) {
+                                                        return (value / 1000000) + ' Tr';
+                                                    }
+                                                    else if (value >= 1000000000) {
+                                                        return (value / 1000000000) + ' Tỷ';
+                                                    }
+                                                    else {
+                                                        return value;
+                                                    }
+                                                }
+                                            },
+                                            gridLines: {
+                                                borderDash: [8, 4],
+                                            }
+                                        }],
+
+                                    },
+                                    tooltips: {
+                                        callbacks: {
+                                            label: function (tooltipItem, data) {
+                                                var value = tooltipItem.yLabel;
+                                                return commaSeparateNumber(value) + ' VNĐ';
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="BBoder_V1 ">
+                            <div class="oother">
+                                <div class="headerName">
+                                    <select id="NamDoanhSoThang" class="form-control selectpicker" name="NamDoanhSoThang" onchange="fillNamDoanhSoThang()">
+                                        @Html.Raw(ViewBag.YearDoanhSoThang)
+                                    </select>
+                                </div>
+                                <div class="mota">Doanh số các tháng</div>
+                                @{
+                                    if (ViewBag.dsCacThang == "ERR")
+                                    {
+                                        <div class="Dulieutrong">Dữ liệu trống</div>
+                                    }
+                                    else
+                                    {
+                                        <canvas id="DoanhSoThang"></canvas>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <script>
+                           var ctx2 = document.getElementById('DoanhSoThang').getContext('2d');
+                            var myChart = new Chart(ctx2, {
+                                type: 'line',
+                                data: {
+                                    labels: [@ViewBag.labels_CacThang],
+                                    datasets: [{
+                                        label: [],
+                                        data: [@ViewBag.data_CacThang],
+                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                        borderColor: 'rgba(75, 192, 192, 1)',
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    legend: {
+                                        display: false
+                                    },
+                                    scales: {
+                                        xAxes: [{
+                                            ticks: {
+                                                beginAtZero: true,
+                                                callback: function (value, index, values) {
+                                                     return "T"+ value;
+                                                }
+                                            },
+                                            gridLines: {
+                                                display: false
+                                            }
+                                        }],
+
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true,
+                                                callback: function (value, index, values) {
+                                                    if (value <= 999999999) {
+                                                        return (value / 1000000) + ' Tr';
+                                                    }
+                                                    else if (value >= 1000000000) {
+                                                        return (value / 1000000000) + ' Tỷ';
+                                                    }
+                                                    else {
+                                                        return value;
+                                                    }
+                                                }
+                                            },
+                                            gridLines: {
+                                                borderDash: [8, 4],
+                                            }
+                                        }],
+                                    },
+                                    //tooltips: {
+                                    //    callbacks: {
+                                    //        label: function (tooltipItem, data) {
+                                    //            var value = tooltipItem.yLabel;
+                                    //            return commaSeparateNumber(value) + ' VNĐ';
+                                    //        }
+                                    //    }
+                                    //}
+
+                                    tooltips: {
+                                        callbacks: {
+                                            beforeLabel: function (tooltipItem, data) {
+                                                var label = ' '; // Xóa nhãn
+                                                return label;
+                                            },
+                                            label: function (tooltipItem, data) {
+                                                var value = tooltipItem.yLabel;
+                                                return 'Tháng: ' + data.labels[tooltipItem.index] + ',  Doanh số :' + commaSeparateNumber(value) + ' VNĐ';
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div style="clear: both; height: 23px;"></div>
+                        <div class="BBoder_V2 oother">
+                            <div class="headerName">
+                                <select id="YearNamSP" class="form-control selectpicker" name="YearNamSP" onchange="js_YearNamSP()">
+                                    @Html.Raw(ViewBag.YearNamSP)
+                                </select>
+                            </div>
+                            <div style="clear: both; height: 7px;"></div>
+                            <div class="doanhsonam">
+                                Doanh số/sản phẩm/năm
+                            </div>
+                            <div style="clear: both; height: 18px;"></div>
+                            <div style="font-family: 'SF-Pro-Text-Regular',sans-serif; font-style: normal; font-weight: 600; font-size: 20px; line-height: 24px; letter-spacing: 0.15px; color: #000000; padding-top: 6px">Sản phẩm</div>
+                            <div style="clear:both; height:5px;"></div>
+
+                            <table class="table table-striped m-t-20 visitors-table">
+                                <tbody>
+                                    @{
+                                        List<Dasboard_DoanhSo_SanPham> Dasboard_Month_Item = ViewBag.Dasboard_Month_Item as List<Dasboard_DoanhSo_SanPham>;
+                                        if (Dasboard_Month_Item.Count > 0)
+                                        {
+                                            foreach (Dasboard_DoanhSo_SanPham box in Dasboard_Month_Item)
+                                            {
+                                                var model = (List<Dasboard_DoanhSo_SanPham>)ViewBag.Dasboard_Month_Item;
+                                                Double PT = Math.Round((Convert.ToDouble(box.SalesAmount) * 100 / Convert.ToDouble(model[0].SalesAmount)));
+
+                                                try
+                                                {
+                                                    <tr style=" background-color: #fff;">
+                                                        <td style="width:50%">
+                                                            <span style="color: #313131;margin-left: -9px;">@box.MaHang - @box.TenHang</span>
+                                                        </td>
+                                                        <td style="width:40%">
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-success" role="progressbar" style="width:@PT%; height:5px;" aria-valuenow="@PT" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td style="width:10%"><span class="progress-parcent">@Commond.FormatMoney_VND(box.SalesAmount.ToString()) đ</span></td>
+                                                    </tr>
+                                                }
+                                                catch (Exception)
+                                                { }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr style=" background-color: #fff;">
+                                                <td colspan="3"><span class="Dulieutrong">Dữ liệu trống</span></td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtHead').html('Overview');
+    });
+
+    function commaSeparateNumber(val) {
+        if (val != "") {
+            while (/(\d+)(\d{3})/.test(val.toString())) {
+                val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+            }
+            return val;
+        }
+        return 0;
+    }
+    function fillNamDoanhSoThang() {
+        var Nam = $('#NamDoanhSoThang').val();
+        var Vendor = $('#VendorCode').val();
+        if (Nam != "") {
+            // location.href = "/Po/Dashboard?NamDS=" + Nam + "&Vendor=" + Vendor;
+            location.href = "/Po/Dashboard?NamDS=" + Nam;
+        }
+    }
+    function js_YearNamSP() {
+        var Nam = $('#YearNamSP').val();
+        // var Vendor = $('#VendorCode').val();
+        if (Nam != "") {
+            //  location.href = "/Po/Dashboard?NamSP=" + Nam + "&Vendor=" + Vendor;
+            location.href = "/Po/Dashboard?NamSP=" + Nam;
+        }
+    }
+    //function js_onchange_NCC() {
+    //    var Vendor = $('#VendorCode').val();
+    //    if (Vendor != "") {
+    //        location.href = "/Po/Dashboard?Vendor=" + Vendor;
+    //    }
+    //}
+
+</script>
+
+
+<script>
+    function js_SetVendorCode() {
+        var VendorCode = fomart_split($('#VendorCode').val(), 0);
+        if (VendorCode.length == 0) {
+            alert('Vui lòng chọn nhà cung cấp.');
+            return;
+        }
+        $.ajax({
+            url: '/Po/js_SetVendorCode',
+            type: 'POST',
+            data: JSON.stringify({ Vendor: VendorCode }),
+            contentType: 'application/json, charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data.code > 0) {
+                    location.reload();
+                } else {
+                    alert('Có lỗi xẩy ra. Vui lòng thử lại sau !');
+                }
+            }
+        });
+    }
+</script>

@@ -1,0 +1,154 @@
+﻿@using MP_VendorTool.Common;
+@using MP_VendorTool.Models.Order
+<style>
+    .searchfroms {
+        z-index: 8;
+        position: fixed;
+        margin: auto !important;
+        width: 100% !important;
+        padding-left: 7% !important;
+        margin-bottom: 0px !important;
+        background: #f3f3f3;
+    }
+
+    .btn:hover, .btn:focus, .btn.focus {
+        color: #808080 !important;
+        background-color: #fff !important;
+        border: 1px solid #d0cbcb !important
+    }
+
+    .filter-option-inner-inner {
+        font-size: 12px;
+    }
+</style>
+@{
+    try
+    {
+        if (Session["all_us_role"] == null)
+        {
+            Response.Redirect("/Account/Login");
+        }
+    }
+    catch (Exception)
+    { }
+}
+@{
+    if (Session["uid"] != null && Session["uid"].ToString().Length > 0)
+    {
+        <div class="container_1  searchfrom">
+            <div class="content_search">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="box_with">
+                            <div class="form-group row">
+                                <label for="VendorNo" class="col-sm-4 col-form-label">Nhà cung cấp</label>
+                                @*<div class="col-sm-8">
+                                        <input type="search" disabled class="form-control" style="max-width: 85%;" value="@ViewBag.VendorNo - @ViewBag.VendorName" id="VendorNo" name="VendorNo" placeholder="Nhà cung cấp">
+                                    </div>*@
+                                <div class="col-sm-8" ondblclick="$('#NhaCC').val('').trigger('change')">
+                                    @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                    {
+                                        <input type="text" class="form-control" id="VendorNo" name="VendorNo" value="@Session["VendorCode"] - @Session["VendorName"]" disabled style=" padding-left: 7px !important; ">
+                                    }
+                                    else
+                                    {
+                                        string FullQuyen = "B88888,b00224,B10926,B14046,B00004,B13881";
+                                        string[] strArray = FullQuyen.ToString().Split(new char[] { ',' });
+                                        bool Show = false;
+                                        for (int i = 0; i < strArray.Length; i++)
+                                        {
+                                            if (strArray[i].ToString().ToUpper() == Session["uid"].ToString().ToUpper())
+                                            {
+                                                Show = true;
+                                            }
+                                        }
+                                        if (Show == true)
+                                        {
+                                            <div id="NC">
+                                                <select id="VendorNo" name="VendorNo" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox_NCC();">
+                                                    @if (ViewBag.list_vendor != null)
+                                                    {
+                                                        <option value="">--- Chọn NCC ---</option>
+                                                        foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                        {
+                                                            <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <input type="text" class="form-control" id="VendorNo" name="VendorNo" value="" disabled>
+                                        }
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box_with">
+                            <div class="form-group row">
+                                <label for="GAP" class="col-sm-4 col-form-label">GAP</label>
+                                <div class="col-sm-8">
+                                    <select id="GAP" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox()">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" padding:0px; margin:0px">
+                        <div class="box_loaihinh">
+                            <div class="form-check form-check-inline" style=" padding-left: 12px;">
+                                <input class="form-check-input" type="radio" name="CheckBox" id="ThuongNhanVien" value="ThuongNhanVien">
+                                <label class="form-check-label" for="ThuongNhanVien">
+                                    <a href="/PushSale/ThuongNhanVien" style="color: #615d5d; ">
+                                        Thưởng nhân viên
+                                    </a>
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="CheckBox" id="GiaTangTrungBay" value="GiaTangTrungBay">
+                                <label class="form-check-label" for="GiaTangTrungBay">
+                                    <a href="/PushSale/GiaTangTrungBay" style="color: #615d5d; ">
+                                        Gia tăng trưng bày
+                                    </a>
+                                </label>
+
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="CheckBox" id="TangCuongNhanDien" value="TangCuongNhanDien">
+                                <label class="form-check-label" for="TangCuongNhanDien">
+                                    <a href="/PushSale/TangCuongNhanDien" style="color: #615d5d; ">
+                                        Tăng cường nhận diện
+                                    </a>
+                                </label>
+
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="CheckBox" id="ChuongTrinhKhuyenMai" value="ChuongTrinhKhuyenMai">
+                                <label class="form-check-label" for="ChuongTrinhKhuyenMai">
+                                    <a href="/PushSale/ChuongTrinhKhuyenMai" style="color: #615d5d; ">
+                                        Chương trình khuyến mại
+                                    </a>
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="CheckBox" id="ThemDiemBanMoi" value="ThemDiemBanMoi">
+                                <label class="form-check-label" for="ThemDiemBanMoi">
+                                    <a href="#" style="color: #615d5d; ">
+                                        Thêm điểm bán mới
+                                    </a>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+}

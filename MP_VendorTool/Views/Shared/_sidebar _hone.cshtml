@@ -1,0 +1,251 @@
+﻿@using MP_VendorTool.Models.Approve;
+@{
+    var lstper = (List<permissioninfo>)Session["permission"];
+    var menuload = (string)Session["menuload"];
+}
+<html>
+<body>
+    <nav class="main-menu">
+        <ul>
+            @if (lstper.Count() > 0)
+            {
+                foreach (var item in lstper)
+                {
+                    if (item.flevel == 0 && item.fcode!= "S000" && (item.menu == menuload || (item.menu.Length == 0 && menuload != null)) )
+                    {
+                        if (item.vcount > 0)
+                        {
+
+                            <li class="sideicon1 nohover collapsed" data-toggle="collapse" href="#@item.fcode" aria-expanded="false" aria-controls="itemfcode">
+                                <a>
+                                    <div id="img1" class="icondiv" style="background-image: url('../../image/iconvip/@{@item.fcode}.png')"></div>
+                                    <span class="nav-text">
+                                        @item.fname
+                                    </span>
+                                </a>
+                            </li>
+
+                            <div class="collapse" id="@item.fcode" style="margin-left:12px">
+                                @foreach (var item2 in lstper)
+                                {
+                                    if (item2.parentcode == item.fcode && (item2.menu == menuload || (item2.menu.Length == 0 && menuload != null)))
+                                    {
+                                        if (item2.parentcode != "S005")
+                                        {
+                                            <li class="lia"> @Html.ActionLink(item2.fname, item2.action, item2.controller)</li>
+                                        }
+                                        else
+                                        {
+                                            <li class="lia">
+                                                <a href="/@item2.controller/@item2.action?reportpath=@item2.reportpath">@item2.fname</a></li>
+                                        }
+                                    }
+                                 }
+</div>
+
+                        }
+                        else
+                        {
+                            <li class="sideicon1 nohover collapsed" data-toggle="collapse" href="#@item.fcode" aria-expanded="false" aria-controls="itemfcode">
+                                <a>
+                                    <div id="img1" class="icondiv" style="background-image: url('../../image/iconvip/@{@item.fcode}.png')"></div>
+                                    <span class="nav-text">
+                                        @item.fname
+                                    </span>
+                                </a>
+                            </li>
+                        }
+                    }
+                }
+            }
+        </ul>
+    </nav>
+</body>
+</html>
+
+
+<style>
+    hr {
+        margin: 10px 0 0 0 !important;
+        border-top: 1px solid #fff;
+        width: 100%;
+    }
+
+    .main-menu .fa-2x {
+        font-size: 2em;
+    }
+
+    .main-menu .fa {
+        position: relative;
+        display: table-cell;
+        width: 60px;
+        height: 40px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 20px;
+    }
+
+    .highlight {
+        color: #fff !important;
+        background: #658ec6;
+    }
+
+    .main-menu:hover, nav.main-menu.expanded {
+        width: fit-content;
+        overflow: visible;
+        max-height: 480px;
+        overflow-y: auto;
+    }
+
+    .icondiv {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 25px;
+        height: 25px;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .main-menu {
+        background: #fff;
+        border-right: 1px solid #e5e5e5;
+        position: fixed;
+        top: 66px;
+        bottom: 0;
+        height: fit-content;
+        left: 0;
+        width: 42px;
+        overflow: hidden;
+        -webkit-transition: width .05s linear;
+        transition: width .05s linear;
+        -webkit-transform: translateZ(0) scale(1,1);
+        z-index: 1000;
+    }
+
+        .main-menu > ul {
+            margin: 0 0;
+        }
+
+        .main-menu li {
+            position: relative;
+            display: block;
+            width: fit-content;
+            min-width: 250px;
+            padding-top: 5px;
+        }
+
+            .main-menu li > a {
+                position: relative;
+                display: table;
+                border-collapse: collapse;
+                border-spacing: 0;
+                color: #000;
+                font-size: 14px;
+                text-decoration: none;
+                -webkit-transform: translateZ(0) scale(1,1);
+                -webkit-transition: all .1s linear;
+                transition: all .1s linear;
+                height: 20px;
+                font-family: 'system-ui';
+                padding-top: 0px !important;
+                border-bottom: 1px #000000;
+            }
+
+    .lia {
+        position: relative;
+        display: table;
+        border-collapse: collapse;
+        border-spacing: 0;
+        color: #000;
+        font-size: 14px;
+        text-decoration: none;
+        -webkit-transform: translateZ(0) scale(1,1);
+        -webkit-transition: all .1s linear;
+        transition: all .1s linear;
+        height: 20px;
+        font-family: 'system-ui';
+        padding-top: 0px !important;
+        border-bottom: 1px #000000;
+        margin-left: 32px;
+    }
+
+        .lia:hover {
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+    .main-menu .nav-icon {
+        position: relative;
+        display: table-cell;
+        width: 60px;
+        height: 36px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 18px;
+    }
+
+    .main-menu .nav-text {
+        position: relative;
+        display: table-cell;
+        vertical-align: middle;
+        width: 220px;
+        font-family: 'system-ui';
+        color: #0f4c81;
+        font-weight: 500;
+    }
+
+
+
+    .main-menu > ul.logout {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+    }
+
+    .no-touch .scrollable.hover {
+        overflow-y: hidden;
+    }
+
+        .no-touch .scrollable.hover:hover {
+            overflow-y: auto;
+            overflow: visible;
+        }
+
+    .main-menu > a:hover, .main-menu > a, .main-menu > a:focus {
+        text-decoration: none;
+    }
+
+    nav {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+
+        nav ul, nav li {
+            outline: 0;
+            margin: 0;
+            padding: 0;
+        }
+    /*
+        .main-menu li:hover > a, nav.main-menu li.active > a, .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus, .no-touch .dashboard-page nav.dashboard-menu ul li:hover a, .dashboard-page nav.dashboard-menu ul li.active a {
+            color: #000;
+            background-color: #9e9e9e;
+        }*/
+
+</style>
+@*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>*@
+
+<script type="text/javascript">
+    $(".main-menu").hover(
+        function () {
+            $('.main-menu .collapse').collapse('show');
+        }, function () {
+            $('.main-menu .collapse').collapse('hide');
+        });
+</script>

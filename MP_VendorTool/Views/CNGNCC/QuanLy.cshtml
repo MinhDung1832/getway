@@ -1,0 +1,355 @@
+﻿@using MP_VendorTool.Models.Order;
+@{
+    ViewBag.Title = "Duyệt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body.fixed-layout .content-wrapper,
+    body.fixed-navbar .content-wrapper {
+        padding-top: 0px;
+    }
+
+    .wrapper {
+        width: 97%;
+    }
+
+    input,
+    select,
+    textarea {
+        max-width: 100%;
+    }
+
+    #btn_Gui {
+        background-color: #868e96;
+        color: #fff;
+        padding: 3px 21px;
+        margin-top: 2px;
+        width: 170px;
+        height: 30px;
+        border-radius: 3px;
+        text-align: center;
+    }
+
+    #btn_Guigm {
+        background-color: #868e96;
+        color: #fff;
+        padding: 3px 21px;
+        margin-top: 2px;
+        width: 170px;
+        height: 30px;
+        border-radius: 3px;
+        text-align: center;
+    }
+
+    .from_vender input,
+    .from_vender select {
+        margin-bottom: 3px !important;
+    }
+
+    .content_vendor {
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .btn-success {
+        color: #fff;
+        background-color: #cccccc;
+        border: none;
+    }
+
+        .btn-success:hover,
+        .btn-success:active,
+        .btn-success:focus,
+        .btn-success:active:focus,
+        .btn-success:active:hover {
+            color: #fff;
+            background-color: #cccccc;
+            border: none;
+        }
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .img_src {
+        padding: 10px 10px 43px;
+    }
+
+    .thum_img {
+        height: 355px;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 18px;
+    }
+
+        .text_home a {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    fieldset h4 {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #355c96;
+        text-transform: uppercase;
+        border: 0;
+        padding-left: 10px;
+    }
+
+    fieldset {
+        margin-top: 34px;
+    }
+
+    label {
+        font-size: 12px;
+        color: #777575;
+    }
+
+    .from_vender {
+        margin-left: 8px;
+    }
+
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+        .button_save_1 a {
+            text-align: center;
+            background-color: #868686 !important;
+            border-color: #868686 !important;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 8px;
+        }
+
+    .content-wrapper {
+        padding-top: 47px;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #86868600;
+        border-color: #868686;
+        color: #6f8cb8 !important;
+    }
+
+    .button_action a:hover {
+        background-color: #008888;
+        color: #fff !important;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+    .button_action {
+        margin-top: 44px;
+    }
+
+    .table > thead > tr > th {
+        color: #6f8cb8;
+    }
+
+    #wp_thum_img {
+        background-color: #fff;
+        text-align: center;
+    }
+
+    /*  .frominput .form-control {
+        height: 25px !important;
+        width: 428px !important;
+        max-width: 428px !important;
+    }*/
+
+    .dropdown.bootstrap-select.form-control {
+        padding: 0px;
+        margin: 0px;
+        background: none;
+        width: 100%;
+        max-width: 100%;
+        padding-left: 0px !important;
+        border: none !important;
+    }
+
+    .col-sm-8 .btn {
+        height: 26px;
+        line-height: 11px
+    }
+
+    .dropdown.bootstrap-select.form-control.bs3 {
+        padding-bottom: 1px;
+    }
+
+    .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+        overflow: hidden;
+        height: 17px;
+        padding: 0px;
+        font-size: 12px;
+        color: #59595B;
+        margin-left: 8px;
+    }
+
+    .col-sm-9 .btn {
+        height: 27px;
+        line-height: 13px;
+    }
+
+    .Viewtab {
+        width: 104%;
+    }
+
+
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        border-top-right-radius: 14px;
+    }
+
+        .tab button {
+            background-color: inherit;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 7px 0px;
+            transition: 0.3s;
+            font-size: 13px;
+            border-top-right-radius: 14px;
+            width: 19%;
+        }
+
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            .tab button.active {
+                background-color: #5f7e98;
+                color: #ffffff;
+                font-weight: 500;
+            }
+</style>
+<div style=" clear:both; height:50px"></div>
+<div class="Viewtab">
+    <div class="col-md-12 tab">
+        <button class="tablinks " onclick="window.location = '/CNGNCC/Update'">Cập nhật giá mua </button>
+        <button class="tablinks active" onclick="window.location = '/CNGNCC/QuanLy'">Quản lý thay đổi giá mua</button>
+        <button class="tablinks " onclick="window.location = '/CNGNCC/Duyet'">Duyệt thay đổi giá mua</button>
+    </div>
+</div>
+<div class="wrapper">
+    <div class="row">
+        <div class="row from_vender frominput">
+            <div class="col-md-4">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label for="">Nhà cung cấp</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="NCCDuyet" class="form-control selectpicker" data-live-search="true" onchange="loadSPDuyet(); js_GetListDuyet();">
+                            @if (ViewBag.lst_NCC_Duyet != null)
+                            {
+                                <option value="">--- Chọn NCC ---</option>
+                                foreach (objCombox box in (List<objCombox>)ViewBag.lst_NCC_Duyet)
+                                {
+                                    <option value="@box.Code">@box.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12" style="margin-top: 10px;">
+                    <div class="col-md-4">
+                        <label>Mã hàng <span style=" color:red">*</span></label>
+                    </div>
+                    <div class="col-md-8" ondblclick="$('#TenHangDuyet').val('').trigger('change');">
+                        <select id="TenHangDuyet" class="form-control selectpicker" data-live-search="true" onchange="js_GetListDuyet();">
+                            <option value="">--- Chọn mã hàng ---</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label>Trạng thái</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="TrangThai" class="form-control selectpicker" onchange="js_GetListDuyet();">
+                            @*<option value="">---Chọn trạng thái---</option>*@
+                            <option value="1">Gửi duyệt</option>
+                            <option value="2">Đã duyệt</option>
+                            <option value="3">Từ chối</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12" style="margin-top: 10px;">
+                    <div class="col-md-4">
+                        <label>Hành động</label>
+                    </div>
+                    <div class="col-md-8" style="text-align:center">
+                        <select class="form-control selectpicker" id="HanhDong">
+                            <option value="">---Chọn hành động---</option>
+                            <option value="1">Duyệt</option>
+                            <option value="2">Từ chối</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                <div class="col-md-12">
+                    <button class="col-md-4 btn btn-success">Tìm kiếm</button>
+                </div>
+                <div class="col-md-12" style="margin-top: 10px;">
+                    <button class="col-md-4 btn btn-success" onclick="js_changeAction();">Tiếp</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" id="div-content-duyet" style="margin-top:20px">
+            @Html.Partial("~/Views/CNGNCC/tables/__tblDuyet.cshtml")
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+
+    });
+
+</script>
+

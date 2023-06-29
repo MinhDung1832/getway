@@ -1,0 +1,591 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Dự báo sản lượng nhập hàng D+45";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/maincontent.css" rel="stylesheet" />
+<style>
+    button.btn.dropdown-toggle.btn-default.bs-placeholder {
+        background: #fff;
+        border: 1px solid #d0cbcb;
+    }
+    .content_order .searchfrom {
+        z-index: 9;
+        position: fixed;
+        top: 60px;
+        margin: auto !important;
+        width: 100% !important;
+        padding-left: 7% !important;
+        padding-bottom: 15px !important;
+        background: #f3f3f3;
+    }
+    .content_search .form-control {
+        left: 0px !important;
+    }
+
+    #popup_panel .button_popup {
+        height: 30px;
+        min-width: 4.6875rem;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .form-control[disabled] {
+        background: #f7f7f7 !important;
+    }
+
+    #popup_panel {
+        text-align: center !important;
+    }
+
+    #btn_Gui {
+        background-color: #868686;
+        color: #fff;
+        padding: 3px 21px;
+        margin-top: 2px;
+        width: 120px;
+        text-align: left;
+    }
+
+    #wp_thum_img {
+        text-align: center;
+    }
+
+    img#thum_img {
+        height: 70px;
+    }
+
+    input, select, textarea {
+        max-width: 280px;
+    }
+
+    .btn-info {
+        padding: 4px !important;
+        text-align: left;
+        max-width: 150px;
+        border: none;
+    }
+
+    #tbl_Item {
+        margin-top: 0px;
+        font-size: 12px;
+    }
+
+    .content_search label {
+        font-size: 12px;
+        text-align: left !important;
+        padding-top: 6px;
+    }
+
+    .btn-info:hover {
+        color: #fff;
+        background-color: #868686;
+        border-color: #868686;
+    }
+
+    .btn, .btn:hover, .btn:focus, .btn.focus {
+        color: #fff;
+        background-color: #868686;
+        border-color: #868686;
+    }
+
+    .wp_hearder {
+        padding: 5px 0px;
+        background-color: #868686;
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        height: 65px !important;
+        width: 100%;
+    }
+
+    .table thead {
+        height: 50px !important;
+    }
+
+    .btn_search {
+        background-color: #868686;
+        color: #fff;
+        width: 100%;
+        height: 23px;
+        margin-bottom: 4px;
+        padding: 2px 6px !important;
+        text-align: left;
+        font-size: 12px;
+    }
+
+    .wp_table {
+        padding-top: 134px;
+    }
+
+    /*#wp_order {
+        background-image: url('../../image/nen2.jpg');
+        background-color: #f3f3f3;*/ /* Used if the image is unavailable */
+    /*background-size: cover;
+    }*/
+
+    body {
+        font-size: 12px;
+    }
+
+    .wp_table {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    table.dataTable.no-footer {
+        border-bottom: 1px solid #bdbdbd !important;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 14px;
+    }
+
+        .text_home a {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    .content_search .form-group {
+        margin-bottom: 1px !important;
+    }
+
+    .content_search .form-control {
+        height: 25px !important;
+        padding: 0px !important;
+        max-width: 280px !important;
+        width: 280px !important;
+    }
+
+    .content_search label {
+        font-size: 12px;
+    }
+
+    table.dataTable tbody th, table.dataTable tbody td {
+        padding: 3px 10px !important;
+    }
+
+    #tbl_Item tbody {
+        background-color: #ffff;
+    }
+
+    #tbl_Item thead th {
+        font-size: 12px;
+        text-align: left;
+        /*height: 50px;*/
+        vertical-align: top;
+    }
+
+    #tbl_Item thead {
+        background-color: #c3c3c3;
+    }
+
+        #tbl_Item thead span {
+            color: #e45050;
+            font-size: 11px;
+        }
+
+    .content_table {
+        padding-bottom: 72px;
+    }
+
+    #tbl_Item_length {
+        position: absolute;
+        bottom: 0px;
+        left: 182px;
+    }
+
+    .btn_detail {
+        color: #525252;
+        font-size: 11px;
+        border: 0px;
+        padding: 4px;
+        border-radius: 69px;
+    }
+
+    table.dataTable thead th, table.dataTable thead td {
+        padding: 1px 5px !important;
+        border-bottom: 1px solid #f1f1f1 !important;
+        font-size: 11px !important;
+    }
+
+    .table > tr > td {
+        padding: 1px 5px !important;
+        border-bottom: 1px solid #f1f1f1 !important;
+        font-size: 11px !important;
+    }
+
+    .container_1 {
+        width: 95% !important;
+        margin: 0 auto !important;
+    }
+
+    .rank2 {
+        padding-bottom: 5px;
+        width: 173px;
+        padding-left: 14px;
+        padding-right: 6px;
+    }
+
+    .container1 {
+        width: 1300px;
+        margin: auto;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        border: 1px solid black;
+        width: 200px;
+    }
+
+    .hack1 {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .hack2 {
+        display: table-cell;
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    .col {
+        width: 10%
+    }
+
+    .modal tbody tr td {
+        text-align: center
+    }
+
+    .dropdown.bootstrap-select.form-control {
+        padding: 0px;
+        margin: 0px;
+        background: none;
+        width: 100%;
+        max-width: 100%;
+        padding-left: 0px !important;
+        border: none !important;
+    }
+
+    .col-sm-8 .btn {
+        height: 26px;
+        line-height: 11px
+    }
+
+    button.btn.dropdown-toggle.btn-default {
+        padding: 6px 9px 4px 4px !important
+    }
+
+    .dropdown.bootstrap-select.form-control.bs3 {
+        padding-bottom: 1px;
+    }
+
+    .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+        overflow: hidden;
+        height: 17px;
+        padding: 0px;
+        font-size: 12px;
+        color: #59595B;
+        max-width: 280px;
+    }
+
+    .col-sm-9 .btn {
+        height: 27px;
+        line-height: 13px;
+    }
+</style>
+@Html.Partial("~/Views/Shared/_sidebar_3.cshtml")
+<div id="wp_order">
+    <div class="header_vender_1">
+        @Html.Partial("~/Views/Shared/_header_home.cshtml")
+    </div>
+    <div class="content_order">
+        <div class="container searchfrom">
+            <div class="content_search">
+                <div class="row">
+                    <input id="Mancc" class="form-control" onchange="js_searchbox();" placeholder="Nhập mã nhà cung cấp"/>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="wp_table" style="margin-top:10px">
+            <div class="card-body">
+                <div class="table-responsive_2" id="div-content">
+                    @Html.Partial("~/Views/Demand02/Partial/__DubaoSLnhaphangD45.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="showPrice_modal" type="hidden" data-toggle="modal" data-target="#Price_modal" />
+<div class="modal" id="Price_modal" tabindex="-1" role="dialog" aria-labelledby="shift_detail_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:1000px; border-radius:0; ">
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header" style="background:#c4c4c4; color:#4f4f4f;padding: 7px;">
+                <h5 class="modal-title" id="shift_detail_modal_label" style=" font-size:18px;display: contents;">Cập nhật giá</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div style="width:100%; padding:15px;">
+
+                <div class="col-md-12" style="padding-right: 0px">
+                    <table class="table table-bordered tb_detail" style="margin-bottom:5px;">
+                        <thead>
+                            <tr>
+                                <th style="width:40px">
+                                    Mã NCC
+                                </th>
+                                <th style="width:40px">
+                                    Mã hàng
+                                </th>
+                                <th>
+                                    Tên hàng
+                                </th>
+                                <th style="width:65px">
+                                    Giá nhập(-VAT)
+                                </th>
+                                <th style="width:30px">
+                                    VAT
+                                </th>
+                                <th style="width:65px">
+                                    Giá nhập(+VAT)
+                                </th>
+                                <th style="width:65px">
+                                    SL tồn
+                                </th>
+                                <th style="width: 95px !important;">
+                                    DateSP
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td  style="width:40px">
+                                    <span id="currentvendor"></span>
+                                </td>
+                                <td  style="width:40px">
+                                    <span id="currentmahang"></span>
+                                </td>
+                                <td style="text-align:left;">
+                                    <span id="currenttenhang"></span>
+                                </td>
+
+                                <td  style="width:65px">
+                                    <input id="pricencc" class="form-control" onchange="js_changegn()" style="text-align: right;" />
+                                </td>
+                                <td style="text-align:right;width:30px">
+                                    <span id="currentvat"></span>%
+                                </td>
+                                <td  style="width:65px">
+                                    <input id="pricenccvat" class="form-control" onchange="js_changegnvat()" style="text-align: right;" />
+                                </td>
+                                <td  style="width:65px">
+                                    <input id="slton" class="form-control" onchange="js_changeslt()" style="text-align: right;" />
+                                </td>
+                                <td  style="width: 95px !important;
+    min-width: 95px !important;
+    max-width: 95px !important;">
+                                    <input id="datesp" class="form-control" type="date" style="" />
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+
+                </div>
+                <div style="margin:10px">
+
+                    <div style="text-align: center;">
+                        <a id="btnupdate" data-dismiss="modal" class="form-control btn btn-info" onclick="js_save()" style="width:100px; margin-top:10px;">
+                            <i class="fas fa-save" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i>&nbsp;&nbsp; Cập nhật
+                        </a>
+                        <a id="closebtn" data-dismiss="modal" class="form-control btn btn-info" style="width:100px; margin-top:10px;">
+                            <i class="fas fa-times" aria-hidden="true" style="float:left; margin-left: 6px;margin-top: 3px;"></i>&nbsp;&nbsp; Đóng
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var currentvendor = '';
+    var currentmahang = '';
+    var currenttenhang = '';
+    var currentvat = 0;
+    $(function () {
+        $('#txtHead').html("Dự báo sản lượng nhập hàng D+45");
+        js_GetList();
+    });
+
+    function js_searchbox() {
+        js_GetList();
+    }
+
+    function js_detail(mancc, mahang, tenhang, vat, gia, giavat,isupdate) {
+       
+        currentvendor = mancc;
+        currentmahang = mahang;
+        currenttenhang = tenhang;
+        currentvat = vat;
+        $('#currentvendor').html(currentvendor);
+        $('#currentmahang').html(currentmahang);
+        $('#currenttenhang').html(currenttenhang);
+        $('#currentvat').html(currentvat);
+        if (isupdate == "1") {
+            $('#btnupdate').hide();
+            $('#pricencc').val(gia);
+            $('#pricenccvat').val(giavat);
+        } else {
+            $('#btnupdate').show();
+            $('#pricencc').val('0');
+            $('#pricenccvat').val('0');
+        }
+        $('#showPrice_modal').click();
+    }
+
+    function js_changegn() {
+        var vat = parseInt($('#currentvat').html().replaceAll(',', ''));
+        var giatri = parseInt($('#pricencc').val().replaceAll(',', ''));
+        if (!isNaN(giatri)) {
+            $('#pricencc').val(currencyFormat(giatri));
+            $('#pricenccvat').val(currencyFormat(giatri * (1 + vat / 100)));
+        } else {
+            $('#pricencc').val('0');
+            $('#pricenccvat').val('0');
+        }
+    }
+
+    function js_changegnvat() {
+        var vat = parseInt($('#currentvat').html().replaceAll(',', ''));
+        var giatri = parseInt($('#pricenccvat').val().replaceAll(',', ''));
+        if (!isNaN(giatri)) {
+            $('#pricenccvat').val(currencyFormat(giatri));
+            $('#pricencc').val(currencyFormat(giatri / (1 + vat / 100)));
+        } else {
+            $('#pricencc').val('0');
+            $('#pricenccvat').val('0');
+        }
+    }
+
+    function js_changeslt() {
+        var giatri = parseInt($('#slton').val().replaceAll(',', ''));
+        if (!isNaN(giatri)) {
+            $('#slton').val(currencyFormat(giatri));
+        } else {
+            $('#slton').val('0');
+        }
+    }
+    function currencyFormat(num) {
+        return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+
+    function js_save() {
+        var price = $('#pricencc').val().replaceAll(',','');
+        var pricevat = $('#pricenccvat').val().replaceAll(',', '');
+        var slt = $('#slton').val().replaceAll(',', '');
+        var datesp = $('#datesp').val();
+        $.ajax({
+            url: '/Demand02/create_purchaseprice',
+            type: 'POST',
+            data: JSON.stringify({
+                Mancc: currentvendor, Mahang: currentmahang, Tenhang: currenttenhang,
+                Price: price, VAT: currentvat, PriceVAT: pricevat, SLton: (slt==''?0:slt), DateSP: datesp
+            }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $('#closebtn').click();
+                js_GetList();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_ReloadTable() {
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[200, 50, 70, 100, -1], [200, 50, 70, 100]],
+            //columnDefs: [
+            //    //{ 'targets': 0, 'searchable': false, 'orderable': false },
+            //    { 'targets': 9, 'searchable': false, 'orderable': false },
+            //    { 'targets': 10, 'searchable': false, 'orderable': false },
+            //    { 'targets': 11, 'searchable': false, 'orderable': false },
+            //    { 'targets': 12, 'searchable': false, 'orderable': false },
+            //    { 'targets': 13, 'searchable': false, 'orderable': false },
+            //    { 'targets': 14, 'searchable': false, 'orderable': false },
+            //    { 'targets': 15, 'searchable': false, 'orderable': false },
+            //],
+            //"order": [[0, "desc"]],
+            "searching": false,
+            // fixedHeader: true,
+            fixedHeader: {
+                headerOffset: 124
+            },
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+    function js_GetList() {
+        var Mancc = $("#Mancc").val();
+
+        $.ajax({
+            url: '/Demand02/getlist_dubaonhaphang',
+            type: 'POST',
+            data: JSON.stringify({ Mancc: Mancc }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+             
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+</script>

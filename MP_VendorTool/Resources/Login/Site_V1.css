@@ -1,0 +1,335 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.divlabel {
+    width: 35%;
+    text-align: right;
+    padding: 0px
+}
+
+.divuser {
+    width: 30%;
+    text-align: -webkit-center;
+    padding: 0px
+}
+
+.logotext {
+    font-size: 96px;
+    font-weight: 700;
+    letter-spacing: -2px;
+}
+
+input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-color: #cdd3de !important;
+    background-image: none !important;
+    color: -internal-light-dark(black, white) !important;
+}
+
+.form-control {
+    height: 25px;
+    border-radius: 0px !important;
+}
+
+.box_01 {
+    border-left: 7px double #545151;
+    margin-top: 373px;
+    margin-left: 17px;
+}
+
+    .box_01 p {
+        text-transform: uppercase;
+        font-size: 42px;
+        color: #ffffff;
+        padding-left: 23px;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+
+.box_2 {
+    color: #eae6e6;
+    margin-top: 55px;
+    margin-left: 17px;
+}
+
+    .box_2 ul li {
+        list-style: none;
+        font-size: 14px;
+        font-style: italic;
+    }
+
+    .box_2 p {
+        font-size: 14px;
+        font-style: italic;
+    }
+
+    .box_2 ul {
+        margin-left: -25px;
+    }
+
+label {
+    font-weight: normal !important;
+}
+
+.button_start {
+    float: right;
+    margin-top: 83px;
+}
+
+    .button_start a {
+        background-color: #e9e8e7;
+        padding: 15px 44px;
+        color: #969696;
+        font-size: 14px;
+    }
+
+        .button_start a:hover {
+            text-decoration: none;
+        }
+
+.wrap-login100 {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0px 60px 53px;
+    margin-bottom: 130px;
+}
+
+    .wrap-login100 h3 {
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: lighter;
+        font-family: 'system-ui';
+        color: #ffffff;
+        font-size: 40px;
+        margin-bottom: 90px;
+    }
+
+.text_change_pass a {
+    color: #fff;
+    padding: 21px;
+    display: block;
+    font-style: italic;
+    font-size: 13px;
+    width: 50%;
+    float: left;
+}
+
+#myForm label {
+    color: #ffffff;
+    font-size: 15px;
+}
+
+.bt_login {
+    text-align: center;
+}
+
+    .bt_login input {
+        background-color: #fff0;
+        border: 1px solid #eae6e6;
+        color: #ffffff;
+        padding: 2px;
+        /* padding: 8px 110px;*/
+        text-transform: uppercase;
+        margin-top: 10px;
+    }
+
+.text_change_pass {
+    text-align: center;
+}
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+    background: linear-gradient(90deg,rgba(1,11,52,0.98) 0%,rgba(0,22,67,0.94) 49%,rgba(0,47,102,0.8) 100%);
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    position: relative;
+    min-height: 100%;
+    background-image: url('../../image/bglogin.png');
+    background-color: transparent; /* Used if the image is unavailable */
+    height: 657px; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    /*background-size: cover;*/
+    background-size: contain;
+    font-family: 'system-ui';
+}
+
+.ct {
+    margin: 0 auto;
+    padding-top: 20px;
+    width: 100%;
+}
+
+.logo img {
+    width: 250px;
+}
+
+#showPassword {
+    float: right;
+    margin-left: -25px;
+    margin-top: -20px;
+    position: relative;
+    z-index: 2;
+    padding-right: 21px;
+}
+
+
+.Registermodal {
+    top: 25%;
+}
+
+.Registerdia {
+    width: 400px;
+    border-radius: 0;
+}
+
+.LoaiHinhHH a {
+    text-align: -webkit-center;
+    width: 94%;
+    display: block;
+    background: #2562f0;
+    margin: 10px;
+    padding: 10px;
+    font-size: 17px;
+    color: #fff;
+    border-radius: 34px;
+}
+
+.khcach {
+    clear: both
+}
+.bodys {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0px 60px 53px;
+    margin-top: 177px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: lighter;
+    font-family: 'rift';
+    color: #ffffff;
+    margin-bottom: 0px;
+}
+.quenmk {
+    width: 100%;
+    margin-top: -5px;
+    margin: auto;
+}
+@media screen and (min-width:1px) and (max-width:1000px) {
+    .logotext {
+        font-size: 67px;
+        font-weight: 700;
+        letter-spacing: -2px;
+    }
+
+    .divlabel {
+        width: 35%;
+        text-align: right;
+        padding: 0px;
+        float: left;
+    }
+
+    .divuser {
+        width: 63%;
+        text-align: left;
+        padding: 0px;
+        float: left;
+    }
+
+    .text_change_pass a {
+        color: #fff;
+        padding: 5px;
+        display: block;
+        font-style: italic;
+        font-size: 12px;
+        width: 50%;
+        float: left;
+    }
+
+    html {
+        width: 100%
+    }
+
+    body {
+        width: 100%
+    }
+
+    .khcach {
+        clear: both;
+        padding-top: 10px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%
+    }
+
+    .loggin {
+        margin-left: 34px;
+    }
+
+    .VendorsMK {
+        font-size: 48px;
+    }
+
+    .menu_footer ul {
+     width: 100% !important;
+    }
+
+    .menu_footer ul li {
+        padding-right: 5px !important;
+    }
+
+    .menu_footer ul li a {
+     font-size: 12px !important;
+    }
+    .bodys {
+     margin-top: 135px;
+    }
+
+    .Registerdia {
+     width: 377px !important;
+    }
+
+    .wrap-login100 {
+        padding: 0px 9px 0px;
+    }
+    #showPassword{ display:none}
+    .menu_footer ul {
+        width: 433px !important;
+    }
+    .quenmk {
+        width:100%;
+        margin: auto;
+    }
+}

@@ -1,0 +1,300 @@
+﻿@{
+    ViewBag.Title = "Thông tin cung ứng";
+}
+<style>
+    .ibox .ibox-body {
+        padding: 15px 20px 20px 15px;
+    }
+    .locall .col-md-6 {
+        height: 36px;
+    }
+</style>
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="ibox">
+                    <div class="ibox-body">
+                        <div class="row " id="InfoCompany">
+                            <div class="col-md-4" style=" padding:0px">
+                                <div class="ibox">
+                                    <div class="ibox-head">
+                                        <input type="hidden" id="IscheckPro" name="IscheckPro" value="@Session["Delivery_XacNhan"]" />
+                                        <div class="ibox-title">
+                                            DANH SÁCH SẢN PHẨM
+                                        </div>
+                                        <div class="ibox-tools">
+                                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                            <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-body">
+                                        <div class="row">
+                                            <div class="col-md-12" style=" padding:0px">
+                                                <div id="div-content" class="FixChieuCao1">
+                                                    @Html.Partial("~/Views/Delivery/Partial/__InfoDeliveryStore.cshtml")
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8" style=" padding:0px">
+                                <div class="ibox">
+                                    <div class="ibox-head">
+                                        <div class="ibox-title">LỊCH GIAO HÀNG</div>
+                                        <div class="ibox-tools">
+                                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                            <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-body locall">
+                                        <div class="row">
+                                            <div class="col-md-12 row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label"> Địa điểm giao hàng</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control selectpicker" id="CuaHang" name="CuaHang" data-live-search="true" onchange="js_GetList_Add()">
+                                                                    <option value="All">-- Chọn địa điểm -- </option>
+                                                                    <option value="CUAHANG">Cửa hàng</option>
+                                                                    <option value="KHO">Kho tổng</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Miền</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control selectpicker" id="VungMien" name="VungMien" data-live-search="true" onchange="js_GetList_Add();js_onchange_VungMien()">
+                                                                    @if (ViewBag.list_Mien != null)
+                                                                    {
+                                                                        <option value="">--- Chọn miền ---</option>
+                                                                        foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_Mien)
+                                                                        {
+                                                                            <option value="@box.Code">@box.Name</option>
+                                                                        }
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label"></label>
+                                                            <div class="col-sm-8">
+                                                                @*<a id="btntuchoi" onclick="js_saveCheck();" class="btn btn-success px-5 rounded-0 btgetw" style="color:#fff;width: 100%;"><i class="fa fa-save" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Xác nhận</a>*@
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-6">
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Tỉnh thành</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control selectpicker" id="TinhThanh" name="TinhThanh" data-live-search="true" onchange="js_GetList_Add()">
+                                                                    <option value="">-- Chọn tỉnh thành -- </option>
+                                                                    @if (ViewBag.list_TinhThanh != null)
+                                                                    {
+                                                                        foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_TinhThanh)
+                                                                        {
+                                                                            <option value="@box.Code">@box.Name</option>
+                                                                        }
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label"></label>
+                                                            <div class="col-sm-8">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label"></label>
+                                                            <div class="col-sm-8">
+                                                                @*<a id="btntuchoi" onclick="js_saveCheck();" class="btn btn-success px-5 rounded-0 btgetw" style="color:#fff;width: 100%;"><i class="fa fa-save" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Xác nhận</a>*@
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div id="div-content_add" class="FixChieuCao">
+                                                    @Html.Partial("~/Views/Delivery/Partial/__InfoDeliveryStoreAdd.cshtml")
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-12" style=" float:right; text-align:right">
+                                    @*<input class="btn btn-info" type="submit" onclick="SendInFor();" value="Lưu thông tin" />*@
+                                    <a id="btntuchoi" onclick="js_saveCheck_add();" class="btn btn-success px-5 rounded-0 btgetw" style="color:#fff;width: 200px; float:right;"><i class="fa fa-save" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Lưu lại</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    .FixChieuCao1 {
+        height: 715px;
+        overflow: auto;
+    }
+
+    .FixChieuCao {
+        height: 600px;
+        overflow: auto;
+    }
+</style>
+<script>
+    $(function () {
+        $('#txtHead').html("Thông tin cung ứng");
+        $('#f_dev').html("Dữ liệu khai báo Trading Term");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        js_GetList();
+        js_GetList_Add();
+    });
+    function js_searchbox() {
+        js_GetList();
+    }
+    //function js_ReloadTable() {
+    //    $('#tbl_Item').DataTable({
+    //        lengthMenu: [[-1, 50, 70, 100, -1], [200, 50, 70, "ALL"]],
+    //        //columnDefs: [
+    //        //    //{ 'targets': 0, 'searchable': false, 'orderable': false },
+    //        //    { 'targets': 9, 'searchable': false, 'orderable': false },
+    //        //    { 'targets': 10, 'searchable': false, 'orderable': false },
+    //        //    { 'targets': 11, 'searchable': false, 'orderable': false },
+    //        //    { 'targets': 12, 'searchable': false, 'orderable': false },
+    //        //    { 'targets': 13, 'searchable': false, 'orderable': false },
+    //        //    { 'targets': 14, 'searchable': false, 'orderable': false },
+    //        //    { 'targets': 15, 'searchable': false, 'orderable': false },
+    //        //],
+    //        //"order": [[0, "desc"]],
+    //        columnDefs: [
+    //            { 'targets': 0, 'orderable': false }
+    //        ],
+    //        "searching": false,
+    //        // fixedHeader: true,
+    //        //fixedHeader: {
+    //        //    headerOffset: 170
+    //        //},
+    //        autoWidth: false,
+    //        "language": {
+    //            "emptyTable": "Không có dữ liệu !"
+    //        }
+    //    });
+    //}
+    function imgrecall() {
+        tb_init('a.thickbox, area.thickbox, input.thickbox');
+        $('img.content').hover(function () {
+            $(this).addClass('transition');
+        }, function () {
+            $(this).removeClass('transition');
+        });
+    }
+    function js_GetList() {
+        $.ajax({
+            url: '/Delivery/GetList_Delivery_Store',//SP_Delivery_listProductsCheck
+            type: 'POST',
+            //  data: JSON.stringify({ VendorCode: VendorCode }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                //  js_ReloadTable();
+                imgrecall();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_GetList_Add() {
+        var Store = $("#CuaHang").val();
+        var Mien = $("#VungMien").val();
+        var TinhThanh = $("#TinhThanh").val();
+
+
+        $.ajax({
+            url: '/Delivery/GetList_Delivery_listAdd_Store',//BBM_TradingTern_Delivery_listAdd_Store
+            type: 'POST',
+            data: JSON.stringify({ Store: Store, Mien: Mien, TinhThanh: TinhThanh }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content_add").find('tbody').empty();
+                $('#div-content_add').html(data);
+                // js_ReloadTable_Add();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+
+    function js_onchange_VungMien() {
+        debugger;
+        let VungMien = $('#VungMien').val();
+        $('#TinhThanh').empty();
+        $('#TinhThanh').append('<option value="">-- Chọn tỉnh thành --</option>');
+        if (VungMien.length > 0) {
+            $.ajax({
+                url: '/Delivery/Get_List_TinhThanh',
+                type: 'POST',
+                data: JSON.stringify({ VungMien: VungMien }),
+                contentType: 'application/json, charset=utf-8',
+                success: function (data) {
+                    var row = JSON.parse(data);
+                    if (row != null) {
+                        for (i in row) {
+                            $('#TinhThanh').append('<option value="' + row[i].Code + '">' + row[i].Name + '</option>');
+                        }
+                        $('#TinhThanh').selectpicker('refresh');
+                    }
+                }
+            });
+        }
+    }
+
+</script>

@@ -1,0 +1,160 @@
+﻿@using System.Data
+<div style=" clear:both;"></div>
+<a style="text-align: center; color: #fff; padding-top: 4px; width: 76px; float: left; margin-bottom: 2px; padding-left: 5px !important; font-size: 12px;" onclick="fnExport()" class="btn btn-success px-5 rounded-0 "> Export Exel </a>
+<div style=" clear:both"></div>
+
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+        <thead>
+
+            <tr>
+                <th scope="col" style="text-align: left;">
+                    Mã hàng
+                </th>
+                <th scope="col">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Mã NCC
+                </th>
+                <th scope="col">
+                    Tên NCC
+                </th>
+                <th scope="col" style="text-align: left;">
+                    SL Bán MB
+                </th>
+                <th scope="col" style="text-align: left;">
+                    SL Bán MN
+                </th>
+                <th scope="col" style="text-align: left;">
+                    SL Tổng
+                </th>
+                <th scope="col" style="text-align: left;">
+                    Doanh thu MB
+                </th>
+                <th scope="col" style="text-align: left;">
+                    Doanh thu MN
+                </th>
+                <th scope="col" style="text-align: left;">
+                    Doanh thu tổng
+                </th>
+                <th scope="col" style="text-align: left;">
+                    CP định hướng
+                </th>
+                <th scope="col" style="text-align: center; width: 60px; max-width: 60px; ">
+                    Trạng thái
+                </th>
+                <th scope="col" style="text-align: center; width: 60px; max-width: 60px; ">
+                    Hành động
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        var i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            var k = i + "_Row";
+                            <tr style=" height:20px">
+                                <td style="text-align: left;  ">
+                                    @item["MaHang"]
+                                </td>
+                                <td style="text-align: left; width: 200px; max-width: 200px; overflow: hidden; white-space: nowrap " title="@item["NccName"]">
+                                    @item["Tenhang"]
+                                </td>
+                                <td style="text-align: left; ">
+                                    @item["MaNCC"]
+                                </td>
+                                <td style="text-align: left; width: 200px; max-width: 200px; overflow: hidden; white-space: nowrap " title="@item["NccName"]">
+                                    @item["NccName"]
+                                </td>
+                                <td style="text-align: right;">
+                                    @item["QuantityMB"]
+                                </td>
+                                <td style="text-align: right;">
+                                    @item["QuantityMN"]
+                                </td>
+                                <td style="text-align: right;">
+                                    @item["SLTong"]
+                                </td>
+                                <td class="text-right" style="">
+                                    @item["AmountMB"]
+                                </td>
+                                <td class="text-right" style="">
+                                    @item["AmountMN"]
+                                </td>
+                                <td style="text-align: right;">
+                                    @item["PhiTong"]
+                                </td>
+                                <td style="text-align: right;">
+                                    @item["CPDinhHuong"]
+                                </td>
+                                <td style="text-align: center; width: 120px; max-width: 120px; ">
+                                    @Html.Raw(item["isTrangThai"])
+                                </td>
+
+                                <td style="text-align: center; width: 60px; max-width: 60px; ">
+                                    @if (item["Status"].ToString() != "")
+                                    {
+                                        @Html.CheckBox(i + "_Row", false, new { @class = "cb-element", value = @item["MaHang"], @disabled = true })
+                                    }
+                                    else
+                                    {
+                                        @Html.CheckBox(i + "_Row", false, new { @class = "cb-element", value = @item["MaHang"] })
+                                    }
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+
+                        <tr style="background: #ffffff; border-bottom: 1px solid #ddd !important; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #fff !important;">
+                            <td class="text-left" style="border: none !important;"></td>
+                            <td class="text-left" style="border: none !important;"></td>
+                            <td class="text-right" style="border: none !important;"></td>
+                            <td class="text-right" style="border: none !important;"></td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumQuantityMB"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumQuantityMN"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumSLTong"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumAmountMB"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumAmountMN"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumPhiTong"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                                @dt.Rows[0]["sumCPDinhHuong"]
+                            </td>
+                            <td class="text-right" style="border: none !important;">
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tfoot>
+    </table>
+</div>

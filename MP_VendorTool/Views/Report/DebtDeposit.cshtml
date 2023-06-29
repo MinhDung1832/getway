@@ -1,0 +1,247 @@
+﻿@using MP_VendorTool.Common
+@using MP_VendorTool.Models.Order
+@{
+    ViewBag.Title = "Báo cáo doanh số ký gửi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .table td, .table th {
+        padding: 9px;
+    }
+</style>
+<div class="content-wrapper">
+    <div class="page-content fade-in-up">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="content_search">
+                    <div class="AutoFix">
+                        <div class="fromsearch">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="box_with">
+                                        <div class="form-group row">
+                                            <label for="vendorName" class="col-sm-4 col-form-label">Nhà cung</label>
+                                            <div class="col-sm-8">
+                                                @if (Session["VendorName"] != null && Session["VendorName"].ToString().Length > 0)
+                                                {
+                                                    <input type="text" class="form-control" id="VendorCode" name="VendorCode" value="@Session["VendorCode"] - @Session["VendorName"]" disabled style=" padding-left: 7px !important; ">
+                                                }
+                                                else
+                                                {
+                                                    <select id="VendorCode" class="form-control selectpicker" data-live-search="true" onchange="js_searchbox();">
+                                                        @if (ViewBag.list_vendor != null)
+                                                        {
+                                                            <option value="">--- Chọn NCC ---</option>
+                                                            foreach (MP_VendorTool.Models.Order.objCombox box in (List<MP_VendorTool.Models.Order.objCombox>)ViewBag.list_vendor)
+                                                            {
+                                                                <option value="@box.Code - @box.Name">@box.Code - @box.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="textMien" class="col-sm-4 col-form-label">Mã hàng</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="MaHang" onchange="js_searchbox();" class="form-control" placeholder="Mã hàng">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-4">
+                                    <div class="box_with">
+
+                                        <div class="form-group row">
+                                            <label for="ContractNo" class="col-sm-4 col-form-label">Chọn tháng <span style="color:red">(*)</span></label>
+                                            <div class="col-sm-8">
+                                                <select id="Thang" class="form-control" name="Thang" onchange="js_searchbox()">
+                                                    <option value="">--Chọn Tháng--</option>
+                                                    <option value="1">Tháng 1</option>
+                                                    <option value="2">Tháng 2</option>
+                                                    <option value="3">Tháng 3</option>
+                                                    <option value="4">Tháng 4</option>
+                                                    <option value="5">Tháng 5</option>
+                                                    <option value="6">Tháng 6</option>
+                                                    <option value="7">Tháng 7</option>
+                                                    <option value="8">Tháng 8</option>
+                                                    <option value="9">Tháng 9</option>
+                                                    <option value="10">Tháng 10</option>
+                                                    <option value="11">Tháng 11</option>
+                                                    <option value="12">Tháng 12</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="textStatus" class="col-sm-4 col-form-label">Chọn năm</label>
+                                            <div class="col-sm-8">
+                                                <select id="Nam" class="form-control" name="Nam" onchange="js_searchbox()">
+                                                    @Html.Raw(ViewBag.ShowNam)
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3" style="text-align: center;">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a href="#" class="btn btn-secondary px-5 btgetw" id="btnGetChecks"><i class="fa fa-check" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Duyệt</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <a id="btntuchoi" class="btn btn-danger px-5 rounded-0 btgetw" style=" color:#fff"><i class="fa fa-times" aria-hidden="true" style="margin-top: 3px; margin-right: 3px;"></i> Từ chối</a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="div-content" style=" padding-top: 73px">
+                    @Html.Partial("~/Views/Report/Partial/__DebtDeposit.cshtml")
+                </div>
+            </div>
+                </div>
+    </div>
+</div>
+
+
+<script>
+    function fnExport() {
+        window.location = '/Report/ExportExcelDebtDeposit';
+        return true;
+    }
+    $(function () {
+        $('#txtHead').html("Báo cáo doanh số ký gửi");
+        $('#f_dev').html("Dữ liệu khai báo Trading Term");
+        $('#f_header').html("");
+        $('#v_review').hide();
+        $('#v_view').hide();
+        $('#v_approve').hide();
+        js_GetList();
+    });
+    function js_searchbox() {
+        js_GetList();
+    }
+    function js_ReloadTable() {
+        $('#tbl_Item').DataTable({
+            lengthMenu: [[50, 50, 70, 100, -1], [200, 50, 70, 100]],
+            //columnDefs: [
+            //    //{ 'targets': 0, 'searchable': false, 'orderable': false },
+            //    { 'targets': 9, 'searchable': false, 'orderable': false },
+            //    { 'targets': 10, 'searchable': false, 'orderable': false },
+            //    { 'targets': 11, 'searchable': false, 'orderable': false },
+            //    { 'targets': 12, 'searchable': false, 'orderable': false },
+            //    { 'targets': 13, 'searchable': false, 'orderable': false },
+            //    { 'targets': 14, 'searchable': false, 'orderable': false },
+            //    { 'targets': 15, 'searchable': false, 'orderable': false },
+            //],
+            //"order": [[0, "desc"]],
+            "searching": false,
+             fixedHeader: true,
+            fixedHeader: {
+                headerOffset: 184
+            },
+            autoWidth: false,
+            "language": {
+                "emptyTable": "Không có dữ liệu !"
+            }
+        });
+    }
+
+    function js_GetList() {
+        var MaHang = $("#MaHang").val();
+        var Thang = $("#Thang").val();
+        var Nam = $("#Nam").val();
+        var VendorCode = fomart_split($("#VendorCode").val(), 0);
+        if (Thang == "") {
+            alert("Vui lòng chọn tháng");
+            return;
+        }
+        $.ajax({
+            url: '/Report/GetList_DebtDeposit',
+            type: 'POST',
+            data: JSON.stringify({ MaHang: MaHang, Thang: Thang, Nam: Nam, VendorCode: VendorCode}),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                js_Loading(true, 1);
+            },
+            success: function (data) {
+                $("#div-content").find('tbody').empty();
+                $('#div-content').html(data);
+                js_ReloadTable();
+                js_Loading(false, 1);
+            },
+            error: function () {
+                js_Loading(false, 1);
+            }
+        });
+    }
+    $('#btnGetChecks').on('click', function () {
+        var ID = [];
+        $("input:checked").each(function (index, value) {
+            ID.push($(value).val());
+        });
+        if (ID == "") {
+            alert("Bạn chưa chọn hành động");
+            return;
+        }
+        var action = 'DUYET';//$("#StatusDuyet").val();
+
+        if (action == "") {
+            alert("Bạn chưa chọn trạng thái để cập nhật.");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: '/Report/PostStatusDebtDeposit',
+            data: JSON.stringify({ ID: ID, status: action }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (rt) {
+                if (rt.code == 0) {
+                    js_GetList();
+                    alert("Duyệt thành công");
+                }
+            }
+        });
+    });
+
+    $('#btntuchoi').on('click', function () {
+        var ID = [];
+        $("input:checked").each(function (index, value) {
+            ID.push($(value).val());
+        });
+        if (ID == "") {
+            alert("Bạn chưa chọn hành động");
+            return;
+        }
+        var action = 'DELETED';//$("#StatusDuyet").val();
+
+        if (action == "") {
+            alert("Bạn chưa chọn trạng thái để cập nhật.");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: '/Report/PostStatusDebtDeposit',
+            data: JSON.stringify({ ID: ID, status: action }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (rt) {
+                if (rt.code == 0) {
+                    alert("Từ chối thành công");
+                    js_GetList();
+                }
+            }
+        });
+    });
+
+</script>

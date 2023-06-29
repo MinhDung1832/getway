@@ -1,0 +1,541 @@
+﻿
+select::-ms-expand {
+    display: block;
+}
+
+table {
+    border-collapse: collapse;
+    width: 97%;
+    margin: auto;
+}
+
+#lienhe {
+    border: none !important;
+    border-radius: 0px !important;
+    width: 95%;
+}
+
+    #lienhe tr {
+        border: none !important;
+        border-radius: 0px !important;
+    }
+
+        #lienhe tr td {
+            border: none !important;
+            border-radius: 0px !important;
+            background: #fff;
+            font-family: 'SF Pro Display';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 19px;
+            color: #404040;
+            border-bottom: 1px solid #d7d7d7 !important;
+        }
+
+            #lienhe tr td img {
+            }
+
+.HotroHuongdan {
+    padding: 15px;
+}
+
+.Kcach {
+    padding-top: 15px;
+}
+
+.Kcach1 {
+    margin-top: 20px;
+}
+
+.HotroHuongdan a {
+    border: none !important;
+    border-radius: 0px !important;
+    background: #fff;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 0px;
+    color: #404040;
+    padding-bottom: 12px;
+    display: block;
+}
+
+.MHome {
+    margin: auto;
+    width: 100%;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    transition: transform .2s; /* Animation */
+}
+
+.ibox-head_p {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.ibox-head {
+    padding-bottom: 20px;
+}
+
+.Bantin {
+    max-width: 100%;
+    width: 100%;
+}
+
+.Company {
+    margin-top: -13px;
+}
+
+.ibox-title {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 41px;
+    color: #212121;
+    margin-left: 0px;
+    border-bottom: 1px solid #E9E9E9;
+}
+
+div#Bantin {
+    background: #FFFFFF;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.col-sm-12.BoxNew .row {
+    padding-bottom: 14px;
+}
+
+.col-sm-12.BoxNew img {
+    border-radius: 12px;
+    height: 66px;
+    object-fit: cover;
+}
+
+.mintmine {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    color: #E42027;
+    opacity: 0.4;
+}
+
+.col-sm-12.BoxNew {
+    margin-left: 5px;
+}
+.NoPading {
+    padding: 0px;
+}
+.xemthemnew {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 22px;
+    letter-spacing: -0.408px;
+    font-feature-settings: 'case' on;
+    color: rgba(60, 60, 67, 0.6);
+    text-align: right;
+    float: right;
+    margin-right: 27px;
+}
+
+td {
+    vertical-align: top;
+    padding: 8px;
+    border: 8px solid #f1f1f1;
+    border-radius: 4px;
+}
+
+.divitem {
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 10px;
+    background: #F5F5F5;
+    border-radius: 4px;
+}
+
+    .divitem:hover, .divitemSS:hover, .divitemBN:hover {
+        background: rgba(255, 152, 0, 0.3);
+    }
+
+.divitemH {
+    width: 100%;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000000;
+    padding: 10px 0px
+}
+
+.divitemC {
+    width: 100%;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    padding: 0 0 10px 0
+}
+
+.divitemBT {
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 10px;
+}
+
+.divitemBTHExtra {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 16px;
+    color: #494949;
+    padding: 10px 0 0 0;
+}
+
+.divitemBTH {
+    width: 100%;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 20px;
+    color: #000000;
+    padding: 8px 0 10px 0;
+}
+
+.divitemSSHExtra {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 16px;
+    /* identical to box height, or 160% */
+    color: #494949;
+    padding: 10px 0 0 0;
+}
+
+.divitemSSH {
+    width: 100%;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000000;
+    padding: 0 0 10px 0;
+}
+
+.divitemBNH {
+    width: 100%;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000000;
+    padding: 0 0 10px 0;
+}
+
+.divitemBTC {
+    width: 100%;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    padding: 0 0 10px 0;
+    color: #000000;
+    opacity: 0.6;
+}
+
+.ibox-title3 {
+    background: #212121;
+    border: 0.5px solid rgba(0, 0, 0, 0.04);
+    border-radius: 7px;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 20px;
+    /* or 154% */
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: -0.08px;
+    color: #FFFFFF;
+    padding: 6px 50px;
+    margin-left: 25px;
+}
+
+.ibox-title2 {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 20px;
+    /* or 154% */
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: -0.08px;
+    /* Label Color/Light/Primary */
+    color: #000000;
+}
+
+.divitemSS {
+    display: flex;
+    justify-content: space-between;
+    background: #F5F5F5;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.divitemBN {
+    display: flex;
+    justify-content: space-between;
+    background: #F5F5F5;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.divitemSSS {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 590;
+    font-size: 24px;
+    line-height: 29px;
+    /* identical to box height */
+    color: #212121;
+    margin-top: 12px;
+    margin-right: 12px;
+}
+
+.divitemBNS {
+    font-family: 'Rift';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 32px;
+    /* identical to box height, or 213% */
+    text-align: right;
+    color: #33691E;
+    margin-top: 12px;
+    margin-right: 12px;
+}
+
+
+.content_search .form-control {
+    height: 34px !important;
+}
+
+.ibox .ibox-body {
+    padding: 0px !important;
+}
+
+.ibox .ibox-body {
+    padding: 0px !important;
+}
+
+.BBoder_V1 {
+    background: #fff;
+    padding: 25px;
+    float: left;
+    width: 100%;
+}
+
+.BBoder_V2 {
+    background: #fff;
+    padding: 25px;
+    float: left;
+    width: 100%;
+}
+
+.chartsk .dropdown.bootstrap-select.form-control.bs3 {
+    width: 110px;
+}
+
+.filllter .dropdown.bootstrap-select.form-control.bs3 {
+    width: 430px;
+}
+
+.progress .progress-bar.progress-bar-success {
+    background-color: #ff864b !important;
+}
+
+.progress {
+    margin-top: 8px;
+}
+
+.doanhsonam {
+    font-family: 'SF-Pro-Text-Regular',sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+    opacity: 0.5;
+}
+
+.mota {
+    font-family: 'SF-Pro-Text-Regular',sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 25px;
+    color: #000000;
+    opacity: 0.5;
+    text-align: center;
+}
+
+.mota1 {
+    font-family: 'SF-Pro-Text-Regular',sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 35px;
+    color: #000000;
+    opacity: 0.5;
+    text-align: left;
+}
+
+.ytd {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 33px;
+    text-align: center;
+    color: #000000;
+}
+
+.Dulieutrong {
+    font-family: 'SF-Pro-Text-Regular',sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    color: red;
+    padding-top: 34px;
+    text-align: center;
+    display: block;
+}
+
+.chartsk .dropdown.bootstrap-select.form-control.bs3 {
+    width: 110px;
+}
+
+.float-contact {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999
+}
+
+.chat-zalo {
+    height: 38px;
+    border: none;
+    background: none;
+    color: #fff;
+    display: block;
+    margin-bottom: 6px
+}
+
+
+.float-contact .hotline {
+    height: 38px;
+    border: none;
+    background: none;
+    color: #fff;
+    display: block;
+    margin-bottom: 20px
+}
+
+.chat-zalo a, .chat-face a, .hotline a {
+    font-size: 15px;
+    color: #fff;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 0
+}
+
+.tieudetin {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.giodangbai {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #000000;
+    opacity: 0.4;
+}
+
+
+.infocompany .row {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 23px;
+    width: 99%;
+    margin: auto;
+}
+
+.infocompany .bodder {
+    border-bottom: 1px solid #EEEEEE;
+    width: 88%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.infocompany img {
+    margin-right: 4px;
+    object-fit: contain;
+}
+
+.infocompany .donvi {
+    background: no-repeat url(../../image/donvi.png);
+    padding-left: 19px;
+    background-position: left;
+}
+
+.infocompany .diachi {
+    background: no-repeat url(../../image/diachi.png);
+    padding-left: 19px;
+    background-position: left;
+}
+
+.infocompany .dienthoai {
+    background: no-repeat url(../../image/dienthoai.png);
+    padding-left: 19px;
+    background-position: left;
+}
+
+.infocompany .email {
+    background: no-repeat url(../../image/email.png);
+    padding-left: 19px;
+    background-position: left;
+}
+
+.infocompany .masothue {
+    background: no-repeat url(../../image/masothue.png);
+    padding-left: 19px;
+    background-position: left;
+}

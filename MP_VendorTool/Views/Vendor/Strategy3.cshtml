@@ -1,0 +1,761 @@
+﻿@{
+    ViewBag.Title = "Kế hoạch hợp tác";
+}
+
+<style>
+    .btn-right {
+        background-image: url('../../image/Button/right.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+        .btn-right:hover {
+            background-image: url('../../image/Button/righthover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .btn-left {
+        background-image: url('../../image/Button/left.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+        .btn-left:hover {
+            background-image: url('../../image/Button/lefthover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .btn-center {
+        background-image: url('../../image/Button/center.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+        .btn-center:hover {
+            background-image: url('../../image/Button/centerhover.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+
+    .content_vendor {
+    }
+
+    .col-md-3 label {
+        width: 25%;
+    }
+
+    .nbut {
+        width: 300px;
+        font-weight: initial;
+        margin-top: 20px;
+        height: 38px;
+    }
+
+    .minusbutton {
+        border: none;
+        background: transparent;
+        outline: none;
+        padding: initial;
+    }
+
+    .money {
+        width: 120px;
+        display: inline;
+        text-align: right;
+    }
+
+    #footer {
+        position: fixed;
+        right: 1rem;
+        bottom: 0px;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        background: rgba(90,92,105,.5);
+        line-height: 46px;
+        display: inline;
+    }
+
+    .italic {
+        font-style: italic;
+    }
+
+    .redtext {
+        color: red;
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .header_title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .header_vender {
+        background-color: #868686;
+        padding: 18px 0px;
+    }
+
+    .text_home {
+        float: right;
+        margin-top: 18px;
+    }
+
+        .text_home a {
+            font-size: 12px;
+            color: #fff;
+        }
+
+    legend {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 10px;
+        margin-top: 32px;
+        font-size: 22px;
+        line-height: inherit;
+        color: #658EC6;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    .label2 {
+        display: block;
+        width: 100%;
+        padding: 0;
+        font-size: 15px;
+        line-height: inherit;
+        color: #658EC6;
+        text-transform: uppercase;
+        border: 0;
+    }
+
+    fieldset {
+        margin-top: 34px;
+    }
+
+    label {
+        font-size: 12px;
+        color: #59595B;
+    }
+
+    .from_vender {
+        margin-left: 8px;
+    }
+
+        .from_vender input, .from_vender select {
+            margin-bottom: 8px;
+        }
+
+    .button_save_1 {
+        margin-right: 16px;
+        margin-top: 20px;
+        width: 331px;
+    }
+
+        .button_save_1 a {
+            text-align: center;
+            background-color: #868686 !important;
+            border-color: #868686 !important;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 8px;
+        }
+
+    #E_Invoice {
+        margin-bottom: 18px !important;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #868686;
+        width: 90%;
+    }
+
+    .button_save_1 a:hover {
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #86868600;
+        border-color: #868686;
+        color: #6f8cb8 !important;
+    }
+
+    .button_action a:hover {
+        background-color: #9e9e9e;
+        color: #f3f3f3 !important;
+    }
+
+    .button_action a {
+        text-align: center;
+        font-size: 12px;
+        height: 42px;
+        padding: 12px 12px;
+        font-weight: bold;
+    }
+
+    .button_action {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .table > thead > tr {
+        background: #C4C4C4;
+    }
+
+        .table > thead > tr > th {
+            color: #59595B;
+            font-size: 12px !important;
+        }
+
+    .table > tbody > tr > td {
+        padding: 2px;
+        color: #59595B !important;
+        font-size: 12px !important;
+        vertical-align: middle;
+    }
+</style>
+<style>
+
+    html {
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
+
+    body {
+        position: relative;
+        background-image: url('../../image/nen2.jpg');
+        background-color: #f3f3f3;
+        background-size: cover;
+    }
+
+    .ct {
+        margin: 0 auto;
+        padding-top: 32px;
+    }
+
+    .demo h1 {
+        margin-top: 0;
+    }
+
+    /**
+    * Footer Styles
+    */
+
+    .footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        /* padding: 1rem;*/
+        background-color: #efefef;
+        text-align: center;
+    }
+</style>
+@Html.Partial("_sidebar")
+<div class="wp_vendor">
+    @Html.Partial("_header")
+    <div class="content_vendor">
+        <div class="container" style="min-height:700px;">
+            <div id="step3">
+                <label style="font-style: italic;color: #658EC6;text-align: center;width:100%; margin-top:10px">
+                    Hệ thống hỗ trợ Quý đối tác chủ động xây dựng phương án kinh doanh nhằm thúc đẩy hiệu quả hoạt động của nhãn hàng tại hệ thống Bibo Mart
+                </label>
+                <fieldset>
+                    <legend>1. Chi phí tối thiểu </legend>
+                    <div class="col-md-12">
+
+                        <div class="col-md-4">
+                            <label>Thương hiệu</label>
+                            <select onchange="js_Save(false)" class="form-control" id="brandcode" style="width: 120px;display: inline;"></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Số lượng CH kinh doanh áp dụng:</label>
+
+                            <input id="NoStore" class="form-control number-separator money " disabled="disabled" value="0" type="text" style="width: 120px;display: inline; background-color: #EBEBE4 !important;  " font-size: larger; />
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <button onclick="showliststore()" style="    border-color: #4875b3;
+                                                            color: #4875b3;
+                                                            text-transform: uppercase;
+                                                            height:33px;
+                                                            float:right">
+                                Chọn danh sách CH kinh doanh
+                            </button>
+                        </div>
+                    </div>
+                    <hr style="border: none;">
+                    <div class="tab-pane table-responsive" id="tab0">
+                        <table id="tab0_table" class="table table-bordered table-hover tb-inside-6 tb-f-s-12" cellpadding="0" cellspacing="0">
+                            <thead class="tb-thead">
+                                <tr>
+                                    <th style="text-align: center;vertical-align: middle;">Thương hiệu</th>
+                                    <th style="text-align: center;vertical-align: middle;">Tên sản phẩm</th>
+                                    <th width="100px" style="text-align: center;vertical-align: middle;">Hình ảnh sản phẩm</th>
+                                    <th style="text-align: center;vertical-align: middle;">Mặt TB/SP/CH</th>
+                                    <th style="text-align: center;vertical-align: middle;">Chi phí tối thiểu</th>
+                                    <th style="text-align: center;vertical-align: middle;">% GP tối thiểu</th>
+                                    <th style="text-align: center;vertical-align: middle;">%GP hiện hành</th>
+                                    <th style="text-align: center;vertical-align: middle;">Hiệu quả KD</th>
+                                    <th style="min-width:150px; text-align: center;vertical-align: middle;">Điều chỉnh mức đầu tư</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <hr>
+
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span style="font-size: 12px !important; color:#59595B !important">Chi phí tối thiểu YTD</span></td>
+                                <td>
+                                    <input id="ChiPhiToiThieuYTD" disabled="disabled" class="form-control number-separator money" style="width: 500px;display: inline;background-color: #EBEBE4 !important;  ;font-size: 12px !important;" type="text" value="0"></input>
+                                </td>
+                                <td rowspan="4"><span style="font-size: 12px !important; color:#59595B !important">RANKING</span></td>
+                                <td rowspan="4">
+                                    <input id="Ranking" class="form-control" style="width: 120px;display: inline; height:130px;font-size: 100px; color: red; text-align:center" type="text"></input>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td><span style="font-size: 12px !important; color:#59595B !important">Doanh số bán</span></td>
+                                <td>
+                                    <input id="DoanhSoBan" disabled="disabled" class="form-control number-separator money" style="width: 500px;display: inline;background-color: #EBEBE4 !important;  ;font-size: 12px !important;" type="text" value="0"></input>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span style="font-size: 12px !important; color:#59595B !important">Lãi gộp</span></td>
+                                <td>
+                                    <input id="LaiGop" disabled="disabled" class="form-control number-separator money" style="width: 500px;display: inline;background-color: #EBEBE4 !important;  ;font-size: 12px !important;" type="text" value="0"></input>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span style="font-size: 12px !important; color:#59595B !important">Hiệu quả kinh doanh</span></td>
+                                <td>
+                                    <input id="HieuQuaKinhDoanh" disabled="disabled" class="form-control number-separator money" style="width: 500px;display: inline;background-color: #EBEBE4 !important;  ;font-size: 12px !important;" type="text" value="0"></input>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+                </fieldset>
+            </div>
+            <div class="row button_action">
+                <div class="col-md-4">
+                    @*@Html.ActionLink(@MP_VendorTool.Resource.prevPage, "Create", "Vendor", null, new { @class = "form-control btn-primary text-center" })*@
+
+                    <a onclick="back()" class="form-control btn-left"> @MP_VendorTool.Resource.prevPage </a>
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    @*<input type="button" class="form-control btn-primary" value="@MP_VendorTool.Resource.Save_Con" onclick="fnSave('next')" />*@
+                    <a onclick="next()" style="margin-left:14px" class="form-control btn-right" onclick="fnSave('next')">@MP_VendorTool.Resource.Save_Con </a>
+                </div>
+            </div>
+
+            <div class="footer hidden">
+                <button class="nbut btn-left" id="bbut" onclick="back()" style="float:left;margin-left: 100px;">Back</button>
+                <button class="nbut btn-right" id="nbut" onclick="next()" style="float:right;margin-right: 100px;">Next</button>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="store_modal" tabindex="-1" role="dialog" aria-labelledby="shift_detail_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:700px">
+        <div class="modal-content" style="background:#969696; border-radius:15px">
+            <div class="modal-header hide">
+                <h5 class="modal-title" id="shift_detail_modal_label">Danh sách cửa hàng</h5>
+                <button type="button" class="close hide" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body pointer" style="margin-top: 0px;font-size: 26px;text-align: left;color: white; font-weight:bold">
+                <p>DANH SÁCH CỬA HÀNG</p>
+            </div>
+            <div class="tab-pane table-responsive" id="tab0" style="max-height: 400px;margin-right: 2%">
+                <table id="tab1_table" class="table table-bordered table-hover tb-inside-6 tb-f-s-12" cellpadding="0" cellspacing="0"
+                       style="width: 98%;margin-left: 2%;border: none;">
+                    <thead class="tb-thead" border: none;>
+                        <tr>
+                            <th style="text-align: center;vertical-align: middle;">Miền</th>
+                            <th style="text-align: center;vertical-align: middle;">Tỉnh/Thành phố</th>
+                            <th style="text-align: center;vertical-align: middle;">Mã cửa hàng</th>
+                            <th style="text-align: center;vertical-align: middle;">Địa chỉ</th>
+                            <th style="text-align: center;vertical-align: middle;">Chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody style="background: #f3f3f3; border:none!important"></tbody>
+                </table>
+            </div>
+            <div style="text-align: center;">
+                <button type="button" class="btn btn-primary btn-rounded btn-sm max-w-100" style="background: #e9e8e7;border: none; border-radius: 9px; margin-bottom:15px; margin-top:15px" data-dismiss="modal" aria-label="Close">
+                    <p style="
+                        color: #969696;
+                        font-size: 22px;
+                        margin-top: -3px;
+                        margin-bottom: -1px;
+                        margin-left: 22px;
+                        margin-right: 22px;
+                    ">Đóng lại</p>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script src="~/Scripts/easy-number-separator.js"></script>
+<script type="text/javascript">
+
+    var lstStore;
+    var lstProduct;
+    var masterID;
+    var storechange = false;
+    var haveData = false;
+
+    $(function () {
+        $('#header_title').html("XÂY DỰNG PHƯƠNG ÁN KINH DOANH");
+        $('#st3').addClass("highlight");
+        $('#img3').addClass("icon3active");
+        js_GetAllStore();
+        js_GetBrand();
+    });
+
+    function js_GetBrand() {
+        haveData = false;
+        $.ajax({
+            url: '/Vendor/GetBrandbyVendor',
+            type: 'POST',
+            data: JSON.stringify({}),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+            },
+            success: function (data) {
+                $('#brandcode').empty();
+                $.each(data, (index, value) => { $('#brandcode').append(`<option value="${value.BrandCode}">${value.BrandName}</option>`); });
+                if (data[0] != undefined) {
+                    js_GetMasterInfo(data[0].BrandCode);
+                    haveData = true;
+                }
+            },
+            error: function () {
+
+            }
+        });
+
+    }
+
+    function recount() {
+        var count = 0;
+        $.each(lstStore, (index, value) => {
+            if ($('#cb_' + index + ':checked').val())
+                count += 1;
+        });
+        $('#NoStore').val(count);
+        storechange = true;
+    }
+
+    function js_GetAllStore() {
+
+        $.ajax({
+            url: '/Vendor/GetAllStore',
+            type: 'POST',
+            data: JSON.stringify({}),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+            },
+            success: function (data) {
+                js_FillDetailStore(data);
+            },
+            error: function () {
+
+            }
+        });
+
+    }
+
+    function js_FillDetailStore(data) {
+        if (data instanceof Object && data !== null && data.length) {
+
+            let str0 = ''; lstStore = data;
+            $.each(data, (index, value) => {
+
+                let tr = '';
+                tr += '<tr>';
+                tr += '<td>' + value.RegionName + '</td>';
+                tr += '<td>' + value.DistrictName + '</td>';
+                tr += '<td>' + value.StoreCode + '</td>';
+                tr += '<td>' + value.StoreName + '</td>';
+                tr += '<td> <input type="checkbox" onclick="recount()" id="cb_' + index + '"/> </td>';
+                tr += '</tr>';
+                str0 += tr;
+            });
+            numof = data.length;
+            $('#tab1_table tbody').empty().html(str0);
+
+
+
+
+        } else {
+            numof = 0;
+            $('#tab1_table tbody').empty().html('<tr><td colspan="5"></td></tr>');
+        }
+    }
+
+    function js_GetMasterInfo(brc) {
+        var brandcode;
+        if (brc == "")
+            brandcode = $('#brandcode :selected').val();
+        else brandcode = brc;
+        $.ajax({
+            url: '/Vendor/GetMinimumCostByBrand',
+            type: 'POST',
+            data: JSON.stringify({ brandcode: brandcode }),
+            contentType: 'application/json, charset=utf-8',
+            beforeSend: function () {
+                //js_Loading(true, 2);
+            },
+            success: function (data) {
+                //Master
+                masterID = data.MasterID;
+                $('#NoStore').val(data.NoStore);
+                $('#ChiPhiToiThieuYTD').val(data.ChiPhiToiThieuYTD).trigger('change');
+                $('#DoanhSoBan').val(data.DoanhSoBan).trigger('change');
+                $('#LaiGop').val(data.LaiGop).trigger('change');
+                $('#HieuQuaKinhDoanh').val(data.HieuQuaKinhDoanh).trigger('change');
+                $('#Ranking').val(data.Ranking);
+                lstProduct = data.lstdetail;
+                js_FillDetail(data.lstdetail);
+                js_clearcheckstore();
+                js_FillStore(data.lststore)
+
+
+                // js_Loading(false, 2);
+            },
+            error: function () {
+                // js_Loading(false, 2);
+            }
+        });
+
+    }
+    function showimg(url) {
+        window.open(url, '_blank');
+    }
+    function js_FillDetail(data) {
+        if (data instanceof Object && data !== null && data.length) {
+            let str0 = '';
+            $.each(data, (index, value) => {
+
+                let tr = '';
+                tr += '<tr>';
+                tr += '<td>' + value.BrandName + '</td>';
+                tr += '<td>' + value.TenSanPham + '</td>';
+                tr += '<td><img style="width:50px;" onclick="showimg(\'' + value.HinhAnhSanPham + '\')" src="' + value.HinhAnhSanPham + '" > </td>';
+                tr += '<td><input class="form-control" style="width: 100px;display: inline;text-align: right" type="text" value="' + value.MatTbSpCh + '" id="MatTbSpCh' + index + '"></input></td>';
+                tr += '<td style="text-align: right">' + value.ChiPhiToiThieu + '</td>';
+                tr += '<td style="text-align: center">' + value.GPToiThieu + '</td>';
+                tr += '<td style="text-align: center">' + value.GPHienHanh + '</td>';
+                tr += '<td>' + value.HieuQuaKinhDoanh + '</td>';
+                tr += `<td>
+                        <button onclick="decrease('MucDauTu`+ index + `',10000000)" class="minusbutton">
+                            <img src="/image/Circle/minus.png" height="35px" />
+                        </button>
+                        <input class="form-control number-separator money" style="width: 125px;display: inline;" type="text" value="`+ value.MucDauTu + `" id="MucDauTu` + index + `"></input>
+                        <button onclick="increase('MucDauTu`+ index + `',10000000)" class="minusbutton">
+                            <img src="/image/Circle/plus.png" height="35px" />
+                        </button>
+                    </td>`;
+
+
+
+                tr += '</tr>';
+                str0 += tr;
+            });
+            numof = data.length;
+            $('#tab0_table tbody').empty().html(str0);
+
+
+
+
+        } else {
+            numof = 0;
+            $('#tab0_table tbody').empty().html('<tr><td colspan="9"></td></tr>');
+        }
+    }
+
+    function js_clearcheckstore() {
+        $.each(lstStore, (index, value) => {
+            $('#cb_' + index).prop('checked', false);
+        });
+    }
+
+    function js_FillStore(data) {
+        storechange = false;
+        if (data instanceof Object && data !== null && data.length) {
+            $.each(lstStore, (index1, value1) => {
+                $.each(data, (index, value) => {
+                    if (value.StoreCode == value1.StoreCode) {
+                        $('#cb_' + index1).prop('checked', true);
+                    }
+                });
+            });
+
+
+
+        } else {
+
+        }
+    }
+
+    function next() {
+        js_Save(true);
+        window.location.href = "/Vendor/Strategy4";
+    }
+
+    function back() {
+        window.location.href = "/Vendor/Strategy2"
+    }
+
+    function showliststore() {
+        jQuery.noConflict();
+        $('#store_modal').modal('show');
+    }
+
+    function decrease(control, amount) {
+        var i = parseInt($('#' + control).val().replaceAll('.', ''));
+        if (isNaN(i)) i = 0;
+        $('#' + control).val((i - amount) < 0 ? 0 : (i - amount)).trigger('change');
+    }
+
+    function increase(control, amount) {
+        var i = parseInt($('#' + control).val().replaceAll('.', ''));
+        if (isNaN(i)) i = 0;
+        $('#' + control).val(i + amount).trigger('change');
+    }
+
+    function getlstProduct() {
+        var result = false;
+        for (i = 0; i < lstProduct.length; i++) {
+            var mdt = parseInt($('#MucDauTu' + i).val().replaceAll('.', ''));
+            if (!result && (lstProduct[i].MatTbSpCh != $('#MatTbSpCh' + i).val() ||
+                lstProduct[i].MucDauTu != mdt))
+                result = true;
+            lstProduct[i].MatTbSpCh = $('#MatTbSpCh' + i).val();
+            lstProduct[i].MucDauTu = mdt;
+        }
+        return result;
+    }
+
+    function getlstStore() {
+        var lstStore1 = [];
+        $.each(lstStore, (index, value) => {
+            if ($('#cb_' + index + ':checked').val())
+                lstStore1.splice(0, 0, lstStore[index]);
+        });
+
+        // lstStore = lstStore.filter(x => word.length > 6);
+        return lstStore1;
+
+    }
+
+    function js_Save(next) {
+        if (haveData) {
+            if (getlstProduct()) {
+                //Session["LstProduct2"] = lstProduct;
+                /*     $.ajax({
+                         url: '/Vendor/PostMinimumCostUpdateDetail',
+                         type: 'POST',
+                         data: JSON.stringify({  }),
+                         contentType: 'application/json, charset=utf-8',
+                         beforeSend: function () {
+
+                         },
+                         success: function (data) {
+
+                         },
+                         error: function () {
+
+                         }
+                     });*/
+
+            }
+            if (storechange) {
+
+                $.ajax({
+                    url: '/Vendor/PostMinimumCostUpdateStore',
+                    type: 'POST',
+                    data: JSON.stringify({ masterID: masterID, lstStore: getlstStore() }),
+                    contentType: 'application/json, charset=utf-8',
+                    beforeSend: function () {
+
+                    },
+                    success: function (data) {
+
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+
+            if (!next) js_GetMasterInfo('');
+        }
+    }
+
+</script>

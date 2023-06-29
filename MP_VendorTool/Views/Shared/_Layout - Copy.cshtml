@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Vendors - Gateway</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/semantic.min.css">
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.7/css/fixedHeader.dataTables.min.css" />
+    @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>*@
+    @*<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/jquery.alerts.js"></script>
+    <link href="~/Content/jquery-ui.popup.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.min.js"></script>
+    <link href="~/Content/css/site.css?v=1.2" rel="stylesheet" />
+    <script src="~/Scripts/system.general.js"></script>
+    <link href="~/Library/bootstrap-select.min.css" rel="stylesheet" />
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    <style>
+        body {
+            background-color: #f3f3f3;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="body-content_4">
+        @RenderBody()
+    </div>
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        function intNumberParse(strId) {
+            var n = $('#' + strId).val().replace(/[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$&%^*+?^${}()|[\]\\;:,\\.'"<>]/g, '');
+            if (n.length > 0) {
+                $('#' + strId).val(n.toLocaleString());
+            } else {
+                $('#' + strId).val('0');
+            }
+        }
+        function floatNumberParse(strId) {
+            var n = $('#' + strId).val().replace(/[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$&%^*+?^${}()|[\]\\;:\\.'`"<>]/g, '');
+            if (n.replace(',', '').length > 0) {
+                $('#' + strId).val(n.toLocaleString());
+            } else {
+                $('#' + strId).val('0');
+            }
+        }
+        //jQuery.noConflict()(function ($) { // this was missing for me
+        //    $(document).ready(function () {
+        //        var nav = $('#header');
+        //        //console.log(nav);
+        //        $(window).scroll(function () {
+        //            if ($(this).scrollTop() > 0) {
+        //                nav.addClass("f-nav");
+        //            } else {
+        //                nav.removeClass("f-nav");
+        //            }
+        //        });
+        //    });
+        //});
+    </script>
+    <script src="~/Library/bootstrap-select.min.js"></script>
+    <script src="~/Scripts/Commond.js"></script>
+</body>
+</html>

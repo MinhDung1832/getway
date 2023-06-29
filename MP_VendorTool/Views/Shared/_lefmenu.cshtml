@@ -1,0 +1,198 @@
+﻿@using MP_VendorTool.Models.Account;
+@{ var lstper = (List<permissioninfo>)Session["permission"]; }
+
+<nav class="page-sidebar" id="sidebar">
+    <div id="sidebar-collapse">
+        <div class="admin-block d-flex">
+            <div>
+                <img src="/Resources/assets/img/admin-avatar.png" width="45px" />
+            </div>
+            <div class="admin-info">
+                @if (Session["all_us_role"] != null)
+                {
+                    <div class="font-strong">@Session["Admin"]</div><small>Administrator</small> @*@Session["uname"]*@}
+            </div>
+        </div>
+        <ul class="side-menu metismenu">
+            <li class="heading">VENDORS - GATEWAY</li>
+
+
+
+
+            @*@{ if (lstper.Count() > 0)
+                {
+                    foreach (var item in lstper)
+                    {
+                        if (item.parentcode.ToString() == "")
+                        {
+                            <li>
+                                <a href="">
+                                    <i class="@item.icon"></i>
+                                    <span class="nav-label"> @item.fname </span><i class="fa fa-angle-left arrow"></i>
+                                </a>
+                                <ul class="nav-2-level collapse">
+                                    @foreach (var item2 in lstper.Where(s => s.parentcode == item.fcode))
+                                    {
+                                        var link = "/" + item2.controller + "/" + item2.action;
+                                        <li>
+                                            <a href="@link"> <span class="nav-label">@item2.fname</span></a>
+
+                                            @{ var IIC = lstper.Where(s => s.parentcode == item2.fcode).ToList();
+                                                if (IIC.Count > 0)
+                                                {
+                                                    <ul class="nav-3-level ">
+                                                        @foreach (var item3 in IIC)
+                                                        {
+                                                            var link2 = "/" + item3.controller + "/" + item3.action;
+                                                            <li> <a href="@link2"> <span class="nav-label">@item3.fname</span> </a> </li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            }
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+
+                        }
+                    }
+                }
+            }*@
+
+
+
+
+
+
+
+            @*<li>
+                    <a class="active" href="index.html">
+                        <i class="sidebar-item-icon fa fa-th-large"></i>
+                        <span class="nav-label">Dashboard</span>
+                    </a>
+                </li>*@ @*<li>
+                    <a href="javascript:;">
+                        <i class="sidebar-item-icon fa fa-edit"></i>
+                        <span class="nav-label">Khai báo thông tin</span><i class="fa fa-angle-left arrow"></i>
+                    </a>
+                    <ul class="nav-2-level collapse">
+                        <li>
+                            <a href="/tradingTermVendor/Index">Thỏa thuận thương mại</a>
+                        </li>
+                        <li>
+                            <a href="/TradingTermVendor/DuyetDamPhanTradingTerm">Duyệt Trading Term</a>
+                        </li>
+                    </ul>
+                </li>*@ @*<li>
+                        <a href="javascript:;">
+                            <i class="sidebar-item-icon fa fa-bookmark"></i>
+                            <span class="nav-label">Quản lý đơn hàng</span><i class="fa fa-angle-left arrow"></i>
+                        </a>
+                        <ul class="nav-2-level collapse">
+                            <li>
+                                <a href="/Order/Index">Danh sách đơn hàng</a>
+                            </li>
+                            <li>
+                                <a href="/Order/ReturnedGoods">DS hàng trả lại</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="sidebar-item-icon fa fa-usd"></i>
+                            <span class="nav-label">Quản lý giá</span><i class="fa fa-angle-left arrow"></i>
+                        </a>
+                        <ul class="nav-2-level collapse">
+                            <li>
+                                <a href="/OfferPrice/PriceOffer">Đề xuất thay đổi giá bán</a>
+                            </li>
+                            <li>
+                                <a href="/OfferPrice/Index">Quản lý thay đổi giá bán</a>
+                            </li>
+
+                        </ul>
+                    </li>*@ @*<li>
+                        <a href="javascript:;">
+                            <i class="sidebar-item-icon fa fa-table"></i>
+                            <span class="nav-label">Quản lý Push Sale</span><i class="fa fa-angle-left arrow"></i>
+                        </a>
+                        <ul class="nav-2-level collapse">
+                            <li>
+                                <a href="/PushSale/PushSaleNCC">Push Sale nhà cung cấp</a>
+                            </li>
+                            <li>
+                                <a href="/PushSale/ThuongNhanVien">Danh sách Push Sale</a>
+                            </li>
+                        </ul>
+                    </li>*@ @*<li>
+                            <a href="javascript:;">
+                                <i class="sidebar-item-icon fa fa-bar-chart"></i>
+                                <span class="nav-label">Báo cáo nhà cung</span><i class="fa fa-angle-left arrow"></i>
+                            </a>
+                            <ul class="nav-2-level collapse">
+                                <li>
+                                    <a href="/Report/DebtDeposit">Báo cáo doanh số ký gửi</a>
+                                </li>
+                            </ul>
+                        </li>*@ @*<li>
+                            <a href="javascript:;">
+                                <i class="sidebar-item-icon fa fa-sitemap"></i>
+                                <span class="nav-label">Menu Levels</span><i class="fa fa-angle-left arrow"></i>
+                            </a>
+                            <ul class="nav-2-level collapse">
+                                <li>
+                                    <a href="javascript:;">Level 2</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <span class="nav-label">Level 2</span><i class="fa fa-angle-left arrow"></i>
+                                    </a>
+                                    <ul class="nav-3-level collapse">
+                                        <li>
+                                            <a href="javascript:;">Level 3</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;">Level 3</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>*@
+                    </ul>
+                </div>
+            </nav>
+
+            @{ try
+                {
+                    string ChangePassword = Request.RawUrl.ToString();
+                    if (!ChangePassword.Contains("ChangePassword"))
+                    {
+                        string bc = Request.Url.Authority + Request.RawUrl.ToString();
+                        if (!bc.Contains("localhost"))
+                        {
+                            if (!bc.Contains("10.80.2.153:9595"))
+                            {
+                                if (HttpContext.Current.Session["TypePhongBan"].ToString() == "NCC")
+                                {
+                                    // check ngày hết hạn 7 ngày thì bắt đổi mật khẩu
+                                    var it = MP_VendorTool.DataAccess.DataAccess.BBM_MP_VendorTool_User_ChangePassword(Session["uid"].ToString());
+                                    if (Convert.ToInt32(it[0].Code) >= 7)
+                                    {
+                                        Response.Redirect("/Account/ChangePassword");
+                                    }
+                                }
+                                else
+                                {
+                                    // check ngày hết hạn 7 ngày thì bắt đổi mật khẩu
+                                    var it = MP_VendorTool.DataAccess.DataAccess.BBM_MP_VendorTool_User_ChangePassword_PhongBan(Session["Admin"].ToString());
+                                    if (Convert.ToInt32(it[0].Code) >= 7)
+                                    {
+                                        Response.Redirect("/Account/ChangePassword");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                { } }

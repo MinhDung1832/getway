@@ -1,0 +1,127 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left;  ">
+                    Mã Hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 200px; max-width: 200px; ">
+                    Tên hàng
+                </th>
+                <th scope="col" style="text-align: left; width: 85px; max-width: 85px; ">
+                    Hình ảnh
+                </th>
+                <th scope="col" style="text-align: left;  ">
+                    Barcode
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Giá
+                </th>
+                <th scope="col" style="text-align: left;">
+                    Số của hàng KD
+                </th>
+                <th scope="col" style="text-align: left;  ">
+                    Stockday
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    % KM
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Ngày bắt đầu
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Ngày kết thúc
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Ngày tạo
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Ngày duyệt
+                </th>
+                <th scope="col" style="text-align: center; ">
+                    Trạng thái
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model as DataTable;
+                    if (dt.Rows.Count > 0)
+                    {
+                        var i = 0;
+                        foreach (DataRow item in dt.Rows)
+                        {
+                            var k = i;
+                            <tr style=" height:20px" id="Row_@i">
+                                <td>
+                                    @item["MaSP"]
+                                </td>
+                                <td>
+                                    @item["TenSP"]
+                                </td>
+                                <td style="text-align:center">
+                                    @if (item["Images"].ToString() != "")
+                                    {
+                                        if (item["Images"].ToString().Contains("no_selection"))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            <a target="_blank" href="@item["Images"]" class="thickbox"><img style="height: 60px" src=" @item["Images"]" class="content"></a>
+                                        }
+                                    }
+                                </td>
+                                <td style="text-align: left">
+                                    @item["Barcode"]
+                                </td>
+                                <td style="text-align:right">
+                                    @item["Price"]
+                                </td>
+                                <td style="text-align: right">
+                                    @item["SoCHKD"]
+                                </td>
+                                <td style="text-align: right">
+                                    @item["stockday"]
+                                </td>
+                                <td style="text-align: right">
+                                    @item["PhanTramKM"]
+                                </td>
+                                <td style="text-align: right">
+                                    @item["ttNgayBatDau"]
+                                </td>
+                                <td style="text-align: right">
+                                    @item["ttNgayKetThuc"]
+                                </td>
+                                <td style="text-align: right">
+                                    @item["ttCreateDates"]
+                                </td>
+                                <td style="text-align: right">
+                                    @item["ttModifyDates"]
+                                </td>
+                                <td style="text-align: center">
+                                    @Html.Raw(item["TrangThai"])
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+
+

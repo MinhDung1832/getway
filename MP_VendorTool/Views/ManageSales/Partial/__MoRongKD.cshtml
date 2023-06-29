@@ -1,0 +1,202 @@
+﻿@using System.Data
+<div class="table-responsive">
+    <table id="tbl_Item_MRKD" class="table table-bordered" style=" width:100%">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: left;  ">
+                    Cửa hàng
+                </th>
+                <th scope="col" style="text-align: left;  ">
+                    Số mặt TB
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Stockday
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Số mặt TB mới
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Từ ngày
+                    <br />  <input type="date" name="HTuNgay" id="HTuNgay" min="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control HTuNgay" onchange="js_check_HTuNgay()" />
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Đến ngày
+                    <br />  <input type="date" name="HDenNgay" id="HDenNgay" min="@DateTime.Today.ToString("yyyy-MM-dd")" max="@DateTime.Today.AddDays(90).ToString("yyyy-MM-dd")" class="form-control HDenNgay" onchange="js_check_HDenNgay()" />
+                </th>
+                <th scope="col" style="text-align: left; ">
+                    Chi phí
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                if (Model != null)
+                {
+                    var dt = Model;
+                    {
+                        var i = 0;
+                        foreach (MP_VendorTool.Models.ObjTrungBayNH.MoRongTrungBayHH item in dt)
+                        {
+                            <tr style=" height:20px" id="Row_@i">
+                                <td class="text-left" width="300px">
+                                    <span id="MaCH_@i">@item.MaCH</span> -  <span id="TenCH_@i">@item.TenCH</span>
+                                </td>
+                                <td class="text-right" width="100px">
+                                    <span id="SoMatTB_@i">@item.SoMatTB</span>
+                                    <span id="M2FNet_SKU_@i" style=" display:none">@item.M2FNet_SKU</span>
+                                    <span id="Mien_@i" style=" display:none">@item.Mien</span>
+                                    <span id="MaTinhCode_@i" style=" display:none">@item.MaTinhCode</span>
+                                </td>
+                                <td class="text-right" width="100px">
+                                    <span id="Stockday_@i">@item.Stockday</span>
+                                </td>
+                                <td class="text-right" width="100px">
+                                    <input class="form-control OrderValue" onchange="js_ChiPhi('@i')" type="text" id="SoMatTBMoi" name="SoMatTBMoi">
+                                </td>
+                                <td class="text-right" width="100px">
+                                    <input class="form-control TuNgay " type="date" id="TuNgay" name="TuNgay" disabled>
+                                </td>
+                                <td class="text-center" width="100px">
+                                    <input class="form-control DenNgay" type="date" id="DenNgay" name="DenNgay" disabled>
+                                </td>
+                                <td class="text-right checkMR" width="100px">
+                                    <span id="ChiPhi_@i"></span>
+                                    <span style=" display:none"><input class="form-check-input" id="_@i" type="checkbox" name="checkMR[]" value="@item.MaCH"></span>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+</div>
+<style>
+    NgayTraHang input[type=date] {
+        text-align: left;
+        padding: 4px 2px;
+    }
+</style>
+
+<script>
+    function clearcheck(k) {
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if (cboxes[i].checked) {
+                cboxes[i].checked = false;
+            }
+        }
+        $("#_" + k).prop('checked', true);
+    }
+    function js_check_HTuNgay() {
+        debugger;
+        js_checkNBD_HNgayKetThuc();
+        var dr = $(".HTuNgay").val();
+        $(".TuNgay").val(dr);
+        js_ChiPhi_Day();
+    }
+    function js_check_HDenNgay() {
+        debugger;
+        js_checkNBD_HNgayKetThuc();
+        var dr = $(".HDenNgay").val();
+        $(".DenNgay").val(dr);
+        js_ChiPhi_Day();
+
+    }
+    function js_checkNBD_HNgayKetThuc(d) {
+        var NgayBatDau = $('#HDenNgay').val();
+        var date1 = new Date(NgayBatDau);
+        var NBD = date1.getTime();
+        var NBDres = NBD.toString().substring(0, 6);
+        var today = new Date();
+        var now = today.getTime();
+        var NBDnow = now.toString().substring(0, 6);
+
+        if (NBDres < NBDnow) {
+            alert("Vui lòng chọn ngày bắt đầu lớn hơn ngày hiện tại!");
+            $('.HTuNgay').val('');
+            //  $('#HDenNgay').css('border', '1px solid #ffa903');
+            return;
+        }
+    }
+
+    function js_ChiPhi(r) {
+        // debugger;
+        var SoMatTBMoi1 = $('#Row_' + r + ' #SoMatTBMoi').val().replaceAll(',', '');
+        if (parseInt(SoMatTBMoi1) > 0) {
+            $("#Row_" + r + " .checkMR #_" + r + "").prop("checked", true);
+        }
+        else {
+            $("#Row_" + r + " .checkMR #_" + r + "").prop("checked", false);
+        }
+
+        var start = $('.HTuNgay').val();
+        var end = $('.HDenNgay').val();
+
+        var startDay = new Date(start);
+        var endDay = new Date(end);
+        var millisecondsPerDay = 1000 * 60 * 60 * 24;
+
+        var millisBetween = endDay.getTime() - startDay.getTime();
+        var days = millisBetween / millisecondsPerDay;
+        //  alert(Math.floor(days));
+
+        var SoMatTBMoi = $('#Row_' + r + ' #SoMatTBMoi').val().replaceAll(',', '');
+        var SoMatTB = $('#Row_' + r + ' #SoMatTB_' + r).html();
+        var M2FNet_SKU = parseFloat($('#Row_' + r + ' #M2FNet_SKU_' + r).html());
+
+        var Sum = (parseInt(SoMatTBMoi) - parseInt(SoMatTB)) * (M2FNet_SKU) * 0.7 * 3500000 * ((Math.floor(days) + 1) / 30);
+
+        // ([Số mặt TB mới] - [Số mặt TB]) * [M2F net / SKU] * 0.7 * 3.500.000 * (([Đến ngày] - [Từ ngày] + 1) / 30)
+        // $('#ChiPhi_' + r).html(commaSeparateNumber(Sum.toFixed(0)));
+        $('#ChiPhi_' + r).html(commaSeparateNumber(Math.round(Sum.toFixed(2))));
+
+    }
+    function commaSeparateNumber(val) {
+        while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+        }
+        return val;
+    }
+
+    function js_ChiPhi_Day() {
+        let trs = $("#tbl_Item_MRKD tbody tr");
+        if (trs.length) {
+            trs.each((index, tr) => {
+
+                var r = tr.id.replaceAll("Row_", "");
+
+                var start = $('.HTuNgay').val();
+                var end = $('.HDenNgay').val();
+
+                var startDay = new Date(start);
+                var endDay = new Date(end);
+                var millisecondsPerDay = 1000 * 60 * 60 * 24;
+
+                var millisBetween = endDay.getTime() - startDay.getTime();
+                var days = millisBetween / millisecondsPerDay;
+                //  alert(Math.floor(days));
+
+                var SoMatTBMoi = $('#Row_' + r + ' #SoMatTBMoi').val().replaceAll(',', '');
+                var SoMatTB = $('#Row_' + r + ' #SoMatTB_' + r).html();
+                var M2FNet_SKU = parseFloat($('#Row_' + r + ' #M2FNet_SKU_' + r).html());
+
+                var Sum = (parseInt(SoMatTBMoi) - parseInt(SoMatTB)) * (M2FNet_SKU) * 0.7 * 3500000 * ((Math.floor(days) + 1) / 30);
+
+                // ([Số mặt TB mới] - [Số mặt TB]) * [M2F net / SKU] * 0.7 * 3.500.000 * (([Đến ngày] - [Từ ngày] + 1) / 30)
+                // $('#ChiPhi_' + r).html(commaSeparateNumber(Sum.toFixed(0)));
+                $('#ChiPhi_' + r).html(commaSeparateNumber(Math.round(Sum.toFixed(2))));
+
+            });
+        }
+    }
+
+</script>
+
+
+

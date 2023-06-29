@@ -1,0 +1,136 @@
+<table id="tbl_Item_Duyet" class="table table-bordered tb_detail" style="border:none !important">
+    <thead>
+        <tr>
+            <th>
+                Mã hàng
+            </th>
+            <th>
+                Tên hàng
+            </th>
+            <th>
+                Đơn giá
+            </th>
+            <th>
+                Số lượng
+            </th>
+            <th>
+                Ngày tạo
+            </th>
+            <th>
+                Người tạo
+            </th>
+            <th>
+                Nhà cung cấp
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th>
+                Ngày duyệt <br />
+            </th>
+            <th>
+                Người duyệt <br />
+            </th>
+            <th>
+                Chọn
+                <input type="checkbox" id="checkall" onchange="checkall()" name="checkall[]" />
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                var dt = Model as DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    var i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        <tr id="row_@i">
+                            <td class="text-left" style="width:50px; max-width: 65px;  overflow: hidden;white-space: nowrap" id="MaHang">
+                                @item["Name"]
+                            </td>
+                            <td class="text-left" style="width: 100px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                @item["Code"]
+                            </td>
+                            <td class="text-right" style="width: 60px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                @item["Price"]
+                            </td>
+                            <td class="text-right" style="width: 60px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                @item["Quantity"]
+                            </td>
+                            <td class="text-left" style="width: 50px; max-width: 100px;  overflow: hidden;white-space: nowrap">
+                                @item["CreateDate"]
+                            </td>
+                            <td class="text-left" style="width: 50px; max-width: 40px;  overflow: hidden;white-space: nowrap">
+                                @item["CreateBy"]
+                            </td>
+                            <td class="text-left" style="width: 50px; max-width: 40px;  overflow: hidden;white-space: nowrap">
+                                @item["NCCName"]
+                            </td>
+                            <td class="text-center" style="width:65px; max-width: 65px;  overflow: hidden;white-space: nowrap">
+                                @Html.Raw(item["TrangThai"])
+                            </td>
+                            <td class="text-left" style="width: 50px; max-width: 40px;  overflow: hidden;white-space: nowrap">
+                                @*@item["ApprovalDate"]*@
+                            </td>
+                            <td class="text-left" style="width: 50px; max-width: 40px;  overflow: hidden;white-space: nowrap">
+                                @*@item["NguoiDuyet"]*@
+                            </td>
+                            <td class="text-center" style="width: 20px; max-width: 40px;  overflow: hidden;white-space: nowrap">
+                                @if (item["Status"].ToString() == "2" || item["Status"].ToString() == "3")
+                                {
+                                    <input type="checkbox" disabled id="_@i" onchange="" name="checkno[]" value="@item["ID"]" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" id="_@i" onchange="" name="check[]" value="@item["ID"]" />
+                                }
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            }
+        }
+    </tbody>
+</table>
+<style>
+
+    #tbl_Item_SupportShift_paginate {
+        float: right;
+        display: block;
+        padding-top: 13px;
+    }
+
+    #tbl_Item_SupportShift_info {
+        bottom: 7px;
+        float: left;
+        position: absolute;
+    }
+
+    #tbl_Item_SupportShift_length {
+        bottom: 0px;
+        position: absolute;
+        display: none;
+    }
+
+    .paginate_button, .ellipsis {
+        display: none !important;
+    }
+
+    .current, #tbl_Item_SupportShift_next, #tbl_Item_SupportShift_previous {
+        display: inline-block !important;
+    }
+</style>
+<script>
+    function checkall() {
+        var cboxes = document.getElementsByName('check[]');
+        for (var i = 0; i < cboxes.length; i++) {
+            if ($('#checkall').is(":checked")) {
+                cboxes[i].checked = true;
+            } else { cboxes[i].checked = false; }
+        }
+    }
+</script>
